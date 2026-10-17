@@ -34,3 +34,6 @@ body.howto-open { overflow: hidden; }
 .howto-foot small { color: var(--muted); flex: 1 1 200px; }
 @media (max-width: 560px) { .howto { border-radius: 18px; } .howto-grid { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .howto { animation: none; } .howto-card { transition: none; } .howto-card:hover { transform: none; } }
+
+/* The bot stays above the how-to window so it is always visible and tappable (first tap dismisses the window). */
+body.howto-open #lab-bot { z-index: 95; }
