@@ -1,3 +1,8 @@
+import { decks, slideCount } from "./content/slides.js";
+import { guides } from "./content/guides.js";
+import { diagrams } from "./content/diagrams.js";
+import { guidesView, guideView } from "./guideviews.js";
+import { slidesView, slidesIndexView } from "./slides.js";
 import { extras, tracks, trackById, lessonRef } from "./content/catalog.js";
 import { sources } from "./content/sources.js";
 import { ecosystem } from "./content/ecosystem.js";
@@ -52,6 +57,9 @@ function parseRoute() {
   if (head === "quizzes") return { name: "quizzes" };
   if (head === "ecosystem") return { name: "ecosystem", panel: a || "glossary" };
   if (head === "rooms") return { name: "rooms", id: a || "lobby" };
+  if (head === "slides") return { name: "slides", id: a || "", n: b || "" };
+  if (head === "guides") return { name: "guides" };
+  if (head === "guide" && a) return { name: "guide", id: a };
   if (head === "diagrams") return { name: "diagrams" };
   if (head === "diagram" && a) return { name: "diagram", id: a };
   if (head === "sources") return { name: "sources", id: a || "" };
@@ -185,9 +193,13 @@ function homeView() {
         </div>
         ${heroScene()}
       </section>
-      <h2 class="sec-heading">Ten sections, one path</h2>
+      <h2 class="sec-heading">${sections.length} sections, one path</h2>
       <p class="sec-sub">Every section opens a landing page with its lessons, labs, and links.</p>
       <div class="sec-grid">${sections.map(sectionTile).join("")}</div>
+      <section class="home-decks" aria-labelledby="hd-h"><div><h2 id="hd-h">Slides and guides</h2>
+        <p>${decks.length} slide decks (${slideCount} slides) from your first hour to advanced topics, and ${guides.length} guides with diagrams and checked code. Arrow keys or swipe.</p>
+        <p><a class="primary" href="#/slides">Open the slides</a> <a class="text-btn" href="#/guides">Read the guides</a> <a class="text-btn" href="#/diagrams">See the diagrams</a></p></div>
+        <div class="ring3d" style="--n:${decks.length}" aria-hidden="true"><div class="ring-spin">${decks.map((d, i) => `<span style="--i:${i}">${esc(d.title.split(" ").slice(0, 3).join(" "))}</span>`).join("")}</div><b class="ring-core">py</b></div></section>
       <p data-speak>Lucky is a lifelong student and an AI enthusiast. He is moving into AI omni-channel agents, and this lab is the notebook he is willing to share: cited, runnable in the browser, and free of invented salary claims.</p>
       ${roomScene({ title: "Lobby of the lab.", cards: ["Syntax", "Data", "Agents"], screen: "print('hello')" })}
       <section class="clips">
@@ -589,7 +601,14 @@ function downloadsView() {
     html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/downloads", label: "Downloads" }])}
       <h1>Downloads</h1>
       <p class="lede">These files are in the site. The PDF and the text copy contain the same notes. They are study aids from 17 October 2026, not specifications.</p>
-      <div class="download-grid">${cards}</div>`,
+      <div class="download-grid">${cards}</div>
+      <h2>Slides, notebook, diagrams, and the whole lab</h2>
+      <div class="download-grid">
+        <article class="download-card"><h2>Slides as Markdown</h2><p>Every slide from all ${decks.length} decks, with code and output.</p><p><a class="primary" href="downloads/python-lab-slides.md" download>Download Markdown</a></p><p><a href="#/slides">Open the decks, then use Print to save a PDF</a></p></article>
+        <article class="download-card"><h2>Code samples notebook</h2><p>A Jupyter notebook with the code from the slides and guides and its saved output. Open it on your own computer.</p><p><a class="primary" href="downloads/python-lab-code-samples.ipynb" download>Download .ipynb</a></p></article>
+        <article class="download-card"><h2>Diagrams</h2><p>Each diagram is one self-contained HTML file that opens offline.</p><ul class="dl-list">${diagrams.map((d) => `<li><a href="diagrams/${esc(d.file)}" download>${esc(d.title)}</a></li>`).join("")}</ul></article>
+        <article class="download-card"><h2>The whole lab</h2><p>Plain files. Unzip, run <code>python3 -m http.server</code> in the folder, and open it.</p><p><a class="primary" href="https://github.com/CypherMonkeyLabs/python-lab-free-university-mesmerizing/archive/refs/heads/main.zip" rel="noopener">Download ZIP from GitHub</a></p></article>
+      </div>`,
   };
 }
 
@@ -676,6 +695,9 @@ function viewFor(route) {
   if (route.name === "sources") return sourcesView(route.id);
   if (route.name === "about") return aboutView();
   if (route.name === "rooms") return roomsView(route.id);
+  if (route.name === "slides") return (route.id ? slidesView(route.id, route.n) : slidesIndexView()) || missingView();
+  if (route.name === "guides") return guidesView();
+  if (route.name === "guide") return guideView(route.id) || missingView();
   if (route.name === "diagrams") return diagramsView();
   if (route.name === "diagram") return diagramView(route.id) || missingView();
   return missingView();
