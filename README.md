@@ -44,3 +44,9 @@ npx playwright test
 ## Publish
 
 The files are meant to be served as a directory, including under a longer path such as `https://cyphermonkeylabs.com/python-lab-free-university-mesmerizing/`. Links to CSS, scripts, clips, and downloads are relative, so that address needs its trailing slash. `.nojekyll` is included so GitHub Pages serves the runtime files. `sw.js` is registered with scope `./`, which is this directory and not the rest of the host. No CDN is required at runtime.
+
+## 3D studio, Py teacher, Download Center (PR3)
+- **Worlds** (`#/worlds`, `#/worlds/0..10`): Levels 0 to 3 have their own three.js scene (meadow, tide pool, crossroads, workshop), Levels 4 to 10 and the lobby share one aurora scene. three.js is vendored (`vendor/three/`, MIT) and loads only on pages with a scene.
+- **Quality tiers** (Display menu): Auto, Off (still), Flat (CSS parallax), Light (WebGL, 30 fps cap, DPR 1.5), Full (60 fps cap, DPR 2, aurora). Auto honours reduced motion and Save-Data and runs a short GPU probe. `?quality=full` overrides for testing. Read-only numbers: `window.__labStudio`.
+- **Py** has a four-rung hint ladder per exercise (hand-written for 13 exercises, generic for the rest), Socratic prompts, and tap/drag/drop/win/fail reactions. No stored solutions, no AI service.
+- **Download Center** (`#/download-center`): PDF, DOCX, PPTX, HTML, PNG and description files for Levels 0 to 3, built by `pipeline/build_downloads.py`. Binaries are stored as `_b64/` text and restored by the workflow after merge.
