@@ -18,6 +18,7 @@ function recordVisit(hash) {
   const data = visited();
   data[`${m[1]}/${m[2]}`] = 1;
   writeStore(VISIT_KEY, data);
+  document.dispatchEvent(new CustomEvent("lab:lesson", { detail: { id: `${m[1]}/${m[2]}`, state: "opened" } }));
 }
 export function progressInfo() {
   const done = Object.keys(visited()).length;
