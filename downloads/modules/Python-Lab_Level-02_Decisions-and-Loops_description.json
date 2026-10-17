@@ -1,0 +1,91 @@
+{
+  "title": "Level 2: Decisions and Loops",
+  "id": "L02",
+  "audience": "beginner",
+  "hours": 14,
+  "whats_inside": [
+    "Write if, elif and else branches with comparison and boolean operators",
+    "Loop with for and range, and with while",
+    "Use break and continue and say when each is clearer",
+    "Trace a small program by hand, line by line"
+  ],
+  "project": "A number-guess game",
+  "how_to_use": {
+    "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+    "docx": "Edit freely for your own notes or classroom.",
+    "pptx": "Present or self-study slide by slide; green slides show verified output.",
+    "html": "Open offline in any browser.",
+    "png": "Cover and outcomes card; use it as a poster or a slide."
+  },
+  "python_min": "3.8",
+  "examples_run_on": "CPython 3.13.5",
+  "snippets_executed": 6,
+  "level": 2,
+  "base": "Python-Lab_Level-02_Decisions-and-Loops",
+  "accent": "#ffd166",
+  "blurb": "Write if, elif and else branches with comparison and boolean operators; Loop with for and range, and with while.",
+  "license": {
+    "code": "MIT",
+    "text": "CC BY-NC-SA 4.0"
+  },
+  "accredited": false,
+  "sources": [
+    {
+      "id": "tutorial-control",
+      "title": "Python tutorial: More control flow tools",
+      "url": "https://docs.python.org/3/tutorial/controlflow.html"
+    },
+    {
+      "id": "pep8",
+      "title": "PEP 8 Style Guide for Python Code",
+      "url": "https://peps.python.org/pep-0008/"
+    },
+    {
+      "id": "truth",
+      "title": "Python docs: Truth value testing",
+      "url": "https://docs.python.org/3/library/stdtypes.html#truth-value-testing"
+    }
+  ],
+  "verified": {
+    "pdf_pages": 3,
+    "docx_paragraphs": 36,
+    "pptx_slides": 10
+  },
+  "files": [
+    {
+      "name": "Python-Lab_Level-02_Decisions-and-Loops_Cover.png",
+      "format": "png",
+      "bytes": 49295,
+      "size": "48 KB",
+      "sha256": "c8eb9616338c8f36ec38706d606ba87afe0945d680d8999ccc7081540cf35a25"
+    },
+    {
+      "name": "Python-Lab_Level-02_Decisions-and-Loops_Guide.html",
+      "format": "html",
+      "bytes": 3905,
+      "size": "4 KB",
+      "sha256": "605ad6f38d0b97ae770eb0df1e3788ebd668eb96a155ef0868c2c97be82290d1"
+    },
+    {
+      "name": "Python-Lab_Level-02_Decisions-and-Loops_Guide.pdf",
+      "format": "pdf",
+      "bytes": 24183,
+      "size": "24 KB",
+      "sha256": "abecc36f9117627da71bf27798b9c4dd3d800eafc37a0640e33043c840f2b139"
+    },
+    {
+      "name": "Python-Lab_Level-02_Decisions-and-Loops_Slides.pptx",
+      "format": "pptx",
+      "bytes": 38883,
+      "size": "38 KB",
+      "sha256": "81a8b7cc6ab32384bace6aa98b2baea64ce394e6c1eda3b90e6e20e9f8844e72"
+    },
+    {
+      "name": "Python-Lab_Level-02_Decisions-and-Loops_Worksheet.docx",
+      "format": "docx",
+      "bytes": 37806,
+      "size": "37 KB",
+      "sha256": "23e8d39350a9a8974ae1902fcfdaeb77919f43534c2dadfe150d304823c8247c"
+    }
+  ]
+}

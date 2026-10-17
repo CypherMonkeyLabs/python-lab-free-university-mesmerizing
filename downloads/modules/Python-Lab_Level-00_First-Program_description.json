@@ -1,0 +1,91 @@
+{
+  "title": "Level 0: First Program",
+  "id": "L00",
+  "audience": "absolute-beginner",
+  "hours": 4,
+  "whats_inside": [
+    "Run a one-line program and read what it printed",
+    "Read an error message from the last line upward",
+    "Find the official docs page for a built-in function",
+    "Explain what a program is in your own words"
+  ],
+  "project": "A Hello, me card",
+  "how_to_use": {
+    "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+    "docx": "Edit freely for your own notes or classroom.",
+    "pptx": "Present or self-study slide by slide; green slides show verified output.",
+    "html": "Open offline in any browser.",
+    "png": "Cover and outcomes card; use it as a poster or a slide."
+  },
+  "python_min": "3.8",
+  "examples_run_on": "CPython 3.13.5",
+  "snippets_executed": 4,
+  "level": 0,
+  "base": "Python-Lab_Level-00_First-Program",
+  "accent": "#7ee08a",
+  "blurb": "Run a one-line program and read what it printed; Read an error message from the last line upward.",
+  "license": {
+    "code": "MIT",
+    "text": "CC BY-NC-SA 4.0"
+  },
+  "accredited": false,
+  "sources": [
+    {
+      "id": "tutorial-intro",
+      "title": "Python tutorial: An informal introduction",
+      "url": "https://docs.python.org/3/tutorial/introduction.html"
+    },
+    {
+      "id": "builtin-print",
+      "title": "Python docs: print()",
+      "url": "https://docs.python.org/3/library/functions.html#print"
+    },
+    {
+      "id": "errors",
+      "title": "Python tutorial: Errors and exceptions",
+      "url": "https://docs.python.org/3/tutorial/errors.html"
+    }
+  ],
+  "verified": {
+    "pdf_pages": 2,
+    "docx_paragraphs": 30,
+    "pptx_slides": 8
+  },
+  "files": [
+    {
+      "name": "Python-Lab_Level-00_First-Program_Cover.png",
+      "format": "png",
+      "bytes": 45777,
+      "size": "45 KB",
+      "sha256": "20d9a89549e887e8d01c0f83f2c31f951ff8ec9f68d89b20e7b44170f967b882"
+    },
+    {
+      "name": "Python-Lab_Level-00_First-Program_Guide.html",
+      "format": "html",
+      "bytes": 3620,
+      "size": "4 KB",
+      "sha256": "22d0432d6de295c55edbeae5ae9f5aa49bb9bff44ac0001ee55942d646fa5919"
+    },
+    {
+      "name": "Python-Lab_Level-00_First-Program_Guide.pdf",
+      "format": "pdf",
+      "bytes": 22668,
+      "size": "22 KB",
+      "sha256": "68153ab47bb403120e94db46977a7bd937cc9e7f2e39cbeeebdc17744545a08f"
+    },
+    {
+      "name": "Python-Lab_Level-00_First-Program_Slides.pptx",
+      "format": "pptx",
+      "bytes": 36480,
+      "size": "36 KB",
+      "sha256": "219a07c211679394ad223cda825f8c0c734706b3b3af1c214e63ca54331fb9fa"
+    },
+    {
+      "name": "Python-Lab_Level-00_First-Program_Worksheet.docx",
+      "format": "docx",
+      "bytes": 37651,
+      "size": "37 KB",
+      "sha256": "7e9cb61e97d2c9d1bf2548320119a079d9ee365a56550d936a776ddc3427661c"
+    }
+  ]
+}
