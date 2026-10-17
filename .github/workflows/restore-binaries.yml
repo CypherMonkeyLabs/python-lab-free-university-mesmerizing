@@ -1,0 +1,37 @@
+name: Restore binary assets
+on:
+  push:
+    branches: [main]
+    paths:
+      - '_b64/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  restore:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Decode
+        run: |
+          set -e
+          test -d _b64
+          # parts are named <path>.b64.001, .002, ... and are joined in order before decoding
+          find _b64 -type f -name '*.b64.001' | sort | while read -r first; do
+            base="${first%.001}"
+            out="${base#_b64/}"; out="${out%.b64}"
+            mkdir -p "$(dirname "$out")"
+            cat "$base".[0-9][0-9][0-9] | base64 -d > "$out"
+            echo "restored $out $(stat -c %s "$out")"
+          done
+          rm -rf _b64
+          touch .nojekyll
+          sha256sum -c SHA256SUMS
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Restore binary assets [skip ci]"
+          git push origin HEAD:main

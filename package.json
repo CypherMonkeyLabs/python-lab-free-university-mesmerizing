@@ -1,0 +1,11 @@
+{
+  "name": "python-lab",
+  "private": true,
+  "scripts": {
+    "start": "python3 -m http.server 41731 --bind 127.0.0.1",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1"
+  }
+}

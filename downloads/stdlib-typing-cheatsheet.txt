@@ -1,0 +1,22 @@
+Python Lab cheat sheet. Snapshot 17 October 2026. This is a study aid, not a specification. Confirm details in the Sources section of Python Lab and on the official pages linked there.
+
+Reach for these first
+- pathlib for paths. open, or Path.read_text, with an explicit encoding for text.
+- json, csv, argparse, datetime, statistics, math, random, re.
+- collections (Counter, deque, defaultdict), itertools, functools, heapq.
+- sqlite3 for a local database file. unittest for tests that ship with Python.
+- venv creates virtual environments. pip installs packages into the active one.
+- typing holds annotation forms. The interpreter does not type-check your program.
+- asyncio runs coroutines on one thread. await yields. It does not make CPU work parallel by itself.
+
+Annotations you will see
+- list[int], dict[str, int], tuple[int, ...], set[str].
+- X | None is the modern optional form. Optional[X] still exists.
+- TypedDict, Protocol, and TypeAlias describe shapes. They are not runtime schemas unless a library uses them that way.
+- A type checker such as mypy or Pyright is a separate tool.
+
+Packaging
+- pyproject.toml is the project file. PEP 621 describes the [project] table.
+- A wheel is a built distribution. An sdist is a source distribution.
+- uv and ruff are third-party tools from Astral. They are not the standard library.
+- pytest is third-party. unittest is the standard-library test runner.
