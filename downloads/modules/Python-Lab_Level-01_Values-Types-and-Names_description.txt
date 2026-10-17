@@ -1,0 +1,11 @@
+Level 1: Values, Types and Names
+Audience: beginner  Hours: 10
+Examples run on CPython 3.13.5
+
+Inside:
+- Name the basic types int, float, str and bool and check one with type()
+- Bind a value to a name and explain what reassignment does
+- Use f-strings to build readable text
+- Convert between str and numbers and handle the common error
+
+License: code MIT, text CC BY-NC-SA 4.0. Not accredited.

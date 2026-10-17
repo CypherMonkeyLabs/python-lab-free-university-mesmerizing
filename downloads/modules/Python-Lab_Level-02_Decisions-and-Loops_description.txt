@@ -1,0 +1,11 @@
+Level 2: Decisions and Loops
+Audience: beginner  Hours: 14
+Examples run on CPython 3.13.5
+
+Inside:
+- Write if, elif and else branches with comparison and boolean operators
+- Loop with for and range, and with while
+- Use break and continue and say when each is clearer
+- Trace a small program by hand, line by line
+
+License: code MIT, text CC BY-NC-SA 4.0. Not accredited.
