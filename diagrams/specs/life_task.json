@@ -1,0 +1,252 @@
+{
+ "schema_version": 1,
+ "diagram_type": "lifecycle",
+ "meta": {
+  "title": "Life of an asyncio Task",
+  "output": "life_task.html",
+  "viewBox": [
+   1030,
+   630
+  ],
+  "animation": "trace",
+  "quality_profile": "showcase",
+  "views": [
+   {
+    "id": "main-states",
+    "label": "Normal life",
+    "focus": [
+     "created",
+     "scheduled",
+     "running",
+     "waiting",
+     "done"
+    ],
+    "note": "A task is created, scheduled, runs until an await, waits, then finishes."
+   },
+   {
+    "id": "interrupts",
+    "label": "Cancel and timeout",
+    "focus": [
+     "running",
+     "cancelreq",
+     "waiting",
+     "timeoutscope"
+    ],
+    "note": "cancel() and timeouts reach a task through its await point."
+   },
+   {
+    "id": "exits",
+    "label": "Ways to end",
+    "focus": [
+     "running",
+     "raised",
+     "cancelreq",
+     "cancelled",
+     "timedout"
+    ],
+    "note": "A task ends with a result, an exception, cancellation, or a timeout."
+   }
+  ]
+ },
+ "lanes": [
+  {
+   "id": "main",
+   "label": "Lifecycle phases"
+  },
+  {
+   "id": "waiting",
+   "label": "Interruptions"
+  },
+  {
+   "id": "exceptions",
+   "label": "Recovery loop"
+  },
+  {
+   "id": "terminal",
+   "label": "Terminal exits"
+  }
+ ],
+ "states": [
+  {
+   "id": "created",
+   "type": "start",
+   "label": "Created",
+   "sublabel": "create_task()",
+   "lane": "main",
+   "col": 0,
+   "step": "01",
+   "tag": "entry"
+  },
+  {
+   "id": "scheduled",
+   "type": "active",
+   "label": "Scheduled",
+   "sublabel": "ready queue",
+   "lane": "main",
+   "col": 1,
+   "step": "02",
+   "tag": "loop"
+  },
+  {
+   "id": "running",
+   "type": "active",
+   "label": "Running",
+   "sublabel": "until next await",
+   "lane": "main",
+   "col": 2,
+   "step": "03",
+   "tag": "step"
+  },
+  {
+   "id": "waiting",
+   "type": "decision",
+   "label": "Waiting",
+   "sublabel": "await yields",
+   "lane": "main",
+   "col": 3,
+   "step": "04",
+   "tag": "suspended"
+  },
+  {
+   "id": "done",
+   "type": "success",
+   "label": "Done",
+   "sublabel": "result is set",
+   "lane": "main",
+   "col": 4,
+   "step": "05",
+   "tag": "success"
+  },
+  {
+   "id": "cancelreq",
+   "type": "waiting",
+   "label": "Cancel asked",
+   "sublabel": "task.cancel()",
+   "lane": "waiting",
+   "col": 0,
+   "tag": "request"
+  },
+  {
+   "id": "timeoutscope",
+   "type": "waiting",
+   "label": "Timeout scope",
+   "sublabel": "asyncio.timeout()",
+   "lane": "waiting",
+   "col": 1,
+   "tag": "deadline"
+  },
+  {
+   "id": "raised",
+   "type": "failure",
+   "label": "Raised",
+   "sublabel": "exception stored",
+   "lane": "exceptions",
+   "col": 0,
+   "yOffset": 78,
+   "tag": "error"
+  },
+  {
+   "id": "cancelled",
+   "type": "failure",
+   "label": "Cancelled",
+   "sublabel": "CancelledError",
+   "lane": "terminal",
+   "col": 0,
+   "tag": "terminal"
+  },
+  {
+   "id": "timedout",
+   "type": "failure",
+   "label": "Timed out",
+   "sublabel": "TimeoutError",
+   "lane": "terminal",
+   "col": 1,
+   "tag": "terminal"
+  }
+ ],
+ "transitions": [
+  {
+   "id": "approval-needed",
+   "from": "running",
+   "to": "cancelreq",
+   "variant": "security",
+   "fromSide": "bottom",
+   "toSide": "top",
+   "route": "straight"
+  },
+  {
+   "id": "review-blocked",
+   "from": "waiting",
+   "to": "timeoutscope",
+   "variant": "default",
+   "route": "drop"
+  },
+  {
+   "id": "execution-failed",
+   "from": "running",
+   "to": "raised",
+   "variant": "security",
+   "fromSide": "left",
+   "toSide": "left",
+   "via": [
+    [
+     320,
+     157
+    ],
+    [
+     320,
+     385
+    ]
+   ]
+  },
+  {
+   "id": "block-expired",
+   "from": "timeoutscope",
+   "to": "timedout",
+   "variant": "security",
+   "fromSide": "bottom",
+   "toSide": "top",
+   "route": "straight"
+  },
+  {
+   "id": "approval-cancelled",
+   "from": "cancelreq",
+   "to": "cancelled",
+   "variant": "security",
+   "fromSide": "bottom",
+   "toSide": "top",
+   "via": [
+    [
+     480,
+     336
+    ],
+    [
+     480,
+     432
+    ],
+    [
+     402,
+     432
+    ]
+   ]
+  }
+ ],
+ "cards": [
+  {
+   "dot": "emerald",
+   "title": "Main path + waits",
+   "items": [
+    "A task runs only until its next await, then hands control back",
+    "The event loop picks another ready task meanwhile"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Exits",
+   "items": [
+    "An exception is stored on the task and re-raised when awaited",
+    "Cancellation arrives as CancelledError at an await point"
+   ]
+  }
+ ]
+}

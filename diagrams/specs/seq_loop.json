@@ -1,0 +1,294 @@
+{
+ "schema_version": 1,
+ "diagram_type": "sequence",
+ "meta": {
+  "title": "The asyncio Event Loop, Step by Step",
+  "output": "seq_loop.html",
+  "viewBox": [
+   820,
+   920
+  ],
+  "animation": "trace",
+  "visual_preset": "signal-flow",
+  "quality_profile": "showcase",
+  "views": [
+   {
+    "id": "start",
+    "label": "Start the loop",
+    "focus": [
+     "code",
+     "loop",
+     "ready"
+    ],
+    "note": "asyncio.run starts a loop and schedules the first tasks."
+   },
+   {
+    "id": "suspend",
+    "label": "Suspend on await",
+    "focus": [
+     "ready",
+     "taska",
+     "selector"
+    ],
+    "note": "Task A registers interest in a socket and gives control back."
+   },
+   {
+    "id": "resume",
+    "label": "Wake and finish",
+    "focus": [
+     "taskb",
+     "selector",
+     "loop",
+     "taska",
+     "future"
+    ],
+    "note": "Another task runs while A waits; the selector wakes A when data arrives."
+   }
+  ]
+ },
+ "participants": [
+  {
+   "id": "code",
+   "type": "external",
+   "label": "Your code",
+   "sublabel": "main()"
+  },
+  {
+   "id": "loop",
+   "type": "backend",
+   "label": "Event loop",
+   "sublabel": "asyncio"
+  },
+  {
+   "id": "ready",
+   "type": "messagebus",
+   "label": "Ready queue",
+   "sublabel": "callbacks"
+  },
+  {
+   "id": "taska",
+   "type": "backend",
+   "label": "Task A",
+   "sublabel": "coroutine"
+  },
+  {
+   "id": "selector",
+   "type": "cloud",
+   "label": "Selector",
+   "sublabel": "OS I/O wait"
+  },
+  {
+   "id": "future",
+   "type": "database",
+   "label": "Future",
+   "sublabel": "result slot"
+  },
+  {
+   "id": "taskb",
+   "type": "messagebus",
+   "label": "Task B",
+   "sublabel": "coroutine"
+  }
+ ],
+ "segments": [
+  {
+   "from": 150,
+   "to": 288,
+   "label": "Start"
+  },
+  {
+   "from": 306,
+   "to": 538,
+   "label": "Suspend"
+  },
+  {
+   "from": 554,
+   "to": 800,
+   "label": "Resume"
+  }
+ ],
+ "messages": [
+  {
+   "id": "m0",
+   "from": "code",
+   "to": "loop",
+   "y": 180,
+   "label": "asyncio.run(main())",
+   "variant": "emphasis"
+  },
+  {
+   "id": "m1",
+   "from": "loop",
+   "to": "ready",
+   "y": 222,
+   "label": "schedule Task A",
+   "variant": "emphasis"
+  },
+  {
+   "id": "m2",
+   "from": "loop",
+   "to": "ready",
+   "y": 264,
+   "label": "schedule Task B",
+   "variant": "default"
+  },
+  {
+   "id": "m3",
+   "from": "ready",
+   "to": "taska",
+   "y": 326,
+   "label": "step: run A",
+   "variant": "emphasis"
+  },
+  {
+   "id": "m4",
+   "from": "taska",
+   "to": "selector",
+   "y": 368,
+   "label": "await sock.recv()",
+   "variant": "default"
+  },
+  {
+   "id": "m5",
+   "from": "selector",
+   "to": "taska",
+   "y": 410,
+   "label": "not ready yet",
+   "variant": "return"
+  },
+  {
+   "id": "m6",
+   "from": "taska",
+   "to": "ready",
+   "y": 452,
+   "label": "yield to the loop",
+   "variant": "dashed"
+  },
+  {
+   "id": "m7",
+   "from": "taska",
+   "to": "future",
+   "y": 494,
+   "label": "wait on future",
+   "variant": "emphasis"
+  },
+  {
+   "id": "m8",
+   "from": "ready",
+   "to": "taskb",
+   "y": 566,
+   "label": "step: run B",
+   "variant": "dashed"
+  },
+  {
+   "id": "m9",
+   "from": "taskb",
+   "to": "future",
+   "y": 608,
+   "label": "B finishes work",
+   "variant": "dashed"
+  },
+  {
+   "id": "m10",
+   "from": "selector",
+   "to": "loop",
+   "y": 650,
+   "label": "socket readable",
+   "variant": "default"
+  },
+  {
+   "id": "m11",
+   "from": "loop",
+   "to": "ready",
+   "y": 692,
+   "label": "reschedule A",
+   "variant": "default"
+  },
+  {
+   "id": "m12",
+   "from": "taska",
+   "to": "future",
+   "y": 734,
+   "label": "set_result()",
+   "variant": "return"
+  },
+  {
+   "id": "m13",
+   "from": "loop",
+   "to": "code",
+   "y": 776,
+   "label": "run() returns",
+   "variant": "return"
+  }
+ ],
+ "activations": [
+  {
+   "participant": "loop",
+   "from": 174,
+   "to": 272,
+   "type": "backend"
+  },
+  {
+   "participant": "ready",
+   "from": 216,
+   "to": 334,
+   "type": "messagebus"
+  },
+  {
+   "participant": "taska",
+   "from": 320,
+   "to": 574,
+   "type": "backend"
+  },
+  {
+   "participant": "selector",
+   "from": 362,
+   "to": 416,
+   "type": "cloud"
+  },
+  {
+   "participant": "future",
+   "from": 488,
+   "to": 742,
+   "type": "database"
+  },
+  {
+   "participant": "taskb",
+   "from": 560,
+   "to": 616,
+   "type": "messagebus"
+  },
+  {
+   "participant": "loop",
+   "from": 644,
+   "to": 784,
+   "type": "backend"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "One thread",
+   "items": [
+    "The loop runs one task at a time on one thread",
+    "A task keeps control until it awaits"
+   ]
+  },
+  {
+   "dot": "orange",
+   "title": "Waiting is cheap",
+   "items": [
+    "The selector asks the OS which sockets are ready",
+    "Waiting tasks cost no CPU while they wait"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "Rule of thumb",
+   "items": [
+    "Blocking calls inside a coroutine freeze every task",
+    "Use await-friendly libraries or run blocking work in a thread"
+   ]
+  }
+ ]
+}

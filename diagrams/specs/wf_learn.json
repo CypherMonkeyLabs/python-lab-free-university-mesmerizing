@@ -1,0 +1,280 @@
+{
+ "schema_version": 2,
+ "diagram_type": "workflow",
+ "meta": {
+  "title": "A Study Loop That Sticks",
+  "animation": "trace",
+  "visual_preset": "signal-flow",
+  "quality_profile": "showcase",
+  "views": [
+   {
+    "id": "happy-path",
+    "label": "One lap",
+    "focus": [
+     "file",
+     "parse",
+     "compile",
+     "loop",
+     "calls",
+     "out"
+    ],
+    "note": "Pick a topic, read it, run it, check it, then explain it back."
+   },
+   {
+    "id": "caching",
+    "label": "Keep it",
+    "focus": [
+     "compile",
+     "pyc",
+     "imports"
+    ],
+    "note": "Cheat sheets and your own notes make the next lap faster."
+   },
+   {
+    "id": "memory",
+    "label": "Build and unstick",
+    "focus": [
+     "loop",
+     "heap",
+     "trace"
+    ],
+    "note": "A small project proves it; the sources page unsticks you."
+   }
+  ],
+  "output": "wf_learn.html"
+ },
+ "lanes": [
+  {
+   "id": "src",
+   "label": "You"
+  },
+  {
+   "id": "comp",
+   "label": "Read + watch"
+  },
+  {
+   "id": "run",
+   "label": "Run + check"
+  },
+  {
+   "id": "mem",
+   "label": "Keep + share",
+   "variant": "exception"
+  }
+ ],
+ "phases": [
+  {
+   "id": "read",
+   "label": "Learn",
+   "fromCol": 0,
+   "toCol": 2
+  },
+  {
+   "id": "exec",
+   "label": "Prove",
+   "fromCol": 3,
+   "toCol": 5,
+   "variant": "emphasis"
+  }
+ ],
+ "groups": [
+  {
+   "id": "cache_path",
+   "label": "Keep",
+   "lane": "mem",
+   "fromCol": 1,
+   "toCol": 2,
+   "variant": "dashed"
+  }
+ ],
+ "mainPath": [
+  "file",
+  "parse",
+  "compile",
+  "loop",
+  "calls",
+  "out"
+ ],
+ "nodes": [
+  {
+   "id": "file",
+   "lane": "src",
+   "col": 0,
+   "type": "external",
+   "label": "Pick a topic",
+   "sublabel": "one small goal",
+   "width": 132
+  },
+  {
+   "id": "out",
+   "lane": "src",
+   "col": 5,
+   "type": "backend",
+   "label": "Teach it back",
+   "sublabel": "explain in words",
+   "width": 132
+  },
+  {
+   "id": "parse",
+   "lane": "comp",
+   "col": 1,
+   "type": "frontend",
+   "label": "Read a lesson",
+   "sublabel": "short and cited",
+   "tag": "lesson",
+   "width": 132
+  },
+  {
+   "id": "compile",
+   "lane": "comp",
+   "col": 2,
+   "type": "backend",
+   "label": "Watch a diagram",
+   "sublabel": "flows and slides",
+   "tag": "visual",
+   "width": 132
+  },
+  {
+   "id": "loop",
+   "lane": "run",
+   "col": 3,
+   "type": "backend",
+   "label": "Run code",
+   "sublabel": "practice desk",
+   "tag": "hands on",
+   "width": 132
+  },
+  {
+   "id": "calls",
+   "lane": "run",
+   "col": 4,
+   "type": "messagebus",
+   "label": "Pass checks",
+   "sublabel": "exercise checks",
+   "width": 132
+  },
+  {
+   "id": "pyc",
+   "lane": "mem",
+   "col": 1,
+   "type": "database",
+   "label": "Cheat sheet",
+   "sublabel": "PDF or text",
+   "width": 132
+  },
+  {
+   "id": "imports",
+   "lane": "mem",
+   "col": 2,
+   "type": "database",
+   "label": "Your notes",
+   "sublabel": "in your words",
+   "width": 132
+  },
+  {
+   "id": "heap",
+   "lane": "mem",
+   "col": 3,
+   "type": "database",
+   "label": "Mini project",
+   "sublabel": "finish one",
+   "width": 132
+  },
+  {
+   "id": "trace",
+   "lane": "mem",
+   "col": 5,
+   "type": "security",
+   "label": "Stuck?",
+   "sublabel": "read the sources",
+   "width": 132
+  }
+ ],
+ "edges": [
+  {
+   "id": "read-file",
+   "from": "file",
+   "to": "parse",
+   "label": "start",
+   "variant": "default"
+  },
+  {
+   "id": "parse-compile",
+   "from": "parse",
+   "to": "compile",
+   "label": "understand",
+   "variant": "emphasis"
+  },
+  {
+   "id": "compile-loop",
+   "from": "compile",
+   "to": "loop",
+   "label": "try it",
+   "variant": "emphasis"
+  },
+  {
+   "id": "loop-calls",
+   "from": "loop",
+   "to": "calls",
+   "variant": "default"
+  },
+  {
+   "id": "calls-out",
+   "from": "calls",
+   "to": "out",
+   "variant": "emphasis",
+   "role": "return",
+   "fromSide": "right",
+   "toSide": "right",
+   "route": "outside-right",
+   "width": 1.2
+  },
+  {
+   "id": "save-pyc",
+   "from": "compile",
+   "to": "pyc",
+   "label": "keep",
+   "variant": "dashed"
+  },
+  {
+   "id": "pyc-imports",
+   "from": "pyc",
+   "to": "imports",
+   "label": "review",
+   "variant": "dashed"
+  },
+  {
+   "id": "loop-heap",
+   "from": "loop",
+   "to": "heap",
+   "label": "build",
+   "variant": "dashed"
+  },
+  {
+   "id": "error-trace",
+   "from": "calls",
+   "to": "trace",
+   "label": "unstick",
+   "variant": "security",
+   "role": "error"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "Learn",
+   "items": [
+    "Small goals beat long marathons",
+    "Read, then watch the diagram, then run the code"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "Prove",
+   "items": [
+    "Passing a check is feedback, not a grade",
+    "Explaining it back shows what you really know"
+   ]
+  }
+ ]
+}

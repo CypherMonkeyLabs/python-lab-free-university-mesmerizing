@@ -1,0 +1,280 @@
+{
+ "schema_version": 2,
+ "diagram_type": "workflow",
+ "meta": {
+  "title": "How Python Runs a File",
+  "animation": "trace",
+  "visual_preset": "signal-flow",
+  "quality_profile": "showcase",
+  "views": [
+   {
+    "id": "happy-path",
+    "label": "Source to result",
+    "focus": [
+     "file",
+     "parse",
+     "compile",
+     "loop",
+     "calls",
+     "out"
+    ],
+    "note": "Follow one script from text on disk to printed output."
+   },
+   {
+    "id": "caching",
+    "label": "Bytecode cache",
+    "focus": [
+     "compile",
+     "pyc",
+     "imports"
+    ],
+    "note": "Imported modules can reuse compiled bytecode from __pycache__."
+   },
+   {
+    "id": "memory",
+    "label": "Objects and errors",
+    "focus": [
+     "loop",
+     "heap",
+     "trace"
+    ],
+    "note": "Every value is an object on the heap; an uncaught error ends as a traceback."
+   }
+  ],
+  "output": "wf_run.html"
+ },
+ "lanes": [
+  {
+   "id": "src",
+   "label": "Your code"
+  },
+  {
+   "id": "comp",
+   "label": "Compile step"
+  },
+  {
+   "id": "run",
+   "label": "Run step"
+  },
+  {
+   "id": "mem",
+   "label": "Memory and disk",
+   "variant": "exception"
+  }
+ ],
+ "phases": [
+  {
+   "id": "read",
+   "label": "Read + compile",
+   "fromCol": 0,
+   "toCol": 2
+  },
+  {
+   "id": "exec",
+   "label": "Execute",
+   "fromCol": 3,
+   "toCol": 5,
+   "variant": "emphasis"
+  }
+ ],
+ "groups": [
+  {
+   "id": "cache_path",
+   "label": "Reused on import",
+   "lane": "mem",
+   "fromCol": 1,
+   "toCol": 2,
+   "variant": "dashed"
+  }
+ ],
+ "mainPath": [
+  "file",
+  "parse",
+  "compile",
+  "loop",
+  "calls",
+  "out"
+ ],
+ "nodes": [
+  {
+   "id": "file",
+   "lane": "src",
+   "col": 0,
+   "type": "external",
+   "label": "script.py",
+   "sublabel": "plain text",
+   "width": 132
+  },
+  {
+   "id": "out",
+   "lane": "src",
+   "col": 5,
+   "type": "backend",
+   "label": "Output",
+   "sublabel": "print or traceback",
+   "width": 132
+  },
+  {
+   "id": "parse",
+   "lane": "comp",
+   "col": 1,
+   "type": "frontend",
+   "label": "Parser",
+   "sublabel": "tokens to AST",
+   "tag": "syntax check",
+   "width": 132
+  },
+  {
+   "id": "compile",
+   "lane": "comp",
+   "col": 2,
+   "type": "backend",
+   "label": "Compiler",
+   "sublabel": "AST to code object",
+   "tag": "bytecode",
+   "width": 132
+  },
+  {
+   "id": "loop",
+   "lane": "run",
+   "col": 3,
+   "type": "backend",
+   "label": "Eval loop",
+   "sublabel": "runs bytecode",
+   "tag": "interpreter",
+   "width": 132
+  },
+  {
+   "id": "calls",
+   "lane": "run",
+   "col": 4,
+   "type": "messagebus",
+   "label": "Calls",
+   "sublabel": "functions + C code",
+   "width": 132
+  },
+  {
+   "id": "pyc",
+   "lane": "mem",
+   "col": 1,
+   "type": "database",
+   "label": "__pycache__",
+   "sublabel": ".pyc files",
+   "width": 132
+  },
+  {
+   "id": "imports",
+   "lane": "mem",
+   "col": 2,
+   "type": "database",
+   "label": "sys.modules",
+   "sublabel": "loaded modules",
+   "width": 132
+  },
+  {
+   "id": "heap",
+   "lane": "mem",
+   "col": 3,
+   "type": "database",
+   "label": "Object heap",
+   "sublabel": "refcount + GC",
+   "width": 132
+  },
+  {
+   "id": "trace",
+   "lane": "mem",
+   "col": 5,
+   "type": "security",
+   "label": "Traceback",
+   "sublabel": "uncaught error",
+   "width": 132
+  }
+ ],
+ "edges": [
+  {
+   "id": "read-file",
+   "from": "file",
+   "to": "parse",
+   "label": "read",
+   "variant": "default"
+  },
+  {
+   "id": "parse-compile",
+   "from": "parse",
+   "to": "compile",
+   "label": "AST",
+   "variant": "emphasis"
+  },
+  {
+   "id": "compile-loop",
+   "from": "compile",
+   "to": "loop",
+   "label": "code object",
+   "variant": "emphasis"
+  },
+  {
+   "id": "loop-calls",
+   "from": "loop",
+   "to": "calls",
+   "variant": "default"
+  },
+  {
+   "id": "calls-out",
+   "from": "calls",
+   "to": "out",
+   "variant": "emphasis",
+   "role": "return",
+   "fromSide": "right",
+   "toSide": "right",
+   "route": "outside-right",
+   "width": 1.2
+  },
+  {
+   "id": "save-pyc",
+   "from": "compile",
+   "to": "pyc",
+   "label": "cache",
+   "variant": "dashed"
+  },
+  {
+   "id": "pyc-imports",
+   "from": "pyc",
+   "to": "imports",
+   "label": "load",
+   "variant": "dashed"
+  },
+  {
+   "id": "loop-heap",
+   "from": "loop",
+   "to": "heap",
+   "label": "objects",
+   "variant": "dashed"
+  },
+  {
+   "id": "error-trace",
+   "from": "calls",
+   "to": "trace",
+   "label": "raise",
+   "variant": "security",
+   "role": "error"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "Compile",
+   "items": [
+    "Source is parsed, then compiled to a code object",
+    "A syntax error stops the run before any line executes"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "Run",
+   "items": [
+    "The eval loop executes bytecode one instruction at a time",
+    "Imported modules may load cached .pyc files"
+   ]
+  }
+ ]
+}

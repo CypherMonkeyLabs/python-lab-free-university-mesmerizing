@@ -1,4 +1,5 @@
 import { trackById, tracks, extras } from "./catalog.js";
+import { diagrams, diagramById } from "./diagrams.js";
 
 function L(trackId, lessonId) {
   const track = trackById(trackId);
@@ -31,7 +32,7 @@ export const sections = [
     id: "flows", title: "Flows", icon: "async", menu: "Control flow and async, step by step.",
     href: "#/section/flows",
     intro: "How a program decides and waits: branches and loops first, then coroutines, tasks, and the event loop, plus the mind map that connects them.",
-    links: () => list([L("fundamentals", "control"), L("async", "why"), L("async", "coroutines"), L("async", "pitfalls"), X("Mind map", "#/ecosystem/map", "A diagram of how the pieces of Python connect.", "ecosystem")]),
+    links: () => list([L("fundamentals", "control"), L("async", "why"), L("async", "coroutines"), L("async", "pitfalls"), X("Mind map", "#/ecosystem/map", "A diagram of how the pieces of Python connect.", "ecosystem"), X("All diagrams", "#/diagrams", "Interactive Archify maps of how Python runs, imports, calls, and schedules tasks.", "ecosystem")]),
   },
   {
     id: "methods", title: "Methods", icon: "dsa", menu: "Functions, classes, methods, and typing.",
@@ -86,6 +87,8 @@ export function sectionFor(hash) {
   if ((m = h.match(/^#\/section\/([a-z]+)/))) return m[1];
   if (h === "#/" || h === "#" || h === "") return null;
   if (h.startsWith("#/practice")) return "labs";
+  if (h === "#/diagrams") return "flows";
+  if ((m = h.match(/^#\/diagram\/([a-z-]+)/))) return diagramById(m[1])?.sections[0] || "flows";
   if (/^#\/(games|quiz|quizzes|rooms)/.test(h)) return "games";
   if (/^#\/ecosystem\/(integrations|hooks|sisters)/.test(h)) return "integrations";
   if (/^#\/ecosystem\/map/.test(h)) return "flows";
@@ -125,6 +128,7 @@ export function searchIndex() {
     rows.push({ title: t.title, desc: t.menu, href: `#/track/${t.id}`, kind: "Track", icon: t.icon });
     t.lessons.forEach((l) => rows.push({ title: l.title, desc: l.summary, href: `#/lesson/${t.id}/${l.id}`, kind: "Lesson", icon: t.icon }));
   });
+  diagrams.forEach((d) => rows.push({ title: d.title, desc: `${d.type} diagram. ${d.blurb}`, href: `#/diagram/${d.id}`, kind: "Diagram", icon: d.icon }));
   extras.forEach((e) => rows.push({ title: e.title, desc: e.menu, href: e.href, kind: "Page", icon: e.icon }));
   return rows;
 }
