@@ -9,6 +9,9 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/site.css">
   <link rel="stylesheet" href="css/shell.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/bot.css">
+  <link rel="stylesheet" href="css/howto.css">
   <script>
     try {
       var theme = localStorage.getItem("pythonlab.theme");
@@ -41,6 +44,9 @@
     <button type="button" class="tb-btn tb-search" id="search-toggle" aria-label="Search" aria-expanded="false">
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg>
     </button>
+    <button type="button" class="tb-btn" id="help-btn" data-open-help aria-haspopup="dialog" aria-label="How to use this site">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4M12 16.6h.01"/></svg><span class="tb-btn-label">Help</span>
+    </button>
     <details class="display-menu">
       <summary class="tb-btn" aria-label="Display options">Display</summary>
       <div class="display-pop">
@@ -57,16 +63,7 @@
   <div class="side-scrim" id="side-scrim" hidden></div>
   <aside class="sidemenu" id="sidemenu" aria-label="Lab menu"></aside>
   <main id="main" class="wrap" tabindex="-1"></main>
-  <footer class="site-footer">
-    <ul class="footer-links">
-      <li><a href="https://cyphermonkeylabs.com">cyphermonkeylabs.com</a></li>
-      <li><a href="https://github.com">GitHub</a></li>
-      <li><a href="https://linktr.ee/cyphermonkey">Linktree</a></li>
-      <li><a href="#/sources">Sources</a></li>
-      <li><a href="#/about">About Lucky</a></li>
-    </ul>
-    <p>Free to read. No account. Lucky shares what he is learning.</p>
-  </footer>
+  <footer class="site-footer lab-footer" id="site-footer" data-canon-footer><aside class="disclaimer-panel" aria-labelledby="disc-title"><span class="disclaimer-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.5 4.5 5.5v5.8c0 4.6 3.1 8.6 7.5 10.2 4.4-1.6 7.5-5.6 7.5-10.2V5.5z" fill="currentColor" opacity=".18" stroke="currentColor" stroke-width="1.6"/></svg></span><div><h2 id="disc-title">A note from the student behind this lab</h2><p>This is an independent, free, learning-only student project. It respects every company and vendor, and every trademark belongs to its owner. It is not affiliated with or endorsed by any of them. If anyone has a concern, the content will be removed or corrected promptly via the contact page. Nothing here is sold. The author is happy to volunteer. Python is a trademark of the Python Software Foundation. Notes about licenses, certifications, and exam fees are educational and are not legal or financial advice.</p><p>Contact: <a href="https://cyphermonkeylabs.com/#contact">cyphermonkeylabs.com/#contact</a>. <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> content. MIT code.</p></div></aside><p class="footer-brand">CypherMonkey Labs</p><nav class="brand-icons" aria-label="CypherMonkey Labs"><a class="brand-icon brand-web" href="https://cyphermonkeylabs.com" aria-label="CypherMonkey Labs website"><svg class="monkey-icon" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="18" r="8" fill="#fbbf24" stroke="#b45309" stroke-width="1.4"/><circle cx="8" cy="12" r="4" fill="#f59e0b" stroke="#9a3412" stroke-width="1.2"/><circle cx="24" cy="12" r="4" fill="#f59e0b" stroke="#9a3412" stroke-width="1.2"/><circle cx="13" cy="17" r="1.3" fill="#1c1408"/><circle cx="19" cy="17" r="1.3" fill="#1c1408"/><circle cx="13" cy="17" r="2.6" fill="none" stroke="#0e7490" stroke-width="1.1"/><circle cx="19" cy="17" r="2.6" fill="none" stroke="#0e7490" stroke-width="1.1"/><path d="M15.4 17h1.2" stroke="#0e7490" stroke-width="1" fill="none"/><path d="M13.2 21c1.2 1.2 4.4 1.2 5.6 0" fill="none" stroke="#1c1408" stroke-width="1.2" stroke-linecap="round"/></svg></a><a class="brand-icon brand-gh" href="https://github.com/CypherMonkeyLabs" aria-label="CypherMonkey Labs on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a><a class="brand-icon brand-lt" href="https://linktr.ee/cypherMonkey" aria-label="Linktree"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.2 2.5h-2.4v5.1L7 3.9 5.3 5.6l3.9 3.9H3.6v2.4h5.7L5.3 15.9l1.7 1.7 4-4v7.9h2.4v-7.9l4 4 1.7-1.7-4-4h5.7V9.5h-5.6l3.9-3.9L17 3.9l-3.8 3.7z"/></svg></a></nav><nav class="footer-bar" aria-label="Lab shortcuts"><a class="fb-item" href="#/" style="--c1:#22d3ee;--c2:#a78bfa"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7M6 10v10h12V10"/></svg></span>Home</a><a class="fb-item" href="#/slides" style="--c1:#fbbf24;--c2:#f472b6"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H4zM8 20h8M12 16v4"/></svg></span>Slides</a><a class="fb-item" href="#/diagrams" style="--c1:#34d399;--c2:#22d3ee"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h6v4H4zM14 14h6v4h-6zM10 8h4v8h0M7 10v4h7"/></svg></span>Diagrams</a><a class="fb-item" href="#/practice" style="--c1:#a78bfa;--c2:#f472b6"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6h14v12H5zM8 10h8M8 14h5"/></svg></span>Labs</a><a class="fb-item" href="#/downloads" style="--c1:#fbbf24;--c2:#34d399"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v10M8 10l4 4 4-4M5 19h14"/></svg></span>Downloads</a><a class="fb-item" href="#/sources" style="--c1:#22d3ee;--c2:#fbbf24"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h9l3 3v13H6zM15 4v3h3M8 11h8M8 15h6"/></svg></span>Sources</a><button type="button" class="fb-item" data-open-help style="--c1:#f472b6;--c2:#fbbf24"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4M12 16.5h.01"/></svg></span>Help</button></nav><p class="site-copy">© 2026 CypherMonkeyLabs 🐒</p></footer>
   <nav class="bottombar" id="bottombar" aria-label="Lesson navigation">
     <button type="button" class="bar-btn bar-menu" id="bar-menu" aria-label="Menu"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span class="bar-text"><span class="bar-label">Menu</span></span></button>
     <a class="bar-btn" id="bar-prev" href="#/" aria-label="Previous"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><span class="bar-text"><span class="bar-label">Prev</span><span class="bar-sub"></span></span></a>
@@ -75,13 +72,37 @@
     <a class="bar-btn bar-home" href="#/" aria-label="Home"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg><span class="bar-text"><span class="bar-label">Home</span></span></a>
   </nav>
   <section class="bot-panel" id="bot-panel" role="dialog" aria-modal="false" aria-labelledby="bot-panel-title" hidden></section>
-  <div id="lab-bot" class="bot" role="button" tabindex="0" aria-label="Lab bot. Tap or press Enter to open the helper. Drag to move it. Arrow keys nudge it." aria-haspopup="dialog" aria-expanded="false" aria-controls="bot-panel">
+  <div id="lab-bot" class="bot" role="button" tabindex="0" aria-label="Py, the lab bot. Tap or press Enter to open the helper. Drag to move it. Arrow keys nudge it." aria-haspopup="dialog" aria-expanded="false" aria-controls="bot-panel" data-side="right">
+    <div class="bot-bubble" id="bot-bubble" aria-hidden="true">Hi, I am Py, the lab bot. Tap me!</div>
     <div class="bot-stage">
       <div class="bot-shadow"></div>
       <div class="bot-figure">
-        <div class="antenna"></div>
-        <div class="head"><div class="face"><i></i><i></i></div></div>
-        <div class="torso">py</div>
+        <svg class="bot-svg" viewBox="0 0 88 100" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id="pb-head" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6bb0e6"/><stop offset="1" stop-color="#2f6aa3"/></linearGradient>
+            <linearGradient id="pb-body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe873"/><stop offset="1" stop-color="#ffc21f"/></linearGradient>
+          </defs>
+          <g class="tail"><path d="M44 80C30 84 20 91 31 96C40 100 51 95 60 98" fill="none" stroke="#2f6aa3" stroke-width="7" stroke-linecap="round"/><path d="M44 80C30 84 20 91 31 96C40 100 51 95 60 98" fill="none" stroke="#ffd43b" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="2 8"/></g>
+          <line x1="44" y1="17" x2="44" y2="8" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/>
+          <path class="wave1" d="M35 9q9-9 18 0" fill="none" stroke="#ffd43b" stroke-width="2" stroke-linecap="round"/>
+          <path class="wave2" d="M30 10q14-14 28 0" fill="none" stroke="#ff5da2" stroke-width="2" stroke-linecap="round"/>
+          <circle class="bulb" cx="44" cy="6" r="5" fill="#ff5da2" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="12" cy="36" r="7" fill="#ff5da2" stroke="#1e3a5f" stroke-width="2"/><circle cx="76" cy="36" r="7" fill="#ff5da2" stroke="#1e3a5f" stroke-width="2"/>
+          <rect x="14" y="17" width="60" height="40" rx="16" fill="url(#pb-head)" stroke="#1e3a5f" stroke-width="2"/>
+          <rect x="20" y="23" width="48" height="27" rx="11" fill="#0b1f33"/>
+          <g class="eye eye-l"><ellipse cx="34" cy="35" rx="6.5" ry="7" fill="#7cf3ff"/><circle class="pupil" cx="34" cy="35" r="3" fill="#0b1f33"/><circle cx="32" cy="32" r="1.4" fill="#fff"/></g>
+          <g class="eye eye-r"><ellipse cx="54" cy="35" rx="6.5" ry="7" fill="#7cf3ff"/><circle class="pupil" cx="54" cy="35" r="3" fill="#0b1f33"/><circle cx="52" cy="32" r="1.4" fill="#fff"/></g>
+          <path d="M38 45q6 5 12 0" fill="none" stroke="#ffd43b" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="26" cy="44" r="2.5" fill="#ff5da2" opacity=".7"/><circle cx="62" cy="44" r="2.5" fill="#ff5da2" opacity=".7"/>
+          <path d="M24 66q-11 3-9 14" fill="none" stroke="#2f6aa3" stroke-width="6" stroke-linecap="round"/><circle cx="15" cy="80" r="4" fill="#ffd43b" stroke="#b48a00" stroke-width="1.2"/>
+          <rect x="24" y="58" width="40" height="28" rx="12" fill="url(#pb-body)" stroke="#b48a00" stroke-width="2"/>
+          <rect x="29" y="63" width="30" height="13" rx="3" fill="#0b1f33"/>
+          <text x="32" y="73" font-family="IBM Plex Mono, monospace" font-size="9.5" font-weight="700" fill="#7cf3ff">BOT</text><rect class="cursor" x="53" y="66" width="3" height="7" fill="#7cf3ff"/>
+          <circle class="led1" cx="33" cy="81" r="2.3" fill="#ff5da2"/><circle class="led2" cx="44" cy="81" r="2.3" fill="#34d399"/><circle class="led3" cx="55" cy="81" r="2.3" fill="#22d3ee"/>
+          <g class="arm-wave"><path d="M64 66q11-2 12-13" fill="none" stroke="#2f6aa3" stroke-width="6" stroke-linecap="round"/><circle cx="76" cy="53" r="4.5" fill="#ffd43b" stroke="#b48a00" stroke-width="1.2"/></g>
+          <ellipse cx="34" cy="88" rx="7" ry="3.5" fill="#2f6aa3"/><ellipse cx="54" cy="88" rx="7" ry="3.5" fill="#2f6aa3"/>
+        </svg>
+
       </div>
     </div>
   </div>
