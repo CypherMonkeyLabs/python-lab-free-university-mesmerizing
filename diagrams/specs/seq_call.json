@@ -1,0 +1,273 @@
+{
+ "schema_version": 1,
+ "diagram_type": "sequence",
+ "meta": {
+  "title": "What Happens When You Call a Function",
+  "output": "seq_call.html",
+  "viewBox": [
+   1080,
+   560
+  ],
+  "column_fit": "spread",
+  "animation": "trace",
+  "quality_profile": "showcase",
+  "views": [
+   {
+    "id": "call",
+    "label": "Call and bind",
+    "focus": [
+     "code",
+     "expr",
+     "frame",
+     "locals"
+    ],
+    "note": "A call pushes a frame and binds the arguments to names."
+   },
+   {
+    "id": "run",
+    "label": "Run the body",
+    "focus": [
+     "frame",
+     "body",
+     "heap"
+    ],
+    "note": "The body runs and builds a result object on the heap."
+   },
+   {
+    "id": "return",
+    "label": "Return or raise",
+    "focus": [
+     "frame",
+     "locals",
+     "trace2",
+     "expr",
+     "code"
+    ],
+    "note": "Locals are released when the frame ends; an error builds a traceback instead."
+   }
+  ]
+ },
+ "participants": [
+  {
+   "id": "code",
+   "type": "external",
+   "label": "Your code",
+   "sublabel": "caller"
+  },
+  {
+   "id": "expr",
+   "type": "frontend",
+   "label": "Call",
+   "sublabel": "total(3, 4)"
+  },
+  {
+   "id": "frame",
+   "type": "backend",
+   "label": "New frame",
+   "sublabel": "call stack"
+  },
+  {
+   "id": "locals",
+   "type": "database",
+   "label": "Locals",
+   "sublabel": "a, b"
+  },
+  {
+   "id": "body",
+   "type": "backend",
+   "label": "Body",
+   "sublabel": "bytecode"
+  },
+  {
+   "id": "heap",
+   "type": "database",
+   "label": "Heap",
+   "sublabel": "objects"
+  },
+  {
+   "id": "trace2",
+   "type": "messagebus",
+   "label": "Traceback",
+   "sublabel": "on error"
+  }
+ ],
+ "segments": [
+  {
+   "from": 150,
+   "to": 250,
+   "label": "Request"
+  },
+  {
+   "from": 260,
+   "to": 370,
+   "label": "Fallback"
+  },
+  {
+   "from": 380,
+   "to": 480,
+   "label": "Response + trace"
+  }
+ ],
+ "messages": [
+  {
+   "id": "open-page",
+   "from": "code",
+   "to": "expr",
+   "y": 160,
+   "label": "total(3, 4)",
+   "variant": "default"
+  },
+  {
+   "id": "dashboard-request",
+   "from": "expr",
+   "to": "frame",
+   "y": 185,
+   "label": "push a frame",
+   "variant": "emphasis"
+  },
+  {
+   "id": "verify-jwt",
+   "from": "frame",
+   "to": "locals",
+   "y": 210,
+   "label": "bind a=3, b=4",
+   "variant": "default"
+  },
+  {
+   "id": "auth-claims",
+   "from": "locals",
+   "to": "frame",
+   "y": 238,
+   "label": "names ready",
+   "variant": "return"
+  },
+  {
+   "id": "cache-read",
+   "from": "frame",
+   "to": "body",
+   "y": 270,
+   "label": "run bytecode",
+   "variant": "emphasis"
+  },
+  {
+   "id": "cache-miss",
+   "from": "body",
+   "to": "frame",
+   "y": 298,
+   "label": "return a + b",
+   "variant": "return"
+  },
+  {
+   "id": "profile-query",
+   "from": "frame",
+   "to": "heap",
+   "y": 330,
+   "label": "make result",
+   "variant": "emphasis"
+  },
+  {
+   "id": "profile-rows",
+   "from": "heap",
+   "to": "frame",
+   "y": 358,
+   "label": "int object 7",
+   "variant": "return"
+  },
+  {
+   "id": "cache-write",
+   "from": "frame",
+   "to": "locals",
+   "y": 390,
+   "label": "free locals",
+   "variant": "dashed"
+  },
+  {
+   "id": "trace-emit",
+   "from": "frame",
+   "to": "trace2",
+   "y": 418,
+   "label": "if error: traceback",
+   "variant": "dashed"
+  },
+  {
+   "id": "dashboard-response",
+   "from": "frame",
+   "to": "expr",
+   "y": 443,
+   "label": "pop frame",
+   "variant": "return"
+  },
+  {
+   "id": "page-render",
+   "from": "expr",
+   "to": "code",
+   "y": 468,
+   "label": "value used",
+   "variant": "return"
+  }
+ ],
+ "activations": [
+  {
+   "participant": "expr",
+   "from": 180,
+   "to": 474,
+   "type": "frontend"
+  },
+  {
+   "participant": "frame",
+   "from": 185,
+   "to": 450,
+   "type": "backend"
+  },
+  {
+   "participant": "locals",
+   "from": 205,
+   "to": 244,
+   "type": "database"
+  },
+  {
+   "participant": "body",
+   "from": 265,
+   "to": 304,
+   "type": "backend"
+  },
+  {
+   "participant": "heap",
+   "from": 325,
+   "to": 364,
+   "type": "database"
+  },
+  {
+   "participant": "trace2",
+   "from": 413,
+   "to": 449,
+   "type": "messagebus"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "emerald",
+   "title": "Frames",
+   "items": [
+    "Each call gets its own frame with its own locals",
+    "Arguments are bound to parameter names, not copied"
+   ]
+  },
+  {
+   "dot": "orange",
+   "title": "Results",
+   "items": [
+    "return hands one object back to the caller",
+    "Falling off the end returns None"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Errors",
+   "items": [
+    "An uncaught exception unwinds frames and builds a traceback",
+    "try/except can stop the unwinding at any frame"
+   ]
+  }
+ ]
+}

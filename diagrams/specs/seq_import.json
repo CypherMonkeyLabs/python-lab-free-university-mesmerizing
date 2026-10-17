@@ -1,0 +1,274 @@
+{
+ "schema_version": 1,
+ "diagram_type": "sequence",
+ "meta": {
+  "title": "What Happens on import json",
+  "output": "seq_import.html",
+  "viewBox": [
+   1080,
+   560
+  ],
+  "column_fit": "spread",
+  "animation": "trace",
+  "quality_profile": "showcase",
+  "views": [
+   {
+    "id": "request-and-cache",
+    "label": "Statement and cache",
+    "focus": [
+     "code",
+     "stmt",
+     "machinery",
+     "sysmods"
+    ],
+    "note": "The import statement first checks the sys.modules cache."
+   },
+   {
+    "id": "find-and-load",
+    "label": "Find and load",
+    "focus": [
+     "machinery",
+     "finder",
+     "loader"
+    ],
+    "note": "On a miss a finder builds a ModuleSpec and a loader executes the module."
+   },
+   {
+    "id": "return-and-cache",
+    "label": "Bind and cache",
+    "focus": [
+     "loader",
+     "pyc",
+     "machinery",
+     "sysmods",
+     "stmt",
+     "code"
+    ],
+    "note": "The module is stored in sys.modules and bound to a name."
+   }
+  ]
+ },
+ "participants": [
+  {
+   "id": "code",
+   "type": "external",
+   "label": "Your code",
+   "sublabel": "a.py"
+  },
+  {
+   "id": "stmt",
+   "type": "frontend",
+   "label": "import",
+   "sublabel": "statement"
+  },
+  {
+   "id": "machinery",
+   "type": "backend",
+   "label": "importlib",
+   "sublabel": "import system"
+  },
+  {
+   "id": "sysmods",
+   "type": "database",
+   "label": "sys.modules",
+   "sublabel": "module cache"
+  },
+  {
+   "id": "finder",
+   "type": "messagebus",
+   "label": "Finders",
+   "sublabel": "sys.meta_path"
+  },
+  {
+   "id": "loader",
+   "type": "backend",
+   "label": "Loader",
+   "sublabel": "exec_module"
+  },
+  {
+   "id": "pyc",
+   "type": "database",
+   "label": "__pycache__",
+   "sublabel": ".pyc file"
+  }
+ ],
+ "segments": [
+  {
+   "from": 150,
+   "to": 250,
+   "label": "Request"
+  },
+  {
+   "from": 260,
+   "to": 370,
+   "label": "Fallback"
+  },
+  {
+   "from": 380,
+   "to": 480,
+   "label": "Response + trace"
+  }
+ ],
+ "messages": [
+  {
+   "id": "open-page",
+   "from": "code",
+   "to": "stmt",
+   "y": 160,
+   "label": "import json",
+   "variant": "default"
+  },
+  {
+   "id": "dashboard-request",
+   "from": "stmt",
+   "to": "machinery",
+   "y": 185,
+   "label": "__import__(\"json\")",
+   "variant": "emphasis"
+  },
+  {
+   "id": "verify-jwt",
+   "from": "machinery",
+   "to": "sysmods",
+   "y": 210,
+   "label": "look in cache",
+   "variant": "default"
+  },
+  {
+   "id": "auth-claims",
+   "from": "sysmods",
+   "to": "machinery",
+   "y": 238,
+   "label": "miss",
+   "variant": "return"
+  },
+  {
+   "id": "cache-read",
+   "from": "machinery",
+   "to": "finder",
+   "y": 270,
+   "label": "find_spec",
+   "variant": "emphasis"
+  },
+  {
+   "id": "cache-miss",
+   "from": "finder",
+   "to": "machinery",
+   "y": 298,
+   "label": "ModuleSpec",
+   "variant": "return"
+  },
+  {
+   "id": "profile-query",
+   "from": "machinery",
+   "to": "loader",
+   "y": 330,
+   "label": "exec_module",
+   "variant": "emphasis"
+  },
+  {
+   "id": "profile-rows",
+   "from": "loader",
+   "to": "machinery",
+   "y": 358,
+   "label": "module object",
+   "variant": "return"
+  },
+  {
+   "id": "cache-write",
+   "from": "machinery",
+   "to": "finder",
+   "y": 390,
+   "label": "store in cache",
+   "variant": "dashed"
+  },
+  {
+   "id": "trace-emit",
+   "from": "loader",
+   "to": "pyc",
+   "y": 418,
+   "label": "write .pyc",
+   "variant": "dashed"
+  },
+  {
+   "id": "dashboard-response",
+   "from": "machinery",
+   "to": "stmt",
+   "y": 443,
+   "label": "module",
+   "variant": "return"
+  },
+  {
+   "id": "page-render",
+   "from": "stmt",
+   "to": "code",
+   "y": 468,
+   "label": "name bound",
+   "variant": "return"
+  }
+ ],
+ "activations": [
+  {
+   "participant": "stmt",
+   "from": 180,
+   "to": 474,
+   "type": "frontend"
+  },
+  {
+   "participant": "machinery",
+   "from": 185,
+   "to": 450,
+   "type": "backend"
+  },
+  {
+   "participant": "sysmods",
+   "from": 205,
+   "to": 244,
+   "type": "database"
+  },
+  {
+   "participant": "finder",
+   "from": 265,
+   "to": 304,
+   "type": "messagebus"
+  },
+  {
+   "participant": "loader",
+   "from": 325,
+   "to": 364,
+   "type": "backend"
+  },
+  {
+   "participant": "pyc",
+   "from": 413,
+   "to": 449,
+   "type": "database"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "emerald",
+   "title": "Fast path",
+   "items": [
+    "sys.modules is checked first, so a repeat import is a dictionary lookup",
+    "Importing the same module twice runs its code once"
+   ]
+  },
+  {
+   "dot": "orange",
+   "title": "Slow path",
+   "items": [
+    "A finder produces a ModuleSpec; a loader creates and executes the module",
+    "Source files can be cached as bytecode in __pycache__"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Why it matters",
+   "items": [
+    "Module-level code runs at first import only",
+    "Circular imports hand back a partly built module"
+   ]
+  }
+ ]
+}
