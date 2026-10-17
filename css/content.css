@@ -1,0 +1,28 @@
+/* New content pages: flow strips, diagram frames and cards. */
+.flow-strip { display: flex; flex-wrap: wrap; gap: 6px 0; list-style: none; padding: 0; margin: 10px 0 14px; counter-reset: fs; }
+.flow-strip li { position: relative; display: flex; align-items: center; gap: 6px; margin-right: 22px; font-size: 0.86rem; }
+.flow-strip li:not(:last-child)::after { content: ""; position: absolute; right: -18px; top: 50%; width: 14px; height: 2px; background: var(--accent-2); transform: translateY(-50%); }
+.flow-strip li:not(:last-child)::before { content: ""; position: absolute; right: -20px; top: 50%; width: 6px; height: 6px; border-top: 2px solid var(--accent-2); border-right: 2px solid var(--accent-2); transform: translateY(-50%) rotate(45deg); }
+.fs-dot { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font: 700 0.75rem "IBM Plex Mono", monospace; color: var(--btn-ink); background: var(--accent); animation: fs-pulse 4.2s ease-in-out infinite; animation-delay: calc(var(--i) * 0.5s); }
+.fs-text { font-weight: 700; }
+@keyframes fs-pulse { 0%, 70%, 100% { transform: scale(1); box-shadow: 0 0 0 0 transparent; } 12% { transform: scale(1.25); box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 35%, transparent); } }
+
+.dframe { margin: 14px 0 18px; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--bg-elev); box-shadow: var(--shadow); }
+.dframe-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 8px 12px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--bg-elev) 90%, var(--accent)); }
+.dframe-bar b { flex: 1 1 200px; }
+.dframe-view { display: block; width: 100%; height: var(--h, 640px); border: 0; background: #fff; }
+.dframe figcaption { padding: 8px 12px; color: var(--muted); font-size: 0.9rem; }
+.dstrip, .dgrid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); perspective: 900px; margin: 10px 0; }
+.dcard { display: flex; flex-direction: column; gap: 6px; padding: 14px; border: 1px solid var(--line); border-radius: 16px; background: var(--bg-elev); color: var(--ink); text-decoration: none; transform: rotateX(var(--tx, 0)) rotateY(var(--ty, 0)); transition: transform 120ms, border-color 160ms, box-shadow 160ms; box-shadow: var(--shadow); }
+.dcard:hover { border-color: var(--accent); }
+.dcard-big h2 { margin: 2px 0; font-size: 1.15rem; } .dcard-big h2 a { color: var(--ink); text-decoration: none; }
+.dcard-big p { margin: 0; color: var(--muted); }
+.dc-top { display: flex; align-items: center; justify-content: space-between; }
+.dc-blurb { color: var(--muted); font-size: 0.9rem; }
+.dc-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto !important; }
+.dcard .flow-strip { margin: 4px 0; } .dcard .flow-strip li { font-size: 0.78rem; margin-right: 18px; } .dcard .fs-dot { width: 20px; height: 20px; font-size: 0.68rem; }
+.notice { padding-left: 1.2em; } .notice li { margin: 6px 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+@media (max-width: 560px) { .dframe-view { height: min(var(--h, 640px), 70vh); } .dstrip, .dgrid { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .fs-dot { animation: none; } .dcard { transform: none; transition: none; } }
+@media print { .dframe-view { display: none; } }

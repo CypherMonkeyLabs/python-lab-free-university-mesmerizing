@@ -1,0 +1,120 @@
+/* Archify showcase diagrams. Each file in diagrams/ is a standalone HTML page produced by
+   `archify deliver <type> <spec.json> <out.html> --quality showcase` (9 of 9 checks, 0 warnings).
+   The specs are in diagrams/specs/. */
+export const diagrams = [
+  {
+    id: "how-python-runs", file: "wf_run.html", type: "Workflow", title: "How Python runs a file", icon: "fundamentals",
+    sections: ["fundamentals", "flows", "modules"],
+    blurb: "From script.py to output: the parser, the compiler, bytecode, the eval loop, and where .pyc files fit.",
+    steps: ["script.py", "Parser", "Compiler", "Eval loop", "Calls", "Output"],
+    notice: [
+      "A syntax error is raised by the parser, before any line of your program runs.",
+      "The compiler turns the syntax tree into a code object made of bytecode. The dis module can show it.",
+      "Imported modules can have their bytecode cached in __pycache__. The script you run directly is compiled each time.",
+      "Every value the eval loop touches is an object on the heap, kept alive by reference counting plus a cycle collector.",
+    ],
+    related: [["Syntax lesson", "#/lesson/fundamentals/syntax"], ["Errors lesson", "#/lesson/fundamentals/errors"], ["Flows section", "#/section/flows"]],
+    sources: ["tutorial", "datamodel", "dis", "pep-3147", "pep-659"],
+  },
+  {
+    id: "function-call", file: "seq_call.html", type: "Sequence", title: "What happens when you call a function", icon: "dsa",
+    sections: ["methods", "fundamentals"],
+    blurb: "A call pushes a frame, binds arguments to names, runs the body, builds a result on the heap, and pops the frame.",
+    steps: ["Call", "New frame", "Bind names", "Run body", "Return", "Pop frame"],
+    notice: [
+      "Arguments are bound to parameter names. Python passes references to objects, it does not copy them.",
+      "Each call has its own frame and its own local names.",
+      "return hands back one object. A function that falls off the end returns None.",
+      "An uncaught exception unwinds frames and builds a traceback. try/except can stop the unwinding.",
+    ],
+    related: [["Functions lesson", "#/lesson/fundamentals/functions"], ["Classes lesson", "#/lesson/fundamentals/classes"], ["Methods section", "#/section/methods"]],
+    sources: ["functions-doc", "datamodel", "errors"],
+  },
+  {
+    id: "import-system", file: "seq_import.html", type: "Sequence", title: "What happens on import json", icon: "stdlib",
+    sections: ["modules", "fundamentals"],
+    blurb: "The import statement, the sys.modules cache, finders, loaders, and bytecode caching.",
+    steps: ["import", "sys.modules?", "Finders", "ModuleSpec", "Loader", "Bound name"],
+    notice: [
+      "sys.modules is checked first, so a second import of the same module is a dictionary lookup.",
+      "On a miss, a finder from sys.meta_path produces a ModuleSpec. A loader creates and executes the module.",
+      "Module-level code runs once, at first import.",
+      "Source modules can be cached as bytecode in __pycache__ so the next process starts faster.",
+    ],
+    related: [["Modules lesson", "#/lesson/fundamentals/modules"], ["Environments lesson", "#/lesson/tooling/environments"], ["Modules section", "#/section/modules"]],
+    sources: ["modules", "import-ref", "importlib", "pep-3147"],
+  },
+  {
+    id: "event-loop", file: "seq_loop.html", type: "Sequence", title: "The asyncio event loop, step by step", icon: "async",
+    sections: ["flows"],
+    blurb: "asyncio.run starts a loop, tasks run until they await, the selector waits for I/O, and the loop resumes whoever is ready.",
+    steps: ["asyncio.run", "Ready queue", "Task A runs", "await", "Task B runs", "Wake A"],
+    notice: [
+      "The loop runs one task at a time on one thread. A task keeps control until it awaits.",
+      "While Task A waits for a socket, Task B can run. Waiting costs almost no CPU.",
+      "A blocking call inside a coroutine freezes every task on the loop.",
+      "This lab's practice desk can run the pure-Python parts, but not real sockets, because the browser sandbox has none.",
+    ],
+    related: [["Why async lesson", "#/lesson/async/why"], ["Coroutines lesson", "#/lesson/async/coroutines"], ["Pitfalls lesson", "#/lesson/async/pitfalls"]],
+    sources: ["asyncio-docs", "asyncio-task", "asyncio-loop"],
+  },
+  {
+    id: "task-lifecycle", file: "life_task.html", type: "Lifecycle", title: "The life of an asyncio Task", icon: "async",
+    sections: ["flows"],
+    blurb: "Created, scheduled, running, waiting, then done, raised, cancelled, or timed out.",
+    steps: ["Created", "Scheduled", "Running", "Waiting", "Done"],
+    notice: [
+      "create_task schedules a coroutine to run on the loop soon.",
+      "task.cancel() asks for cancellation; the task sees CancelledError at its next await.",
+      "asyncio.timeout() cancels the work inside its scope and raises TimeoutError outside it.",
+      "An exception is stored on the task and raised again when you await it.",
+    ],
+    related: [["Coroutines lesson", "#/lesson/async/coroutines"], ["Async pitfalls", "#/lesson/async/pitfalls"], ["Flows section", "#/section/flows"]],
+    sources: ["asyncio-task", "asyncio-docs"],
+  },
+  {
+    id: "pandas-pipeline", file: "df_pandas.html", type: "Dataflow", title: "A pandas pipeline, start to finish", icon: "data",
+    sections: ["integrations", "labs"],
+    blurb: "Read files and records into DataFrames, clean them, set rejects aside, merge, group, then report or export.",
+    steps: ["read_csv", "DataFrame", "Clean", "Merge", "Group", "Report"],
+    notice: [
+      "Every step returns a new DataFrame. Chain them instead of editing in place.",
+      "Rows that fail validation are set aside so you can count and audit them.",
+      "Merge, groupby, and assign are the three verbs that cover most tidy-data work.",
+      "The practice desk runs pandas 3.0.2 in your browser, so you can try each step.",
+    ],
+    related: [["pandas lesson", "#/lesson/data/pandas"], ["NumPy lesson", "#/lesson/data/numpy"], ["Practice desk", "#/practice"]],
+    sources: ["pandas", "pandas-10min", "numpy"],
+  },
+  {
+    id: "pyodide-architecture", file: "arch_pyodide.html", type: "Architecture", title: "Pyodide: Python inside the browser", icon: "web",
+    sections: ["integrations", "labs"],
+    blurb: "How this lab runs CPython 3.14 as WebAssembly, with a JavaScript bridge, a virtual file system, and vendored NumPy and pandas wheels.",
+    steps: ["Page", "pyodide.mjs", "WebAssembly", "CPython 3.14", "Bridge", "Wheels"],
+    notice: [
+      "The page loads pyodide.mjs and the .wasm file from this site. No CDN is used at runtime.",
+      "CPython runs inside the WebAssembly sandbox. It cannot reach your files or open raw sockets.",
+      "The JavaScript to Python bridge converts values and proxies objects between the two worlds.",
+      "NumPy and pandas wheels are stored beside the runtime and loaded only when a lesson asks for them.",
+    ],
+    related: [["The browser runtime lesson", "#/lesson/start/runtime"], ["Practice desk", "#/practice"], ["Integrations section", "#/section/integrations"]],
+    sources: ["pyodide", "pyodide-loading", "pyodide-types", "webassembly"],
+  },
+  {
+    id: "study-loop", file: "wf_learn.html", type: "Workflow", title: "A study loop that sticks", icon: "career",
+    sections: ["lifetime", "resources"],
+    blurb: "Pick a topic, read, watch, run, check, keep notes, build something small, and teach it back.",
+    steps: ["Pick a topic", "Read", "Watch", "Run", "Check", "Teach back"],
+    notice: [
+      "Small goals beat long sessions. One lap can be twenty minutes.",
+      "The practice desk gives instant feedback, so you find gaps early.",
+      "Cheat sheets and your own notes make the next lap faster.",
+      "When you are stuck, the Sources page points to the official documentation.",
+    ],
+    related: [["Career stages", "#/lesson/career/stages"], ["Downloads", "#/downloads"], ["Lifetime Learning", "#/section/lifetime"]],
+    sources: ["tutorial", "pypa"],
+  },
+];
+
+export const diagramById = (id) => diagrams.find((d) => d.id === id) || null;
+export const diagramsFor = (sectionId) => diagrams.filter((d) => d.sections[0] === sectionId || d.sections.includes(sectionId));
