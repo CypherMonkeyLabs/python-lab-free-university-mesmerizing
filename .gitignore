@@ -1,0 +1,8 @@
+node_modules/
+test-results/
+playwright-report/
+blob-report/
+scripts/.frames/
+__pycache__/
+*.pyc
+.DS_Store
