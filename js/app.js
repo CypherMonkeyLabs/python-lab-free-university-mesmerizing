@@ -752,7 +752,7 @@ function render() {
   main().innerHTML = view.html;
   if (booted) {
     window.scrollTo(0, 0);
-    main().focus();
+    main().focus({ preventScroll: true });
   }
   booted = true;
   view.after?.(token);
