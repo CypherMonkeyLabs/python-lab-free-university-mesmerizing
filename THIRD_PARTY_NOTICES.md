@@ -19,6 +19,7 @@ Licences were read on 2026-10-17 from the upstream LICENSE files or the wheel ME
 | Atkinson Hyperlegible | as shipped | OFL-1.1 | https://github.com/googlefonts/atkinson-hyperlegible | `assets/fonts/atkinson-*.woff2` | `licenses/OFL-atkinson-hyperlegible.txt` |
 | Fraunces | as shipped | OFL-1.1 | https://github.com/undercasetype/Fraunces | `assets/fonts/fraunces-560.woff2` | `licenses/OFL-fraunces.txt` |
 | IBM Plex Mono | as shipped | OFL-1.1 | https://github.com/IBM/plex | `assets/fonts/plex-mono-400.woff2` | `licenses/OFL-ibm-plex.txt` |
+| canvas-confetti (confetti on wins, loaded lazily, same-origin) | 1.9.3 | ISC | https://github.com/catdad/canvas-confetti | `vendor/confetti.browser.min.js` | `licenses/ISC-canvas-confetti.txt` |
 | Archify viewer code and embedded JetBrains Mono (inside each `diagrams/*.html`) | see `diagrams/NOTICE.md` | MIT (Archify); JetBrains Mono is OFL-1.1 | https://github.com/tt-a1i/archify | `diagrams/*.html` | `diagrams/NOTICE.md` (JetBrains Mono OFL text not yet copied: listed as a follow-up in `docs/LICENCE_READS.md`) |
 
 ## Used only to build or test (not shipped)
@@ -34,3 +35,6 @@ See `docs/LICENCE_READS.md` for Skulpt, CodeMirror 6, axe-core, DOMPurify and Bl
 
 ## Trademarks
 "Python" and the Python logos belong to the Python Software Foundation (https://www.python.org/psf/trademarks/). This lab is independent and unaffiliated.
+
+## Library search for the visual build (2026-10-17)
+`libsearch.py --safe` was run for confetti, particles, Blockly, Pong/Snake and turtle graphics. The index had no canvas-confetti or tsParticles entry, so canvas-confetti was vendored from upstream after reading its ISC licence. Candidates considered and **not** used: tsParticles (MIT, heavy for our need: the lab draws its own light particle canvas), Phaser (MIT, cm-01774) and two.js (MIT, cm-02609) for games (the lab's games are small hand-written canvas/DOM code), Blockly (Apache-2.0, large; the block-to-Python challenge is hand-written drag and drop). No code from those projects is in this repo.

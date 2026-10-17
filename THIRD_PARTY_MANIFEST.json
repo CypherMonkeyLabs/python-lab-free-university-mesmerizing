@@ -169,6 +169,20 @@
           "sha256": "3c5a451f9ec27a354b0c2bcca636c6ec17a651281aabf29f8427e210a1d31e85"
         }
       ]
+    },
+    {
+      "name": "canvas-confetti",
+      "version": "1.9.3",
+      "licence": "ISC",
+      "url": "https://github.com/catdad/canvas-confetti",
+      "licence_file": "licenses/ISC-canvas-confetti.txt",
+      "read": "LICENSE read 2026-10-17; library index (libsearch) had no entry, vendored from npm canvas-confetti@1.9.3 dist/confetti.browser.min.js",
+      "files": [
+        {
+          "path": "vendor/confetti.browser.min.js",
+          "sha256": "cfc4a191c3ae300777c25e27aa81cb2d25bb898c8632aa61787f305876a981c8"
+        }
+      ]
     }
   ]
 }
