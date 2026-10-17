@@ -1,0 +1,82 @@
+[
+  {
+    "id": "syntax",
+    "format": "pdf",
+    "file": "downloads/python-syntax-cheatsheet.pdf",
+    "title": "Python syntax cheat sheet",
+    "description": "Indentation, types, control flow, and a few current language notes. One printable page.",
+    "bytes": 24648
+  },
+  {
+    "id": "syntax",
+    "format": "txt",
+    "file": "release/downloads/python-lab-syntax-cheat-sheet.txt",
+    "title": "Python syntax cheat sheet",
+    "description": "Indentation, types, control flow, and a few current language notes. One printable page.",
+    "bytes": 1803
+  },
+  {
+    "id": "data",
+    "format": "pdf",
+    "file": "downloads/data-structures-cheatsheet.pdf",
+    "title": "Data structures cheat sheet",
+    "description": "Lists, dicts, sets, deques, and how to talk about cost.",
+    "bytes": 22121
+  },
+  {
+    "id": "data",
+    "format": "txt",
+    "file": "release/downloads/python-lab-data-structures-cheat-sheet.txt",
+    "title": "Data structures cheat sheet",
+    "description": "Lists, dicts, sets, deques, and how to talk about cost.",
+    "bytes": 1351
+  },
+  {
+    "id": "stdlib",
+    "format": "pdf",
+    "file": "downloads/stdlib-typing-cheatsheet.pdf",
+    "title": "Standard library and typing cheat sheet",
+    "description": "Modules to reach for, annotation forms, and what is not in the standard library.",
+    "bytes": 23672
+  },
+  {
+    "id": "stdlib",
+    "format": "txt",
+    "file": "release/downloads/python-lab-standard-library-and-typing-cheat-sheet.txt",
+    "title": "Standard library and typing cheat sheet",
+    "description": "Modules to reach for, annotation forms, and what is not in the standard library.",
+    "bytes": 1412
+  },
+  {
+    "id": "study",
+    "format": "pdf",
+    "file": "downloads/study-checklist.pdf",
+    "title": "Study checklist",
+    "description": "A study order, a reminder about pay claims, and the exam pages to open.",
+    "bytes": 24834
+  },
+  {
+    "id": "study",
+    "format": "txt",
+    "file": "release/downloads/python-lab-study-checklist.txt",
+    "title": "Study checklist",
+    "description": "A study order, a reminder about pay claims, and the exam pages to open.",
+    "bytes": 1393
+  },
+  {
+    "id": "slides",
+    "format": "md",
+    "file": "release/downloads/python-lab-all-slides.md",
+    "title": "All slide decks as Markdown",
+    "description": "Every slide from all decks, with code and output. Opens in any text editor.",
+    "bytes": 23470
+  },
+  {
+    "id": "notebook",
+    "format": "ipynb",
+    "file": "release/downloads/python-lab-code-samples-notebook.ipynb",
+    "title": "Code samples Jupyter notebook",
+    "description": "Code from the slides and guides with saved output. Open it in Jupyter or VS Code on your own computer.",
+    "bytes": 28316
+  }
+]
