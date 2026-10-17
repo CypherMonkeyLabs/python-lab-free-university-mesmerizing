@@ -5,7 +5,7 @@ import { startTour, isTourOpen } from "./tour.js";
 import { sayBot } from "./botfx.js";
 
 const KEY = "pythonlab.visits.v1";
-const HOWTO_KEY = "pythonlab.howto.v1";
+const HOWTO_KEY = "pythonlab.howto.v2";
 
 const MORNING = ["Good morning! A fresh day, a fresh `print`.", "Rise and code! Your next lesson is waiting.", "Morning! Ten minutes of Python beats zero."];
 const AFTERNOON = ["Good afternoon! Ready to level up?", "Hello again! Pick a game or a lesson, both count.", "Afternoon sparkle: one small program today?"];

@@ -1,0 +1,52 @@
+<!doctype html><html lang='en'><meta charset='utf-8'><title>Values, Types and Names</title><style>@page{size:A4;margin:18mm 16mm;@bottom-center{content:"CypherMonkeyLabs Python Lab - page " counter(page);font:8pt sans-serif;color:#667}}
+body{font:10.5pt/1.5 'DejaVu Sans',sans-serif;color:#1a1d2e}h1{font-size:24pt;color:#4b2a9b;border-bottom:3px solid #f5a623}
+h2{color:#4b2a9b;margin-top:1.2em}pre{background:#10142a;color:#e8ecff;padding:8px;border-radius:6px;font-size:9pt;white-space:pre-wrap}
+pre.out{background:#e9f7ee;color:#0b3d1d;border-left:4px solid #2bb673}.meta{background:#f3efff;padding:8px;border-radius:6px}
+code{font-family:'DejaVu Sans Mono',monospace}footer,.small{font-size:8pt;color:#667}</style><body><div class='meta'><b>Level 1</b> &middot; about 10 h &middot; Python 3.8+ (examples run on CPython 3.13.5) &middot; Project: A tip and tax calculator<br><b>You will be able to:</b><ul><li>Name the basic types int, float, str and bool and check one with type()</li><li>Bind a value to a name and explain what reassignment does</li><li>Use f-strings to build readable text</li><li>Convert between str and numbers and handle the common error</li></ul></div><h1>Values, Types and Names</h1>
+<h2>Values have types</h2>
+<p>Every value has a type. <code>type()</code> tells you which.</p><pre><code>print(type(42))
+print(type(3.5))
+print(type(&quot;hi&quot;))
+print(type(True))
+</code></pre><pre class='out'>Output (CPython 3.13.5):
+&lt;class &#x27;int&#x27;&gt;
+&lt;class &#x27;float&#x27;&gt;
+&lt;class &#x27;str&#x27;&gt;
+&lt;class &#x27;bool&#x27;&gt;</pre><h2>Names point at values</h2>
+<p>A name is a label stuck to a value. Reassigning moves the label; it does not change the old value.</p><pre><code>total = 10
+total = total + 5
+print(total)
+</code></pre><pre class='out'>Output (CPython 3.13.5):
+15</pre><h2>Numbers and arithmetic</h2>
+<p><code>/</code> always gives a float. <code>//</code> divides and rounds down. <code>%</code> gives the remainder.</p><pre><code>print(7 / 2)
+print(7 // 2)
+print(7 % 2)
+print(2 ** 10)
+</code></pre><pre class='out'>Output (CPython 3.13.5):
+3.5
+3
+1
+1024</pre><h2>Strings and f-strings</h2>
+<p>An f-string puts values into text. Format specs control decimals.</p><pre><code>name = &quot;Ada&quot;
+price = 19.5
+print(f&quot;{name} pays {price:.2f}&quot;)
+print(name.upper(), len(name))
+</code></pre><pre class='out'>Output (CPython 3.13.5):
+Ada pays 19.50
+ADA 3</pre><h2>Converting types</h2>
+<p><code>input()</code> always returns text. Convert it before doing arithmetic.</p><pre><code>text = &quot;12&quot;
+print(int(text) + 1)
+try:
+    int(&quot;twelve&quot;)
+except ValueError as err:
+    print(&quot;ValueError:&quot;, err)
+</code></pre><pre class='out'>Output (CPython 3.13.5):
+13
+ValueError: invalid literal for int() with base 10: &#x27;twelve&#x27;</pre><h2>Check yourself</h2>
+<ol>
+<li>What is <code>type(7 / 2)</code>?</li>
+<li>After <code>total = 10</code> and <code>total = total + 5</code>, what does <code>total</code> name?</li>
+<li>Why must you convert the result of <code>input()</code> before adding numbers?</li>
+</ol>
+<h2>Project: Tip and tax calculator</h2>
+<p>Ask for a bill, a tip percent and a tax percent, convert them, and print the total with two decimals using an f-string.</p><h2>Sources</h2><ul><li><a href='https://docs.python.org/3/tutorial/introduction.html'>Python tutorial: An informal introduction</a></li><li><a href='https://docs.python.org/3/reference/datamodel.html'>Python reference: The data model</a></li><li><a href='https://docs.python.org/3/reference/lexical_analysis.html#f-strings'>Python docs: Formatted string literals</a></li><li><a href='https://peps.python.org/pep-0008/'>PEP 8 Style Guide for Python Code</a></li></ul><p class='small'>Code &copy; CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. Educational material, not accredited coursework; no outcome or income promised. Built 2026-10-17.</p></body></html>
