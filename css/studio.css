@@ -1,0 +1,82 @@
+/* Studio shell (PR3): 3D scenes, parallax, glow, worlds, Download Center, Py teacher additions. */
+.studio { --px: 0; --py: 0; position: relative; width: 100%; height: clamp(240px, 38vw, 400px); margin: 14px 0 8px; border-radius: 18px; overflow: hidden; isolation: isolate;
+  background: radial-gradient(120% 90% at 50% 100%, color-mix(in srgb, var(--acc) 38%, #0a0c1c), #0a0c1c 70%); border: 1px solid color-mix(in srgb, var(--acc) 55%, var(--line)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--acc) 18%, transparent), 0 18px 50px color-mix(in srgb, var(--acc) 22%, transparent); contain: layout paint; }
+.studio-poster, .studio-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.studio-svg { width: 100%; height: 100%; display: block; }
+.studio-canvas[hidden] { display: none; }
+.studio.is-gl .studio-poster { visibility: hidden; }
+.studio-glow { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen; opacity: .55;
+  background: radial-gradient(60% 50% at calc(50% + var(--px) * 8%) calc(40% + var(--py) * 6%), color-mix(in srgb, var(--acc) 55%, transparent), transparent 70%); }
+.studio-title { position: absolute; left: 16px; bottom: 12px; margin: 0; padding: 4px 12px; border-radius: 99px; background: rgba(8, 10, 24, .62); color: #fff; font: 700 .9rem "Atkinson Hyperlegible", system-ui, sans-serif; backdrop-filter: blur(4px); }
+.studio-badge { position: absolute; right: 10px; top: 10px; display: flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 99px; background: rgba(8, 10, 24, .62); color: #fff; font: 600 .72rem "IBM Plex Mono", monospace; }
+.sb-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 8px var(--acc); }
+.studio-note { margin: 6px 0 16px; }
+/* flat tier: three poster layers move at different depths */
+.studio.is-flat .pl { transition: transform 120ms linear; }
+.studio.is-flat .pl1 { transform: translate(calc(var(--px) * -3px), calc(var(--py) * -2px)); }
+.studio.is-flat .pl2 { transform: translate(calc(var(--px) * -9px), calc(var(--py) * -5px)); }
+.studio.is-flat .pl3 { transform: translate(calc(var(--px) * -18px), calc(var(--py) * -9px)) scale(1.03); }
+.studio:not(.is-flat):not(.is-gl) .pl { animation: pl-drift 14s ease-in-out infinite alternate; }
+.studio:not(.is-flat):not(.is-gl) .pl3 { animation-duration: 9s; }
+@keyframes pl-drift { to { transform: translateX(-8px); } }
+html[data-theme="contrast"] .studio { border-color: #fff; box-shadow: none; }
+@media (prefers-reduced-motion: reduce) { .studio .pl { animation: none !important; transition: none !important; transform: none !important; } .studio-glow { opacity: .35; } }
+/* home hero: the CSS cube stays until the WebGL lobby is ready (and for tiers off/flat) */
+.hero3d .studio-compact { display: none; position: relative; height: 100%; min-height: 280px; margin: 0; }
+.hero3d .studio-compact.is-gl { display: block; }
+.hero3d:has(.studio-compact.is-gl) .stage3d { display: none; }
+.hero3d .studio-compact .studio-badge { top: auto; bottom: 10px; }
+/* worlds */
+.lvl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin: 12px 0 18px; }
+.lvl-card { position: relative; display: grid; gap: 4px; padding: 14px 14px 12px; border-radius: 16px; text-decoration: none; color: var(--ink); background: linear-gradient(160deg, color-mix(in srgb, var(--acc) 22%, var(--bg-elev)), var(--bg-elev) 62%); border: 1px solid color-mix(in srgb, var(--acc) 55%, var(--line)); transform: perspective(700px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)); transition: transform 140ms, box-shadow 200ms; }
+.lvl-card:hover, .lvl-card:focus-visible { box-shadow: 0 0 22px color-mix(in srgb, var(--acc) 45%, transparent); }
+.lvl-n { position: absolute; right: 12px; top: 6px; font: 800 2.4rem "Fraunces", Georgia, serif; color: color-mix(in srgb, var(--acc) 70%, transparent); line-height: 1; }
+.lvl-glyph { color: var(--acc); display: inline-flex; } .lvl-glyph svg { width: 28px; height: 28px; }
+.lvl-name { font: 700 1.05rem "Fraunces", Georgia, serif; }
+.lvl-blurb { font-size: .86rem; color: var(--muted); }
+.lvl-meta { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+.pill-ok { border-color: var(--ok); color: var(--ok); }
+.lvl-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 14px 0; }
+.h1-glyph svg { width: .8em; height: .8em; vertical-align: -.05em; }
+/* download center */
+.dc-tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 12px 0 4px; }
+.dc-tools input { flex: 1 1 220px; min-height: 44px; padding: 8px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg-elev); color: var(--ink); font: inherit; }
+.dc-fmts { display: flex; flex-wrap: wrap; gap: 6px; }
+.dc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 16px; margin: 12px 0 18px; }
+.dc-card { display: flex; flex-direction: column; border-radius: 18px; overflow: hidden; background: var(--bg-elev); border: 1px solid color-mix(in srgb, var(--acc) 55%, var(--line)); transform: perspective(900px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)); transition: transform 140ms, box-shadow 200ms; }
+.dc-card[hidden] { display: none; }
+.dc-card.is-focus, .dc-card:hover { box-shadow: 0 0 26px color-mix(in srgb, var(--acc) 40%, transparent); }
+.dc-cover { aspect-ratio: 16 / 9; background: linear-gradient(135deg, var(--acc), #12142b); } .dc-cover img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.dc-body { padding: 14px 16px 16px; } .dc-body h2 { margin: 6px 0; }
+.dc-files { list-style: none; padding: 0; margin: 10px 0; display: grid; gap: 8px; }
+.dc-file[hidden] { display: none; }
+.dc-btn { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; min-height: 44px; padding: 8px 12px; border-radius: 12px; text-decoration: none; color: var(--ink); background: color-mix(in srgb, var(--acc) 16%, var(--bg)); border: 1px solid color-mix(in srgb, var(--acc) 60%, var(--line)); font-weight: 700; }
+.dc-btn:hover, .dc-btn:focus-visible { background: color-mix(in srgb, var(--acc) 32%, var(--bg)); }
+.dc-chip { font: 800 .72rem "IBM Plex Mono", monospace; padding: 3px 7px; border-radius: 6px; background: var(--acc); color: #10142a; }
+.dc-size { font-weight: 400; color: var(--muted); font-size: .85rem; }
+.dc-desc { display: block; margin: 3px 4px 0; font-size: .86rem; color: var(--muted); }
+.dc-fn { display: block; font: .72rem "IBM Plex Mono", monospace; opacity: .8; word-break: break-all; }
+.dc-sums code { font-size: .68rem; word-break: break-all; }
+@media (prefers-reduced-motion: reduce) { .lvl-card, .dc-card { transform: none !important; transition: none; } }
+/* Py teacher */
+.bp-bot { margin: 0 0 8px; padding: 6px 10px; border-radius: 10px; background: color-mix(in srgb, #ffd43b 22%, var(--bg-elev)); font-size: .85rem; font-weight: 700; }
+.bp-teach { margin: 10px 0; padding-top: 4px; border-top: 1px dashed var(--line); }
+.bp-rung { margin: 6px 0; padding: 8px 10px; border-radius: 10px; background: color-mix(in srgb, var(--accent) 12%, var(--bg-elev)); border: 1px solid var(--line); font-size: .88rem; }
+.bp-rung p, .bp-rung ol { margin: 4px 0; padding-left: 0; } .bp-rung ol { padding-left: 1.2em; }
+.bp-code { margin: 4px 0; padding: 8px; border-radius: 8px; background: var(--code-bg); overflow: auto; font-size: .78rem; }
+.bp-note { font-size: .78rem; color: var(--muted); margin: 4px 0; }
+.bp-socratic { margin: 4px 0; font-style: italic; }
+.bot-mood { position: absolute; left: 50%; top: 2px; transform: translateX(-50%); min-width: 26px; padding: 1px 8px; border-radius: 99px; background: #fff; color: #10233a; border: 2px solid #ff5da2; font: 800 .8rem "IBM Plex Mono", monospace; text-align: center; pointer-events: none; z-index: 3; }
+.bot-mood:empty { display: none; }
+.bot[data-mood="cheer"] .bot-figure { animation: bot-cheer 600ms ease 3; filter: drop-shadow(0 0 14px #34d399) drop-shadow(0 0 22px #ffd43b); }
+.bot[data-mood="puzzled"] .bot-figure { animation: bot-puzzle 700ms ease 2; }
+.bot[data-mood="drag"] .bot-figure { transform: rotate(-8deg) scale(1.06); animation: none; }
+.bot[data-mood="think"] .bot-figure { filter: drop-shadow(0 0 10px #22d3ee); }
+@keyframes bot-cheer { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-16px) rotate(-6deg); } 70% { transform: translateY(-6px) rotate(5deg); } }
+@keyframes bot-puzzle { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-9deg); } 70% { transform: rotate(8deg); } }
+@media (prefers-reduced-motion: reduce) { .bot[data-mood] .bot-figure { animation: none !important; transform: none !important; } }
+.quality { margin: 8px 0; display: flex; flex-wrap: wrap; gap: 6px; } .quality-h { flex-basis: 100%; margin: 0; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); } .quality-note { flex-basis: 100%; margin: 2px 0 0; font-size: .74rem; color: var(--muted); }
+/* howto additions */
+.howto-steps { display: flex; gap: 8px; margin: 0 0 10px; flex-wrap: wrap; } .howto-steps span { padding: 4px 10px; border-radius: 99px; background: color-mix(in srgb, var(--accent) 22%, var(--bg-elev)); font-weight: 700; font-size: .82rem; }
+@media (max-width: 899px) { .top-links a[href="#/worlds"] { display: none; } }
+@media print { .studio { display: none; } }
