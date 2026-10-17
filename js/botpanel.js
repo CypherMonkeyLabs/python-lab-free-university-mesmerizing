@@ -37,15 +37,22 @@ function build() {
 function position() {
   const p = panel();
   const r = bot().getBoundingClientRect();
-  const pw = p.offsetWidth;
-  const ph = p.offsetHeight;
+  const cs = getComputedStyle(document.documentElement);
+  const topH = parseFloat(cs.getPropertyValue("--top-h")) || 60;
+  const barH = parseFloat(cs.getPropertyValue("--bar-h")) || 64;
   const vw = window.innerWidth;
   const vh = window.innerHeight;
-  let left = Math.min(Math.max(8, r.right - pw), vw - pw - 8);
+  const minTop = topH + 8;
+  const maxBottom = vh - barH - 8;
+  p.style.maxHeight = `${Math.max(160, maxBottom - minTop)}px`;
+  const pw = p.offsetWidth;
+  const ph = p.offsetHeight;
+  const left = Math.min(Math.max(8, r.right - pw), vw - pw - 8);
   let top = r.top - ph - 10;
-  if (top < 8) top = Math.min(r.bottom + 10, vh - ph - 8);
+  if (top < minTop) top = r.bottom + 10;
+  top = Math.min(top, maxBottom - ph);
   p.style.left = `${left}px`;
-  p.style.top = `${Math.max(8, top)}px`;
+  p.style.top = `${Math.max(minTop, top)}px`;
 }
 
 export function openPanel() {
