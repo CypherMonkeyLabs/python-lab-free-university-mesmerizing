@@ -1,0 +1,21 @@
+Python Lab cheat sheet. Snapshot 17 October 2026. This is a study aid, not a specification. Confirm details in the Sources section of Python Lab and on the official pages linked there.
+
+Sequences
+- list: ordered, mutable. append is amortized constant time in CPython. Inserting at the front is linear.
+- tuple: ordered, immutable, hashable when every item is hashable.
+- str: immutable sequence of Unicode code points. Slicing copies.
+- deque from collections: append and pop at either end are cheap. Indexing in the middle is not.
+- A slice is a new object for list, tuple, and str. The source is not mutated by the slice itself.
+
+Maps and sets
+- dict preserves insertion order. Keys must be hashable.
+- Average-case lookup, insert, and delete for dict and set are constant time in CPython. Worst cases exist.
+- set holds unique hashable items and is unordered for algorithm purposes.
+- Use a tuple or frozenset when you need a hashable collection.
+
+Study patterns
+- Stack: append and pop on a list.
+- Queue: collections.deque, popleft.
+- Binary search needs a sorted random-access sequence. bisect is in the standard library.
+- A hash table is the idea behind dict. A collision strategy is an implementation detail you do not control.
+- State complexity as a model of growth, and name the implementation (usually CPython) when the cost is specific.
