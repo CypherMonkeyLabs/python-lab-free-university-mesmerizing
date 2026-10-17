@@ -7,6 +7,7 @@ export default defineConfig({
   timeout: 30000,
   use: {
     baseURL: "http://127.0.0.1:41731",
+    launchOptions: process.env.PW_CHROME ? { executablePath: process.env.PW_CHROME, args: ["--no-sandbox"] } : {},
   },
   webServer: {
     command: "python3 -m http.server 41731 --bind 127.0.0.1",

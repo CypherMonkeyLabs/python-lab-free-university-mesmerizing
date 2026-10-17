@@ -30,6 +30,15 @@ const routes = [
   "/#/rooms/data",
   "/#/rooms/agents",
   "/#/no-such-room",
+  "/#/section/start",
+  "/#/section/flows",
+  "/#/section/methods",
+  "/#/section/modules",
+  "/#/section/labs",
+  "/#/section/games",
+  "/#/section/integrations",
+  "/#/section/lifetime",
+  "/#/section/resources",
 ];
 
 const brandHosts = new Set(["cyphermonkeylabs.com", "www.cyphermonkeylabs.com", "github.com", "www.github.com", "linktr.ee", "www.linktr.ee"]);
@@ -138,6 +147,7 @@ test("theme, filter, quiz, games, and downloads work", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   const errors = watchErrors(page);
   await page.goto("/");
+  await page.getByText("Display", { exact: true }).click();
   await page.getByRole("button", { name: "Paper" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "paper");
   await page.locator("#menu-filter").fill("zzzz-no-topic");
@@ -187,6 +197,7 @@ test("theme, filter, quiz, games, and downloads work", async ({ page }) => {
 test("the bot snaps clear of the heading at 390", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
+  await page.getByText("Display", { exact: true }).click();
   await page.getByRole("button", { name: "Reset bot" }).click();
   await assertLayout(page);
   const bot = page.locator("#lab-bot");
@@ -223,4 +234,92 @@ test("a lesson check runs in the local runtime", async ({ page }) => {
   await page.getByRole("button", { name: "Run checks" }).click();
   await expect(page.locator("#checks")).toContainText("passed", { timeout: 60000 });
   expect(errors).toEqual([]);
+});
+
+const SECTION_NAMES = ["Start Here", "Fundamentals", "Flows", "Methods", "Modules", "Labs", "Games", "Integrations", "Lifetime Learning", "Resources"];
+
+test("desktop shell: left menu, top bar, bottom bar, 3D hero", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  const errors = watchErrors(page);
+  await page.goto("/");
+  await expect(page.locator("#topbar")).toBeVisible();
+  await expect(page.locator("#bottombar")).toBeVisible();
+  const side = page.locator("#sidemenu");
+  await expect(side).toBeVisible();
+  for (const name of SECTION_NAMES) {
+    const item = side.locator(".side-item", { hasText: name }).first();
+    await expect(item).toBeVisible();
+    expect((await item.locator(".side-desc").innerText()).trim().length).toBeGreaterThan(8);
+    expect(await item.locator("svg").count()).toBe(1);
+  }
+  await expect(page.locator(".hero3d .cube")).toBeVisible();
+  const transform = await page.locator(".hero3d .scene3d").evaluate((el) => getComputedStyle(el).transformStyle);
+  expect(transform).toBe("preserve-3d");
+  await page.locator("#side-collapse").click();
+  await page.waitForTimeout(450);
+  const narrow = (await side.boundingBox()).width;
+  expect(narrow).toBeLessThan(100);
+  await page.locator("#side-collapse").click();
+  await page.waitForTimeout(450);
+  expect((await side.boundingBox()).width).toBeGreaterThan(250);
+  await side.locator(".side-item", { hasText: "Flows" }).click();
+  await expect(page).toHaveURL(/#\/section\/flows/);
+  await expect(page.locator("h1")).toHaveText("Flows");
+  await expect(side.locator('[aria-current="page"]')).toContainText("Flows");
+  await page.locator("#bar-next").click();
+  await expect(page).toHaveURL(/#\/section\/methods/);
+  await page.locator("#top-search").fill("numpy");
+  await expect(page.locator("#search-results .sr-item").first()).toBeVisible();
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/numpy|data/);
+  expect(errors).toEqual([]);
+});
+
+test("phone shell: hamburger drawer and bottom bar", async ({ browser }) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  const page = await ctx.newPage();
+  const errors = watchErrors(page);
+  await page.goto("/");
+  await expect(page.locator("#sidemenu")).not.toBeInViewport();
+  await page.locator("#menu-toggle").tap();
+  await expect(page.locator("#sidemenu")).toBeInViewport();
+  for (const name of SECTION_NAMES) await expect(page.locator("#sidemenu .side-item", { hasText: name }).first()).toBeVisible();
+  await page.locator("#sidemenu .side-item", { hasText: "Games" }).tap();
+  await expect(page).toHaveURL(/#\/section\/games/);
+  await expect(page.locator("#sidemenu")).not.toBeInViewport();
+  await expect(page.locator("#bottombar")).toBeVisible();
+  await ctx.close();
+  expect(errors).toEqual([]);
+});
+
+test("bot opens a panel on click and tap, and still drags", async ({ browser }) => {
+  for (const touch of [false, true]) {
+    const ctx = await browser.newContext({ viewport: touch ? { width: 390, height: 844 } : { width: 1440, height: 900 }, hasTouch: touch, isMobile: touch });
+    const page = await ctx.newPage();
+    const errors = watchErrors(page);
+    await page.goto("/");
+    const bot = page.locator("#lab-bot");
+    const panel = page.locator("#bot-panel");
+    await expect(panel).toBeHidden();
+    const before = await bot.boundingBox();
+    if (touch) await bot.tap(); else await bot.click();
+    await expect(panel).toBeVisible();
+    await expect(panel).toContainText("Where would you like to go");
+    expect(await panel.locator("a").count()).toBeGreaterThan(5);
+    const after = await bot.boundingBox();
+    expect(Math.abs(after.x - before.x) + Math.abs(after.y - before.y)).toBeLessThan(2);
+    await page.keyboard.press("Escape");
+    await expect(panel).toBeHidden();
+    const box = await bot.boundingBox();
+    await page.mouse.move(box.x + 40, box.y + 50);
+    await page.mouse.down();
+    await page.mouse.move(box.x - 120, box.y - 120, { steps: 8 });
+    await page.mouse.up();
+    await page.waitForTimeout(500);
+    await expect(panel).toBeHidden();
+    const moved = await bot.boundingBox();
+    expect(Math.abs(moved.x - box.x) + Math.abs(moved.y - box.y)).toBeGreaterThan(40);
+    await ctx.close();
+    expect(errors).toEqual([]);
+  }
 });

@@ -2,6 +2,29 @@ const KEY = "pythonlab.bot.v1";
 const bot = () => document.getElementById("lab-bot");
 
 let drag = null;
+let tapHandler = () => {};
+let dragStartHandler = () => {};
+const TAP_SLOP = 8;
+
+export function onBotTap(fn) { tapHandler = fn; }
+export function onBotDragStart(fn) { dragStartHandler = fn; }
+
+/* The lab shell reserves space for the top bar, the bottom bar and the side menu.
+   The bot stays inside the free area. */
+function bounds() {
+  const { w, h } = metrics();
+  const root = getComputedStyle(document.documentElement);
+  const num = (name) => parseFloat(root.getPropertyValue(name)) || 0;
+  const mobile = window.matchMedia("(max-width: 899px)").matches;
+  const minX = 6 + (mobile ? 0 : num("--side-now"));
+  const minY = 6 + num("--top-h");
+  return {
+    minX,
+    minY,
+    maxX: Math.max(minX, window.innerWidth - w - 6),
+    maxY: Math.max(minY, window.innerHeight - h - 6 - num("--bar-h")),
+  };
+}
 
 function metrics() {
   const node = bot();
@@ -12,7 +35,7 @@ function metrics() {
 }
 
 function obstacles() {
-  const nodes = [document.querySelector("header"), document.querySelector("main h1")].filter(Boolean);
+  const nodes = [document.querySelector("main h1")].filter(Boolean);
   return nodes.map((el) => {
     const rect = el.getBoundingClientRect();
     return {
@@ -30,10 +53,9 @@ function overlaps(x, y, w, h, rect) {
 
 export function clampBot(x, y) {
   const { w, h } = metrics();
-  const maxX = Math.max(6, window.innerWidth - w - 6);
-  const maxY = Math.max(6, window.innerHeight - h - 6);
-  x = Math.min(Math.max(6, x), maxX);
-  y = Math.min(Math.max(6, y), maxY);
+  const { minX, minY, maxX, maxY } = bounds();
+  x = Math.min(Math.max(minX, x), maxX);
+  y = Math.min(Math.max(minY, y), maxY);
   const blocks = obstacles();
   for (let pass = 0; pass < 6; pass += 1) {
     let hit = false;
@@ -43,10 +65,10 @@ export function clampBot(x, y) {
       const below = rect.bottom + 10;
       const above = rect.top - h - 10;
       if (below <= maxY) y = below;
-      else if (above >= 6) y = above;
+      else if (above >= minY) y = above;
       else y = maxY;
-      x = Math.min(Math.max(6, x), maxX);
-      y = Math.min(Math.max(6, y), maxY);
+      x = Math.min(Math.max(minX, x), maxX);
+      y = Math.min(Math.max(minY, y), maxY);
     }
     if (!hit) break;
   }
@@ -83,12 +105,12 @@ function persist(point) {
 }
 
 function snap(x, y) {
-  const { w, h } = metrics();
+  const b = bounds();
   const candidates = [
-    { x: 8, y },
-    { x: window.innerWidth - w - 8, y },
-    { x, y: 8 },
-    { x, y: window.innerHeight - h - 8 },
+    { x: b.minX, y },
+    { x: b.maxX, y },
+    { x, y: b.minY },
+    { x, y: b.maxY },
   ].sort((a, b) => (a.x - x) ** 2 + (a.y - y) ** 2 - ((b.x - x) ** 2 + (b.y - y) ** 2));
   for (const candidate of candidates) {
     const next = clampBot(candidate.x, candidate.y);
@@ -98,8 +120,8 @@ function snap(x, y) {
 }
 
 export function resetBot() {
-  const { w, h } = metrics();
-  const next = place(window.innerWidth - w - 12, window.innerHeight - h - 12, true);
+  const b = bounds();
+  const next = place(b.maxX - 6, b.maxY - 6, true);
   persist(next);
 }
 
@@ -112,8 +134,8 @@ export function keepBotClear() {
 }
 
 function defaultPoint() {
-  const { w, h } = metrics();
-  return clampBot(window.innerWidth - w - 12, window.innerHeight - h - 12);
+  const b = bounds();
+  return clampBot(b.maxX - 6, b.maxY - 6);
 }
 
 export function initBot() {
@@ -138,20 +160,36 @@ export function initBot() {
       id: event.pointerId,
       dx: event.clientX - rect.left,
       dy: event.clientY - rect.top,
+      sx: event.clientX,
+      sy: event.clientY,
+      t: Date.now(),
+      moved: false,
     };
-    node.classList.add("is-dragging");
     node.setPointerCapture(event.pointerId);
   });
 
   node.addEventListener("pointermove", (event) => {
     if (!drag || event.pointerId !== drag.id) return;
+    if (!drag.moved) {
+      if (Math.hypot(event.clientX - drag.sx, event.clientY - drag.sy) < TAP_SLOP) return;
+      drag.moved = true;
+      node.classList.add("is-dragging");
+      dragStartHandler();
+    }
     place(event.clientX - drag.dx, event.clientY - drag.dy, false);
   });
 
   const finish = (event) => {
     if (!drag || (event.pointerId !== undefined && event.pointerId !== drag.id)) return;
+    const wasDrag = drag.moved;
     drag = null;
     node.classList.remove("is-dragging");
+    if (event.type === "pointercancel") return;
+    if (!wasDrag) {
+      // A press that stayed put is a tap or a click, not a drag.
+      tapHandler(event);
+      return;
+    }
     const rect = node.getBoundingClientRect();
     const next = snap(rect.left, rect.top);
     place(next.x, next.y, true);
@@ -169,7 +207,11 @@ export function initBot() {
     else if (event.key === "ArrowRight") x += step;
     else if (event.key === "ArrowUp") y -= step;
     else if (event.key === "ArrowDown") y += step;
-    else return;
+    else if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      tapHandler(event);
+      return;
+    } else return;
     event.preventDefault();
     const next = place(x, y, false);
     persist(next);

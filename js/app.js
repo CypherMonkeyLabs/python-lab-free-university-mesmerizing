@@ -8,6 +8,9 @@ import { bindSpeech, stopSpeech } from "./speech.js";
 import { drawDiagrams } from "./diagrams.js";
 import { mountGame, stopGame } from "./games.js";
 import { runStudent } from "./runner.js";
+import { sections } from "./content/sections.js";
+import { initShell, bindTilt, bindHeroParallax } from "./shell.js";
+import { initBotPanel } from "./botpanel.js";
 
 const main = () => document.getElementById("main");
 let viewToken = 0;
@@ -37,6 +40,7 @@ function parseRoute() {
   const parts = (location.hash.replace(/^#/, "") || "/").split("/").filter(Boolean);
   if (parts.length === 0) return { name: "home" };
   const [head, a, b] = parts;
+  if (head === "section" && a) return { name: "section", id: a };
   if (head === "track" && a) return { name: "track", id: a };
   if (head === "lesson" && a && b) return { name: "lesson", track: a, lesson: b };
   if (head === "games" && a) return { name: "game", id: a };
@@ -116,15 +120,68 @@ function exerciseBlock(exercise) {
   </section>`;
 }
 
+function heroScene() {
+  const faces = ["def", "class", "import", "async", "[ ]", "py"].map((t, i) => `<div class="cube-face f${i}">${esc(t)}</div>`).join("");
+  const chips = [["Flows", "a"], ["Methods", "b"], ["Modules", "c"], ["Labs", "d"], ["Games", "e"]].map(([t, k]) => `<div class="hero-chip chip-${k}">${t}</div>`).join("");
+  return `<div class="stage3d" aria-hidden="true">
+      <div class="grid-floor"></div>
+      <div class="scene3d">
+        <div class="orbit-ring ring-1"></div><div class="orbit-ring ring-2"></div>
+        <div class="cube">${faces}</div>
+        ${chips}
+        <div class="slab slab-code"><span>&gt;&gt;&gt; print("hello")</span><span>hello</span></div>
+      </div>
+    </div>`;
+}
+
+function sectionTile(s, index) {
+  return `<a class="sec-tile" data-tilt href="${esc(s.href)}" style="--i:${index}">
+    <span class="sec-ico">${icon(s.icon)}</span>
+    <span class="sec-title">${esc(s.title)}</span>
+    <span class="sec-desc">${esc(s.menu)}</span></a>`;
+}
+
+function sectionView(id) {
+  const section = sections.find((item) => item.id === id);
+  if (!section) return missingView();
+  const links = section.links();
+  return {
+    html: `${crumbs([{ href: "#/", label: "Home" }, { href: section.href, label: section.title }])}
+      <section class="sec-hero" data-tilt-hero>
+        <span class="sec-hero-ico">${icon(section.icon)}</span>
+        <div><h1>${esc(section.title)}</h1><p class="lede" data-speak>${esc(section.intro)}</p></div>
+      </section>
+      <div class="card-grid">${links.map((link) => `<a class="lesson-row" data-tilt href="${esc(link.href)}">
+        <span class="row-top">${icon(link.icon || section.icon)}<span><span class="row-label">${esc(link.title)}</span><span class="row-desc">${esc(link.desc)}</span></span></span></a>`).join("")}</div>
+      <h2>Other sections</h2>
+      <div class="sec-grid">${sections.filter((item) => item.id !== id).map(sectionTile).join("")}</div>`,
+    after() { bindTilt(main()); },
+  };
+}
+
 function homeView() {
   const cards = [
     ...tracks.map((track) => ({ href: `#/track/${track.id}`, title: track.title, menu: track.menu, icon: track.icon })),
     ...extras,
   ];
   return {
-    html: `<p class="kicker"><span class="pill">Free</span><span class="pill">Static</span><span class="pill">No account</span></p>
-      <h1>Python Lab</h1>
-      <p class="lede" data-speak>A study studio for anyone learning Python, for as long as you want to stay. It starts at the first line and keeps going through objects, tests, data, the web, and the habits that make interview practice calmer.</p>
+    html: `<section class="hero3d">
+        <div class="hero-copy">
+          <p class="kicker"><span class="pill">Free</span><span class="pill">Static</span><span class="pill">No account</span><span class="pill">Runs in your browser</span></p>
+          <h1>Python Lab</h1>
+          <p class="lede" data-speak>A free study university for anyone learning Python, for as long as you want to stay. It starts at the first line and keeps going through flows, methods, modules, labs, integrations, and a lifetime of learning.</p>
+          <div class="hero-cta">
+            <a class="primary cta" href="#/section/start">Start here</a>
+            <a class="text-btn cta" href="#/practice">Open a lab</a>
+            <a class="text-btn cta" href="#/section/resources">Resources</a>
+          </div>
+          <p class="hero-hint">Use the menu (left side, or the ☰ button on a phone) or tap the bot for a guide.</p>
+        </div>
+        ${heroScene()}
+      </section>
+      <h2 class="sec-heading">Ten sections, one path</h2>
+      <p class="sec-sub">Every section opens a landing page with its lessons, labs, and links.</p>
+      <div class="sec-grid">${sections.map(sectionTile).join("")}</div>
       <p data-speak>Lucky is a lifelong student and an AI enthusiast. He is moving into AI omni-channel agents, and this lab is the notebook he is willing to share: cited, runnable in the browser, and free of invented salary claims.</p>
       ${roomScene({ title: "Lobby of the lab.", cards: ["Syntax", "Data", "Agents"], screen: "print('hello')" })}
       <section class="clips">
@@ -160,6 +217,8 @@ function homeView() {
       <div class="menu-grid" id="menu-grid">${cards.map(menuCard).join("")}</div>
       <p class="empty" id="menu-empty" hidden>No topic matches that filter.</p>`,
     after(token) {
+      bindTilt(main());
+      bindHeroParallax(main());
       startOrbit();
       const input = document.getElementById("menu-filter");
       const empty = document.getElementById("menu-empty");
@@ -190,7 +249,7 @@ function trackView(id) {
       <span class="kicker"><span class="pill">${esc(lesson.level)}</span><span class="pill">${lesson.minutes} min read</span>${done[`${track.id}/${lesson.id}`] === "passed" ? '<span class="pill">Checks passed</span>' : ""}</span>
     </a>`).join("");
   return {
-    html: `${crumbs([{ href: "#/", label: "Menu" }, { href: `#/track/${track.id}`, label: track.title }])}
+    html: `${crumbs([{ href: "#/", label: "Home" }, { href: `#/track/${track.id}`, label: track.title }])}
       <h1>${esc(track.title)}</h1>
       <p class="lede" data-speak>${esc(track.intro)}</p>
       ${roomScene({ title: track.title + " studio.", cards: track.lessons.slice(0, 3).map((lesson) => lesson.title), screen: "py" })}
@@ -211,7 +270,7 @@ function lessonView(trackId, lessonId) {
       ${next ? `<a class="text-btn" href="#/lesson/${track.id}/${next.id}">Next: ${esc(next.title)}</a>` : ""}
     </nav>`;
   return {
-    html: `${crumbs([{ href: "#/", label: "Menu" }, { href: `#/track/${track.id}`, label: track.title }, { href: `#/lesson/${track.id}/${lesson.id}`, label: lesson.title }])}
+    html: `${crumbs([{ href: "#/", label: "Home" }, { href: `#/track/${track.id}`, label: track.title }, { href: `#/lesson/${track.id}/${lesson.id}`, label: lesson.title }])}
       <p class="kicker"><span class="pill">${esc(lesson.level)}</span><span class="pill">${lesson.minutes} min read</span></p>
       <h1>${esc(lesson.title)}</h1>
       <p class="summary" data-speak>${esc(lesson.summary)}</p>
@@ -246,7 +305,7 @@ function lessonView(trackId, lessonId) {
 function practiceView() {
   const starter = 'print("Hello from Python Lab")\n';
   return {
-    html: `${crumbs([{ href: "#/", label: "Menu" }, { href: "#/practice", label: "Practice desk" }])}
+    html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/practice", label: "Practice desk" }])}
       <h1>Practice desk</h1>
       <p class="lede" data-speak>This is a Python 3.14 interpreter compiled to WebAssembly and stored with the site. Your code stays in the browser. The first run reads the local runtime files, which are several megabytes.</p>
       <p>NumPy 2.4.6 and pandas 3.0.2 are included. There is no install from the public internet. Sockets and TLS are limited here, so treat this as a language desk, not a place to call other servers.</p>
@@ -352,7 +411,7 @@ function gamesView() {
     { href: "#/games/adventure", title: "Import Error", menu: "A text adventure about finding a missing module.", icon: "games" },
   ];
   return {
-    html: `${crumbs([{ href: "#/", label: "Menu" }, { href: "#/games", label: "Games" }])}
+    html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/games", label: "Games" }])}
       <h1>Games</h1>
       <p class="lede">Short games in the same lab. They use the browser, not the Python runtime, so they start immediately.</p>
       <div class="menu-grid">${cards.map(menuCard).join("")}</div>`,
@@ -367,7 +426,7 @@ function gameView(id) {
   };
   if (!titles[id]) return missingView();
   return {
-    html: `${crumbs([{ href: "#/", label: "Menu" }, { href: "#/games", label: "Games" }, { href: `#/games/${id}`, label: titles[id][0] }])}
+    html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/games", label: "Games" }, { href: `#/games/${id}`, label: titles[id][0] }])}
       <h1>${esc(titles[id][0])}</h1>
       <p class="lede">${esc(titles[id][1])}</p>
       <div id="game-root"></div>`,
@@ -389,7 +448,7 @@ function quizzesView() {
     icon: "quizzes",
   });
   return {
-    html: `${crumbs([{ href: "#/", label: "Menu" }, { href: "#/quizzes", label: "Quizzes" }])}
+    html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/quizzes", label: "Quizzes" }])}
       <h1>Quizzes</h1>
       <p class="lede">Each question has one intended answer and a reason. The reason matters more than the score.</p>
       <div class="menu-grid">${cards.map(menuCard).join("")}</div>`,
@@ -415,7 +474,7 @@ function quizView(id) {
   const bank = quizBank(id);
   if (!bank) return missingView();
   return {
-    html: `${crumbs([{ href: "#/", label: "Menu" }, { href: "#/quizzes", label: "Quizzes" }, { href: `#/quiz/${id}`, label: bank.title }])}
+    html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/quizzes", label: "Quizzes" }, { href: `#/quiz/${id}`, label: bank.title }])}
       <h1>${esc(bank.title)}</h1>
       <div id="quiz-root"></div>`,
     after() { mountQuiz(id, bank, document.getElementById("quiz-root")); },
@@ -483,7 +542,7 @@ function ecosystemView(panel) {
     body = `<div class="card-grid">${ecosystem.hooks.map((item) => `<article class="panel" data-speak><h2>${esc(item.title)}</h2><p>${esc(item.text)}</p></article>`).join("")}</div>`;
   }
   return {
-    html: `${crumbs([{ href: "#/", label: "Menu" }, { href: "#/ecosystem/glossary", label: "Ecosystem" }])}
+    html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/ecosystem/glossary", label: "Ecosystem" }])}
       <h1>Ecosystem</h1>
       <p class="lede" data-speak>Python is a language sitting among other tools. This section names the neighbors without pretending they are a ranking.</p>
       <nav class="toolbar" aria-label="Ecosystem">${nav}</nav>
@@ -521,7 +580,7 @@ function downloadsView() {
       <p><a href="downloads/${name}.txt" download>Download plain text</a></p>
     </article>`).join("");
   return {
-    html: `${crumbs([{ href: "#/", label: "Menu" }, { href: "#/downloads", label: "Downloads" }])}
+    html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/downloads", label: "Downloads" }])}
       <h1>Downloads</h1>
       <p class="lede">These files are in the site. The PDF and the text copy contain the same notes. They are study aids from 17 October 2026, not specifications.</p>
       <div class="download-grid">${cards}</div>`,
@@ -540,7 +599,7 @@ function sourcesView(id) {
   });
   const html = groups.map((group) => `<section><h2>${esc(group.name)}</h2><ul class="source-list">${group.items.map((source) => `<li id="${esc(source.id)}"><a href="${esc(source.url)}">${esc(source.title)}</a><p>${esc(source.detail)}</p></li>`).join("")}</ul></section>`).join("");
   return {
-    html: `${crumbs([{ href: "#/", label: "Menu" }, { href: "#/sources", label: "Sources" }])}
+    html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/sources", label: "Sources" }])}
       <h1>Sources</h1>
       <p class="lede" data-speak>Facts in the lab point here. Official pages win if a lesson and a live page ever disagree, especially for exam prices and release dates. This snapshot was written on 17 October 2026.</p>
       ${html}`,
@@ -553,7 +612,7 @@ function sourcesView(id) {
 
 function aboutView() {
   return {
-    html: `${crumbs([{ href: "#/", label: "Menu" }, { href: "#/about", label: "About" }])}
+    html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/about", label: "About" }])}
       <h1>About Lucky</h1>
       <p class="lede" data-speak>Lucky is a lifelong student and an AI enthusiast. He is moving into AI omni-channel agents: systems that can meet a person on more than one channel and still be studying the same task. Python Lab is part of that study, not a résumé squeezed into one job title.</p>
       <p>He shares what he is learning while he learns it. The lab is free, it cites its sources, and it does not invent income figures or a personal biography that was never written down.</p>
@@ -579,7 +638,7 @@ function roomsView(id) {
   const room = rooms[id] || rooms.lobby;
   const links = Object.entries(rooms).map(([key, value]) => `<a class="text-btn" href="#/rooms/${key}">${esc(value.title)}</a>`).join("");
   return {
-    html: `${crumbs([{ href: "#/", label: "Menu" }, { href: "#/rooms/lobby", label: "Rooms" }])}
+    html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/rooms/lobby", label: "Rooms" }])}
       <h1>${esc(room.title)}</h1>
       <p class="lede" data-speak>${esc(room.text)}</p>
       <nav class="toolbar" aria-label="Rooms">${links}</nav>
@@ -598,6 +657,7 @@ function missingView() {
 
 function viewFor(route) {
   if (route.name === "home") return homeView();
+  if (route.name === "section") return sectionView(route.id);
   if (route.name === "track") return trackView(route.id);
   if (route.name === "lesson") return lessonView(route.track, route.lesson);
   if (route.name === "practice") return practiceView();
@@ -670,7 +730,9 @@ function render() {
 }
 
 applyTheme(document.documentElement.dataset.theme || "ink", false);
+initShell();
 initBot();
+initBotPanel();
 window.addEventListener("hashchange", render);
 document.addEventListener("click", (event) => {
   const themeButton = event.target.closest("[data-theme-set]");
