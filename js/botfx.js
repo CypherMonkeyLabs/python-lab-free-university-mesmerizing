@@ -19,6 +19,7 @@ function side() {
   node.dataset.side = r.left < 170 ? "left" : "right";
 }
 
+export function setIntro(t) { MESSAGES[0] = t; }
 export function sayBot(text) {
   const b = document.getElementById("bot-bubble");
   if (!b) return;

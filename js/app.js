@@ -28,6 +28,8 @@ import { initTour } from "./tour.js";
 import { initWelcome } from "./welcome.js";
 import { levelView, meView, levelCards } from "./views2.js";
 import { PLAY } from "./play.js";
+import { DOWNLOADS, FORMAT_LABEL } from "./content/downloads.js";
+import { initPy } from "./pycustom.js";
 
 const main = () => document.getElementById("main");
 let viewToken = 0;
@@ -216,7 +218,7 @@ function homeView() {
         <div class="ring3d" style="--n:${decks.length}" aria-hidden="true"><div class="ring-spin">${decks.map((d, i) => `<span style="--i:${i}">${esc(d.title.split(" ").slice(0, 3).join(" "))}</span>`).join("")}</div><b class="ring-core">py</b></div></section>
       <p data-speak>Lucky is a lifelong student and an AI enthusiast. He is moving into AI omni-channel agents, and this lab is the notebook he is willing to share: cited, runnable in the browser, and free of invented salary claims.</p>
       ${roomScene({ title: "Lobby of the lab.", cards: ["Syntax", "Data", "Agents"], screen: "print('hello')" })}
-      <section class="clips">
+      <section class="clips" id="clips">
         <h2>Motion, without Flash</h2>
         <p>These clips were generated for the lab with ffmpeg. They are short on purpose. The canvas beside them is HTML5.</p>
         <div class="clip-grid">
@@ -601,27 +603,19 @@ function ecosystemView(panel) {
 }
 
 function downloadsView() {
-  const files = [
-    ["python-syntax-cheatsheet", "Syntax cheat sheet", "Indentation, types, control flow, and a few current language notes."],
-    ["data-structures-cheatsheet", "Data structures cheat sheet", "Lists, dicts, deques, and how to talk about cost."],
-    ["stdlib-typing-cheatsheet", "Standard library and typing", "Modules to reach for, annotation forms, and what is not in the standard library."],
-    ["study-checklist", "Study checklist", "A study order, a reminder about pay claims, and the exam pages to open."],
-  ];
-  const cards = files.map(([name, title, text]) => `<article class="download-card">
-      <h2>${esc(title)}</h2>
-      <p>${esc(text)}</p>
-      <p><a class="primary" href="downloads/${name}.pdf" download>Download PDF</a></p>
-      <p><a href="downloads/${name}.txt" download>Download plain text</a></p>
+  const cards = DOWNLOADS.map((d) => `<article class="download-card" data-download="${esc(d.id)}">
+      <h2>${esc(d.title)}</h2>
+      <p>${esc(d.desc)}</p>
+      <p>${d.formats.map((f, i) => `<a class="${i === 0 ? "primary" : ""}" href="downloads/${d.src}.${f}" download>${FORMAT_LABEL[f]}</a>`).join(" ")}</p>
     </article>`).join("");
   return {
     html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/downloads", label: "Downloads" }])}
       <h1>Downloads</h1>
       <p class="lede">These files are in the site. The PDF and the text copy contain the same notes. They are study aids from 17 October 2026, not specifications.</p>
       <div class="download-grid">${cards}</div>
-      <h2>Slides, notebook, diagrams, and the whole lab</h2>
+      <h2>Slides, diagrams, and the whole lab</h2>
       <div class="download-grid">
-        <article class="download-card"><h2>Slides as Markdown</h2><p>Every slide from all ${decks.length} decks, with code and output.</p><p><a class="primary" href="downloads/python-lab-slides.md" download>Download Markdown</a></p><p><a href="#/slides">Open the decks, then use Print to save a PDF</a></p></article>
-        <article class="download-card"><h2>Code samples notebook</h2><p>A Jupyter notebook with the code from the slides and guides and its saved output. Open it on your own computer.</p><p><a class="primary" href="downloads/python-lab-code-samples.ipynb" download>Download .ipynb</a></p></article>
+        <article class="download-card"><h2>Slides on screen</h2><p>Prefer slides you can page through? <a href="#/slides">Open the decks, then use Print to save a PDF</a>.</p></article>
         <article class="download-card"><h2>Diagrams</h2><p>Each diagram is one self-contained HTML file that opens offline.</p><ul class="dl-list">${diagrams.map((d) => `<li><a href="diagrams/${esc(d.file)}" download>${esc(d.title)}</a></li>`).join("")}</ul></article>
         <article class="download-card"><h2>The whole lab</h2><p>Plain files. Unzip, run <code>python3 -m http.server</code> in the folder, and open it.</p><p><a class="primary" href="https://github.com/CypherMonkeyLabs/python-lab-free-university-mesmerizing/archive/refs/heads/main.zip" rel="noopener">Download ZIP from GitHub</a></p></article>
       </div>`,
@@ -785,6 +779,7 @@ initShell();
 initBot();
 initBotPanel();
 initBotFx();
+initPy();
 initHowTo();
 initFx();
 initXP();
