@@ -1,5 +1,7 @@
 import { trackById, tracks, extras } from "./catalog.js";
 import { diagrams, diagramById } from "./diagrams.js";
+import { decks, deckById } from "./slides.js";
+import { guides, guideById } from "./guides.js";
 
 function L(trackId, lessonId) {
   const track = trackById(trackId);
@@ -78,6 +80,16 @@ export const sections = [
   },
 ];
 
+sections.forEach((sec) => {
+  const base = sec.links;
+  sec.links = () => list([
+    ...base(),
+    ...(sec.id === "resources" ? [X("All slide decks", "#/slides", `${decks.length} decks, fundamentals to advanced. Arrow keys or swipe.`, "rooms"), X("All guides", "#/guides", "Deep dives with flows, code, diagrams, and sources.", "fundamentals")] : []),
+    ...decks.filter((d) => d.section === sec.id).map((d) => X(`Slides: ${d.title}`, `#/slides/${d.id}`, `${d.level}. ${d.slides.length} slides.`, d.icon)),
+    ...guides.filter((g) => g.section === sec.id).map((g) => X(`Guide: ${g.title}`, `#/guide/${g.id}`, g.blurb, g.icon)),
+  ]);
+});
+
 const FLOW_LESSONS = ["control"];
 const METHOD_LESSONS = ["functions", "classes"];
 
@@ -87,6 +99,10 @@ export function sectionFor(hash) {
   if ((m = h.match(/^#\/section\/([a-z]+)/))) return m[1];
   if (h === "#/" || h === "#" || h === "") return null;
   if (h.startsWith("#/practice")) return "labs";
+  if (h === "#/slides") return "resources";
+  if (h === "#/guides") return "resources";
+  if ((m = h.match(/^#\/slides\/([a-z0-9-]+)/))) return deckById(m[1])?.section || "resources";
+  if ((m = h.match(/^#\/guide\/([a-z0-9-]+)/))) return guideById(m[1])?.section || "resources";
   if (h === "#/diagrams") return "flows";
   if ((m = h.match(/^#\/diagram\/([a-z-]+)/))) return diagramById(m[1])?.sections[0] || "flows";
   if (/^#\/(games|quiz|quizzes|rooms)/.test(h)) return "games";
@@ -129,6 +145,8 @@ export function searchIndex() {
     t.lessons.forEach((l) => rows.push({ title: l.title, desc: l.summary, href: `#/lesson/${t.id}/${l.id}`, kind: "Lesson", icon: t.icon }));
   });
   diagrams.forEach((d) => rows.push({ title: d.title, desc: `${d.type} diagram. ${d.blurb}`, href: `#/diagram/${d.id}`, kind: "Diagram", icon: d.icon }));
+  decks.forEach((d) => rows.push({ title: `Slides: ${d.title}`, desc: `${d.level} deck, ${d.slides.length} slides. ${d.blurb}`, href: `#/slides/${d.id}`, kind: "Slides", icon: d.icon }));
+  guides.forEach((g) => rows.push({ title: g.title, desc: `Guide. ${g.blurb}`, href: `#/guide/${g.id}`, kind: "Guide", icon: g.icon }));
   extras.forEach((e) => rows.push({ title: e.title, desc: e.menu, href: e.href, kind: "Page", icon: e.icon }));
   return rows;
 }
