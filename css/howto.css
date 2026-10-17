@@ -1,0 +1,36 @@
+/* First-visit "How to use this site" dialog. */
+.howto-scrim { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; padding: 12px; background: rgba(4, 8, 16, 0.72); backdrop-filter: blur(3px); }
+.howto-scrim[hidden] { display: none; }
+body.howto-open { overflow: hidden; }
+.howto {
+  position: relative; width: min(880px, 100%); max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px); overflow: auto; border-radius: 22px;
+  background: var(--bg-elev); color: var(--ink); border: 2px solid transparent;
+  background-image: linear-gradient(var(--bg-elev), var(--bg-elev)), linear-gradient(120deg, #22d3ee, #a78bfa, #f472b6, #fde047, #34d399);
+  background-origin: border-box; background-clip: padding-box, border-box;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6); animation: howto-in 320ms cubic-bezier(.2, 1.2, .4, 1); transform-origin: 50% 60%;
+}
+@keyframes howto-in { from { opacity: 0; transform: perspective(900px) rotateX(14deg) translateY(24px) scale(0.94); } to { opacity: 1; transform: none; } }
+.howto-head { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: inherit; border-bottom: 1px solid var(--line); }
+.howto-head h2 { margin: 0; flex: 1; font-size: clamp(1.15rem, 3.4vw, 1.55rem); }
+.howto-mascot { width: 44px; height: 44px; flex: none; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(145deg, #4b8bbe, #306998); box-shadow: 0 0 0 3px #ffd43b; font: 700 1rem "IBM Plex Mono", monospace; color: #ffd43b; }
+.howto-x { width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font-size: 1.6rem; line-height: 1; cursor: pointer; }
+.howto-body { padding: 14px 18px 8px; }
+.howto-lede { margin: 0 0 12px; color: var(--muted); }
+.howto-group { margin: 14px 0 6px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-2); font-weight: 700; }
+.howto-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+.howto-card { display: flex; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); transform: perspective(600px) rotateX(0); transition: transform 160ms, border-color 160ms; }
+.howto-card:hover { transform: perspective(600px) rotateX(3deg) translateY(-2px); border-color: var(--accent); }
+.howto-card .hc-ico { flex: none; width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; color: #10233a; background: linear-gradient(135deg, var(--c1, #22d3ee), var(--c2, #a78bfa)); }
+.howto-card b { display: block; font-size: 0.98rem; } .howto-card span.hc-t { font-size: 0.88rem; color: var(--muted); display: block; }
+.howto-card a, .howto-card button.linklike { color: var(--accent-2); }
+.howto-card button.linklike { background: none; border: 0; padding: 0; font: inherit; text-decoration: underline; cursor: pointer; min-height: 28px; }
+.howto-themes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.howto-themes button { min-height: 36px; padding: 2px 12px; border: 1px solid var(--line); border-radius: 99px; background: var(--bg-elev); color: var(--ink); font: inherit; font-size: 0.85rem; cursor: pointer; }
+.howto-themes button:hover { border-color: var(--accent); }
+.howto-keys { display: flex; flex-wrap: wrap; gap: 8px 14px; margin: 10px 0 0; padding: 0; list-style: none; font-size: 0.9rem; }
+.howto-keys kbd { padding: 1px 8px; border: 1px solid var(--line); border-bottom-width: 3px; border-radius: 6px; background: var(--bg); font-family: "IBM Plex Mono", monospace; }
+.howto-foot { position: sticky; bottom: 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 12px 18px; background: inherit; border-top: 1px solid var(--line); }
+.howto-foot .primary { flex: none; }
+.howto-foot small { color: var(--muted); flex: 1 1 200px; }
+@media (max-width: 560px) { .howto { border-radius: 18px; } .howto-grid { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .howto { animation: none; } .howto-card { transition: none; } .howto-card:hover { transform: none; } }

@@ -23,6 +23,7 @@ function build() {
   if (cont) go.push(`<a class="bp-go bp-primary" href="${esc(cont.href)}"><b>${done ? "Continue learning" : "Start the first lesson"}</b><span>${esc(cont.title)}</span></a>`);
   if (next && (!cont || next.href !== cont.href)) go.push(`<a class="bp-go" href="${esc(next.href)}"><b>Next page</b><span>${esc(next.title)}</span></a>`);
   go.push(`<a class="bp-go" href="#/practice"><b>Open a lab</b><span>Run Python in your browser</span></a>`);
+  go.push(`<button type="button" class="bp-go" data-open-help><b>How to use this site</b><span>Menus, search, downloads, themes, slides</span></button>`);
   const quick = sections.map((s) => `<a class="bp-chip" href="${esc(s.href)}">${esc(s.title)}</a>`).join("");
   panel().innerHTML = `<div class="bp-head"><h2 id="bot-panel-title">${esc(greeting())}</h2>
       <button type="button" class="bp-close" id="bp-close" aria-label="Close the helper">&times;</button></div>
@@ -74,7 +75,7 @@ export function initBotPanel() {
     if (e.target.closest("#bp-close")) closePanel(true);
     else if (e.target.closest("#bp-reset")) { resetBot(); closePanel(); }
     else if (e.target.closest("#bp-search")) { closePanel(); document.body.classList.add("search-open"); document.getElementById("top-search")?.focus(); }
-    else if (e.target.closest("a")) closePanel();
+    else if (e.target.closest("a") || e.target.closest("[data-open-help]")) closePanel();
   });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closePanel(true); });
   document.addEventListener("pointerdown", (e) => {

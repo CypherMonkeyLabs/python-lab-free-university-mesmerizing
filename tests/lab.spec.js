@@ -41,7 +41,10 @@ const routes = [
   "/#/section/resources",
 ];
 
-const brandHosts = new Set(["cyphermonkeylabs.com", "www.cyphermonkeylabs.com", "github.com", "www.github.com", "linktr.ee", "www.linktr.ee"]);
+const SEEN = () => localStorage.setItem("pythonlab.howto.v1", JSON.stringify({ seen: true }));
+test.beforeEach(async ({ context }) => { await context.addInitScript(SEEN); });
+
+const brandHosts = new Set(["cyphermonkeylabs.com", "www.cyphermonkeylabs.com", "github.com", "www.github.com", "linktr.ee", "www.linktr.ee", "creativecommons.org", "www.creativecommons.org"]);
 
 async function assertLayout(page) {
   const h1 = page.locator("h1");
@@ -269,7 +272,7 @@ test("desktop shell: left menu, top bar, bottom bar, 3D hero", async ({ page }) 
   await page.locator("#bar-next").click();
   await expect(page).toHaveURL(/#\/section\/methods/);
   await page.locator("#top-search").fill("numpy");
-  await expect(page.locator("#search-results .sr-item").first()).toBeVisible();
+  await expect(page.locator("#search-results .sr-item").first()).toContainText("NumPy");
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/numpy|data/);
   expect(errors).toEqual([]);
@@ -277,6 +280,7 @@ test("desktop shell: left menu, top bar, bottom bar, 3D hero", async ({ page }) 
 
 test("phone shell: hamburger drawer and bottom bar", async ({ browser }) => {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+    await ctx.addInitScript(SEEN);
   const page = await ctx.newPage();
   const errors = watchErrors(page);
   await page.goto("/");
@@ -295,6 +299,7 @@ test("phone shell: hamburger drawer and bottom bar", async ({ browser }) => {
 test("bot opens a panel on click and tap, and still drags", async ({ browser }) => {
   for (const touch of [false, true]) {
     const ctx = await browser.newContext({ viewport: touch ? { width: 390, height: 844 } : { width: 1440, height: 900 }, hasTouch: touch, isMobile: touch });
+    await ctx.addInitScript(SEEN);
     const page = await ctx.newPage();
     const errors = watchErrors(page);
     await page.goto("/");
@@ -322,4 +327,54 @@ test("bot opens a panel on click and tap, and still drags", async ({ browser }) 
     await ctx.close();
     expect(errors).toEqual([]);
   }
+});
+
+test("footer has the canon disclaimer, the brand icon bar, and the shortcut bar", async ({ page }) => {
+  const errors = watchErrors(page);
+  await page.goto("/");
+  const foot = page.locator("#site-footer");
+  await foot.scrollIntoViewIfNeeded();
+  await expect(foot.locator(".disclaimer-panel")).toContainText("independent, free, learning-only student project");
+  await expect(foot.locator(".disclaimer-panel")).toContainText("not affiliated with or endorsed by");
+  await expect(foot.locator(".brand-icons a.brand-icon")).toHaveCount(3);
+  await expect(foot.locator(".footer-bar .fb-item")).toHaveCount(7);
+  await expect(foot).toContainText("© 2026 CypherMonkeyLabs");
+  const hrefs = await foot.locator(".brand-icons a").evaluateAll((els) => els.map((e) => e.href));
+  expect(hrefs).toEqual(["https://cyphermonkeylabs.com/", "https://github.com/CypherMonkeyLabs", "https://linktr.ee/cypherMonkey"]);
+  expect(errors).toEqual([]);
+});
+
+test("first visit shows the how-to dialog once, Help reopens it", async ({ browser }) => {
+  for (const touch of [false, true]) {
+    const ctx = await browser.newContext({ viewport: touch ? { width: 390, height: 844 } : { width: 1440, height: 900 }, hasTouch: touch, isMobile: touch });
+    const page = await ctx.newPage();
+    const errors = watchErrors(page);
+    await page.goto("/");
+    const dlg = page.locator("#howto");
+    await expect(dlg).toBeVisible({ timeout: 4000 });
+    await expect(dlg).toContainText("Left menu");
+    await expect(dlg).toContainText("Cheat sheets");
+    await expect(dlg).toContainText("Four themes");
+    if (touch) await page.locator("#howto-ok").tap(); else await page.keyboard.press("Escape");
+    await expect(dlg).toBeHidden();
+    await page.reload();
+    await page.waitForTimeout(1500);
+    await expect(page.locator("#howto")).toHaveCount(0);
+    if (touch) await page.locator("#help-btn").tap(); else await page.locator("#help-btn").click();
+    await expect(page.locator("#howto")).toBeVisible();
+    await page.locator('[data-howto-theme="paper"]').click();
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "paper");
+    await page.locator("#howto-x").click();
+    await expect(page.locator("#howto")).toBeHidden();
+    await ctx.close();
+    expect(errors).toEqual([]);
+  }
+});
+
+test("the bot is labelled, colourful and animated", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("#bot-bubble")).toContainText("Py");
+  await expect(page.locator("#lab-bot .bot-svg text")).toHaveText("BOT");
+  expect(await page.locator("#lab-bot .bulb").evaluate((el) => getComputedStyle(el).animationName)).toBe("bulb");
+  expect(await page.locator("#lab-bot .eye").first().evaluate((el) => getComputedStyle(el).animationName)).toBe("blink");
 });
