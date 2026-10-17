@@ -13,7 +13,7 @@ export const BADGES = [
   { id: "turtle-artist", title: "Turtle artist", desc: "Run a turtle drawing.", icon: "🐢" },
   { id: "loop-master", title: "Loop master", desc: "Solve the loop visualiser.", icon: "🔁" },
   { id: "sorter", title: "Code sorter", desc: "Put a program in the right order.", icon: "🧩" },
-  { id: "arcade-pro", title: "Arcade pro", desc: "Score 5 in Snake or Pong.", icon: "🕹️" },
+  { id: "arcade-pro", title: "Arcade pro", desc: "Win Pong or grow the snake to length 8.", icon: "🕹️" },
   { id: "level-3", title: "Level 3 reached", desc: "Earn enough XP for level 3.", icon: "🚀" },
 ];
 

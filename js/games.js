@@ -1,5 +1,8 @@
 let stopCurrent = () => {};
 
+import { win } from "./xp.js";
+import { isPlay, mountPlay } from "./play.js";
+
 export function stopGame() {
   stopCurrent();
   stopCurrent = () => {};
@@ -10,6 +13,7 @@ export function mountGame(id, root) {
   if (id === "guess") stopCurrent = mountGuess(root);
   else if (id === "snake") stopCurrent = mountSnake(root);
   else if (id === "adventure") stopCurrent = mountAdventure(root);
+  else if (isPlay(id)) stopCurrent = mountPlay(id, root);
 }
 
 function mountGuess(root) {
@@ -45,7 +49,7 @@ function mountGuess(root) {
     }
     count += 1;
     countEl.textContent = String(count);
-    if (value === secret) status.textContent = `Yes. ${value} was the number, in ${count} guesses.`;
+    if (value === secret) { status.textContent = `Yes. ${value} was the number, in ${count} guesses.`; win("guess", 15); }
     else if (value < secret) status.textContent = `${value} is lower than the secret.`;
     else status.textContent = `${value} is higher than the secret.`;
   });
@@ -105,6 +109,7 @@ function mountSnake(root) {
     if (head.x === food.x && head.y === food.y) placeFood();
     else snake.pop();
     score.textContent = String(snake.length);
+    if (snake.length >= 8) win("snake", 25, "arcade-pro");
   }
 
   function draw() {
@@ -281,6 +286,7 @@ function mountAdventure(root) {
       }
       if (name === "beacon" && state.room === "desk") {
         state.won = true;
+        win("adventure", 30);
         write("import beacon is accepted. The reader wakes up. You did it.");
         return;
       }

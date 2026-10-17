@@ -55,10 +55,10 @@ export const sections = [
     links: () => list([X("Practice desk", "#/practice", "A free editor with stdlib, NumPy, and pandas.", "practice"), L("data", "tables"), L("data", "numpy"), L("data", "pandas"), L("automation", "scripts"), L("projects", "catalog")]),
   },
   {
-    id: "games", title: "Games", icon: "games", menu: "Guess, Snake, Import Error, and quizzes.",
+    id: "games", title: "Games", icon: "games", menu: "Block, turtle, loop and list puzzles, Pong, Snake, quizzes.",
     href: "#/section/games",
     intro: "Short games and quizzes that start instantly because they do not need the Python runtime. Good for a five minute break.",
-    links: () => list([X("Guess the integer", "#/games/guess", "Higher or lower, from 1 to 100.", "games"), X("Snake", "#/games/snake", "Steer with keys, swipes, or buttons.", "games"), X("Import Error", "#/games/adventure", "A text adventure about a missing module.", "games"), X("Quizzes", "#/quizzes", "Short checks with an explanation and a source.", "quizzes"), X("Interview warm-up", "#/quiz/interview", "Mixed questions about language behaviour.", "quizzes"), X("Rooms", "#/rooms/lobby", "Walk the CSS 3D studios.", "rooms")]),
+    links: () => list([X("Guess the integer", "#/games/guess", "Higher or lower, from 1 to 100.", "games"), X("Snake", "#/games/snake", "Steer with keys, swipes, or buttons.", "games"), X("Import Error", "#/games/adventure", "A text adventure about a missing module.", "games"), X("Blocks to Python", "#/games/blocks", "Build with blocks, see the Python.", "games"), X("Turtle art", "#/games/turtle", "Loops draw patterns.", "games"), X("Loop visualiser", "#/games/loops", "Watch variables change.", "games"), X("List lab", "#/games/lists", "Reach a target list.", "games"), X("Code sorter", "#/games/order", "Put lines in order.", "games"), X("Pong", "#/games/pong", "First to 3.", "games"), X("Quizzes", "#/quizzes", "Short checks with an explanation and a source.", "quizzes"), X("Interview warm-up", "#/quiz/interview", "Mixed questions about language behaviour.", "quizzes"), X("Rooms", "#/rooms/lobby", "Walk the CSS 3D studios.", "rooms")]),
   },
   {
     id: "integrations", title: "Integrations", icon: "web", menu: "Web, AI agents, tooling, and the wider ecosystem.",
@@ -147,6 +147,7 @@ export function searchIndex() {
   diagrams.forEach((d) => rows.push({ title: d.title, desc: `${d.type} diagram. ${d.blurb}`, href: `#/diagram/${d.id}`, kind: "Diagram", icon: d.icon }));
   decks.forEach((d) => rows.push({ title: `Slides: ${d.title}`, desc: `${d.level} deck, ${d.slides.length} slides. ${d.blurb}`, href: `#/slides/${d.id}`, kind: "Slides", icon: d.icon }));
   guides.forEach((g) => rows.push({ title: g.title, desc: `Guide. ${g.blurb}`, href: `#/guide/${g.id}`, kind: "Guide", icon: g.icon }));
+  [["blocks","Blocks to Python"],["turtle","Turtle art"],["loops","Loop visualiser"],["lists","List lab"],["order","Code sorter"],["pong","Pong"],["guess","Guess the integer"],["snake","Snake"],["adventure","Import Error"]].forEach(([id, t]) => rows.push({ title: t, desc: "Game or puzzle", href: `#/games/${id}`, kind: "Game", icon: "games" }));
   extras.forEach((e) => rows.push({ title: e.title, desc: e.menu, href: e.href, kind: "Page", icon: e.icon }));
   return rows;
 }
