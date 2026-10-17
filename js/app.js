@@ -13,6 +13,7 @@ import { initShell, bindTilt, bindHeroParallax } from "./shell.js";
 import { initBotPanel } from "./botpanel.js";
 import { initHowTo } from "./howto.js";
 import { initBotFx } from "./botfx.js";
+import { diagramsView, diagramView, diagramStrip, watchDiagramTheme } from "./views.js";
 
 const main = () => document.getElementById("main");
 let viewToken = 0;
@@ -51,6 +52,8 @@ function parseRoute() {
   if (head === "quizzes") return { name: "quizzes" };
   if (head === "ecosystem") return { name: "ecosystem", panel: a || "glossary" };
   if (head === "rooms") return { name: "rooms", id: a || "lobby" };
+  if (head === "diagrams") return { name: "diagrams" };
+  if (head === "diagram" && a) return { name: "diagram", id: a };
   if (head === "sources") return { name: "sources", id: a || "" };
   if (["practice", "downloads", "about"].includes(head)) return { name: head };
   return { name: "missing" };
@@ -155,6 +158,7 @@ function sectionView(id) {
       </section>
       <div class="card-grid">${links.map((link) => `<a class="lesson-row" data-tilt href="${esc(link.href)}">
         <span class="row-top">${icon(link.icon || section.icon)}<span><span class="row-label">${esc(link.title)}</span><span class="row-desc">${esc(link.desc)}</span></span></span></a>`).join("")}</div>
+      ${diagramStrip(id)}
       <h2>Other sections</h2>
       <div class="sec-grid">${sections.filter((item) => item.id !== id).map(sectionTile).join("")}</div>`,
     after() { bindTilt(main()); },
@@ -672,6 +676,8 @@ function viewFor(route) {
   if (route.name === "sources") return sourcesView(route.id);
   if (route.name === "about") return aboutView();
   if (route.name === "rooms") return roomsView(route.id);
+  if (route.name === "diagrams") return diagramsView();
+  if (route.name === "diagram") return diagramView(route.id) || missingView();
   return missingView();
 }
 
@@ -744,4 +750,5 @@ document.addEventListener("click", (event) => {
   applyTheme(themeButton.dataset.themeSet);
   drawDiagrams(main());
 });
+watchDiagramTheme();
 render();
