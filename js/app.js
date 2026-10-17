@@ -18,6 +18,10 @@ import { initShell, bindTilt, bindHeroParallax } from "./shell.js";
 import { initBotPanel } from "./botpanel.js";
 import { initHowTo } from "./howto.js";
 import { initBotFx } from "./botfx.js";
+import { initTeachReactions } from "./botteach.js";
+import { mountStudio, disposeStudio, initQualityControl, studioMarkup } from "./studio/studio.js";
+import { worldsView, worldView } from "./levelworlds.js";
+import { downloadCenterView } from "./downloadcenter.js";
 import { diagramsView, diagramView, diagramStrip, watchDiagramTheme } from "./views.js";
 import { applyPrefs } from "./prefs.js";
 import { applyWorld } from "./worlds.js";
@@ -75,8 +79,11 @@ function parseRoute() {
   if (head === "guide" && a) return { name: "guide", id: a };
   if (head === "diagrams") return { name: "diagrams" };
   if (head === "diagram" && a) return { name: "diagram", id: a };
+  if (head === "worlds") return a ? { name: "world", id: a } : { name: "worlds" };
+  if (head === "download-center") return { name: "download-center", id: a || "" };
   if (head === "sources") return { name: "sources", id: a || "" };
-  if (["practice", "downloads", "about"].includes(head)) return { name: head };
+  if (head === "downloads") return { name: "downloads", id: a || "" };
+  if (["practice", "about"].includes(head)) return { name: head };
   return { name: "missing" };
 }
 
@@ -205,6 +212,7 @@ function homeView() {
           <p class="hero-hint">Use the menu (left side, or the ☰ button on a phone) or tap the bot for a guide.</p>
         </div>
         ${heroScene()}
+        ${studioMarkup({ scene: "fallback", accent: "#f5a623", n: 0, alt: "A slowly turning wireframe shape over a violet and amber aurora.", compact: true })}
       </section>
       <h2 class="sec-heading">Pick your level</h2>
       <p class="sec-sub">Each level has its own world. Earn XP and badges as you go.</p>
@@ -425,6 +433,7 @@ async function executeEditor({ token, source, checks, packages, lessonKey }) {
         });
       }
     }
+    window.dispatchEvent(new CustomEvent("lab:result", { detail: { ok: !!result.ok, hasChecks: checks.length > 0, lessonKey } }));
     if (status) status.textContent = result.ok || !checks.length ? "Run finished." : "Run finished with failed checks.";
   } catch (err) {
     if (token !== viewToken) return;
@@ -602,15 +611,13 @@ function ecosystemView(panel) {
   };
 }
 
-function downloadsView() {
+function legacyDownloads() {
   const cards = DOWNLOADS.map((d) => `<article class="download-card" data-download="${esc(d.id)}">
       <h2>${esc(d.title)}</h2>
       <p>${esc(d.desc)}</p>
       <p>${d.formats.map((f, i) => `<a class="${i === 0 ? "primary" : ""}" href="downloads/${d.src}.${f}" download>${FORMAT_LABEL[f]}</a>`).join(" ")}</p>
     </article>`).join("");
-  return {
-    html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/downloads", label: "Downloads" }])}
-      <h1>Downloads</h1>
+  return `<h2 id="dl-more">Cheat sheets, notebook and more</h2>
       <p class="lede">These files are in the site. The PDF and the text copy contain the same notes. They are study aids from 17 October 2026, not specifications.</p>
       <div class="download-grid">${cards}</div>
       <h2>Slides, diagrams, and the whole lab</h2>
@@ -618,9 +625,10 @@ function downloadsView() {
         <article class="download-card"><h2>Slides on screen</h2><p>Prefer slides you can page through? <a href="#/slides">Open the decks, then use Print to save a PDF</a>.</p></article>
         <article class="download-card"><h2>Diagrams</h2><p>Each diagram is one self-contained HTML file that opens offline.</p><ul class="dl-list">${diagrams.map((d) => `<li><a href="diagrams/${esc(d.file)}" download>${esc(d.title)}</a></li>`).join("")}</ul></article>
         <article class="download-card"><h2>The whole lab</h2><p>Plain files. Unzip, run <code>python3 -m http.server</code> in the folder, and open it.</p><p><a class="primary" href="https://github.com/CypherMonkeyLabs/python-lab-free-university-mesmerizing/archive/refs/heads/main.zip" rel="noopener">Download ZIP from GitHub</a></p></article>
-      </div>`,
-  };
+      </div>`;
 }
+
+function downloadsView(focus) { return downloadCenterView(focus, legacyDownloads()); }
 
 function sourcesView(id) {
   const groups = [];
@@ -703,7 +711,10 @@ function viewFor(route) {
   if (route.name === "quizzes") return quizzesView();
   if (route.name === "quiz") return quizView(route.id);
   if (route.name === "ecosystem") return ecosystemView(route.panel);
-  if (route.name === "downloads") return downloadsView();
+  if (route.name === "downloads") return downloadsView(route.id);
+  if (route.name === "worlds") return worldsView();
+  if (route.name === "world") return worldView(route.id) || missingView();
+  if (route.name === "download-center") return downloadsView(route.id);
   if (route.name === "sources") return sourcesView(route.id);
   if (route.name === "about") return aboutView();
   if (route.name === "rooms") return roomsView(route.id);
@@ -759,6 +770,7 @@ function render() {
   stopGame();
   stopSpeech();
   stopOrbit();
+  disposeStudio();
   const route = parseRoute();
   const view = viewFor(route);
   main().innerHTML = view.html;
@@ -770,6 +782,7 @@ function render() {
   view.after?.(token);
   applyWorld(location.hash);
   document.dispatchEvent(new CustomEvent("lab:world"));
+  mountStudio(main());
   keepBotClear();
 }
 
@@ -780,6 +793,8 @@ initBot();
 initBotPanel();
 initBotFx();
 initPy();
+initTeachReactions();
+initQualityControl();
 initHowTo();
 initFx();
 initXP();
