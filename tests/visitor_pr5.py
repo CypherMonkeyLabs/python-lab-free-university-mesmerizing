@@ -10,7 +10,7 @@ async def main():
         b = await p.chromium.launch(executable_path=shutil.which("google-chrome"), args=["--no-sandbox"])
         for vp, o in VPS.items():
             touch = vp.startswith("touch")
-            ctx = await b.new_context(accept_downloads=True, **o); await ctx.add_init_script('localStorage.setItem("pythonlab.howto.v1",JSON.stringify({seen:true}));localStorage.setItem("pythonlab.tour.v1","1")')
+            ctx = await b.new_context(accept_downloads=True, **o); await ctx.add_init_script('localStorage.setItem("pythonlab.howto.v2",JSON.stringify({seen:true}));localStorage.setItem("pythonlab.tour.v1","1")')
             pg = await ctx.new_page(); errs = []
             pg.on("pageerror", lambda e: errs.append(str(e))); pg.on("console", lambda m: errs.append(m.text) if m.type == "error" else None)
             async def click(sel):

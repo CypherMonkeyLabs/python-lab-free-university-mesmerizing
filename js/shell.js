@@ -56,6 +56,12 @@ function buildSidebar() {
     ...sections.map((s) => `<a class="side-item" href="${esc(s.href)}" data-section="${s.id}" data-tip="${esc(s.title)}">
       <span class="side-ico">${rawIcon(s.icon, 22)}</span>
       <span class="side-text"><span class="side-label">${esc(s.title)}</span><span class="side-desc">${esc(s.menu)}</span></span></a>`),
+    `<a class="side-item" href="#/worlds" data-section="worlds" data-tip="Worlds">
+      <span class="side-ico">${rawIcon("rooms", 22)}</span>
+      <span class="side-text"><span class="side-label">Worlds</span><span class="side-desc">Eleven 3D worlds and the level map.</span></span></a>`,
+    `<a class="side-item" href="#/downloads" data-section="download-center" data-tip="Downloads">
+      <span class="side-ico">${rawIcon("downloads", 22)}</span>
+      <span class="side-text"><span class="side-label">Downloads</span><span class="side-desc">PDF, Word, PowerPoint, HTML and images.</span></span></a>`,
   ].join("");
   aside.innerHTML = `<div class="side-head"><span class="side-title">Menu</span>
       <button type="button" class="side-collapse" id="side-collapse" aria-label="Collapse the side menu" aria-expanded="true">${rawIcon("collapse", 18)}</button>
@@ -86,7 +92,8 @@ function setDrawer(open) {
 /* ---------- top & bottom bars ---------- */
 function updateBars() {
   const hash = currentHash();
-  const id = sectionFor(hash) || (hash === "#/" ? "home" : "");
+  const id = hash.startsWith("#/worlds") ? "worlds" : hash.startsWith("#/downloads") ? "download-center"
+    : (sectionFor(hash) || (hash === "#/" ? "home" : ""));
   document.querySelectorAll("#sidemenu .side-item").forEach((a) => {
     const on = a.dataset.section === id;
     if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
@@ -115,7 +122,8 @@ function updateBars() {
   document.querySelectorAll("[data-progress-fill]").forEach((el) => { el.style.width = `${pct}%`; });
   document.querySelectorAll("[data-progress-text]").forEach((el) => { el.textContent = txt; });
   document.querySelectorAll("[role=progressbar]").forEach((el) => { el.setAttribute("aria-valuenow", String(pct)); el.setAttribute("aria-valuetext", txt); });
-  const label = id === "home" ? "Home" : (sections.find((s) => s.id === id)?.title || "Python Lab");
+  const label = id === "home" ? "Home" : id === "worlds" ? "Worlds" : id === "download-center" ? "Downloads"
+    : (sections.find((s) => s.id === id)?.title || "Python Lab");
   const where = $("#bar-where");
   if (where) where.textContent = label;
 }

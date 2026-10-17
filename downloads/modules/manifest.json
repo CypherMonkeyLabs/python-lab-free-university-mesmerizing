@@ -1,0 +1,384 @@
+{
+  "generated": "2026-10-17T15:53:08",
+  "modules": [
+    {
+      "title": "Level 0: First Program",
+      "id": "L00",
+      "audience": "absolute-beginner",
+      "hours": 4,
+      "whats_inside": [
+        "Run a one-line program and read what it printed",
+        "Read an error message from the last line upward",
+        "Find the official docs page for a built-in function",
+        "Explain what a program is in your own words"
+      ],
+      "project": "A Hello, me card",
+      "how_to_use": {
+        "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+        "docx": "Edit freely for your own notes or classroom.",
+        "pptx": "Present or self-study slide by slide; green slides show verified output.",
+        "html": "Open offline in any browser.",
+        "png": "Cover and outcomes card; use it as a poster or a slide."
+      },
+      "python_min": "3.8",
+      "examples_run_on": "CPython 3.13.5",
+      "snippets_executed": 4,
+      "level": 0,
+      "base": "Python-Lab_Level-00_First-Program",
+      "accent": "#7ee08a",
+      "blurb": "Run a one-line program and read what it printed; Read an error message from the last line upward.",
+      "license": {
+        "code": "MIT",
+        "text": "CC BY-NC-SA 4.0"
+      },
+      "accredited": false,
+      "sources": [
+        {
+          "id": "tutorial-intro",
+          "title": "Python tutorial: An informal introduction",
+          "url": "https://docs.python.org/3/tutorial/introduction.html"
+        },
+        {
+          "id": "builtin-print",
+          "title": "Python docs: print()",
+          "url": "https://docs.python.org/3/library/functions.html#print"
+        },
+        {
+          "id": "errors",
+          "title": "Python tutorial: Errors and exceptions",
+          "url": "https://docs.python.org/3/tutorial/errors.html"
+        }
+      ],
+      "verified": {
+        "pdf_pages": 3,
+        "docx_paragraphs": 37,
+        "pptx_slides": 10
+      },
+      "files": [
+        {
+          "name": "Python-Lab_Level-00_First-Program_Cover.png",
+          "format": "png",
+          "bytes": 45777,
+          "size": "45 KB",
+          "sha256": "20d9a89549e887e8d01c0f83f2c31f951ff8ec9f68d89b20e7b44170f967b882"
+        },
+        {
+          "name": "Python-Lab_Level-00_First-Program_Guide.html",
+          "format": "html",
+          "bytes": 3620,
+          "size": "4 KB",
+          "sha256": "22d0432d6de295c55edbeae5ae9f5aa49bb9bff44ac0001ee55942d646fa5919"
+        },
+        {
+          "name": "Python-Lab_Level-00_First-Program_Guide.pdf",
+          "format": "pdf",
+          "bytes": 22668,
+          "size": "22 KB",
+          "sha256": "68153ab47bb403120e94db46977a7bd937cc9e7f2e39cbeeebdc17744545a08f"
+        },
+        {
+          "name": "Python-Lab_Level-00_First-Program_Slides.pptx",
+          "format": "pptx",
+          "bytes": 36480,
+          "size": "36 KB",
+          "sha256": "219a07c211679394ad223cda825f8c0c734706b3b3af1c214e63ca54331fb9fa"
+        },
+        {
+          "name": "Python-Lab_Level-00_First-Program_Worksheet.docx",
+          "format": "docx",
+          "bytes": 37651,
+          "size": "37 KB",
+          "sha256": "7e9cb61e97d2c9d1bf2548320119a079d9ee365a56550d936a776ddc3427661c"
+        }
+      ]
+    },
+    {
+      "title": "Level 1: Values, Types and Names",
+      "id": "L01",
+      "audience": "beginner",
+      "hours": 10,
+      "whats_inside": [
+        "Name the basic types int, float, str and bool and check one with type()",
+        "Bind a value to a name and explain what reassignment does",
+        "Use f-strings to build readable text",
+        "Convert between str and numbers and handle the common error"
+      ],
+      "project": "A tip and tax calculator",
+      "how_to_use": {
+        "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+        "docx": "Edit freely for your own notes or classroom.",
+        "pptx": "Present or self-study slide by slide; green slides show verified output.",
+        "html": "Open offline in any browser.",
+        "png": "Cover and outcomes card; use it as a poster or a slide."
+      },
+      "python_min": "3.8",
+      "examples_run_on": "CPython 3.13.5",
+      "snippets_executed": 5,
+      "level": 1,
+      "base": "Python-Lab_Level-01_Values-Types-and-Names",
+      "accent": "#4fd1e6",
+      "blurb": "Name the basic types int, float, str and bool and check one with type(); Bind a value to a name and explain what reassignment does.",
+      "license": {
+        "code": "MIT",
+        "text": "CC BY-NC-SA 4.0"
+      },
+      "accredited": false,
+      "sources": [
+        {
+          "id": "tutorial-intro",
+          "title": "Python tutorial: An informal introduction",
+          "url": "https://docs.python.org/3/tutorial/introduction.html"
+        },
+        {
+          "id": "datamodel",
+          "title": "Python reference: The data model",
+          "url": "https://docs.python.org/3/reference/datamodel.html"
+        },
+        {
+          "id": "fstrings",
+          "title": "Python docs: Formatted string literals",
+          "url": "https://docs.python.org/3/reference/lexical_analysis.html#f-strings"
+        },
+        {
+          "id": "pep8",
+          "title": "PEP 8 Style Guide for Python Code",
+          "url": "https://peps.python.org/pep-0008/"
+        }
+      ],
+      "verified": {
+        "pdf_pages": 3,
+        "docx_paragraphs": 37,
+        "pptx_slides": 10
+      },
+      "files": [
+        {
+          "name": "Python-Lab_Level-01_Values-Types-and-Names_Cover.png",
+          "format": "png",
+          "bytes": 52365,
+          "size": "51 KB",
+          "sha256": "e483123142a03a2779140e781064b6958a13a3bf2648547d00940b98eeae7d1e"
+        },
+        {
+          "name": "Python-Lab_Level-01_Values-Types-and-Names_Guide.html",
+          "format": "html",
+          "bytes": 3924,
+          "size": "4 KB",
+          "sha256": "300fe11a609522f90610dfd1401a77322a1d9c7082dd189de697362aa6205fe3"
+        },
+        {
+          "name": "Python-Lab_Level-01_Values-Types-and-Names_Guide.pdf",
+          "format": "pdf",
+          "bytes": 24000,
+          "size": "23 KB",
+          "sha256": "8eec8f5bc1ebff359cd2963793947577a8062ad63d7627ae2142ba0db7cffc96"
+        },
+        {
+          "name": "Python-Lab_Level-01_Values-Types-and-Names_Slides.pptx",
+          "format": "pptx",
+          "bytes": 37785,
+          "size": "37 KB",
+          "sha256": "f0481673724fd7a45660da890a5e7584406f7262b58f617d59b703a4f549afbc"
+        },
+        {
+          "name": "Python-Lab_Level-01_Values-Types-and-Names_Worksheet.docx",
+          "format": "docx",
+          "bytes": 37743,
+          "size": "37 KB",
+          "sha256": "3582caabcde5661cd256099f90563ec3e64b8aad0823d372b60209eca52fc3f5"
+        }
+      ]
+    },
+    {
+      "title": "Level 2: Decisions and Loops",
+      "id": "L02",
+      "audience": "beginner",
+      "hours": 14,
+      "whats_inside": [
+        "Write if, elif and else branches with comparison and boolean operators",
+        "Loop with for and range, and with while",
+        "Use break and continue and say when each is clearer",
+        "Trace a small program by hand, line by line"
+      ],
+      "project": "A number-guess game",
+      "how_to_use": {
+        "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+        "docx": "Edit freely for your own notes or classroom.",
+        "pptx": "Present or self-study slide by slide; green slides show verified output.",
+        "html": "Open offline in any browser.",
+        "png": "Cover and outcomes card; use it as a poster or a slide."
+      },
+      "python_min": "3.8",
+      "examples_run_on": "CPython 3.13.5",
+      "snippets_executed": 6,
+      "level": 2,
+      "base": "Python-Lab_Level-02_Decisions-and-Loops",
+      "accent": "#ffd166",
+      "blurb": "Write if, elif and else branches with comparison and boolean operators; Loop with for and range, and with while.",
+      "license": {
+        "code": "MIT",
+        "text": "CC BY-NC-SA 4.0"
+      },
+      "accredited": false,
+      "sources": [
+        {
+          "id": "tutorial-control",
+          "title": "Python tutorial: More control flow tools",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html"
+        },
+        {
+          "id": "pep8",
+          "title": "PEP 8 Style Guide for Python Code",
+          "url": "https://peps.python.org/pep-0008/"
+        },
+        {
+          "id": "truth",
+          "title": "Python docs: Truth value testing",
+          "url": "https://docs.python.org/3/library/stdtypes.html#truth-value-testing"
+        }
+      ],
+      "verified": {
+        "pdf_pages": 3,
+        "docx_paragraphs": 37,
+        "pptx_slides": 10
+      },
+      "files": [
+        {
+          "name": "Python-Lab_Level-02_Decisions-and-Loops_Cover.png",
+          "format": "png",
+          "bytes": 49295,
+          "size": "48 KB",
+          "sha256": "c8eb9616338c8f36ec38706d606ba87afe0945d680d8999ccc7081540cf35a25"
+        },
+        {
+          "name": "Python-Lab_Level-02_Decisions-and-Loops_Guide.html",
+          "format": "html",
+          "bytes": 3905,
+          "size": "4 KB",
+          "sha256": "605ad6f38d0b97ae770eb0df1e3788ebd668eb96a155ef0868c2c97be82290d1"
+        },
+        {
+          "name": "Python-Lab_Level-02_Decisions-and-Loops_Guide.pdf",
+          "format": "pdf",
+          "bytes": 24183,
+          "size": "24 KB",
+          "sha256": "abecc36f9117627da71bf27798b9c4dd3d800eafc37a0640e33043c840f2b139"
+        },
+        {
+          "name": "Python-Lab_Level-02_Decisions-and-Loops_Slides.pptx",
+          "format": "pptx",
+          "bytes": 38883,
+          "size": "38 KB",
+          "sha256": "81a8b7cc6ab32384bace6aa98b2baea64ce394e6c1eda3b90e6e20e9f8844e72"
+        },
+        {
+          "name": "Python-Lab_Level-02_Decisions-and-Loops_Worksheet.docx",
+          "format": "docx",
+          "bytes": 37806,
+          "size": "37 KB",
+          "sha256": "23e8d39350a9a8974ae1902fcfdaeb77919f43534c2dadfe150d304823c8247c"
+        }
+      ]
+    },
+    {
+      "title": "Level 3: Functions and Scope",
+      "id": "L03",
+      "audience": "beginner-to-intermediate",
+      "hours": 6,
+      "whats_inside": [
+        "Define functions with positional, keyword, default and variadic parameters",
+        "Explain the LEGB rule and predict which name a line of code sees",
+        "Avoid the mutable-default-argument trap",
+        "Write a docstring that follows PEP 257 and a signature with PEP 484 hints"
+      ],
+      "project": "Unit converter CLI with tested pure functions",
+      "how_to_use": {
+        "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+        "docx": "Edit freely for your own notes or classroom.",
+        "pptx": "Present or self-study slide by slide; green slides show verified output.",
+        "html": "Open offline in any browser.",
+        "png": "Cover and outcomes card; use it as a poster or a slide."
+      },
+      "python_min": "3.8",
+      "examples_run_on": "CPython 3.13.5",
+      "snippets_executed": 5,
+      "level": 3,
+      "base": "Python-Lab_Level-03_Functions-and-Scope",
+      "accent": "#ff9f43",
+      "blurb": "Define functions with positional, keyword, default and variadic parameters; Explain the LEGB rule and predict which name a line of code sees.",
+      "license": {
+        "code": "MIT",
+        "text": "CC BY-NC-SA 4.0"
+      },
+      "accredited": false,
+      "sources": [
+        {
+          "id": "tutorial-functions",
+          "title": "Python tutorial: More on defining functions",
+          "url": "https://docs.python.org/3/tutorial/controlflow.html#defining-functions"
+        },
+        {
+          "id": "pep257",
+          "title": "PEP 257 Docstring Conventions",
+          "url": "https://peps.python.org/pep-0257/"
+        },
+        {
+          "id": "pep484",
+          "title": "PEP 484 Type Hints",
+          "url": "https://peps.python.org/pep-0484/"
+        },
+        {
+          "id": "pep8",
+          "title": "PEP 8 Style Guide for Python Code",
+          "url": "https://peps.python.org/pep-0008/"
+        },
+        {
+          "id": "ref-naming",
+          "title": "Python reference: Naming and binding",
+          "url": "https://docs.python.org/3/reference/executionmodel.html#naming-and-binding"
+        }
+      ],
+      "verified": {
+        "pdf_pages": 3,
+        "docx_paragraphs": 37,
+        "pptx_slides": 10
+      },
+      "files": [
+        {
+          "name": "Python-Lab_Level-03_Functions-and-Scope_Cover.png",
+          "format": "png",
+          "bytes": 56556,
+          "size": "55 KB",
+          "sha256": "f3934320f089bff25e618f5d8c422684177236fdc7909a0003b7f2b4f2267acc"
+        },
+        {
+          "name": "Python-Lab_Level-03_Functions-and-Scope_Guide.html",
+          "format": "html",
+          "bytes": 5262,
+          "size": "5 KB",
+          "sha256": "57b9c8ec41701eca51404cb11327ec765ca7e3407a5912b034eb3e8c3c01af7b"
+        },
+        {
+          "name": "Python-Lab_Level-03_Functions-and-Scope_Guide.pdf",
+          "format": "pdf",
+          "bytes": 25966,
+          "size": "25 KB",
+          "sha256": "f46e4e4ef9d7a4c9a14a284ac8f7ac2d74a9899570828f37ebfae03e2846d41a"
+        },
+        {
+          "name": "Python-Lab_Level-03_Functions-and-Scope_Slides.pptx",
+          "format": "pptx",
+          "bytes": 39224,
+          "size": "38 KB",
+          "sha256": "6757299487c8a0ff3ab19b50f62f0f3beaaa9109e049b2ccee71c08513a05e0a"
+        },
+        {
+          "name": "Python-Lab_Level-03_Functions-and-Scope_Worksheet.docx",
+          "format": "docx",
+          "bytes": 38235,
+          "size": "37 KB",
+          "sha256": "0a8a8bc67f77bcd857f72e16e6f1d0492d44693b12219903f9c0252a60175fc0"
+        }
+      ]
+    }
+  ]
+}
