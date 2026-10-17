@@ -114,6 +114,32 @@ export const diagrams = [
     related: [["Career stages", "#/lesson/career/stages"], ["Downloads", "#/downloads"], ["Lifetime Learning", "#/section/lifetime"]],
     sources: ["tutorial", "pypa"],
   },
+  {
+    id: "level-map", file: "level_map.html", type: "Workflow", title: "Level map: eleven worlds", icon: "rooms",
+    sections: ["start", "fundamentals"],
+    blurb: "Levels 0 to 10 as a staircase, from your first print to the ecosystem. A suggested order, never a lock.",
+    steps: ["Level 0", "Level 3", "Level 5", "Level 8", "Level 10"],
+    notice: [
+      "Each box is one Level, also a themed 3D world on the Worlds page.",
+      "Levels 0 to 3 have their own scene and a download module today. The others are planned.",
+      "You can enter any Level. The map only suggests an order.",
+    ],
+    related: [["Worlds", "#/worlds"], ["Download Center", "#/download-center"], ["Start Here", "#/section/start"]],
+    sources: ["tutorial"],
+  },
+  {
+    id: "lab-architecture", file: "pylab_v2_architecture.html", type: "Architecture", title: "Python Lab v2: from one source to a lifetime studio", icon: "ecosystem",
+    sections: ["resources"],
+    blurb: "One content source feeds the build pipeline, the static site and the Download Center. Everything the learner touches runs in the browser.",
+    steps: ["Content source", "Build pipeline", "Static site", "Downloads", "Learner"],
+    notice: [
+      "This is a plan as well as a picture. Some boxes (for example the full PWA and the spaced-repetition store) are not built yet.",
+      "The build pipeline runs every code block before it writes a file.",
+      "Progress stays on the device; there is no server.",
+    ],
+    related: [["Download Center", "#/download-center"], ["Worlds", "#/worlds"], ["Resources", "#/section/resources"]],
+    sources: ["tutorial"],
+  },
 ];
 
 export const diagramById = (id) => diagrams.find((d) => d.id === id) || null;

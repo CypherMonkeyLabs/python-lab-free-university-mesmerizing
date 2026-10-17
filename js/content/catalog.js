@@ -32,6 +32,8 @@ export const extras = [
   { href: "#/diagrams", title: "Diagrams", menu: "Interactive maps: how Python runs, imports, calls, async, pandas, Pyodide.", icon: "ecosystem" },
   { href: "#/rooms/lobby", title: "Rooms", menu: "CSS 3D studios. Reduced motion flattens them.", icon: "rooms" },
   { href: "#/ecosystem/glossary", title: "Ecosystem", menu: "Glossary, a mind map, sister technologies, integrations, and future hooks.", icon: "ecosystem" },
+  { href: "#/worlds", title: "Worlds", menu: "Eleven themed 3D worlds, Level 0 to Level 10, with a level map.", icon: "rooms" },
+  { href: "#/download-center", title: "Download Center", menu: "PDF, Word, PowerPoint, HTML and image files for each Level, with descriptions.", icon: "downloads" },
   { href: "#/downloads", title: "Downloads", menu: "Cheat sheets as PDF and plain text that you can save.", icon: "downloads" },
   { href: "#/sources", title: "Sources", menu: "The official pages behind the facts in this lab.", icon: "sources" },
   { href: "#/about", title: "About Lucky", menu: "A lifelong student and AI enthusiast, sharing what he learns.", icon: "about" },

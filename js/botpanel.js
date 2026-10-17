@@ -1,6 +1,7 @@
 import { sections } from "./content/sections.js";
 import { esc } from "./util.js";
 import { onBotTap, onBotDragStart, resetBot } from "./bot.js";
+import { teachHtml, bindTeach, react } from "./botteach.js";
 import { neighbors, firstUnvisited, progressInfo, currentHash, sectionFor } from "./shell.js";
 
 const panel = () => document.getElementById("bot-panel");
@@ -24,11 +25,15 @@ function build() {
   if (next && (!cont || next.href !== cont.href)) go.push(`<a class="bp-go" href="${esc(next.href)}"><b>Next page</b><span>${esc(next.title)}</span></a>`);
   go.push(`<a class="bp-go" href="#/practice"><b>Open a lab</b><span>Run Python in your browser</span></a>`);
   go.push(`<button type="button" class="bp-go" data-open-help><b>How to use this site</b><span>Menus, search, downloads, themes, slides</span></button>`);
+  const inLesson = /^#\/lesson\//.test(hash);
   const quick = sections.map((s) => `<a class="bp-chip" href="${esc(s.href)}">${esc(s.title)}</a>`).join("");
   panel().innerHTML = `<div class="bp-head"><h2 id="bot-panel-title">${esc(greeting())}</h2>
       <button type="button" class="bp-close" id="bp-close" aria-label="Close the helper">&times;</button></div>
+    <p class="bp-bot">I'm Py, a bot. I can be wrong: check the docs links.</p>
     <p class="bp-line">You are in <strong>${esc(here)}</strong>. ${done} of ${total} lessons opened so far. Where would you like to go?</p>
+    ${inLesson ? teachHtml() : ""}
     <div class="bp-gos">${go.join("")}</div>
+    ${inLesson ? "" : teachHtml()}
     <p class="bp-sub">Quick links</p>
     <div class="bp-chips">${quick}<button type="button" class="bp-chip bp-btn" id="bp-search">Search</button></div>
     <p class="bp-foot">Drag me anywhere. Tap me to open this panel. <button type="button" class="bp-link" id="bp-reset">Put me back</button></p>`;
@@ -62,6 +67,7 @@ export function openPanel() {
   bot().setAttribute("aria-expanded", "true");
   bot().classList.add("is-open", "wave");
   setTimeout(() => bot().classList.remove("wave"), 700);
+  window.dispatchEvent(new CustomEvent("lab:bot", { detail: "tap" }));
   position();
   p.querySelector(".bp-go")?.focus({ preventScroll: true });
 }
@@ -76,6 +82,7 @@ export function closePanel(returnFocus = false) {
 }
 
 export function initBotPanel() {
+  bindTeach(panel(), () => { build(); position(); panel().querySelector("#bp-rung")?.focus({ preventScroll: true }); });
   onBotTap(() => (panel().hidden ? openPanel() : closePanel()));
   onBotDragStart(() => closePanel());
   panel().addEventListener("click", (e) => {
