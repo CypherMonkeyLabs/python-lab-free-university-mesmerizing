@@ -45,7 +45,7 @@ function content() {
       ${card("#22d3ee", "#34d399", '<rect x="3" y="6" width="18" height="12" rx="3"/><path d="M7 10h.01M11 10h6M7 14h10"/>', "Keyboard", `<ul class="howto-keys"><li><kbd>/</kbd> search</li><li><kbd>?</kbd> this help</li><li><kbd>Esc</kbd> close</li><li><kbd>&larr;</kbd> <kbd>&rarr;</kbd> slides</li></ul>`)}
     </div>
   </div>
-  <div class="howto-foot"><button type="button" class="primary" id="howto-ok">Got it, let me in</button><a class="text-btn" href="#/section/start" data-howto-go>Start Here</a><small>Closing this window is remembered on this device. Nothing leaves your browser.</small></div>`;
+  <div class="howto-foot"><button type="button" class="primary" id="howto-ok">Got it, let me in</button><button type="button" class="text-btn" data-start-tour>Take the 1 minute tour</button><a class="text-btn" href="#/section/start" data-howto-go>Start Here</a><small>Closing this window is remembered on this device. Nothing leaves your browser.</small></div>`;
 }
 
 function build() {
@@ -56,7 +56,7 @@ function build() {
   root.innerHTML = `<section class="howto" role="dialog" aria-modal="true" aria-labelledby="howto-title" tabindex="-1">${content()}</section>`;
   document.body.appendChild(root);
   root.addEventListener("click", (e) => {
-    if (e.target === root || e.target.closest("#howto-x") || e.target.closest("#howto-ok") || e.target.closest("[data-howto-go]")) closeHowTo();
+    if (e.target === root || e.target.closest("#howto-x") || e.target.closest("#howto-ok") || e.target.closest("[data-howto-go]") || e.target.closest("[data-start-tour]")) closeHowTo();
     const t = e.target.closest("[data-howto-theme]");
     if (t) document.querySelector(`[data-theme-set="${t.dataset.howtoTheme}"]`)?.click();
   });
@@ -90,6 +90,7 @@ export function closeHowTo() {
   document.body.classList.remove("howto-open");
   writeStore(KEY, { seen: true, at: new Date().toISOString().slice(0, 10) });
   if (lastFocus && document.contains(lastFocus) && lastFocus !== document.body) lastFocus.focus({ preventScroll: true });
+  document.dispatchEvent(new CustomEvent("lab:howto-closed"));
 }
 
 export function initHowTo() {

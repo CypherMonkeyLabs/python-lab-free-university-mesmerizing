@@ -19,6 +19,14 @@ import { initBotPanel } from "./botpanel.js";
 import { initHowTo } from "./howto.js";
 import { initBotFx } from "./botfx.js";
 import { diagramsView, diagramView, diagramStrip, watchDiagramTheme } from "./views.js";
+import { applyPrefs } from "./prefs.js";
+import { applyWorld } from "./worlds.js";
+import { initFx } from "./fx.js";
+import { initXP } from "./xp.js";
+import { initDisplay } from "./display.js";
+import { initTour } from "./tour.js";
+import { initWelcome } from "./welcome.js";
+import { levelView, meView, levelCards } from "./views2.js";
 
 const main = () => document.getElementById("main");
 let viewToken = 0;
@@ -53,6 +61,8 @@ function parseRoute() {
   if (head === "lesson" && a && b) return { name: "lesson", track: a, lesson: b };
   if (head === "games" && a) return { name: "game", id: a };
   if (head === "games") return { name: "games" };
+  if (head === "level" && a) return { name: "level", n: Number(a) };
+  if (head === "me") return { name: "me" };
   if (head === "quiz" && a) return { name: "quiz", id: a };
   if (head === "quizzes") return { name: "quizzes" };
   if (head === "ecosystem") return { name: "ecosystem", panel: a || "glossary" };
@@ -193,6 +203,9 @@ function homeView() {
         </div>
         ${heroScene()}
       </section>
+      <h2 class="sec-heading">Pick your level</h2>
+      <p class="sec-sub">Each level has its own world. Earn XP and badges as you go.</p>
+      ${levelCards()}
       <h2 class="sec-heading">${sections.length} sections, one path</h2>
       <p class="sec-sub">Every section opens a landing page with its lessons, labs, and links.</p>
       <div class="sec-grid">${sections.map(sectionTile).join("")}</div>
@@ -686,6 +699,8 @@ function viewFor(route) {
   if (route.name === "track") return trackView(route.id);
   if (route.name === "lesson") return lessonView(route.track, route.lesson);
   if (route.name === "practice") return practiceView();
+  if (route.name === "level") return levelView(route.n) || missingView();
+  if (route.name === "me") return meView();
   if (route.name === "games") return gamesView();
   if (route.name === "game") return gameView(route.id);
   if (route.name === "quizzes") return quizzesView();
@@ -756,15 +771,22 @@ function render() {
   }
   booted = true;
   view.after?.(token);
+  applyWorld(location.hash);
+  document.dispatchEvent(new CustomEvent("lab:world"));
   keepBotClear();
 }
 
+applyPrefs();
 applyTheme(document.documentElement.dataset.theme || "ink", false);
 initShell();
 initBot();
 initBotPanel();
 initBotFx();
 initHowTo();
+initFx();
+initXP();
+initDisplay();
+initTour();
 window.addEventListener("hashchange", render);
 document.addEventListener("click", (event) => {
   const themeButton = event.target.closest("[data-theme-set]");
@@ -774,3 +796,4 @@ document.addEventListener("click", (event) => {
 });
 watchDiagramTheme();
 render();
+initWelcome();
