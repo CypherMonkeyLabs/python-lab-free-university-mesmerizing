@@ -378,3 +378,31 @@ test("the bot is labelled, colourful and animated", async ({ page }) => {
   expect(await page.locator("#lab-bot .bulb").evaluate((el) => getComputedStyle(el).animationName)).toBe("bulb");
   expect(await page.locator("#lab-bot .eye").first().evaluate((el) => getComputedStyle(el).animationName)).toBe("blink");
 });
+
+const diagramIds = ["how-python-runs", "function-call", "import-system", "event-loop", "task-lifecycle", "pandas-pipeline", "pyodide-architecture", "study-loop"];
+
+test("every Archify diagram opens, loads its page, and has sources", async ({ page }) => {
+  const errors = watchErrors(page);
+  const bad = [];
+  page.on("response", (r) => { if (r.status() >= 400) bad.push(`${r.status()} ${r.url()}`); });
+  await page.goto("/#/diagrams");
+  await expect(page.locator("h1")).toHaveText("Diagrams");
+  await expect(page.locator(".dgrid .dcard")).toHaveCount(diagramIds.length);
+  for (const id of diagramIds) {
+    await page.goto(`/#/diagram/${id}`);
+    await expect(page.locator("h1")).toBeVisible();
+    const frame = page.frameLocator("iframe.dframe-view");
+    await expect(frame.locator("svg").first()).toBeVisible({ timeout: 8000 });
+    expect(await page.locator("main .notice li").count()).toBeGreaterThanOrEqual(3);
+    expect(await page.locator('main a[href^="#/sources/"]').count()).toBeGreaterThanOrEqual(2);
+  }
+  expect(bad).toEqual([]);
+  expect(errors).toEqual([]);
+});
+
+test("section pages carry diagram strips", async ({ page }) => {
+  for (const id of ["flows", "modules", "methods", "integrations", "lifetime"]) {
+    await page.goto(`/#/section/${id}`);
+    await expect(page.locator(".dstrip .dcard").first()).toBeVisible();
+  }
+});
