@@ -1,4 +1,12 @@
 const PATHS = {
+  home: '<path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-5h4v5"/>',
+  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  search: '<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/>',
+  prev: '<path d="M15 5l-7 7 7 7"/>',
+  next: '<path d="M9 5l7 7-7 7"/>',
+  collapse: '<path d="M11 6l-6 6 6 6M19 6l-6 6 6 6"/>',
+  close: '<path d="M6 6l12 12M18 6L6 18"/>',
+  link: '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
   start: '<path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="4"/>',
   fundamentals: '<path d="M5 19V5h9l5 5v9H5z"/><path d="M14 5v5h5"/>',
   dsa: '<path d="M4 7h16M4 12h10M4 17h13"/><path d="M17 10l3 2-3 2"/>',
@@ -24,7 +32,12 @@ const PATHS = {
   about: '<circle cx="12" cy="9" r="3"/><path d="M6 19c1.2-2.4 3.2-3.5 6-3.5S16.8 16.6 18 19"/>',
 };
 
-export function icon(name) {
+export function icon(name, size = 26) {
   const body = PATHS[name] || PATHS.start;
-  return `<span class="ico"><svg class="ico-svg" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${body}</svg></span>`;
+  return `<span class="ico"><svg class="ico-svg" viewBox="0 0 24 24" width="${size}" height="${size}" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${body}</svg></span>`;
+}
+
+export function rawIcon(name, size = 20) {
+  const body = PATHS[name] || PATHS.start;
+  return `<svg class="ico-svg" viewBox="0 0 24 24" width="${size}" height="${size}" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
 }
