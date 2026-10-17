@@ -1,0 +1,325 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Pyodide: Python Inside the Browser",
+  "output": "arch_pyodide.html",
+  "quality_profile": "showcase",
+  "views": [
+   {
+    "id": "run-path",
+    "label": "Run a snippet",
+    "focus": [
+     "tab",
+     "loader",
+     "wasmvm",
+     "cpython",
+     "vfs"
+    ],
+    "note": "Follow a lesson snippet from the page into CPython running as WebAssembly."
+   },
+   {
+    "id": "bridge-and-files",
+    "label": "Bridge and files",
+    "focus": [
+     "runner",
+     "cpython",
+     "ffi"
+    ],
+    "note": "The lab runner talks to Python through the JavaScript to Python bridge."
+   },
+   {
+    "id": "package-path",
+    "label": "Packages",
+    "focus": [
+     "loader",
+     "static",
+     "cpython",
+     "pkgload",
+     "wheels"
+    ],
+    "note": "NumPy and pandas wheels are vendored and loaded on demand from the same site."
+   }
+  ]
+ },
+ "components": [
+  {
+   "id": "tab",
+   "type": "external",
+   "label": "Browser tab",
+   "sublabel": "your lesson page",
+   "pos": [
+    40,
+    300
+   ],
+   "size": [
+    120,
+    60
+   ]
+  },
+  {
+   "id": "runner",
+   "type": "security",
+   "label": "Lab runner",
+   "sublabel": "runner.js",
+   "pos": [
+    40,
+    110
+   ],
+   "size": [
+    120,
+    64
+   ],
+   "tag": "checks + output"
+  },
+  {
+   "id": "loader",
+   "type": "cloud",
+   "label": "pyodide.mjs",
+   "sublabel": "JS loader",
+   "pos": [
+    250,
+    300
+   ],
+   "size": [
+    130,
+    60
+   ]
+  },
+  {
+   "id": "wasmvm",
+   "type": "cloud",
+   "label": "WebAssembly VM",
+   "sublabel": "browser engine",
+   "pos": [
+    460,
+    300
+   ],
+   "size": [
+    130,
+    60
+   ]
+  },
+  {
+   "id": "cpython",
+   "type": "backend",
+   "label": "CPython 3.14",
+   "sublabel": "pyodide.asm.wasm",
+   "pos": [
+    670,
+    300
+   ],
+   "size": [
+    130,
+    60
+   ]
+  },
+  {
+   "id": "ffi",
+   "type": "database",
+   "label": "JS-Python bridge",
+   "sublabel": "proxies",
+   "pos": [
+    670,
+    150
+   ],
+   "size": [
+    130,
+    60
+   ]
+  },
+  {
+   "id": "vfs",
+   "type": "database",
+   "label": "Virtual files",
+   "sublabel": "in-memory FS",
+   "pos": [
+    880,
+    300
+   ],
+   "size": [
+    130,
+    60
+   ]
+  },
+  {
+   "id": "static",
+   "type": "cloud",
+   "label": "Vendored files",
+   "sublabel": "same origin",
+   "pos": [
+    250,
+    440
+   ],
+   "size": [
+    130,
+    60
+   ],
+   "tag": "no CDN"
+  },
+  {
+   "id": "pkgload",
+   "type": "messagebus",
+   "label": "Package loader",
+   "sublabel": "pyodide-lock.json",
+   "pos": [
+    670,
+    440
+   ],
+   "size": [
+    130,
+    60
+   ]
+  },
+  {
+   "id": "wheels",
+   "type": "backend",
+   "label": "Wheels",
+   "sublabel": "NumPy, pandas",
+   "pos": [
+    880,
+    440
+   ],
+   "size": [
+    130,
+    60
+   ]
+  }
+ ],
+ "boundaries": [
+  {
+   "kind": "region",
+   "label": "Browser sandbox",
+   "wraps": [
+    "loader",
+    "wasmvm",
+    "cpython",
+    "ffi",
+    "vfs",
+    "static",
+    "pkgload",
+    "wheels"
+   ]
+  },
+  {
+   "kind": "security-group",
+   "label": "WebAssembly sandbox",
+   "wraps": [
+    "wasmvm",
+    "cpython"
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "users-to-cdn",
+   "from": "tab",
+   "to": "loader",
+   "label": "import",
+   "variant": "emphasis"
+  },
+  {
+   "id": "jwt-verification",
+   "from": "runner",
+   "to": "cpython",
+   "label": "run code",
+   "variant": "emphasis",
+   "fromSide": "right",
+   "toSide": "top",
+   "via": [
+    [
+     620,
+     142
+    ],
+    [
+     620,
+     246
+    ],
+    [
+     735,
+     246
+    ]
+   ]
+  },
+  {
+   "id": "cdn-to-lb",
+   "from": "loader",
+   "to": "wasmvm",
+   "label": "instantiate"
+  },
+  {
+   "id": "static-assets",
+   "from": "loader",
+   "to": "static",
+   "label": "fetch",
+   "variant": "dashed",
+   "fromSide": "bottom",
+   "toSide": "top",
+   "labelDy": 58
+  },
+  {
+   "id": "lb-to-api",
+   "from": "wasmvm",
+   "to": "cpython",
+   "label": "hosts"
+  },
+  {
+   "id": "cache-read-through",
+   "from": "cpython",
+   "to": "ffi",
+   "label": "convert values",
+   "fromSide": "top",
+   "toSide": "bottom",
+   "labelDy": -68,
+   "variant": "default"
+  },
+  {
+   "id": "api-sql",
+   "from": "cpython",
+   "to": "vfs",
+   "label": "read / write"
+  },
+  {
+   "id": "enqueue-job",
+   "from": "cpython",
+   "to": "pkgload",
+   "label": "load package",
+   "variant": "dashed",
+   "fromSide": "bottom",
+   "toSide": "top",
+   "labelDy": 58
+  },
+  {
+   "id": "queue-to-worker",
+   "from": "pkgload",
+   "to": "wheels",
+   "label": "install"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "Browser side",
+   "items": [
+    "The page loads pyodide.mjs from this site, not a CDN",
+    "The WebAssembly sandbox cannot touch your files"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "Python side",
+   "items": [
+    "CPython 3.14 compiled to WebAssembly runs the code",
+    "NumPy and pandas wheels load only when a lesson needs them"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Limits",
+   "items": [
+    "No sockets, so no raw network libraries",
+    "Code runs on the page and never leaves it"
+   ]
+  }
+ ]
+}
