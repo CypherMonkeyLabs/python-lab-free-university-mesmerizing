@@ -1,0 +1,52 @@
+import { startTrack } from "./start.js";
+import { fundamentals } from "./fundamentals.js";
+import { dsa } from "./dsa.js";
+import { asyncTrack, typingTrack, stdlib } from "./language.js";
+import { webTrack, dataTrack, aiTrack, automation } from "./applied.js";
+import { tooling, licensing, certifications, career, projects } from "./path.js";
+
+export const tracks = [
+  startTrack,
+  fundamentals,
+  dsa,
+  asyncTrack,
+  typingTrack,
+  stdlib,
+  webTrack,
+  dataTrack,
+  aiTrack,
+  automation,
+  tooling,
+  licensing,
+  certifications,
+  career,
+  projects,
+];
+
+export const extras = [
+  { href: "#/practice", title: "Practice desk", menu: "Run Python in this browser. The code stays on the page.", icon: "practice" },
+  { href: "#/games", title: "Games", menu: "Guess, snake, and a text adventure about a missing module.", icon: "games" },
+  { href: "#/quizzes", title: "Quizzes", menu: "Short checks with an explanation and a source.", icon: "quizzes" },
+  { href: "#/rooms/lobby", title: "Rooms", menu: "CSS 3D studios. Reduced motion flattens them.", icon: "rooms" },
+  { href: "#/ecosystem/glossary", title: "Ecosystem", menu: "Glossary, a mind map, sister technologies, integrations, and future hooks.", icon: "ecosystem" },
+  { href: "#/downloads", title: "Downloads", menu: "Cheat sheets as PDF and plain text that you can save.", icon: "downloads" },
+  { href: "#/sources", title: "Sources", menu: "The official pages behind the facts in this lab.", icon: "sources" },
+  { href: "#/about", title: "About Lucky", menu: "A lifelong student and AI enthusiast, sharing what he learns.", icon: "about" },
+];
+
+export function trackById(id) {
+  return tracks.find((track) => track.id === id) || null;
+}
+
+export function lessonRef(trackId, lessonId) {
+  const track = trackById(trackId);
+  if (!track) return null;
+  const index = track.lessons.findIndex((lesson) => lesson.id === lessonId);
+  if (index < 0) return null;
+  return {
+    track,
+    lesson: track.lessons[index],
+    prev: track.lessons[index - 1] || null,
+    next: track.lessons[index + 1] || null,
+  };
+}
