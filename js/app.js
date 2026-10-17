@@ -11,6 +11,8 @@ import { runStudent } from "./runner.js";
 import { sections } from "./content/sections.js";
 import { initShell, bindTilt, bindHeroParallax } from "./shell.js";
 import { initBotPanel } from "./botpanel.js";
+import { initHowTo } from "./howto.js";
+import { initBotFx } from "./botfx.js";
 
 const main = () => document.getElementById("main");
 let viewToken = 0;
@@ -733,6 +735,8 @@ applyTheme(document.documentElement.dataset.theme || "ink", false);
 initShell();
 initBot();
 initBotPanel();
+initBotFx();
+initHowTo();
 window.addEventListener("hashchange", render);
 document.addEventListener("click", (event) => {
   const themeButton = event.target.closest("[data-theme-set]");
