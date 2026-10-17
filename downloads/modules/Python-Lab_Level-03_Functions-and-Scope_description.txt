@@ -1,0 +1,11 @@
+Level 3: Functions and Scope
+Audience: beginner-to-intermediate  Hours: 6
+Examples run on CPython 3.13.5
+
+Inside:
+- Define functions with positional, keyword, default and variadic parameters
+- Explain the LEGB rule and predict which name a line of code sees
+- Avoid the mutable-default-argument trap
+- Write a docstring that follows PEP 257 and a signature with PEP 484 hints
+
+License: code MIT, text CC BY-NC-SA 4.0. Not accredited.

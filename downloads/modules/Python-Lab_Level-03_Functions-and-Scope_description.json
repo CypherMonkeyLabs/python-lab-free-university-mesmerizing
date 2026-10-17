@@ -1,0 +1,101 @@
+{
+  "title": "Level 3: Functions and Scope",
+  "id": "L03",
+  "audience": "beginner-to-intermediate",
+  "hours": 6,
+  "whats_inside": [
+    "Define functions with positional, keyword, default and variadic parameters",
+    "Explain the LEGB rule and predict which name a line of code sees",
+    "Avoid the mutable-default-argument trap",
+    "Write a docstring that follows PEP 257 and a signature with PEP 484 hints"
+  ],
+  "project": "Unit converter CLI with tested pure functions",
+  "how_to_use": {
+    "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+    "docx": "Edit freely for your own notes or classroom.",
+    "pptx": "Present or self-study slide by slide; green slides show verified output.",
+    "html": "Open offline in any browser.",
+    "png": "Cover and outcomes card; use it as a poster or a slide."
+  },
+  "python_min": "3.8",
+  "examples_run_on": "CPython 3.13.5",
+  "snippets_executed": 5,
+  "level": 3,
+  "base": "Python-Lab_Level-03_Functions-and-Scope",
+  "accent": "#ff9f43",
+  "blurb": "Define functions with positional, keyword, default and variadic parameters; Explain the LEGB rule and predict which name a line of code sees.",
+  "license": {
+    "code": "MIT",
+    "text": "CC BY-NC-SA 4.0"
+  },
+  "accredited": false,
+  "sources": [
+    {
+      "id": "tutorial-functions",
+      "title": "Python tutorial: More on defining functions",
+      "url": "https://docs.python.org/3/tutorial/controlflow.html#defining-functions"
+    },
+    {
+      "id": "pep257",
+      "title": "PEP 257 Docstring Conventions",
+      "url": "https://peps.python.org/pep-0257/"
+    },
+    {
+      "id": "pep484",
+      "title": "PEP 484 Type Hints",
+      "url": "https://peps.python.org/pep-0484/"
+    },
+    {
+      "id": "pep8",
+      "title": "PEP 8 Style Guide for Python Code",
+      "url": "https://peps.python.org/pep-0008/"
+    },
+    {
+      "id": "ref-naming",
+      "title": "Python reference: Naming and binding",
+      "url": "https://docs.python.org/3/reference/executionmodel.html#naming-and-binding"
+    }
+  ],
+  "verified": {
+    "pdf_pages": 3,
+    "docx_paragraphs": 37,
+    "pptx_slides": 10
+  },
+  "files": [
+    {
+      "name": "Python-Lab_Level-03_Functions-and-Scope_Cover.png",
+      "format": "png",
+      "bytes": 56556,
+      "size": "55 KB",
+      "sha256": "f3934320f089bff25e618f5d8c422684177236fdc7909a0003b7f2b4f2267acc"
+    },
+    {
+      "name": "Python-Lab_Level-03_Functions-and-Scope_Guide.html",
+      "format": "html",
+      "bytes": 5262,
+      "size": "5 KB",
+      "sha256": "57b9c8ec41701eca51404cb11327ec765ca7e3407a5912b034eb3e8c3c01af7b"
+    },
+    {
+      "name": "Python-Lab_Level-03_Functions-and-Scope_Guide.pdf",
+      "format": "pdf",
+      "bytes": 25966,
+      "size": "25 KB",
+      "sha256": "f46e4e4ef9d7a4c9a14a284ac8f7ac2d74a9899570828f37ebfae03e2846d41a"
+    },
+    {
+      "name": "Python-Lab_Level-03_Functions-and-Scope_Slides.pptx",
+      "format": "pptx",
+      "bytes": 39224,
+      "size": "38 KB",
+      "sha256": "6757299487c8a0ff3ab19b50f62f0f3beaaa9109e049b2ccee71c08513a05e0a"
+    },
+    {
+      "name": "Python-Lab_Level-03_Functions-and-Scope_Worksheet.docx",
+      "format": "docx",
+      "bytes": 38235,
+      "size": "37 KB",
+      "sha256": "0a8a8bc67f77bcd857f72e16e6f1d0492d44693b12219903f9c0252a60175fc0"
+    }
+  ]
+}
