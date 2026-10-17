@@ -34,8 +34,8 @@ function content() {
 
     <p class="howto-group">3. Take it with you</p>
     <div class="howto-grid">
-      ${card("#fbbf24", "#34d399", '<path d="M12 4v10M8 10l4 4 4-4M5 19h14"/>', "Cheat sheets", 'Four PDF and plain-text sheets. <a href="#/downloads" data-howto-go>Open Downloads</a>.')}
-      ${card("#34d399", "#22d3ee", '<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/>', "Offline copy", `The site is plain files. <a href="${ZIP}" rel="noopener">Download the whole lab as a ZIP</a> from GitHub, then run <code>python3 -m http.server</code> in the folder and open it. There is no separate notebook download yet.`)}
+      ${card("#fbbf24", "#34d399", '<path d="M12 4v10M8 10l4 4 4-4M5 19h14"/>', "Cheat sheets and notebook", 'Four PDF and plain-text sheets, slides as Markdown, and a Jupyter notebook. <a href="#/downloads" data-howto-go>Open Downloads</a>.')}
+      ${card("#34d399", "#22d3ee", '<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/>', "Offline copy", `The site is plain files. <a href="${ZIP}" rel="noopener">Download the whole lab as a ZIP</a> from GitHub, then run <code>python3 -m http.server</code> in the folder and open it. The slides as Markdown and a notebook of code samples are on the Downloads page.`)}
       ${card("#f472b6", "#a78bfa", '<path d="M7 8V4h10v4M7 17H5v-7h14v7h-2M7 14h10v6H7z"/>', "Print or save as PDF", "Use your browser's Print command on any lesson or slide deck. The menus step aside for print.")}
     </div>
 

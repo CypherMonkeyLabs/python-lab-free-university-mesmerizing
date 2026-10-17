@@ -39,6 +39,12 @@ const routes = [
   "/#/section/integrations",
   "/#/section/lifetime",
   "/#/section/resources",
+  "/#/slides",
+  "/#/slides/first-hour",
+  "/#/slides/async-flow/3",
+  "/#/guides",
+  "/#/guide/control-flow",
+  "/#/guide/study-plan",
 ];
 
 const SEEN = () => localStorage.setItem("pythonlab.howto.v1", JSON.stringify({ seen: true }));
@@ -405,4 +411,110 @@ test("section pages carry diagram strips", async ({ page }) => {
     await page.goto(`/#/section/${id}`);
     await expect(page.locator(".dstrip .dcard").first()).toBeVisible();
   }
+});
+
+const deckIds = ["first-hour", "data-structures", "functions-classes", "modules-packages", "async-flow", "python-314", "numpy-pandas", "browser-python", "lifetime-learning"];
+const guideIds = ["control-flow", "iterators-generators", "async-in-practice", "functions-and-calls", "classes-and-methods", "import-system", "packaging-and-environments", "data-with-pandas", "python-in-the-browser", "study-plan", "whats-new-314"];
+
+test("every slide deck walks end to end with keys, dots, and full screen", async ({ page }) => {
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  page.on("console", (m) => { if (m.type() === "error") errors.push(m.text()); });
+  await page.goto("/#/slides");
+  await expect(page.locator(".deck-grid .dcard")).toHaveCount(deckIds.length);
+  for (const id of deckIds) {
+    await page.goto(`/#/slides/${id}`);
+    const n = await page.locator("#deck-dots .dot").count();
+    expect(n).toBeGreaterThan(5);
+    await page.locator("#deck-stage").focus();
+    await expect(page.locator("#deck-stage .slide h2")).toBeVisible();
+    await page.keyboard.press("ArrowRight");
+    await expect(page).toHaveURL(new RegExp(`#/slides/${id}/2$`));
+    await page.keyboard.press("ArrowLeft");
+    await expect(page).toHaveURL(new RegExp(`#/slides/${id}/1$`));
+    await page.keyboard.press("End");
+    await expect(page.locator("#deck-next")).toBeDisabled();
+    await page.keyboard.press("Home");
+    await expect(page.locator("#deck-prev")).toBeDisabled();
+    for (let i = 0; i < n - 1; i++) await page.locator("#deck-next").click();
+    await expect(page.locator("#deck-live")).toContainText(`Slide ${n} of ${n}`);
+  }
+  await page.goto("/#/slides/first-hour/1");
+  await page.locator("#deck-full").click();
+  await expect(page.locator(".deck.deck-max")).toBeVisible();
+  await page.locator("#deck-stage").focus();
+  await page.keyboard.press("Escape");
+  await expect(page.locator(".deck.deck-max")).toHaveCount(0);
+  expect(errors, errors.join("\n")).toEqual([]);
+});
+
+test("slide viz types all render", async ({ page }) => {
+  await page.goto("/#/slides/first-hour");
+  const seen = new Set();
+  for (const id of deckIds) {
+    await page.goto(`/#/slides/${id}`);
+    const n = await page.locator("#deck-dots .dot").count();
+    for (let i = 0; i < n; i++) {
+      const cls = await page.locator("#deck-stage .slide-viz").getAttribute("class");
+      seen.add(cls.replace("slide-viz viz-", ""));
+      const hasContent = await page.locator("#deck-stage .slide-viz").evaluate((el) => el.textContent.trim().length > 0 || el.classList.contains("viz-none"));
+      expect(hasContent).toBeTruthy();
+      if (i < n - 1) await page.locator("#deck-next").click();
+    }
+  }
+  for (const k of ["terminal", "layers", "ring", "cards", "flow"]) expect(seen.has(k), k).toBeTruthy();
+});
+
+test("slide deck swipes on a touch screen", async ({ browser }) => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  await ctx.addInitScript(SEEN);
+  const page = await ctx.newPage();
+  await page.goto("/#/slides/first-hour/1");
+  const box = await page.locator("#deck-stage").boundingBox();
+  const cy = box.y + Math.min(box.height / 2, 200);
+  await page.evaluate(([x1, x2, y]) => {
+    const el = document.getElementById("deck-stage");
+    const fire = (type, x) => el.dispatchEvent(new PointerEvent(type, { clientX: x, clientY: y, pointerId: 7, pointerType: "touch", bubbles: true }));
+    fire("pointerdown", x1); fire("pointerup", x2);
+  }, [box.x + box.width - 20, box.x + 20, cy]);
+  await expect(page).toHaveURL(/#\/slides\/first-hour\/2$/);
+  const ov = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(ov).toBeLessThanOrEqual(1);
+  await ctx.close();
+});
+
+test("print view contains every slide", async ({ page }) => {
+  await page.goto("/#/slides/python-314");
+  const total = await page.locator("#deck-dots .dot").count();
+  await page.emulateMedia({ media: "print" });
+  await expect(page.locator(".deck-print .slide").first()).toBeVisible();
+  expect(await page.locator(".deck-print .slide").count()).toBe(total);
+});
+
+test("every guide opens with flow, cards, diagram, and sources", async ({ page }) => {
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  page.on("console", (m) => { if (m.type() === "error") errors.push(m.text()); });
+  await page.goto("/#/guides");
+  await expect(page.locator(".dgrid .dcard")).toHaveCount(guideIds.length);
+  for (const id of guideIds) {
+    await page.goto(`/#/guide/${id}`);
+    await expect(page.locator("h1")).toBeVisible();
+    await expect(page.locator(".flow-strip").first()).toBeVisible();
+    await expect(page.locator(".g-card").first()).toBeAttached();
+    await expect(page.locator(".dframe-view").first()).toBeAttached();
+    expect(await page.locator("a[href^='#/sources/']").count()).toBeGreaterThan(1);
+  }
+  expect(errors, errors.join("\n")).toEqual([]);
+});
+
+test("downloads page serves the markdown and notebook", async ({ page, request }) => {
+  await page.goto("/#/downloads");
+  for (const href of ["downloads/python-lab-slides.md", "downloads/python-lab-code-samples.ipynb"]) {
+    await expect(page.locator(`a[href="${href}"]`)).toBeVisible();
+    const res = await request.get(`/${href}`);
+    expect(res.status()).toBe(200);
+  }
+  const nb = await (await request.get("/downloads/python-lab-code-samples.ipynb")).json();
+  expect(nb.cells.length).toBeGreaterThan(50);
 });
