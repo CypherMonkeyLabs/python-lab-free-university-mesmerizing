@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="ink">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python Lab</title>
+  <meta name="description" content="Python Lab is a free static study studio for Python, from a first program through interview practice.">
+  <meta name="theme-color" content="#12161c">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/site.css">
+  <script>
+    try {
+      var theme = localStorage.getItem("pythonlab.theme");
+      if (theme === "paper" || theme === "terminal" || theme === "contrast" || theme === "ink") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    } catch (err) {
+      /* Storage can be blocked. The default theme still works. */
+    }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="#/">Python Lab</a>
+    <div class="header-actions">
+      <div class="themes" role="group" aria-label="Color theme">
+        <button type="button" class="theme-btn" data-theme-set="ink" aria-pressed="true">Ink</button>
+        <button type="button" class="theme-btn" data-theme-set="paper">Paper</button>
+        <button type="button" class="theme-btn" data-theme-set="terminal">Terminal</button>
+        <button type="button" class="theme-btn" data-theme-set="contrast">Contrast</button>
+      </div>
+      <button type="button" class="text-btn" id="bot-reset">Reset bot</button>
+    </div>
+  </header>
+  <main id="main" class="wrap" tabindex="-1"></main>
+  <footer class="site-footer">
+    <ul class="footer-links">
+      <li><a href="https://cyphermonkeylabs.com">cyphermonkeylabs.com</a></li>
+      <li><a href="https://github.com">GitHub</a></li>
+      <li><a href="https://linktr.ee/cyphermonkey">Linktree</a></li>
+      <li><a href="#/sources">Sources</a></li>
+      <li><a href="#/about">About Lucky</a></li>
+    </ul>
+    <p>Free to read. No account. Lucky shares what he is learning.</p>
+  </footer>
+  <div id="lab-bot" class="bot" role="button" tabindex="0" aria-label="Lab bot. Drag to move it. It snaps to the nearest edge. Arrow keys nudge it.">
+    <div class="bot-stage">
+      <div class="bot-shadow"></div>
+      <div class="bot-figure">
+        <div class="antenna"></div>
+        <div class="head"><div class="face"><i></i><i></i></div></div>
+        <div class="torso">py</div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="js/app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(function () {
+        /* A locked browser can refuse the worker. The pages still open. */
+      });
+    }
+  </script>
+</body>
+</html>
