@@ -8,6 +8,7 @@
   <meta name="theme-color" content="#12161c">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/shell.css">
   <script>
     try {
       var theme = localStorage.getItem("pythonlab.theme");
@@ -21,18 +22,40 @@
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  <header class="site-header">
-    <a class="brand" href="#/">Python Lab</a>
-    <div class="header-actions">
-      <div class="themes" role="group" aria-label="Color theme">
-        <button type="button" class="theme-btn" data-theme-set="ink" aria-pressed="true">Ink</button>
-        <button type="button" class="theme-btn" data-theme-set="paper">Paper</button>
-        <button type="button" class="theme-btn" data-theme-set="terminal">Terminal</button>
-        <button type="button" class="theme-btn" data-theme-set="contrast">Contrast</button>
-      </div>
-      <button type="button" class="text-btn" id="bot-reset">Reset bot</button>
+  <header class="topbar" id="topbar">
+    <button type="button" class="tb-btn" id="menu-toggle" aria-label="Open the menu" aria-controls="sidemenu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span class="tb-btn-label">Menu</span>
+    </button>
+    <a class="brand" href="#/"><span class="brand-mark" aria-hidden="true">py</span><span class="brand-text"><span class="brand-name">Python Lab</span><span class="brand-sub">Free university</span></span></a>
+    <div class="top-search-wrap">
+      <label class="visually-hidden" for="top-search">Search the lab</label>
+      <input id="top-search" type="search" placeholder="Search lessons, labs, games   ( / )" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="search-results" aria-autocomplete="list">
+      <div id="search-results" class="search-results" role="listbox" hidden></div>
     </div>
+    <div class="top-progress" role="progressbar" aria-label="Lessons opened" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="tp-track"><i data-progress-fill></i></span><span class="tp-text" data-progress-text></span></div>
+    <nav class="top-links" aria-label="Quick links">
+      <a href="#/practice">Labs</a>
+      <a href="#/downloads">Resources</a>
+      <a href="https://cyphermonkeylabs.com" rel="noopener">cyphermonkeylabs.com</a>
+    </nav>
+    <button type="button" class="tb-btn tb-search" id="search-toggle" aria-label="Search" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg>
+    </button>
+    <details class="display-menu">
+      <summary class="tb-btn" aria-label="Display options">Display</summary>
+      <div class="display-pop">
+        <div class="themes" role="group" aria-label="Color theme">
+          <button type="button" class="theme-btn" data-theme-set="ink" aria-pressed="true">Ink</button>
+          <button type="button" class="theme-btn" data-theme-set="paper">Paper</button>
+          <button type="button" class="theme-btn" data-theme-set="terminal">Terminal</button>
+          <button type="button" class="theme-btn" data-theme-set="contrast">Contrast</button>
+        </div>
+        <button type="button" class="text-btn" id="bot-reset">Reset bot</button>
+      </div>
+    </details>
   </header>
+  <div class="side-scrim" id="side-scrim" hidden></div>
+  <aside class="sidemenu" id="sidemenu" aria-label="Lab menu"></aside>
   <main id="main" class="wrap" tabindex="-1"></main>
   <footer class="site-footer">
     <ul class="footer-links">
@@ -44,7 +67,15 @@
     </ul>
     <p>Free to read. No account. Lucky shares what he is learning.</p>
   </footer>
-  <div id="lab-bot" class="bot" role="button" tabindex="0" aria-label="Lab bot. Drag to move it. It snaps to the nearest edge. Arrow keys nudge it.">
+  <nav class="bottombar" id="bottombar" aria-label="Lesson navigation">
+    <button type="button" class="bar-btn bar-menu" id="bar-menu" aria-label="Menu"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span class="bar-text"><span class="bar-label">Menu</span></span></button>
+    <a class="bar-btn" id="bar-prev" href="#/" aria-label="Previous"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><span class="bar-text"><span class="bar-label">Prev</span><span class="bar-sub"></span></span></a>
+    <div class="bar-progress" role="progressbar" aria-label="Lessons opened" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="bar-where" id="bar-where">Home</span><span class="tp-track"><i data-progress-fill></i></span><span class="bar-count" data-progress-text></span></div>
+    <a class="bar-btn bar-next" id="bar-next" href="#/" aria-label="Next"><span class="bar-text"><span class="bar-label">Next</span><span class="bar-sub"></span></span><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></a>
+    <a class="bar-btn bar-home" href="#/" aria-label="Home"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg><span class="bar-text"><span class="bar-label">Home</span></span></a>
+  </nav>
+  <section class="bot-panel" id="bot-panel" role="dialog" aria-modal="false" aria-labelledby="bot-panel-title" hidden></section>
+  <div id="lab-bot" class="bot" role="button" tabindex="0" aria-label="Lab bot. Tap or press Enter to open the helper. Drag to move it. Arrow keys nudge it." aria-haspopup="dialog" aria-expanded="false" aria-controls="bot-panel">
     <div class="bot-stage">
       <div class="bot-shadow"></div>
       <div class="bot-figure">
