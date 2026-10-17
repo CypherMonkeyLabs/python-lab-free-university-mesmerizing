@@ -27,6 +27,7 @@ import { initDisplay } from "./display.js";
 import { initTour } from "./tour.js";
 import { initWelcome } from "./welcome.js";
 import { levelView, meView, levelCards } from "./views2.js";
+import { PLAY } from "./play.js";
 
 const main = () => document.getElementById("main");
 let viewToken = 0;
@@ -440,11 +441,12 @@ function gamesView() {
     { href: "#/games/guess", title: "Guess the integer", menu: "Higher or lower, from 1 to 100.", icon: "games" },
     { href: "#/games/snake", title: "Snake", menu: "A small board you can steer with keys, swipes, or buttons.", icon: "games" },
     { href: "#/games/adventure", title: "Import Error", menu: "A text adventure about finding a missing module.", icon: "games" },
+    ...PLAY.map((g) => ({ href: `#/games/${g.id}`, title: g.title, menu: `${g.menu} (${g.concept})`, icon: "games" })),
   ];
   return {
     html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/games", label: "Games" }])}
       <h1>Games</h1>
-      <p class="lede">Short games in the same lab. They use the browser, not the Python runtime, so they start immediately.</p>
+      <p class="lede">Visual games and puzzles that explain Python ideas, plus classics. They run in the browser, start immediately, and earn XP and badges stored only on this device. <a href="#/me">See my XP and badges</a>.</p>
       <div class="menu-grid">${cards.map(menuCard).join("")}</div>`,
   };
 }
@@ -454,6 +456,7 @@ function gameView(id) {
     guess: ["Guess the integer", "Find the hidden integer."],
     snake: ["Snake", "Eat the brass square. Do not hit the wall or yourself."],
     adventure: ["Import Error", "A text adventure in the lab building."],
+    ...Object.fromEntries(PLAY.map((g) => [g.id, [g.title, `${g.menu} Concept: ${g.concept}.`]])),
   };
   if (!titles[id]) return missingView();
   return {

@@ -25,7 +25,7 @@ export const tracks = [
 
 export const extras = [
   { href: "#/practice", title: "Practice desk", menu: "Run Python in this browser. The code stays on the page.", icon: "practice" },
-  { href: "#/games", title: "Games", menu: "Guess, snake, and a text adventure about a missing module.", icon: "games" },
+  { href: "#/games", title: "Games", menu: "Visual puzzles (blocks, turtle, loops, lists, code sorter), Pong, Snake, and more.", icon: "games" },
   { href: "#/quizzes", title: "Quizzes", menu: "Short checks with an explanation and a source.", icon: "quizzes" },
   { href: "#/slides", title: "Slides", menu: "9 slide decks, fundamentals to advanced. Arrow keys or swipe.", icon: "rooms" },
   { href: "#/guides", title: "Guides", menu: "Deep dives with a flow, code with output, a diagram, and sources.", icon: "fundamentals" },
