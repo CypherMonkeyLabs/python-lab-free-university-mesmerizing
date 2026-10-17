@@ -18,6 +18,10 @@ import { initShell, bindTilt, bindHeroParallax } from "./shell.js";
 import { initBotPanel } from "./botpanel.js";
 import { initHowTo } from "./howto.js";
 import { initBotFx } from "./botfx.js";
+import { initTeachReactions } from "./botteach.js";
+import { mountStudio, disposeStudio, initQualityControl, studioMarkup } from "./studio/studio.js";
+import { worldsView, worldView } from "./worlds.js";
+import { downloadCenterView } from "./downloadcenter.js";
 import { diagramsView, diagramView, diagramStrip, watchDiagramTheme } from "./views.js";
 
 const main = () => document.getElementById("main");
@@ -62,6 +66,8 @@ function parseRoute() {
   if (head === "guide" && a) return { name: "guide", id: a };
   if (head === "diagrams") return { name: "diagrams" };
   if (head === "diagram" && a) return { name: "diagram", id: a };
+  if (head === "worlds") return a ? { name: "world", id: a } : { name: "worlds" };
+  if (head === "download-center") return { name: "download-center", id: a || "" };
   if (head === "sources") return { name: "sources", id: a || "" };
   if (["practice", "downloads", "about"].includes(head)) return { name: head };
   return { name: "missing" };
@@ -192,6 +198,7 @@ function homeView() {
           <p class="hero-hint">Use the menu (left side, or the ☰ button on a phone) or tap the bot for a guide.</p>
         </div>
         ${heroScene()}
+        ${studioMarkup({ scene: "fallback", accent: "#f5a623", n: 0, alt: "A slowly turning wireframe shape over a violet and amber aurora.", compact: true })}
       </section>
       <h2 class="sec-heading">${sections.length} sections, one path</h2>
       <p class="sec-sub">Every section opens a landing page with its lessons, labs, and links.</p>
@@ -409,6 +416,7 @@ async function executeEditor({ token, source, checks, packages, lessonKey }) {
         });
       }
     }
+    window.dispatchEvent(new CustomEvent("lab:result", { detail: { ok: !!result.ok, hasChecks: checks.length > 0, lessonKey } }));
     if (status) status.textContent = result.ok || !checks.length ? "Run finished." : "Run finished with failed checks.";
   } catch (err) {
     if (token !== viewToken) return;
@@ -692,6 +700,9 @@ function viewFor(route) {
   if (route.name === "quiz") return quizView(route.id);
   if (route.name === "ecosystem") return ecosystemView(route.panel);
   if (route.name === "downloads") return downloadsView();
+  if (route.name === "worlds") return worldsView();
+  if (route.name === "world") return worldView(route.id) || missingView();
+  if (route.name === "download-center") return downloadCenterView(route.id);
   if (route.name === "sources") return sourcesView(route.id);
   if (route.name === "about") return aboutView();
   if (route.name === "rooms") return roomsView(route.id);
@@ -747,6 +758,7 @@ function render() {
   stopGame();
   stopSpeech();
   stopOrbit();
+  disposeStudio();
   const route = parseRoute();
   const view = viewFor(route);
   main().innerHTML = view.html;
@@ -756,6 +768,7 @@ function render() {
   }
   booted = true;
   view.after?.(token);
+  mountStudio(main());
   keepBotClear();
 }
 
@@ -764,6 +777,8 @@ initShell();
 initBot();
 initBotPanel();
 initBotFx();
+initTeachReactions();
+initQualityControl();
 initHowTo();
 window.addEventListener("hashchange", render);
 document.addEventListener("click", (event) => {
