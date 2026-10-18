@@ -108,6 +108,8 @@
     min-height: 48px;
     max-height: none;
     overflow: auto;
+    padding: 4px 6px;
+    border-width: 0;
   }
   .py-chat-form button,
   .py-mic,

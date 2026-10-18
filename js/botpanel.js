@@ -78,7 +78,8 @@ function position() {
   if (maxH < 1) maxH = Math.min(Math.max(above, below), cap);
   p.style.maxHeight = `${maxH}px`;
   p.style.height = "auto";
-  if (p.scrollHeight > maxH + 1) p.style.height = `${maxH}px`;
+  const short = view.height <= 560;
+  if (short || p.scrollHeight > maxH + 1) p.style.height = `${maxH}px`;
   const pw = p.offsetWidth || Math.min(340, view.width - 16);
   const left = Math.min(Math.max(view.left + 8, r.right - pw), view.left + view.width - pw - 8);
   const height = Math.min(p.offsetHeight, maxH);
