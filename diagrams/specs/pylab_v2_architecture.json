@@ -1,0 +1,299 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "Python Lab v2: from one source to a lifetime studio",
+  "output": "pylab_v2_architecture.html",
+  "quality_profile": "showcase",
+  "views": [
+   {
+    "id": "build-path",
+    "label": "Build path",
+    "focus": [
+     "src",
+     "build",
+     "static",
+     "dl",
+     "ci"
+    ],
+    "note": "One Markdown source becomes the site and every download."
+   },
+   {
+    "id": "learner-path",
+    "label": "Learner path",
+    "focus": [
+     "learner",
+     "studio",
+     "runner",
+     "bot",
+     "store"
+    ],
+    "note": "Everything the learner touches runs in the browser; progress stays on the device."
+   }
+  ]
+ },
+ "components": [
+  {
+   "id": "src",
+   "type": "database",
+   "label": "Content source",
+   "sublabel": "Markdown + JSON modules",
+   "pos": [
+    40,
+    300
+   ],
+   "size": [
+    130,
+    60
+   ]
+  },
+  {
+   "id": "build",
+   "type": "backend",
+   "label": "Build pipeline",
+   "sublabel": "pipeline/build_downloads.py",
+   "pos": [
+    250,
+    300
+   ],
+   "size": [
+    130,
+    60
+   ],
+   "tag": "runs every snippet"
+  },
+  {
+   "id": "static",
+   "type": "cloud",
+   "label": "Static site",
+   "sublabel": "HTML, CSS, JS, no server",
+   "pos": [
+    460,
+    300
+   ],
+   "size": [
+    130,
+    60
+   ]
+  },
+  {
+   "id": "dl",
+   "type": "database",
+   "label": "Download library",
+   "sublabel": "PDF DOCX PPTX HTML ZIP",
+   "pos": [
+    250,
+    490
+   ],
+   "size": [
+    130,
+    60
+   ]
+  },
+  {
+   "id": "studio",
+   "type": "backend",
+   "label": "3D studio shell",
+   "sublabel": "rooms, tiers, fallbacks",
+   "pos": [
+    670,
+    300
+   ],
+   "size": [
+    130,
+    60
+   ]
+  },
+  {
+   "id": "runner",
+   "type": "security",
+   "label": "Pyodide runner",
+   "sublabel": "Web Worker, Stop button",
+   "pos": [
+    880,
+    300
+   ],
+   "size": [
+    130,
+    60
+   ]
+  },
+  {
+   "id": "bot",
+   "type": "backend",
+   "label": "Py teacher bot",
+   "sublabel": "hints ladder, offline rules",
+   "pos": [
+    670,
+    110
+   ],
+   "size": [
+    130,
+    60
+   ]
+  },
+  {
+   "id": "store",
+   "type": "database",
+   "label": "localStorage",
+   "sublabel": "XP, streaks, notes",
+   "pos": [
+    880,
+    110
+   ],
+   "size": [
+    130,
+    60
+   ]
+  },
+  {
+   "id": "ci",
+   "type": "external",
+   "label": "CI gates",
+   "sublabel": "tests, links, a11y, licences",
+   "pos": [
+    250,
+    110
+   ],
+   "size": [
+    130,
+    60
+   ]
+  },
+  {
+   "id": "learner",
+   "type": "external",
+   "label": "Learner",
+   "sublabel": "phone or desktop",
+   "pos": [
+    670,
+    490
+   ],
+   "size": [
+    130,
+    60
+   ]
+  }
+ ],
+ "boundaries": [
+  {
+   "kind": "region",
+   "label": "Browser on the learner's device",
+   "wraps": [
+    "studio",
+    "runner",
+    "bot",
+    "store"
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "a",
+   "from": "src",
+   "to": "build",
+   "label": "build",
+   "variant": "default"
+  },
+  {
+   "id": "b",
+   "from": "build",
+   "to": "static",
+   "label": "publish",
+   "variant": "emphasis"
+  },
+  {
+   "id": "c",
+   "from": "build",
+   "to": "dl",
+   "label": "generate",
+   "variant": "emphasis",
+   "labelAt": [
+    330,
+    425
+   ]
+  },
+  {
+   "id": "d",
+   "from": "static",
+   "to": "studio",
+   "label": "load",
+   "variant": "emphasis"
+  },
+  {
+   "id": "e",
+   "from": "studio",
+   "to": "runner",
+   "label": "run code",
+   "variant": "emphasis"
+  },
+  {
+   "id": "f",
+   "from": "studio",
+   "to": "bot",
+   "label": "help",
+   "variant": "default",
+   "labelDx": 40
+  },
+  {
+   "id": "g",
+   "from": "bot",
+   "to": "store",
+   "label": "progress",
+   "variant": "default"
+  },
+  {
+   "id": "h",
+   "from": "runner",
+   "to": "store",
+   "label": "results",
+   "variant": "default",
+   "labelDx": 40
+  },
+  {
+   "id": "i",
+   "from": "ci",
+   "to": "build",
+   "label": "verify",
+   "variant": "default",
+   "labelAt": [
+    330,
+    235
+   ]
+  },
+  {
+   "id": "j",
+   "from": "learner",
+   "to": "studio",
+   "label": "visit",
+   "variant": "emphasis",
+   "labelDx": 40
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "One source",
+   "items": [
+    "Lessons and downloads share the same Markdown",
+    "Build fails if a snippet does not run"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "Private by design",
+   "items": [
+    "No account and no server",
+    "Progress stays in localStorage; export or delete any time"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Honest limits",
+   "items": [
+    "Blueprint only; nothing here is built yet",
+    "Pyodide cannot open raw sockets"
+   ]
+  }
+ ]
+}

@@ -1,6 +1,7 @@
 # Diagram notice
 
 The HTML files in this folder were produced with Archify (https://github.com/tt-a1i/archify, MIT licence).
+Added in PR3: `level_map.html` and `pylab_v2_architecture.html` (specs in `specs/`, built with `archify deliver ... --quality showcase`, 9 of 9 checks).
 Each file embeds Archify's viewer code and fonts so it opens offline. The JSON specs in `specs/` are this lab's own text.
 
 Archify MIT licence notice:

@@ -43,3 +43,45 @@
 }
 @media print { #lab-bot, .howto-scrim { display: none !important; } }
 button.bp-go { font: inherit; text-align: left; width: 100%; cursor: pointer; }
+
+/* ---- PR5: Py outshines the screen: aura, sparkles, skins, size, mannerisms ---- */
+#pb-head stop:first-child { stop-color: var(--py-a, #6bb0e6); }
+#pb-head stop:last-child { stop-color: var(--py-b, #2f6aa3); }
+.bot { width: calc(96px * var(--py-s, 1.1)); height: calc(128px * var(--py-s, 1.1)); pointer-events: none; }
+.bot-stage, .bot-svg { pointer-events: auto; }
+.bot-stage { inset: auto; left: 0; bottom: 0; width: 96px; height: 128px; transform: scale(var(--py-s, 1.1)); transform-origin: left bottom; }
+.py-aura { position: absolute; left: -10px; bottom: -4px; width: 116px; height: 116px; border-radius: 50%; z-index: 0; pointer-events: none;
+  background: conic-gradient(from 0deg, #ff5da2, #ffd43b, #34d399, #22d3ee, #a78bfa, #ff5da2); filter: blur(14px); opacity: 0.55; animation: py-spin 7s linear infinite; }
+.bot-figure { z-index: 1; }
+@keyframes py-spin { to { transform: rotate(360deg); } }
+.py-sparks b { position: absolute; font-size: 14px; color: #ffd43b; text-shadow: 0 0 8px #ff5da2; pointer-events: none; opacity: 0; animation: py-twinkle 3.2s ease-in-out infinite; z-index: 2; }
+.py-sparks b:nth-child(1) { left: -2px; top: 30px; } .py-sparks b:nth-child(2) { right: -2px; top: 54px; animation-delay: .8s; color: #7cf3ff; }
+.py-sparks b:nth-child(3) { left: 6px; bottom: 30px; animation-delay: 1.6s; color: #ff8fc3; } .py-sparks b:nth-child(4) { right: 8px; top: 18px; animation-delay: 2.4s; }
+@keyframes py-twinkle { 0%, 100% { opacity: 0; transform: scale(.4) rotate(0); } 50% { opacity: 1; transform: scale(1.2) rotate(90deg); } }
+html[data-fx="off"] .py-aura { animation: none; opacity: .35; filter: blur(10px); }
+html[data-fx="off"] .py-sparks { display: none; }
+html[data-fx="low"] .py-aura { animation: none; }
+.bot.py-wave .bot-figure { animation: py-wave 1.2s ease; }
+.bot.py-celebrate .bot-figure { animation: py-jump .5s ease-in-out 4; }
+.bot.py-think .bot-figure { animation: py-think 1.6s ease-in-out; }
+.bot.py-hint .bot-figure { animation: py-hint .45s ease-in-out 3; }
+.bot.py-celebrate .py-aura { opacity: .95; }
+.bot.py-hint .bulb { fill: #ffd43b; filter: drop-shadow(0 0 8px #ffd43b); }
+@keyframes py-wave { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-12deg); } 40% { transform: rotate(10deg); } 60% { transform: rotate(-8deg); } 80% { transform: rotate(5deg); } }
+@keyframes py-jump { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-22px) scale(1.08) rotate(6deg); } }
+@keyframes py-think { 0%, 100% { transform: rotate(0); } 30%, 70% { transform: rotate(-9deg) translateY(-2px); } }
+@keyframes py-hint { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.16); } }
+.bot[data-mood="celebrate"]::after, .bot[data-mood="think"]::after { display: block !important; position: absolute; top: -6px; left: 4px; font-size: 22px; content: "🎉"; animation: none; z-index: 3; }
+.bot[data-mood="think"]::after { content: "💭"; }
+.bot[data-mood="hint"]::after { display: block !important; position: absolute; top: -8px; left: 4px; font-size: 22px; content: "💡"; z-index: 3; }
+@media (prefers-reduced-motion: reduce) { .py-aura, .py-sparks b, .bot .bot-figure { animation: none !important; } .py-aura { opacity: .35; } .py-sparks { display: none; } }
+/* panel */
+.bp-quick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 8px 0 4px; }
+.bp-qa { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 58px; padding: 6px 4px; border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, var(--bg)), var(--bg)); color: var(--ink); text-decoration: none; font: inherit; font-size: .82rem; font-weight: 700; cursor: pointer; }
+.bp-qa span { font-size: 1.3rem; line-height: 1; } .bp-qa:hover, .bp-qa:focus-visible { border-color: var(--accent); transform: translateY(-1px); }
+.bp-hint { margin: 8px 0 0; padding: 8px 10px; border-radius: 12px; border: 1px dashed var(--accent); font-size: .88rem; }
+.py-custom { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 8px; } .py-custom summary { cursor: pointer; font-weight: 700; min-height: 40px; display: flex; align-items: center; }
+.py-row { display: flex; align-items: center; gap: 8px; min-height: 40px; font-size: .9rem; } .py-row input[type=text], #py-name { flex: 1; min-height: 40px; padding: 4px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; }
+.py-row input[type=checkbox] { width: 22px; height: 22px; }
+.py-swatches { display: flex; gap: 8px; flex-wrap: wrap; } .py-sw { width: 40px; height: 40px; border-radius: 50%; border: 3px solid var(--line); cursor: pointer; } .py-sw.on { border-color: var(--ink); box-shadow: 0 0 0 3px var(--accent); }
+.py-opt.on { background: var(--accent); color: var(--btn-ink); border-color: var(--accent); }

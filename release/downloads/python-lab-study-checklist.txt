@@ -1,0 +1,19 @@
+Python Lab cheat sheet. Snapshot 17 October 2026. This is a study aid, not a specification. Confirm details in the Sources section of Python Lab and on the official pages linked there.
+
+A honest study order
+- Write small programs until syntax, types, and functions feel ordinary.
+- Then files, exceptions, modules, and tests. A program you can rerun is ahead of a program you only watched.
+- Build one finished project and be able to explain its data structures and its limits.
+- Practice interview tasks as explanations: what you tried, the cost, and a test that would catch a mistake.
+- Choose a specialty after that: web, data, automation, or models. The language underneath stays the same.
+
+What this sheet will not do
+- It does not estimate pay, promise a job, or rank you against other people.
+- It does not replace the Python language reference.
+- Certification facts change. Read the OpenEDG Python Institute exam page before you pay.
+
+Exams worth opening, snapshot 17 October 2026
+- PCEP-30-02 is the active entry-level general exam. PCEP-30-03 was listed as pending for 31 October 2026.
+- PCAP-31-03 is the active associate exam. PCAP-31-04 was listed as pending for 31 October 2026.
+- PCPP-32-101 is the active professional level 1 exam. PCPP-32-201 (PCPP2) was listed as in development.
+- These are OpenEDG Python Institute credentials, not Python Software Foundation credentials.

@@ -1,0 +1,29 @@
+Python Lab cheat sheet. Snapshot 17 October 2026. This is a study aid, not a specification. Confirm details in the Sources section of Python Lab and on the official pages linked there.
+
+Program shape
+- Indentation groups a block. Use four spaces. Do not mix tabs and spaces.
+- Comments start with #. A string literal is not a comment.
+- print(value) writes text. The call happens because of the parentheses.
+- A module runs top to bottom. if __name__ == '__main__' guards script-only code.
+
+Names and built-in types
+- Assignment binds a name to an object. It does not copy the object.
+- int has arbitrary precision. float is a binary floating-point number.
+- str is Unicode text. bytes is raw octets. They are not interchangeable.
+- bool is a subclass of int. None is the only value of NoneType.
+- list and dict are mutable. tuple, str, and frozenset are immutable.
+- A trailing comma makes a one-item tuple: (1,).
+
+Control flow and functions
+- if / elif / else, while, for, break, continue, and pass.
+- for walks any iterable. range(n) yields 0 through n-1.
+- match / case is structural pattern matching, added in Python 3.10.
+- def names a function. Return values default to None.
+- Default arguments are evaluated once, at function definition.
+- Use a parameter default of None when the default must be a fresh list or dict.
+
+New enough to notice
+- 3.14: t-strings (t'...') return a string.templatelib.Template, not a str.
+- 3.14: annotations are stored and evaluated lazily (PEP 649 and PEP 749).
+- 3.14: except A, B: is allowed when you do not use as.
+- 3.15.0 was released on 9 October 2026. Highlights include lazy import, frozendict, sentinel, and unpacking in comprehensions. This lab's browser runtime is CPython 3.14.2, so those 3.15-only forms are shown for reading and are not sent to Run.

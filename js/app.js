@@ -18,7 +18,22 @@ import { initShell, bindTilt, bindHeroParallax } from "./shell.js";
 import { initBotPanel } from "./botpanel.js";
 import { initHowTo } from "./howto.js";
 import { initBotFx } from "./botfx.js";
+import { initTeachReactions } from "./botteach.js";
+import { mountStudio, disposeStudio, initQualityControl, studioMarkup } from "./studio/studio.js";
+import { worldsView, worldView, homeWorlds } from "./levelworlds.js";
+import { downloadCenterView } from "./downloadcenter.js";
 import { diagramsView, diagramView, diagramStrip, watchDiagramTheme } from "./views.js";
+import { applyPrefs } from "./prefs.js";
+import { applyWorld } from "./worlds.js";
+import { initFx } from "./fx.js";
+import { initXP } from "./xp.js";
+import { initDisplay } from "./display.js";
+import { initTour } from "./tour.js";
+import { initWelcome } from "./welcome.js";
+import { levelView, meView } from "./views2.js";
+import { PLAY } from "./play.js";
+import { DOWNLOADS, FORMAT_LABEL } from "./content/downloads.js";
+import { initPy } from "./pycustom.js";
 
 const main = () => document.getElementById("main");
 let viewToken = 0;
@@ -53,6 +68,8 @@ function parseRoute() {
   if (head === "lesson" && a && b) return { name: "lesson", track: a, lesson: b };
   if (head === "games" && a) return { name: "game", id: a };
   if (head === "games") return { name: "games" };
+  if (head === "level" && a) return { name: "level", n: Number(a) };
+  if (head === "me") return { name: "me" };
   if (head === "quiz" && a) return { name: "quiz", id: a };
   if (head === "quizzes") return { name: "quizzes" };
   if (head === "ecosystem") return { name: "ecosystem", panel: a || "glossary" };
@@ -62,8 +79,11 @@ function parseRoute() {
   if (head === "guide" && a) return { name: "guide", id: a };
   if (head === "diagrams") return { name: "diagrams" };
   if (head === "diagram" && a) return { name: "diagram", id: a };
+  if (head === "worlds") return a ? { name: "world", id: a } : { name: "worlds" };
+  if (head === "download-center") return { name: "download-center", id: a || "" };
   if (head === "sources") return { name: "sources", id: a || "" };
-  if (["practice", "downloads", "about"].includes(head)) return { name: head };
+  if (head === "downloads") return { name: "downloads", id: a || "" };
+  if (["practice", "about"].includes(head)) return { name: head };
   return { name: "missing" };
 }
 
@@ -192,7 +212,9 @@ function homeView() {
           <p class="hero-hint">Use the menu (left side, or the ☰ button on a phone) or tap the bot for a guide.</p>
         </div>
         ${heroScene()}
+        ${studioMarkup({ scene: "fallback", accent: "#f5a623", n: 0, alt: "A slowly turning wireframe shape over a violet and amber aurora.", compact: true })}
       </section>
+      ${homeWorlds()}
       <h2 class="sec-heading">${sections.length} sections, one path</h2>
       <p class="sec-sub">Every section opens a landing page with its lessons, labs, and links.</p>
       <div class="sec-grid">${sections.map(sectionTile).join("")}</div>
@@ -202,7 +224,7 @@ function homeView() {
         <div class="ring3d" style="--n:${decks.length}" aria-hidden="true"><div class="ring-spin">${decks.map((d, i) => `<span style="--i:${i}">${esc(d.title.split(" ").slice(0, 3).join(" "))}</span>`).join("")}</div><b class="ring-core">py</b></div></section>
       <p data-speak>Lucky is a lifelong student and an AI enthusiast. He is moving into AI omni-channel agents, and this lab is the notebook he is willing to share: cited, runnable in the browser, and free of invented salary claims.</p>
       ${roomScene({ title: "Lobby of the lab.", cards: ["Syntax", "Data", "Agents"], screen: "print('hello')" })}
-      <section class="clips">
+      <section class="clips" id="clips">
         <h2>Motion, without Flash</h2>
         <p>These clips were generated for the lab with ffmpeg. They are short on purpose. The canvas beside them is HTML5.</p>
         <div class="clip-grid">
@@ -409,6 +431,7 @@ async function executeEditor({ token, source, checks, packages, lessonKey }) {
         });
       }
     }
+    window.dispatchEvent(new CustomEvent("lab:result", { detail: { ok: !!result.ok, hasChecks: checks.length > 0, lessonKey } }));
     if (status) status.textContent = result.ok || !checks.length ? "Run finished." : "Run finished with failed checks.";
   } catch (err) {
     if (token !== viewToken) return;
@@ -427,11 +450,12 @@ function gamesView() {
     { href: "#/games/guess", title: "Guess the integer", menu: "Higher or lower, from 1 to 100.", icon: "games" },
     { href: "#/games/snake", title: "Snake", menu: "A small board you can steer with keys, swipes, or buttons.", icon: "games" },
     { href: "#/games/adventure", title: "Import Error", menu: "A text adventure about finding a missing module.", icon: "games" },
+    ...PLAY.map((g) => ({ href: `#/games/${g.id}`, title: g.title, menu: `${g.menu} (${g.concept})`, icon: "games" })),
   ];
   return {
     html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/games", label: "Games" }])}
       <h1>Games</h1>
-      <p class="lede">Short games in the same lab. They use the browser, not the Python runtime, so they start immediately.</p>
+      <p class="lede">Visual games and puzzles that explain Python ideas, plus classics. They run in the browser, start immediately, and earn XP and badges stored only on this device. <a href="#/me">See my XP and badges</a>.</p>
       <div class="menu-grid">${cards.map(menuCard).join("")}</div>`,
   };
 }
@@ -441,6 +465,7 @@ function gameView(id) {
     guess: ["Guess the integer", "Find the hidden integer."],
     snake: ["Snake", "Eat the brass square. Do not hit the wall or yourself."],
     adventure: ["Import Error", "A text adventure in the lab building."],
+    ...Object.fromEntries(PLAY.map((g) => [g.id, [g.title, `${g.menu} Concept: ${g.concept}.`]])),
   };
   if (!titles[id]) return missingView();
   return {
@@ -584,33 +609,24 @@ function ecosystemView(panel) {
   };
 }
 
-function downloadsView() {
-  const files = [
-    ["python-syntax-cheatsheet", "Syntax cheat sheet", "Indentation, types, control flow, and a few current language notes."],
-    ["data-structures-cheatsheet", "Data structures cheat sheet", "Lists, dicts, deques, and how to talk about cost."],
-    ["stdlib-typing-cheatsheet", "Standard library and typing", "Modules to reach for, annotation forms, and what is not in the standard library."],
-    ["study-checklist", "Study checklist", "A study order, a reminder about pay claims, and the exam pages to open."],
-  ];
-  const cards = files.map(([name, title, text]) => `<article class="download-card">
-      <h2>${esc(title)}</h2>
-      <p>${esc(text)}</p>
-      <p><a class="primary" href="downloads/${name}.pdf" download>Download PDF</a></p>
-      <p><a href="downloads/${name}.txt" download>Download plain text</a></p>
+function legacyDownloads() {
+  const cards = DOWNLOADS.map((d) => `<article class="download-card" data-download="${esc(d.id)}">
+      <h2>${esc(d.title)}</h2>
+      <p>${esc(d.desc)}</p>
+      <p>${d.formats.map((f, i) => `<a class="${i === 0 ? "primary" : ""}" href="downloads/${d.src}.${f}" download>${FORMAT_LABEL[f]}</a>`).join(" ")}</p>
     </article>`).join("");
-  return {
-    html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/downloads", label: "Downloads" }])}
-      <h1>Downloads</h1>
+  return `<h2 id="dl-more">Cheat sheets, notebook and more</h2>
       <p class="lede">These files are in the site. The PDF and the text copy contain the same notes. They are study aids from 17 October 2026, not specifications.</p>
       <div class="download-grid">${cards}</div>
-      <h2>Slides, notebook, diagrams, and the whole lab</h2>
+      <h2>Slides, diagrams, and the whole lab</h2>
       <div class="download-grid">
-        <article class="download-card"><h2>Slides as Markdown</h2><p>Every slide from all ${decks.length} decks, with code and output.</p><p><a class="primary" href="downloads/python-lab-slides.md" download>Download Markdown</a></p><p><a href="#/slides">Open the decks, then use Print to save a PDF</a></p></article>
-        <article class="download-card"><h2>Code samples notebook</h2><p>A Jupyter notebook with the code from the slides and guides and its saved output. Open it on your own computer.</p><p><a class="primary" href="downloads/python-lab-code-samples.ipynb" download>Download .ipynb</a></p></article>
+        <article class="download-card"><h2>Slides on screen</h2><p>Prefer slides you can page through? <a href="#/slides">Open the decks, then use Print to save a PDF</a>.</p></article>
         <article class="download-card"><h2>Diagrams</h2><p>Each diagram is one self-contained HTML file that opens offline.</p><ul class="dl-list">${diagrams.map((d) => `<li><a href="diagrams/${esc(d.file)}" download>${esc(d.title)}</a></li>`).join("")}</ul></article>
         <article class="download-card"><h2>The whole lab</h2><p>Plain files. Unzip, run <code>python3 -m http.server</code> in the folder, and open it.</p><p><a class="primary" href="https://github.com/CypherMonkeyLabs/python-lab-free-university-mesmerizing/archive/refs/heads/main.zip" rel="noopener">Download ZIP from GitHub</a></p></article>
-      </div>`,
-  };
+      </div>`;
 }
+
+function downloadsView(focus) { return downloadCenterView(focus, legacyDownloads()); }
 
 function sourcesView(id) {
   const groups = [];
@@ -686,12 +702,17 @@ function viewFor(route) {
   if (route.name === "track") return trackView(route.id);
   if (route.name === "lesson") return lessonView(route.track, route.lesson);
   if (route.name === "practice") return practiceView();
+  if (route.name === "level") return levelView(route.n) || missingView();
+  if (route.name === "me") return meView();
   if (route.name === "games") return gamesView();
   if (route.name === "game") return gameView(route.id);
   if (route.name === "quizzes") return quizzesView();
   if (route.name === "quiz") return quizView(route.id);
   if (route.name === "ecosystem") return ecosystemView(route.panel);
-  if (route.name === "downloads") return downloadsView();
+  if (route.name === "downloads") return downloadsView(route.id);
+  if (route.name === "worlds") return worldsView();
+  if (route.name === "world") return worldView(route.id) || missingView();
+  if (route.name === "download-center") return downloadsView(route.id);
   if (route.name === "sources") return sourcesView(route.id);
   if (route.name === "about") return aboutView();
   if (route.name === "rooms") return roomsView(route.id);
@@ -747,6 +768,7 @@ function render() {
   stopGame();
   stopSpeech();
   stopOrbit();
+  disposeStudio();
   const route = parseRoute();
   const view = viewFor(route);
   main().innerHTML = view.html;
@@ -756,15 +778,26 @@ function render() {
   }
   booted = true;
   view.after?.(token);
+  applyWorld(location.hash);
+  document.dispatchEvent(new CustomEvent("lab:world"));
+  mountStudio(main());
   keepBotClear();
 }
 
+applyPrefs();
 applyTheme(document.documentElement.dataset.theme || "ink", false);
 initShell();
 initBot();
 initBotPanel();
 initBotFx();
+initPy();
+initTeachReactions();
+initQualityControl();
 initHowTo();
+initFx();
+initXP();
+initDisplay();
+initTour();
 window.addEventListener("hashchange", render);
 document.addEventListener("click", (event) => {
   const themeButton = event.target.closest("[data-theme-set]");
@@ -774,3 +807,4 @@ document.addEventListener("click", (event) => {
 });
 watchDiagramTheme();
 render();
+initWelcome();

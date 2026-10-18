@@ -7,8 +7,8 @@ VPS = {"desktop1440": dict(viewport={"width":1440,"height":900}), "touch390": di
 DECKS=["first-hour","data-structures","functions-classes","modules-packages","async-flow","python-314","numpy-pandas","browser-python","lifetime-learning"]
 GUIDES=["control-flow","iterators-generators","async-in-practice","functions-and-calls","classes-and-methods","import-system","packaging-and-environments","data-with-pandas","python-in-the-browser","study-plan","whats-new-314"]
 DIAG=["how-python-runs","function-call","import-system","event-loop","task-lifecycle","pandas-pipeline","pyodide-architecture","study-loop"]
-ROUTES=["#/","#/practice","#/games","#/games/guess","#/games/snake","#/games/adventure","#/quizzes","#/quiz/fundamentals","#/ecosystem/glossary","#/ecosystem/map","#/ecosystem/sisters","#/ecosystem/integrations","#/ecosystem/hooks","#/downloads","#/sources","#/about","#/rooms/lobby","#/rooms/syntax","#/diagrams","#/slides","#/guides"]+[f"#/section/{s}" for s in "start fundamentals flows methods modules labs games integrations lifetime resources".split()]+[f"#/slides/{d}" for d in DECKS]+[f"#/guide/{g}" for g in GUIDES]+[f"#/diagram/{d}" for d in DIAG]
-SEEN='localStorage.setItem("pythonlab.howto.v1",JSON.stringify({seen:true}))'
+ROUTES=["#/","#/practice","#/games","#/games/guess","#/games/snake","#/games/adventure","#/quizzes","#/quiz/fundamentals","#/ecosystem/glossary","#/ecosystem/map","#/ecosystem/sisters","#/ecosystem/integrations","#/ecosystem/hooks","#/downloads","#/sources","#/about","#/rooms/lobby","#/rooms/syntax","#/diagrams","#/slides","#/guides"]+[f"#/section/{s}" for s in "start fundamentals flows methods modules labs games integrations lifetime resources".split()]+[f"#/slides/{d}" for d in DECKS]+[f"#/guide/{g}" for g in GUIDES]+[f"#/diagram/{d}" for d in DIAG]+["#/worlds"]+[f"#/worlds/{n}" for n in range(11)]+["#/diagram/level-map","#/diagram/lab-architecture","#/download-center"]
+SEEN='localStorage.setItem("pythonlab.howto.v2",JSON.stringify({seen:true}))'
 results=[]
 def rec(vp,theme,name,ok,detail=""):
     results.append(dict(viewport=vp,theme=theme,test=name,ok=bool(ok),detail=detail))

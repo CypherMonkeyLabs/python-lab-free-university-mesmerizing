@@ -1,0 +1,11 @@
+Level 7: Generators and Type Hints
+Audience: intermediate  Hours: 40
+Examples run on CPython 3.12.3
+
+Inside:
+- Write a generator that yields one value at a time
+- Wrap a def with a decorator
+- Read a hint back from __annotations__
+- State that hints are not enforced while the program runs
+
+License: code MIT, text CC BY-NC-SA 4.0. Not accredited.

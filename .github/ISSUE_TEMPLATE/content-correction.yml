@@ -1,0 +1,15 @@
+name: Content correction
+description: A lesson, quiz, download or source is wrong or out of date
+labels: [content]
+body:
+  - type: input
+    id: url
+    attributes: {label: Lesson or page URL}
+    validations: {required: true}
+  - type: textarea
+    id: wrong
+    attributes: {label: What is wrong?}
+    validations: {required: true}
+  - type: input
+    id: source
+    attributes: {label: Source link that shows the correct fact, description: "Official docs, a PEP, or a project page"}

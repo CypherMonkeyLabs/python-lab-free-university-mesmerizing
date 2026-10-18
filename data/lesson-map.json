@@ -1,0 +1,920 @@
+{
+ "schema": "lesson-map/1",
+ "note": "Draft mapping of the 54 existing lessons onto Levels 0-10 (docs/03_COURSE_MAP in the blueprint). Levels and outcomes are proposals for Lucky to review; last_verified is null until a human re-checks each lesson.",
+ "levels": {
+  "0": "Hatchling Meadow",
+  "1": "Tidepool",
+  "2": "Crossroads",
+  "3": "Workshop",
+  "4": "Library Stacks",
+  "5": "Forge",
+  "6": "Automation Yard",
+  "7": "Observatory",
+  "8": "Engine Room",
+  "9": "Spec Hall",
+  "10": "Core Reactor"
+ },
+ "lessons": [
+  {
+   "key": "start/how-to-use",
+   "title": "How to use this lab",
+   "level": 0,
+   "python_min": "3.13",
+   "minutes": 6,
+   "outcomes": [
+    "Navigate the lab and find a lesson's sources",
+    "Tell an Official source from a Third-party one"
+   ],
+   "sources": [
+    "tutorial",
+    "py-downloads"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "start/map",
+   "title": "A map of the language",
+   "level": 0,
+   "python_min": "3.13",
+   "minutes": 8,
+   "outcomes": [
+    "Name the three layers: language, standard library, third-party packages",
+    "Say where to look for the docs for each"
+   ],
+   "sources": [
+    "tutorial",
+    "modules",
+    "py-downloads"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "start/runtime",
+   "title": "The browser runtime",
+   "level": 0,
+   "python_min": "3.13",
+   "minutes": 8,
+   "outcomes": [
+    "Run a snippet in the browser runner",
+    "State what the browser runtime (Python 3.14) can and cannot do"
+   ],
+   "sources": [
+    "pyodide",
+    "pyodide-changelog",
+    "whatsnew-315",
+    "numpy",
+    "pandas"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "fundamentals/syntax",
+   "title": "Syntax and indentation",
+   "level": 1,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Write a block with correct indentation",
+    "Explain why tabs mixed with spaces is a syntax error"
+   ],
+   "sources": [
+    "lexical",
+    "tutorial",
+    "compound"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "fundamentals/types",
+   "title": "Values and types",
+   "level": 1,
+   "python_min": "3.13",
+   "minutes": 14,
+   "outcomes": [
+    "Name the type of a value with type()",
+    "Predict whether a value is true or false in a condition"
+   ],
+   "sources": [
+    "stdtypes",
+    "datamodel"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "fundamentals/names",
+   "title": "Names and mutability",
+   "level": 1,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Explain that assignment binds a name to an object",
+    "Predict when two names share one mutable list"
+   ],
+   "sources": [
+    "datamodel",
+    "stdtypes"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "fundamentals/control",
+   "title": "Control flow",
+   "level": 2,
+   "python_min": "3.13",
+   "minutes": 14,
+   "outcomes": [
+    "Write if/elif/else, for and while loops",
+    "Use match for a simple case split"
+   ],
+   "sources": [
+    "controlflow",
+    "compound",
+    "pep-758"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "fundamentals/functions",
+   "title": "Functions",
+   "level": 3,
+   "python_min": "3.13",
+   "minutes": 14,
+   "outcomes": [
+    "Define a function with parameters and a return value",
+    "Explain why a mutable default argument is shared between calls"
+   ],
+   "sources": [
+    "functions-doc",
+    "controlflow"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "fundamentals/classes",
+   "title": "Classes and objects",
+   "level": 5,
+   "python_min": "3.13",
+   "minutes": 16,
+   "outcomes": [
+    "Define a class with data and methods",
+    "Create and use instances"
+   ],
+   "sources": [
+    "classes",
+    "datamodel",
+    "dataclasses"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "fundamentals/modules",
+   "title": "Modules and packages",
+   "level": 5,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Import a module and say what import does the first time",
+    "Explain sys.modules"
+   ],
+   "sources": [
+    "modules"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "fundamentals/files",
+   "title": "Files and paths",
+   "level": 4,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Read and write a text file with pathlib and with",
+    "State the encoding explicitly"
+   ],
+   "sources": [
+    "io",
+    "pathlib"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "fundamentals/errors",
+   "title": "Errors and exceptions",
+   "level": 4,
+   "python_min": "3.13",
+   "minutes": 14,
+   "outcomes": [
+    "Raise a specific exception",
+    "Catch only the exception you can handle"
+   ],
+   "sources": [
+    "errors",
+    "pep-758"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "fundamentals/testing-packaging",
+   "title": "Tests, venvs, and packaging",
+   "level": 5,
+   "python_min": "3.13",
+   "minutes": 16,
+   "outcomes": [
+    "Write a test that fails when behaviour changes",
+    "Explain why a project uses its own environment"
+   ],
+   "sources": [
+    "unittest",
+    "venv",
+    "pep-405",
+    "packaging",
+    "pyproject",
+    "pytest"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "dsa/sequences",
+   "title": "Lists, tuples, and slices",
+   "level": 4,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Choose between list and tuple",
+    "Use slices"
+   ],
+   "sources": [
+    "stdtypes",
+    "timecomplexity"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "dsa/maps",
+   "title": "Dicts, sets, and hashing",
+   "level": 4,
+   "python_min": "3.13",
+   "minutes": 14,
+   "outcomes": [
+    "Use dicts and sets",
+    "Explain what makes a key hashable"
+   ],
+   "sources": [
+    "stdtypes",
+    "timecomplexity"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "dsa/stacks",
+   "title": "Stacks, queues, and heaps",
+   "level": 7,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Use a list as a stack, deque as a queue, heapq as a priority queue",
+    "Pick the right one for an access pattern"
+   ],
+   "sources": [
+    "collections",
+    "heapq"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "dsa/trees",
+   "title": "Trees and graphs, as data",
+   "level": 7,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Model a tree and a graph as plain data",
+    "Spot a cycle risk in a graph"
+   ],
+   "sources": [
+    "tutorial"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "dsa/sorting",
+   "title": "Sorting and searching",
+   "level": 4,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Sort with sorted and a key function",
+    "Use bisect for binary search"
+   ],
+   "sources": [
+    "bisect-doc",
+    "stdtypes"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "dsa/interviews",
+   "title": "Talking about cost",
+   "level": 7,
+   "python_min": "3.13",
+   "minutes": 10,
+   "outcomes": [
+    "Name a structure, an operation and its cost",
+    "Separate average from worst case"
+   ],
+   "sources": [
+    "timecomplexity"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "async/why",
+   "title": "What async is for",
+   "level": 8,
+   "python_min": "3.13",
+   "minutes": 10,
+   "outcomes": [
+    "Say when async helps (waiting) and when it does not (computing)"
+   ],
+   "sources": [
+    "asyncio-docs"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "async/coroutines",
+   "title": "async, await, and tasks",
+   "level": 8,
+   "python_min": "3.13",
+   "minutes": 14,
+   "outcomes": [
+    "Write async and await code and schedule a task",
+    "Explain that calling an async function returns a coroutine"
+   ],
+   "sources": [
+    "asyncio-docs"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "async/pitfalls",
+   "title": "Timeouts, cancellation, and mistakes",
+   "level": 8,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Handle timeouts and cancellation on purpose",
+    "Avoid un-awaited tasks that fail silently"
+   ],
+   "sources": [
+    "asyncio-docs"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "typing/annotations",
+   "title": "Annotations are not a gate",
+   "level": 3,
+   "python_min": "3.13",
+   "minutes": 10,
+   "outcomes": [
+    "Add annotations to a function",
+    "Explain that the interpreter stores them and a checker reads them"
+   ],
+   "sources": [
+    "typing",
+    "pep-649"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "typing/shapes",
+   "title": "Common shapes",
+   "level": 7,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Write list[int], unions, TypedDict and Protocol hints"
+   ],
+   "sources": [
+    "typing"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "typing/checkers",
+   "title": "mypy and Pyright",
+   "level": 7,
+   "python_min": "3.13",
+   "minutes": 8,
+   "outcomes": [
+    "Run mypy or Pyright on purpose and read the output"
+   ],
+   "sources": [
+    "mypy",
+    "pyright"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "stdlib/map",
+   "title": "A tour map",
+   "level": 6,
+   "python_min": "3.13",
+   "minutes": 8,
+   "outcomes": [
+    "Find the standard-library module for a job"
+   ],
+   "sources": [
+    "tutorial"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "stdlib/text-time",
+   "title": "Text, JSON, CSV, and time",
+   "level": 6,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Read and write JSON and CSV",
+    "Work with dates and times"
+   ],
+   "sources": [
+    "json",
+    "csv",
+    "datetime",
+    "statistics"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "stdlib/processes",
+   "title": "Paths, processes, and SQLite",
+   "level": 6,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Launch a program with subprocess",
+    "Keep rows in sqlite3"
+   ],
+   "sources": [
+    "pathlib",
+    "subprocess",
+    "sqlite"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "stdlib/quality",
+   "title": "Logging and breakpoints",
+   "level": 6,
+   "python_min": "3.13",
+   "minutes": 8,
+   "outcomes": [
+    "Replace print with logging in a program",
+    "Use a breakpoint"
+   ],
+   "sources": [
+    "logging",
+    "unittest"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "web/http",
+   "title": "HTTP in one page",
+   "level": 10,
+   "python_min": "3.13",
+   "minutes": 10,
+   "outcomes": [
+    "Read a request (method, path) and a response (status, body)"
+   ],
+   "sources": [
+    "urllib"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "web/flask",
+   "title": "Flask",
+   "level": 10,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Map a path to a function in Flask"
+   ],
+   "sources": [
+    "flask"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "web/fastapi",
+   "title": "FastAPI",
+   "level": 10,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Describe parameters with type hints in FastAPI"
+   ],
+   "sources": [
+    "fastapi",
+    "typing"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "data/tables",
+   "title": "A table is rows",
+   "level": 10,
+   "python_min": "3.13",
+   "minutes": 10,
+   "outcomes": [
+    "Treat a list of dicts as a table",
+    "Say when a library earns its import"
+   ],
+   "sources": [
+    "csv"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "data/numpy",
+   "title": "NumPy",
+   "level": 10,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Operate on a whole ndarray at once"
+   ],
+   "sources": [
+    "numpy"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "data/pandas",
+   "title": "pandas",
+   "level": 10,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Load and filter a DataFrame"
+   ],
+   "sources": [
+    "pandas"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "ai/vocabulary",
+   "title": "Words worth keeping straight",
+   "level": 10,
+   "python_min": "3.13",
+   "minutes": 10,
+   "outcomes": [
+    "Use features, labels, training and evaluation correctly"
+   ],
+   "sources": [
+    "sklearn"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "ai/tiny-model",
+   "title": "A line you can fit",
+   "level": 10,
+   "python_min": "3.13",
+   "minutes": 14,
+   "outcomes": [
+    "Fit y = w x + b and judge it with squared error"
+   ],
+   "sources": [
+    "sklearn"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "ai/libraries",
+   "title": "scikit-learn and PyTorch",
+   "level": 10,
+   "python_min": "3.13",
+   "minutes": 10,
+   "outcomes": [
+    "Say what scikit-learn and PyTorch are each for"
+   ],
+   "sources": [
+    "sklearn",
+    "pytorch"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "ai/agents",
+   "title": "A tool loop",
+   "level": 10,
+   "python_min": "3.13",
+   "minutes": 14,
+   "outcomes": [
+    "Run a tool loop inside a step limit and check the result"
+   ],
+   "sources": [
+    "sklearn"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "automation/scripts",
+   "title": "A script has a job",
+   "level": 6,
+   "python_min": "3.13",
+   "minutes": 8,
+   "outcomes": [
+    "Write a script with one job that can be re-run"
+   ],
+   "sources": [
+    "tutorial"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "automation/cli",
+   "title": "argparse, paths, and CSV",
+   "level": 6,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Use argparse, paths and CSV together"
+   ],
+   "sources": [
+    "argparse",
+    "csv",
+    "pathlib"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "automation/safety",
+   "title": "Do not automate harm",
+   "level": 6,
+   "python_min": "3.13",
+   "minutes": 8,
+   "outcomes": [
+    "Show what a deleting, emailing or fetching script will do before it does it"
+   ],
+   "sources": [
+    "subprocess",
+    "urllib"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "tooling/environments",
+   "title": "venv and installers",
+   "level": 5,
+   "python_min": "3.13",
+   "minutes": 10,
+   "outcomes": [
+    "Create and use a venv per project"
+   ],
+   "sources": [
+    "venv",
+    "pep-405",
+    "uv"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "tooling/projects",
+   "title": "pyproject.toml",
+   "level": 5,
+   "python_min": "3.13",
+   "minutes": 10,
+   "outcomes": [
+    "Read a pyproject.toml"
+   ],
+   "sources": [
+    "pyproject",
+    "packaging",
+    "pypa"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "tooling/daily",
+   "title": "Tests, lint, and format",
+   "level": 5,
+   "python_min": "3.13",
+   "minutes": 10,
+   "outcomes": [
+    "Run tests, a linter and a formatter; commit with Git"
+   ],
+   "sources": [
+    "unittest",
+    "pytest",
+    "ruff",
+    "git"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "licensing/python-license",
+   "title": "Python's own license",
+   "level": 9,
+   "python_min": "3.13",
+   "minutes": 8,
+   "outcomes": [
+    "Say what the PSF licence allows"
+   ],
+   "sources": [
+    "license"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "licensing/reading",
+   "title": "Four licenses you will meet",
+   "level": 9,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Tell permissive licences from the GPL by the question each answers"
+   ],
+   "sources": [
+    "mit",
+    "bsd",
+    "apache",
+    "gpl",
+    "numpy",
+    "pandas"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "certifications/how-to-read",
+   "title": "How to read an exam page",
+   "level": 10,
+   "python_min": "3.13",
+   "minutes": 8,
+   "outcomes": [
+    "Read an exam page: code, status, passing score, price"
+   ],
+   "sources": [
+    "pcep",
+    "cert-tracks"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "certifications/tracks",
+   "title": "The tracks, as published",
+   "level": 10,
+   "python_min": "3.13",
+   "minutes": 16,
+   "outcomes": [
+    "List the published exam tracks and what is not final"
+   ],
+   "sources": [
+    "pcep",
+    "pcap",
+    "pcpp1",
+    "pcpp2",
+    "pced",
+    "pcad",
+    "pcei",
+    "cert-tracks"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "career/stages",
+   "title": "Stages of study",
+   "level": 10,
+   "python_min": "3.13",
+   "minutes": 10,
+   "outcomes": [
+    "Describe the path: language, a finished project, a specialty"
+   ],
+   "sources": [
+    "tutorial"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "career/interviews",
+   "title": "Interview practice without folklore",
+   "level": 10,
+   "python_min": "3.13",
+   "minutes": 10,
+   "outcomes": [
+    "Explain a project, a cost and a test aloud"
+   ],
+   "sources": [
+    "timecomplexity",
+    "unittest"
+   ],
+   "has_exercise": false,
+   "last_verified": null
+  },
+  {
+   "key": "projects/catalog",
+   "title": "Eight builds",
+   "level": 5,
+   "python_min": "3.13",
+   "minutes": 12,
+   "outcomes": [
+    "Pick a build and name the skill it practices"
+   ],
+   "sources": [
+    "tutorial",
+    "csv",
+    "flask",
+    "fastapi",
+    "pathlib"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "projects/guess-rule",
+   "title": "The guess rule",
+   "level": 2,
+   "python_min": "3.13",
+   "minutes": 8,
+   "outcomes": [
+    "Extract a game rule into a function a test can call"
+   ],
+   "sources": [
+    "controlflow"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "projects/agent-limit",
+   "title": "A step limit",
+   "level": 10,
+   "python_min": "3.13",
+   "minutes": 10,
+   "outcomes": [
+    "Add a step limit to a loop"
+   ],
+   "sources": [
+    "tutorial"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  }
+ ]
+}

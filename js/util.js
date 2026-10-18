@@ -40,10 +40,12 @@ export function markLesson(id, state) {
   const data = progress();
   data.lessons[id] = state;
   writeStore(PROGRESS_KEY, data);
+  document.dispatchEvent(new CustomEvent("lab:lesson", { detail: { id, state } }));
 }
 
 export function markQuiz(id, score, total) {
   const data = progress();
   data.quizzes[id] = { score, total };
   writeStore(PROGRESS_KEY, data);
+  document.dispatchEvent(new CustomEvent("lab:quiz", { detail: { id, score, total } }));
 }

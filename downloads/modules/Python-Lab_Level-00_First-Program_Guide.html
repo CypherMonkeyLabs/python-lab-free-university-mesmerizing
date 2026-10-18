@@ -1,0 +1,45 @@
+<!doctype html><html lang='en'><meta charset='utf-8'><title>First Program</title><style>@page{size:A4;margin:16mm 14mm;@bottom-center{content:"CypherMonkeyLabs Python Lab - page " counter(page);font:9pt sans-serif;color:#334}}
+body{font:12pt/1.5 'DejaVu Sans',sans-serif;color:#1a1d2e;margin:0}
+h1{font-size:26pt;color:#2a1860;margin:0 0 8px}
+h2{color:#2a1860;margin-top:1.15em;font-size:16pt}
+.banner{background:#7ee08a;color:#142018;padding:16px 18px;border-radius:14px;margin:0 0 14px}
+pre{background:#1b2140;color:#f4f7ff;padding:12px 14px;border-radius:10px;font-size:11pt;line-height:1.45;white-space:pre-wrap;overflow-x:auto;max-width:100%;box-sizing:border-box}
+pre.out{background:#e7f6ec;color:#0c4630;border-left:6px solid #2bb673}
+.meta{background:#f7f4ff;padding:12px 14px;border-radius:10px;border:1px solid #d9d0f0}
+code{font-family:'DejaVu Sans Mono',monospace}
+table{border-collapse:collapse;width:100%;margin:10px 0}
+th,td{border:1px solid #c9c3e0;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#efe8ff}
+.small{font-size:9pt;color:#445}</style><body><div class='banner'><b>Level 0</b> &middot; about 4 h &middot; Python 3.8+</div><div class='meta'><b>Project:</b> A Hello, me card<br>Examples run on CPython 3.12.3. <b>You will be able to:</b><ul><li>Run a one-line program and read what it printed</li><li>Read an error message from the last line upward</li><li>Find the official docs page for a built-in function</li><li>Explain what a program is in your own words</li></ul></div><h1>First Program</h1>
+<h2>What a program is</h2>
+<p>A program is a list of instructions a computer follows in order. Python reads your file from the top and does each instruction in turn.</p>
+<h2>Your first print</h2>
+<p><code>print</code> shows a value on the screen. Text goes inside quotes.</p><pre><code>print(&quot;Hello, me&quot;)
+print(&quot;My first program&quot;)
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+Hello, me
+My first program</pre><h2>Printing more than text</h2>
+<p>You can print numbers and do arithmetic. Python works the answer out before it prints.</p><pre><code>print(2 + 3)
+print(&quot;2 + 3 =&quot;, 2 + 3)
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+5
+2 + 3 = 5</pre><h2>Reading an error</h2>
+<p>An error is not a failure. A traceback is a map: start at the last line, which names the problem. This example catches the error so you can see its message.</p><pre><code>try:
+    print(undefined_name)
+except NameError as err:
+    print(&quot;NameError:&quot;, err)
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+NameError: name &#x27;undefined_name&#x27; is not defined</pre><h2>Find the docs</h2>
+<p>Every built-in function has a page in the official documentation. Search for <code>print()</code> and read its parameters, such as <code>sep</code> and <code>end</code>.</p><pre><code>print(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, sep=&quot;-&quot;)
+print(&quot;no newline&quot;, end=&quot;!&quot;)
+print()
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+a-b-c
+no newline!</pre><h2>Check yourself</h2>
+<ol>
+<li>What does <code>print("2 + 3")</code> show, compared with <code>print(2 + 3)</code>?</li>
+<li>Which line of a traceback names the problem?</li>
+<li>What does <code>sep</code> change?</li>
+</ol>
+<h2>Project: Hello, me card</h2>
+<p>Print four lines: your name, one thing you are learning, one thing you like, and today's goal. Then change the <code>sep</code> between two items.</p><h2>Sources</h2><ul><li><a href='https://docs.python.org/3/tutorial/introduction.html'>Python tutorial: An informal introduction</a></li><li><a href='https://docs.python.org/3/library/functions.html#print'>Python docs: print()</a></li><li><a href='https://docs.python.org/3/tutorial/errors.html'>Python tutorial: Errors and exceptions</a></li></ul><p class='small'>Code &copy; CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. Educational material, not accredited coursework; no outcome or income promised. Built 2026-10-18.</p></body></html>

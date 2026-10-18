@@ -1,0 +1,96 @@
+{
+  "title": "Level 7: Generators and Type Hints",
+  "id": "L07",
+  "audience": "intermediate",
+  "hours": 40,
+  "whats_inside": [
+    "Write a generator that yields one value at a time",
+    "Wrap a def with a decorator",
+    "Read a hint back from __annotations__",
+    "State that hints are not enforced while the program runs"
+  ],
+  "project": "A countdown generator with a hinted total",
+  "how_to_use": {
+    "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+    "docx": "Edit freely for your own notes or classroom.",
+    "pptx": "Present or self-study slide by slide; green slides show verified output.",
+    "html": "Open offline in any browser.",
+    "png": "Cover and outcomes card; use it as a poster or a slide."
+  },
+  "python_min": "3.9",
+  "examples_run_on": "CPython 3.12.3",
+  "snippets_executed": 3,
+  "level": 7,
+  "base": "Python-Lab_Level-07_Generators-and-Type-Hints",
+  "accent": "#8ab4ff",
+  "blurb": "Write a generator that yields one value at a time; Wrap a def with a decorator.",
+  "license": {
+    "code": "MIT",
+    "text": "CC BY-NC-SA 4.0"
+  },
+  "accredited": false,
+  "sources": [
+    {
+      "id": "yield-expr",
+      "title": "Python reference: Yield expressions",
+      "url": "https://docs.python.org/3/reference/expressions.html#yield-expressions"
+    },
+    {
+      "id": "glossary-decorator",
+      "title": "Python glossary: decorator",
+      "url": "https://docs.python.org/3/glossary.html#term-decorator"
+    },
+    {
+      "id": "typing",
+      "title": "Python docs: typing",
+      "url": "https://docs.python.org/3/library/typing.html"
+    },
+    {
+      "id": "pep484",
+      "title": "PEP 484 \u2013 Type Hints",
+      "url": "https://peps.python.org/pep-0484/"
+    }
+  ],
+  "verified": {
+    "pdf_pages": 2,
+    "docx_paragraphs": 31,
+    "pptx_slides": 11
+  },
+  "files": [
+    {
+      "name": "Python-Lab_Level-07_Generators-and-Type-Hints_Cover.png",
+      "format": "png",
+      "bytes": 48011,
+      "size": "47 KB",
+      "sha256": "b5897418ebbeef59d365da349edb0e33f802912fbc8de58bd0e1bd6a3ff7c651"
+    },
+    {
+      "name": "Python-Lab_Level-07_Generators-and-Type-Hints_Guide.html",
+      "format": "html",
+      "bytes": 3754,
+      "size": "4 KB",
+      "sha256": "685a3f48b2a7de807a6c3d5d3affb4ef48c9b5260b3e2db7d0862c2e8b0c34ca"
+    },
+    {
+      "name": "Python-Lab_Level-07_Generators-and-Type-Hints_Guide.pdf",
+      "format": "pdf",
+      "bytes": 21956,
+      "size": "21 KB",
+      "sha256": "7847c61f622f69f06c4f142ed128191d8963c4774ae3ac414f1b60601a211591"
+    },
+    {
+      "name": "Python-Lab_Level-07_Generators-and-Type-Hints_Slides.pptx",
+      "format": "pptx",
+      "bytes": 93543,
+      "size": "91 KB",
+      "sha256": "7ed39369f6372cc287f611ba951b6061f18ec509db57b01c6d53ef09e2445874"
+    },
+    {
+      "name": "Python-Lab_Level-07_Generators-and-Type-Hints_Worksheet.docx",
+      "format": "docx",
+      "bytes": 82801,
+      "size": "81 KB",
+      "sha256": "7e629be42789379edf5802d14e9cb8a919af8ab3fc7d5b7453a21a490b8b8afa"
+    }
+  ]
+}

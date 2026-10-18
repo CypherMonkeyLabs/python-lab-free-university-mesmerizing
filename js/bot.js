@@ -175,6 +175,7 @@ export function initBot() {
       drag.moved = true;
       node.classList.add("is-dragging");
       dragStartHandler();
+      window.dispatchEvent(new CustomEvent("lab:bot", { detail: "drag" }));
     }
     place(event.clientX - drag.dx, event.clientY - drag.dy, false);
   });
@@ -194,6 +195,7 @@ export function initBot() {
     const next = snap(rect.left, rect.top);
     place(next.x, next.y, true);
     persist(next);
+    window.dispatchEvent(new CustomEvent("lab:bot", { detail: "drop" }));
   };
   node.addEventListener("pointerup", finish);
   node.addEventListener("pointercancel", finish);

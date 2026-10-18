@@ -1,0 +1,39 @@
+<!doctype html><html lang='en'><meta charset='utf-8'><title>PEPs and the Data Model</title><style>@page{size:A4;margin:16mm 14mm;@bottom-center{content:"CypherMonkeyLabs Python Lab - page " counter(page);font:9pt sans-serif;color:#334}}
+body{font:12pt/1.5 'DejaVu Sans',sans-serif;color:#1a1d2e;margin:0}
+h1{font-size:26pt;color:#2a1860;margin:0 0 8px}
+h2{color:#2a1860;margin-top:1.15em;font-size:16pt}
+.banner{background:#e4d9a8;color:#142018;padding:16px 18px;border-radius:14px;margin:0 0 14px}
+pre{background:#1b2140;color:#f4f7ff;padding:12px 14px;border-radius:10px;font-size:11pt;line-height:1.45;white-space:pre-wrap;overflow-x:auto;max-width:100%;box-sizing:border-box}
+pre.out{background:#e7f6ec;color:#0c4630;border-left:6px solid #2bb673}
+.meta{background:#f7f4ff;padding:12px 14px;border-radius:10px;border:1px solid #d9d0f0}
+code{font-family:'DejaVu Sans Mono',monospace}
+table{border-collapse:collapse;width:100%;margin:10px 0}
+th,td{border:1px solid #c9c3e0;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#efe8ff}
+.small{font-size:9pt;color:#445}</style><body><div class='banner'><b>Level 9</b> &middot; about 40 h &middot; Python 3.8+</div><div class='meta'><b>Project:</b> A small Bag whose len is the number of items you stored<br>Examples run on CPython 3.12.3. <b>You will be able to:</b><ul><li>Call len and see it use the __len__ method</li><li>Name two PEPs this lab already cites for dates and style</li><li>Tell a style guide apart from a language rule</li><li>Find the data model chapter in the language reference</li></ul></div><h1>PEPs and the Data Model</h1>
+<h2>len asks the object</h2>
+<p>The data model says operations such as <code>len</code> look up special methods. A class can supply <code>__len__</code>. <code>len</code> then returns that integer.</p><pre><code>class Bag:
+    def __init__(self, items):
+        self.items = list(items)
+
+    def __len__(self):
+        return len(self.items)
+
+print(len(Bag([&quot;pen&quot;, &quot;ink&quot;])))
+print(&quot;py&quot;.__len__())
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+2
+2</pre><h2>A PEP is a design document</h2>
+<p>PEP 8 is the style guide. Formatting tools may warn about it. CPython does not reject a program for ignoring it. PEP 790 is the 3.15 release schedule. This lab's sources record 3.15.0 final as 9 October 2026 from that PEP. The PEP index lists the documents.</p><pre><code>cited = [&quot;PEP 8&quot;, &quot;PEP 790&quot;]
+print(&quot;, &quot;.join(cited))
+print(&quot;style guide&quot; != &quot;syntax rule&quot;)
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+PEP 8, PEP 790
+True</pre><h2>Where to read next</h2>
+<p>Open the data model chapter when you want the rule for a special method. Open the PEP index when you want the history of a change. The pages linked under Sources are the ones this Level uses.</p>
+<h2>Check yourself</h2>
+<ol>
+<li>Which method does <code>len</code> call?</li>
+<li>Is PEP 8 a compiler rule?</li>
+<li>Which PEP in the sources is the 3.15 schedule?</li>
+</ol><h2>Sources</h2><ul><li><a href='https://docs.python.org/3/reference/datamodel.html'>Python reference: Data model</a></li><li><a href='https://peps.python.org/pep-0008/'>PEP 8 – Style Guide for Python Code</a></li><li><a href='https://peps.python.org/pep-0790/'>PEP 790 – Python 3.15 Release Schedule</a></li><li><a href='https://peps.python.org/'>PEP index</a></li></ul><p class='small'>Code &copy; CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. Educational material, not accredited coursework; no outcome or income promised. Built 2026-10-18.</p></body></html>

@@ -1,0 +1,214 @@
+{
+  "generated": "2026-10-17",
+  "components": [
+    {
+      "name": "Pyodide",
+      "version": "314.0.7",
+      "licence": "MPL-2.0",
+      "url": "https://github.com/pyodide/pyodide",
+      "licence_file": "licenses/MPL-2.0-pyodide.txt",
+      "read": "LICENSE read in full 2026-10-17; file-level copyleft: unmodified files, source is upstream",
+      "files": [
+        {
+          "path": "vendor/pyodide/pyodide.mjs",
+          "sha256": "ffdfe37cb4ae065867f0ae38bba69687c48d7c88ef36904a6bf4ef10ee6f1a31"
+        },
+        {
+          "path": "vendor/pyodide/pyodide.asm.mjs",
+          "sha256": "f7cdc8ece80678ceb712f8e65ebe6d3a83203a180c399865f49612a051693635"
+        },
+        {
+          "path": "vendor/pyodide/pyodide.asm.wasm",
+          "sha256": "cc36e3cab04fdfc9a63ff13eb52eae2b911bf46c025cc7b281f394bd3de1d5e6"
+        },
+        {
+          "path": "vendor/pyodide/pyodide-lock.json",
+          "sha256": "5dc2fc119108bc148c7457dc86e7675b5c87e1cafd420b9c34c1eaef7b36c010"
+        },
+        {
+          "path": "vendor/pyodide/python_stdlib.zip",
+          "sha256": "fa1957e5777068fc4f7437f96d860ae2fbe9c19732ba06c84e004ec16dd7dd7a"
+        }
+      ]
+    },
+    {
+      "name": "CPython standard library (inside python_stdlib.zip)",
+      "version": "3.14.2",
+      "licence": "PSF-2.0",
+      "url": "https://docs.python.org/3/license.html",
+      "licence_file": "(upstream: https://docs.python.org/3/license.html)",
+      "read": "Distributed by Pyodide; PSF licence text is at the URL (not copied here)",
+      "files": []
+    },
+    {
+      "name": "NumPy wheel",
+      "version": "2.4.6",
+      "licence": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0",
+      "url": "https://github.com/numpy/numpy",
+      "licence_file": "(inside the wheel or upstream; see licence column)",
+      "read": "From wheel METADATA License-Expression; full texts are inside the wheel (LICENSE.txt)",
+      "files": [
+        {
+          "path": "vendor/pyodide/numpy-2.4.6-cp314-cp314-pyemscripten_2026_0_wasm32.whl",
+          "sha256": "a292c1f5d7d8a2208cd5e94fc467604c131cabcd2fc14fed6eefde121e7fabdf"
+        }
+      ]
+    },
+    {
+      "name": "pandas wheel",
+      "version": "3.0.2",
+      "licence": "BSD-3-Clause",
+      "url": "https://github.com/pandas-dev/pandas",
+      "licence_file": "(inside the wheel or upstream; see licence column)",
+      "read": "From wheel METADATA",
+      "files": [
+        {
+          "path": "vendor/pyodide/pandas-3.0.2-cp314-cp314-pyemscripten_2026_0_wasm32.whl",
+          "sha256": "45ff57772cc2f366a8582c7d3097cc4e6676342ecd5a3c08184a43462d5a02ae"
+        }
+      ]
+    },
+    {
+      "name": "python-dateutil wheel",
+      "version": "2.9.0.post0",
+      "licence": "Apache-2.0 OR BSD-3-Clause",
+      "url": "https://github.com/dateutil/dateutil",
+      "licence_file": "(inside the wheel or upstream; see licence column)",
+      "read": "From wheel METADATA (dual licence); LICENSE inside wheel",
+      "files": [
+        {
+          "path": "vendor/pyodide/python_dateutil-2.9.0.post0-py2.py3-none-any.whl",
+          "sha256": "9b13365edf9c188f570baf9c540bbb3029ada2a2dacb9694b3659941693ee9e5"
+        }
+      ]
+    },
+    {
+      "name": "pytz wheel",
+      "version": "2026.1.post1",
+      "licence": "MIT",
+      "url": "https://github.com/stub42/pytz",
+      "licence_file": "(inside the wheel or upstream; see licence column)",
+      "read": "From wheel METADATA",
+      "files": [
+        {
+          "path": "vendor/pyodide/pytz-2026.1.post1-py2.py3-none-any.whl",
+          "sha256": "b8249d6450146e0b61e6d710dc02ebb35a904796c4c2f97fe87d4ac5872db36a"
+        }
+      ]
+    },
+    {
+      "name": "six wheel",
+      "version": "1.17.0",
+      "licence": "MIT",
+      "url": "https://github.com/benjaminp/six",
+      "licence_file": "(inside the wheel or upstream; see licence column)",
+      "read": "From wheel METADATA",
+      "files": [
+        {
+          "path": "vendor/pyodide/six-1.17.0-py2.py3-none-any.whl",
+          "sha256": "228c50f73aa7addf2c2ccf2979c256802a59ab69cad8152b31b9443cc8140f42"
+        }
+      ]
+    },
+    {
+      "name": "Mermaid",
+      "version": "11.12.2",
+      "licence": "MIT",
+      "url": "https://github.com/mermaid-js/mermaid",
+      "licence_file": "licenses/MIT-mermaid.txt",
+      "read": "LICENSE read in full 2026-10-17",
+      "files": [
+        {
+          "path": "vendor/mermaid.min.js",
+          "sha256": "d0830a6c05546e9edb8fe20a8f545f3e0dc7c4c3134d584bad9c13a99d7a71e0"
+        }
+      ]
+    },
+    {
+      "name": "Atkinson Hyperlegible",
+      "version": "as shipped (400, 700)",
+      "licence": "OFL-1.1",
+      "url": "https://github.com/googlefonts/atkinson-hyperlegible",
+      "licence_file": "licenses/OFL-atkinson-hyperlegible.txt",
+      "read": "OFL.txt read 2026-10-17",
+      "files": [
+        {
+          "path": "assets/fonts/atkinson-400.woff2",
+          "sha256": "d64ba838ef5472bba248620ec4fd8b5aa7cf0db2908e0bb230600caf279ba7bc"
+        },
+        {
+          "path": "assets/fonts/atkinson-700.woff2",
+          "sha256": "140e2bd25a7315c8a062508391426b0d8c3297400c947b8d847be28f73a199f0"
+        }
+      ]
+    },
+    {
+      "name": "Fraunces",
+      "version": "as shipped (560)",
+      "licence": "OFL-1.1",
+      "url": "https://github.com/undercasetype/Fraunces",
+      "licence_file": "licenses/OFL-fraunces.txt",
+      "read": "OFL.txt read 2026-10-17",
+      "files": [
+        {
+          "path": "assets/fonts/fraunces-560.woff2",
+          "sha256": "3a1de7711d147bad4422825045f87597fd77cca72e7c96d3b0a81735d00dda82"
+        }
+      ]
+    },
+    {
+      "name": "IBM Plex Mono",
+      "version": "as shipped (400)",
+      "licence": "OFL-1.1",
+      "url": "https://github.com/IBM/plex",
+      "licence_file": "licenses/OFL-ibm-plex.txt",
+      "read": "LICENSE.txt read 2026-10-17",
+      "files": [
+        {
+          "path": "assets/fonts/plex-mono-400.woff2",
+          "sha256": "3c5a451f9ec27a354b0c2bcca636c6ec17a651281aabf29f8427e210a1d31e85"
+        }
+      ]
+    },
+    {
+      "name": "canvas-confetti",
+      "version": "1.9.3",
+      "licence": "ISC",
+      "url": "https://github.com/catdad/canvas-confetti",
+      "licence_file": "licenses/ISC-canvas-confetti.txt",
+      "read": "LICENSE read 2026-10-17; library index (libsearch) had no entry, vendored from npm canvas-confetti@1.9.3 dist/confetti.browser.min.js",
+      "files": [
+        {
+          "path": "vendor/confetti.browser.min.js",
+          "sha256": "cfc4a191c3ae300777c25e27aa81cb2d25bb898c8632aa61787f305876a981c8"
+        }
+      ]
+    },
+    {
+      "name": "three.js subset",
+      "version": "r186 (npm 0.186.1)",
+      "licence": "MIT",
+      "url": "https://github.com/mrdoob/three.js",
+      "licence_file": "vendor/three/LICENSE",
+      "read": "MIT text in vendor/three/LICENSE. Subset listed in vendor/three/README.md. Already noted in THIRD_PARTY_NOTICES.md; the file hashes were missing from this manifest.",
+      "files": [
+        {
+          "path": "vendor/three/LICENSE",
+          "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+        },
+        {
+          "path": "vendor/three/README.md",
+          "sha256": "a28c7b9f7909af84fab72b026a86c5e16646111a85c3a8f331096669df363c90"
+        },
+        {
+          "path": "vendor/three/subset.js",
+          "sha256": "a88b23b6e14422f29679ccb1b3f599ad96059c9e89244dd0060e926a46609685"
+        },
+        {
+          "path": "vendor/three/three.subset.min.js",
+          "sha256": "92e0be12e2f53112956dbc241adf4a1189ffd1e1fffd1ff0a5ffa3d505be93ee"
+        }
+      ]
+    }
+  ]
+}

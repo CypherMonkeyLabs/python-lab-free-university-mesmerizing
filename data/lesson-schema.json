@@ -1,0 +1,15 @@
+{
+  "$comment": "Front matter schema for lessons (lesson-map/1). The 54 existing lessons are JS objects in js/content/*.js; data/lesson-map.json carries the front matter beside them until lessons move to Markdown. Checked by scripts/validate_lessons.mjs.",
+  "required": ["key", "title", "level", "python_min", "minutes", "outcomes", "sources", "has_exercise", "last_verified"],
+  "properties": {
+    "key": "string, '<track id>/<lesson id>', must match js/content/*.js",
+    "title": "string, must equal the lesson title",
+    "level": "integer 0-10 (Course map; recommended, never a lock)",
+    "python_min": "string 'X.Y', lowest CPython the lesson works on (baseline 3.13)",
+    "minutes": "integer, as in the lesson file",
+    "outcomes": "array of >=1 'I can ...' phrases (written without the 'I can')",
+    "sources": "array of >=1 ids from js/content/sources.js, equal to the lesson's own list",
+    "has_exercise": "boolean",
+    "last_verified": "null or 'YYYY-MM-DD': date a human last re-checked facts and ran the code"
+  }
+}
