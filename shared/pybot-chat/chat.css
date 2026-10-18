@@ -7,8 +7,7 @@
   padding-top: 8px;
   border-top: 1px solid var(--line);
   background: var(--bg-elev);
-  flex: 0 1 auto;
-  min-height: 0;
+  flex: 0 0 auto;
 }
 .bot-panel {
   display: flex;
@@ -18,13 +17,16 @@
 }
 .bp-head,
 .bp-bot,
+.py-chat-try,
+.py-chat-examples,
+.py-chat-chips,
 .py-chat-form,
 .py-chat > .bp-link { flex: 0 0 auto; }
 .bp-scroll { overflow: auto; min-height: 0; flex: 1 1 auto; }
 .py-chat-log {
   max-height: 112px;
   min-height: 0;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -82,11 +84,20 @@
   .bot-panel { padding: 6px 8px; }
   .bp-bot { display: none; }
   .bp-head h2 { font-size: 0.95rem; line-height: 1.2; }
-  .py-chat { margin-top: 4px; padding-top: 4px; gap: 4px; }
+  .bp-scroll { flex: 0 1 0; }
+  .py-chat {
+    flex: 1 1 auto;
+    min-height: 0;
+    margin-top: 4px;
+    padding-top: 4px;
+    gap: 4px;
+    overflow: hidden;
+  }
   .py-chat-try,
-  .py-chat-examples { display: none; }
-  .py-chat-log { max-height: 48px; }
-  .py-chat > .bp-link { min-height: 28px; margin: 0; padding: 2px; }
+  .py-chat-examples,
+  .py-chat-chips,
+  .py-chat > .bp-link { display: none; }
+  .py-chat-log { flex: 1 1 auto; max-height: 36px; min-height: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .bot-panel { animation: none; }
