@@ -1,6 +1,7 @@
 import { sections, sectionFor, sequence, lessonCount, searchIndex } from "./content/sections.js";
+import { tracks } from "./content/catalog.js";
 import { rawIcon } from "./icons.js";
-import { esc, readStore, writeStore } from "./util.js";
+import { esc, readStore, writeStore, PROGRESS_KEY } from "./util.js";
 
 const SIDE_KEY = "pythonlab.side.v1";
 const VISIT_KEY = "pythonlab.visited.v1";
@@ -12,17 +13,40 @@ export const isMobile = () => mobileQuery.matches;
 
 /* ---------- progress ---------- */
 function visited() { return readStore(VISIT_KEY, {}); }
-function recordVisit(hash) {
-  const m = hash.match(/^#\/lesson\/([a-z]+)\/([a-z-]+)/);
-  if (!m) return;
-  const data = visited();
-  data[`${m[1]}/${m[2]}`] = 1;
-  writeStore(VISIT_KEY, data);
-  document.dispatchEvent(new CustomEvent("lab:lesson", { detail: { id: `${m[1]}/${m[2]}`, state: "opened" } }));
+function catalogKeys() {
+  const keys = [];
+  tracks.forEach((track) => track.lessons.forEach((lesson) => keys.push(`${track.id}/${lesson.id}`)));
+  return keys;
 }
+
+function recordVisit(hash) {
+  const m = hash.match(/^#\/lesson\/([a-z]+)\/([a-z0-9-]+)/);
+  if (!m) return;
+  const id = `${m[1]}/${m[2]}`;
+  if (!catalogKeys().includes(id)) return;
+  const data = visited();
+  data[id] = 1;
+  writeStore(VISIT_KEY, data);
+  const prog = readStore(PROGRESS_KEY, { lessons: {}, quizzes: {} });
+  if (!prog.lessons[id]) {
+    prog.lessons[id] = "opened";
+    writeStore(PROGRESS_KEY, prog);
+  }
+  document.dispatchEvent(new CustomEvent("lab:lesson", { detail: { id, state: prog.lessons[id] === "passed" ? "passed" : "opened" } }));
+}
+
+/* One count for the top bar, the bottom bar and the side menu.
+   A lesson counts once it has been opened or its checks have passed.
+   Keys that are not in the catalog are ignored, so the two stores cannot drift apart. */
 export function progressInfo() {
-  const done = Object.keys(visited()).length;
-  return { done, total: lessonCount, pct: Math.round((done / lessonCount) * 100) };
+  const valid = new Set(catalogKeys());
+  const seen = new Set();
+  Object.keys(visited()).forEach((key) => { if (valid.has(key)) seen.add(key); });
+  const stored = readStore(PROGRESS_KEY, { lessons: {} });
+  Object.keys(stored.lessons || {}).forEach((key) => { if (valid.has(key)) seen.add(key); });
+  const done = seen.size;
+  const total = valid.size || lessonCount;
+  return { done, total, pct: total ? Math.round((done / total) * 100) : 0 };
 }
 
 /* ---------- navigation helpers ---------- */
@@ -243,6 +267,7 @@ export function initShell() {
   recordVisit(currentHash());
   updateBars();
   window.addEventListener("hashchange", () => { recordVisit(currentHash()); updateBars(); });
+  document.addEventListener("lab:lesson", () => updateBars());
 }
 
 export function firstUnvisited() {

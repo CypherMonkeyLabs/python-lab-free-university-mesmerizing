@@ -209,6 +209,84 @@
           "sha256": "92e0be12e2f53112956dbc241adf4a1189ffd1e1fffd1ff0a5ffa3d505be93ee"
         }
       ]
+    },
+    {
+      "name": "Piper voices (waveforms only)",
+      "version": "1.0.0 voices, piper-tts runtime used at build",
+      "licence": "MIT",
+      "url": "https://huggingface.co/rhasspy/piper-voices",
+      "licence_file": "licenses/piper-voices.txt",
+      "read": "Hugging Face model card for rhasspy/piper-voices states license mit (2026-10-18). Piper engine MIT at https://github.com/rhasspy/piper. Weights not vendored. macOS say was not used.",
+      "files": [
+        {
+          "path": "media/audio-async-alan.mp3",
+          "sha256": "a7256f7cc3cbf907f8ffd68016df8bbac3e9dfad477568e1fbada76399b1518f"
+        },
+        {
+          "path": "media/audio-async-alba.mp3",
+          "sha256": "0338ddec27cf86b6dc51a34b1229a74f252538569082fb9c8b9330a186a06176"
+        },
+        {
+          "path": "media/audio-async.mp3",
+          "sha256": "be176706e7f53d8dc4aafc9684506ab476a617edb32618d712b0a4f02381a59b"
+        },
+        {
+          "path": "media/audio-interview-alan.mp3",
+          "sha256": "cb77b4e3f51e7c90b4e5d926e4fff4a7c88f072b2a3766002da30e70b788788c"
+        },
+        {
+          "path": "media/audio-interview-alba.mp3",
+          "sha256": "2f30b75b50c383d97043240f5249d1a5778a171e9798dac61ae1882b965ed005"
+        },
+        {
+          "path": "media/audio-interview.mp3",
+          "sha256": "5a07a9f29b8284b633cc8ead3d716705c51398e621ff83c7bcc891d81725563a"
+        },
+        {
+          "path": "media/audio-structures-alan.mp3",
+          "sha256": "2ae7e1a0fac3c166f5323edd5dfcc37d7da41f199441efed71d54153e4950301"
+        },
+        {
+          "path": "media/audio-structures-alba.mp3",
+          "sha256": "053010d0712b1ad9c68cd44779dd2d96359694063cf4331b71c2f9b71c74dff6"
+        },
+        {
+          "path": "media/audio-structures.mp3",
+          "sha256": "648365baa8a476a28cbadeee43a3bc0fc04623db00551c19b7e0885c7b04bafc"
+        },
+        {
+          "path": "media/audio-syntax-alan.mp3",
+          "sha256": "0806ced737b301728f10135d33697cd4ebae9599612b33ce48e823e34ba5d872"
+        },
+        {
+          "path": "media/audio-syntax-alba.mp3",
+          "sha256": "e44932c454a9bb2ab3e033d81039bf5868d2d3fc070f056186c6d6d7d6826ce1"
+        },
+        {
+          "path": "media/audio-syntax.mp3",
+          "sha256": "4910f945e81e4211a742bb71579679fd3a6ca27b6b88c4116c337d62ad5184b5"
+        },
+        {
+          "path": "media/voice-preview-alan.mp3",
+          "sha256": "98280296e77ab4c5f6d9dcb0fe092a547c4bf614f56e10e5e7bd7150516823b7"
+        },
+        {
+          "path": "media/voice-preview-alba.mp3",
+          "sha256": "2e56896f8a4ff1473c6b1f7f3f7b5e241e5e0f9e21555b9c9779b26c57505baf"
+        },
+        {
+          "path": "media/voice-preview-lessac.mp3",
+          "sha256": "773001ef0bc923082a2134e7d1df2c60100c7aea20014ec200580300766428c8"
+        },
+        {
+          "path": "media/voices.json",
+          "sha256": "ed9b8ee46666996cdcc5a649bd6c83e07741da3148f3e4ede7a4abe460e102bb"
+        },
+        {
+          "path": "licenses/piper-voices.txt",
+          "sha256": "b1e0f92dd1166cdc5f732d15bbca6a85c4513a6a9f2d520fcda0da40ea8d7535"
+        }
+      ]
     }
   ]
 }

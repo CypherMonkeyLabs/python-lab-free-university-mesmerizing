@@ -1,0 +1,61 @@
+{
+  "generated": "2026-10-18",
+  "engine": "piper",
+  "engine_url": "https://github.com/rhasspy/piper",
+  "engine_licence": "MIT",
+  "model_card": "https://huggingface.co/rhasspy/piper-voices",
+  "note": "macOS say was not used. Voice weights are not committed.",
+  "voices": [
+    {
+      "id": "lessac",
+      "kind": "file",
+      "label": "Lessac \u00b7 United States",
+      "detail": "Piper voice en_US-lessac-low, United States English",
+      "licence": "Piper is MIT. The rhasspy/piper-voices model card states MIT (read 2026-10-18). This file is a generated waveform; the voice weights are not in the repo.",
+      "preview": "media/voice-preview-lessac.mp3",
+      "files": {
+        "syntax": "media/audio-syntax.mp3",
+        "structures": "media/audio-structures.mp3",
+        "async": "media/audio-async.mp3",
+        "interview": "media/audio-interview.mp3"
+      }
+    },
+    {
+      "id": "alba",
+      "kind": "file",
+      "label": "Alba \u00b7 Scotland",
+      "detail": "Piper voice en_GB-alba-medium, Scottish English",
+      "licence": "Piper is MIT. The rhasspy/piper-voices model card states MIT (read 2026-10-18). This file is a generated waveform; the voice weights are not in the repo.",
+      "preview": "media/voice-preview-alba.mp3",
+      "files": {
+        "syntax": "media/audio-syntax-alba.mp3",
+        "structures": "media/audio-structures-alba.mp3",
+        "async": "media/audio-async-alba.mp3",
+        "interview": "media/audio-interview-alba.mp3"
+      }
+    },
+    {
+      "id": "alan",
+      "kind": "file",
+      "label": "Alan \u00b7 Britain",
+      "detail": "Piper voice en_GB-alan-low, British English",
+      "licence": "Piper is MIT. The rhasspy/piper-voices model card states MIT (read 2026-10-18). This file is a generated waveform; the voice weights are not in the repo.",
+      "preview": "media/voice-preview-alan.mp3",
+      "files": {
+        "syntax": "media/audio-syntax-alan.mp3",
+        "structures": "media/audio-structures-alan.mp3",
+        "async": "media/audio-async-alan.mp3",
+        "interview": "media/audio-interview-alan.mp3"
+      }
+    },
+    {
+      "id": "device",
+      "kind": "synth",
+      "label": "This device",
+      "detail": "The browser speechSynthesis voice. Quality depends on the operating system.",
+      "licence": "No audio file is shipped. Speech comes from the visitor's device.",
+      "preview": "",
+      "files": {}
+    }
+  ]
+}

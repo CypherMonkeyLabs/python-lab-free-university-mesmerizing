@@ -1,0 +1,13 @@
+Piper text-to-speech
+https://github.com/rhasspy/piper
+Licence: MIT
+Read from the upstream LICENSE on 2026-10-18. The engine is not vendored in this repo.
+
+rhasspy/piper-voices
+https://huggingface.co/rhasspy/piper-voices
+The model card front matter states `license: mit` (read 2026-10-18).
+Voices used to render the lab MP3s: en_US-lessac-low, en_GB-alba-medium, en_GB-alan-low.
+Only the generated waveforms are shipped. The ONNX weights are not in this repo.
+Individual training corpora are not restated on that model card. If a later reading of a corpus licence conflicts with the model card, replace the clip and record it here.
+
+macOS `say` was not used for these clips.

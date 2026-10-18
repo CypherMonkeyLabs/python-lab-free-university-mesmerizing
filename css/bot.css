@@ -96,3 +96,82 @@ html[data-fx="low"] .py-aura { animation: none; }
 .py-row input[type=checkbox] { width: 22px; height: 22px; }
 .py-swatches { display: flex; gap: 8px; flex-wrap: wrap; } .py-sw { width: 40px; height: 40px; border-radius: 50%; border: 3px solid var(--line); cursor: pointer; } .py-sw.on { border-color: var(--ink); box-shadow: 0 0 0 3px var(--accent); }
 .py-opt.on { background: var(--accent); color: var(--btn-ink); border-color: var(--accent); }
+
+.bot.is-docked {
+  width: 76px;
+  height: 102px;
+  --py-s: 0.66;
+}
+.bot.is-mini {
+  width: 56px;
+  height: 72px;
+  --py-s: 0.48;
+}
+.bot.is-parked:not(.is-speaking) {
+  visibility: hidden;
+}
+.bot.is-docked .bot-bubble,
+.bot.is-docked .py-aura,
+.bot.is-docked .py-sparks { opacity: 0; }
+.bot.is-speaking { visibility: visible; opacity: 1; }
+.bot.is-speaking .py-aura { opacity: 1; animation: py-spin 1.1s linear infinite; }
+.bot.is-speaking .bot-figure { filter: drop-shadow(0 0 14px #22d3ee) drop-shadow(0 0 20px #ff5da2); }
+.bot.is-speaking .arm-wave { animation-duration: 0.45s; }
+.bot.is-speaking .mouth {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mouth-talk 160ms ease-in-out infinite;
+}
+.bot.is-speaking .led1,
+.bot.is-speaking .led2,
+.bot.is-speaking .led3,
+.bot.is-speaking .led4,
+.bot.is-speaking .led5 { animation: led 180ms step-end infinite; }
+.bot-caption {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 4px);
+  transform: translateX(-50%);
+  max-width: 190px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: #12161c;
+  color: #fff;
+  font-size: 0.72rem;
+  line-height: 1.3;
+  pointer-events: none;
+  z-index: 5;
+}
+.bot-caption:empty { display: none; }
+@keyframes mouth-talk {
+  50% { transform: scaleY(0.28) translateY(1px); }
+}
+.voice-picker {
+  margin: 0 0 14px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--bg) 86%, var(--accent));
+}
+.voice-picker legend { font-weight: 700; padding: 0 6px; }
+.voice-options { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+.voice-options label {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  min-height: 40px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  cursor: pointer;
+}
+.voice-options label:has(input:checked) { border-color: var(--accent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 40%, transparent); }
+.voice-licence { margin: 6px 0 0; font-size: 0.82rem; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) {
+  .bot.is-speaking .mouth,
+  .bot.is-speaking .py-aura,
+  .bot.is-speaking .arm-wave,
+  .bot.is-speaking .led1 { animation: none !important; }
+  .bot.is-speaking .bot-figure { filter: drop-shadow(0 0 8px #22d3ee); }
+}

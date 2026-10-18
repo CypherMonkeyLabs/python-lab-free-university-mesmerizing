@@ -41,5 +41,12 @@ body.howto-open { overflow: hidden; }
 @media (max-width: 560px) { .howto { border-radius: 18px; } .howto-grid { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .howto { animation: none; } .howto-card { transition: none; } .howto-card:hover { transform: none; } }
 
-/* The bot stays above the how-to window so it is always visible and tappable (first tap dismisses the window). */
-body.howto-open #lab-bot { z-index: 95; }
+/* A modal owns the screen. The bot is hidden so it cannot cover Start here or Close. */
+body.howto-open #lab-bot,
+body.tour-open #lab-bot,
+body:has(#howto:not([hidden])) #lab-bot,
+body:has(#pwa-install-modal:not([hidden])) #lab-bot,
+body:has(#tour) #lab-bot {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}

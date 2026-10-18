@@ -107,3 +107,27 @@ html[data-theme="contrast"] .studio { border-color: #fff; box-shadow: none; }
 .howto-steps { display: flex; gap: 8px; margin: 0 0 10px; flex-wrap: wrap; } .howto-steps span { padding: 4px 10px; border-radius: 99px; background: color-mix(in srgb, var(--accent) 22%, var(--bg-elev)); font-weight: 700; font-size: .82rem; }
 @media (max-width: 899px) { .top-links a[href="#/worlds"] { display: none; } }
 @media print { .studio { display: none; } }
+
+.studio-floor { margin: 18px 0 8px; }
+.studio-host { display: flex; gap: 16px; align-items: center; }
+.cm-host-svg { flex: 0 0 auto; animation: host-bob 3.2s ease-in-out infinite; }
+.station-stage { display: grid; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr)); gap: 12px; perspective: 900px; margin: 8px 0 18px; }
+.station {
+  display: flex; flex-direction: column; gap: 6px; min-height: 96px; padding: 14px;
+  border-radius: 16px; text-decoration: none; color: var(--ink);
+  background: linear-gradient(160deg, color-mix(in srgb, var(--accent) 22%, var(--bg-elev)), var(--bg-elev));
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+  transform: rotateX(8deg) rotateY(-8deg);
+  transition: transform 160ms ease;
+}
+.station:hover, .station:focus-visible { transform: rotateX(0) rotateY(0) translateY(-2px); }
+.concept-grid, .example-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.concept, .studio-example { padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg-elev); }
+.stack-view { display: flex; flex-direction: column-reverse; gap: 6px; min-height: 72px; margin: 8px 0; }
+.stack-view span, .list-view li { padding: 6px 8px; border-radius: 8px; background: color-mix(in srgb, var(--accent) 18%, var(--bg)); }
+.list-view { margin: 8px 0; padding-left: 1.2rem; }
+.studio-out { min-height: 2.4rem; white-space: pre-wrap; }
+@keyframes host-bob { 50% { transform: translateY(-4px); } }
+@media (prefers-reduced-motion: reduce) {
+  .cm-host-svg, .station { animation: none; transform: none; }
+}

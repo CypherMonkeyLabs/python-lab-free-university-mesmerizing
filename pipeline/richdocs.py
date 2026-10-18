@@ -201,7 +201,7 @@ def _theme(meta):
 
 
 def _kicker(meta, page, pages):
-    return f"Python Lab   ·   Level {int(meta['level']):02d}   ·   {meta['title']}   ·   {page} / {pages}"
+    return f"cyphermonkeylabs.com   ·   Level {int(meta['level']):02d}   ·   {meta['title']}   ·   {page} / {pages}"
 
 
 def _md_pieces(blocks):
@@ -789,7 +789,7 @@ def write_docx(meta, blocks, out, cover, interpreter):
     _set_table_widths(src, [3800, 6280])
     end = d.add_paragraph()
     r = end.add_run(
-        "Code © CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. "
+        "cyphermonkeylabs.com · Cypher Monkey. Code © CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. "
         "Educational material, not accredited coursework. No outcome is promised."
     )
     _set_run_font(r, "Calibri", 11, (70, 74, 98))

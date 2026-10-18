@@ -38,10 +38,16 @@ function metrics() {
 function obstacles() {
   const selectors = [
     "main h1",
-    "#site-footer .disclaimer-panel a",
+    "#site-footer p",
+    "#site-footer h2",
+    "#site-footer a",
     "#site-footer .footer-zodiac-lockup",
     "#site-footer .brand-icons",
+    "#site-footer .brand-icon",
     "#site-footer .footer-bar",
+    "#site-footer .footer-domain",
+    "audio",
+    ".voice-picker",
     "main .hero-cta",
     "main .pager",
     "main .dl-actions",
@@ -64,6 +70,11 @@ function obstacles() {
 
 function overlaps(x, y, w, h, rect) {
   return x < rect.right && x + w > rect.left && y < rect.bottom && y + h > rect.top;
+}
+
+function footerHit(x, y) {
+  const { w, h } = metrics();
+  return obstacles().some((rect) => !rect.isHeading && overlaps(x, y, w, h, rect));
 }
 
 export function clampBot(x, y) {
@@ -101,9 +112,39 @@ function hits(x, y) {
   return obstacles().some((rect) => overlaps(x, y, w, h, rect));
 }
 
+function park(preferred) {
+  const node = bot();
+  const sizes = ["is-docked", "is-mini"];
+  for (const size of sizes) {
+    node.classList.remove("is-docked", "is-mini");
+    node.classList.add(size === "is-mini" ? "is-docked" : size, ...(size === "is-mini" ? ["is-mini"] : []));
+    const { w, h } = metrics();
+    const box = bounds();
+    const rects = obstacles().filter((rect) => !rect.isHeading);
+    let best = null;
+    let bestDist = Infinity;
+    for (let y = box.minY; y <= box.maxY; y += 10) {
+      for (let x = box.minX; x <= box.maxX; x += 10) {
+        if (rects.some((rect) => overlaps(x, y, w, h, rect))) continue;
+        const dist = (x - preferred.x) ** 2 + (y - preferred.y) ** 2;
+        if (dist < bestDist) { bestDist = dist; best = { x, y }; }
+      }
+    }
+    if (best) return best;
+  }
+  node.classList.remove("is-docked", "is-mini");
+  return null;
+}
+
 function place(x, y, bounce) {
   const node = bot();
-  const next = clampBot(x, y);
+  node.classList.remove("is-docked", "is-mini", "is-parked");
+  let next = clampBot(x, y);
+  if (footerHit(next.x, next.y)) {
+    const parked = park(next);
+    if (parked) next = parked;
+    else if (!node.classList.contains("is-speaking")) node.classList.add("is-parked");
+  }
   const mid = window.innerWidth / 2;
   node.dataset.side = next.x + metrics().w / 2 < mid ? "left" : "right";
   node.style.left = `${next.x}px`;

@@ -91,6 +91,7 @@ Apple does not allow Trusted Web Activities on the App Store; use **Capacitor** 
    - Verify that `.wasm` files in `vendor/pyodide/` are served with `application/wasm` MIME type inside `WKWebView` (Capacitor 5+ handles `.wasm` MIME types natively; exact behaviour on your target iOS version is `UNKNOWN` until tested in Simulator/Device).
 3. **App Store Review Guideline 4.2 Note:**
    - Apple reviewers sometimes reject pure web wrappers under Guideline 4.2 ("Minimum Functionality"). Because Python Lab bundles a full offline CPython 3.14 WebAssembly runtime, 11 3D worlds, 8 interactive games/puzzles, offline MP3 audio lessons, and downloadable study packs, highlight these offline capabilities in your **App Review Notes**.
+   - The offline MP3s are Piper waveforms (MIT engine and MIT model card for rhasspy/piper-voices: Lessac, Alba, Alan). They are not macOS `say` output. A fourth choice, "This device", uses the browser speech engine and ships no extra audio. See `licenses/piper-voices.txt`.
 
 ---
 
