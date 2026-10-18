@@ -45,6 +45,10 @@ const routes = [
   "/#/guides",
   "/#/guide/control-flow",
   "/#/guide/study-plan",
+  "/#/lesson/dsa/two-pointers",
+  "/#/lesson/dsa/recursion-memo",
+  "/#/games/dict-puzzle",
+  "/#/games/complexity",
 ];
 
 const SEEN = () => localStorage.setItem("pythonlab.howto.v2", JSON.stringify({ seen: true }));
@@ -380,7 +384,7 @@ test("first visit shows the how-to dialog once, Help reopens it", async ({ brows
 test("the bot is labelled, colourful and animated", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("#bot-bubble")).toContainText("Py");
-  await expect(page.locator("#lab-bot .bot-svg text")).toHaveText("BOT");
+  await expect(page.locator("#lab-bot .bot-svg text").first()).toHaveText("BOT");
   expect(await page.locator("#lab-bot .bulb").evaluate((el) => getComputedStyle(el).animationName)).toBe("bulb");
   expect(await page.locator("#lab-bot .eye").first().evaluate((el) => getComputedStyle(el).animationName)).toBe("blink");
 });

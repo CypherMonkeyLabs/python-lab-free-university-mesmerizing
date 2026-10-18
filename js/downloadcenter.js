@@ -5,6 +5,7 @@ import { levels } from "./content/levels.js";
 import { diagramById } from "./content/diagrams.js";
 import { crumbs, diagramFrame } from "./views.js";
 import { bindTilt } from "./shell.js";
+import { zodiacMonkeySvg, zodiacBrandPill, BRAND_DOMAIN } from "./cm-shared.js";
 
 const BASE = "downloads/modules/";
 let manifest = null;
@@ -35,9 +36,12 @@ function card(m) {
   const cover = m.files.find((f) => f.format === "png");
   const lvl = levels.find((l) => l.n === m.level);
   return `<article class="dc-card" id="dc-${esc(m.id)}" data-tilt data-level="${m.level}" style="--acc:${esc(m.accent)}">
-    <div class="dc-cover">${cover ? `<img src="${BASE}${esc(cover.name)}" alt="Cover card for ${esc(m.title)}: its outcomes on a ${esc(lvl ? lvl.name : "")} coloured poster" loading="lazy" width="640" height="360">` : ""}</div>
+    <div class="dc-cover">
+      ${cover ? `<img src="${BASE}${esc(cover.name)}" alt="Cover card for ${esc(m.title)}: its outcomes on a ${esc(lvl ? lvl.name : "")} coloured poster" loading="lazy" width="640" height="360">` : ""}
+      <span class="dc-brand-stamp" aria-hidden="true">${zodiacMonkeySvg(22)}<span>${BRAND_DOMAIN}</span></span>
+    </div>
     <div class="dc-body">
-      <p class="kicker"><span class="pill">Level ${m.level}</span><span class="pill">about ${m.hours} h</span><span class="pill">${esc(m.audience)}</span></p>
+      <p class="kicker"><span class="pill">Level ${m.level}</span><span class="pill">about ${m.hours} h</span><span class="pill">${esc(m.audience)}</span><span class="pill pill-brand">${BRAND_DOMAIN}</span></p>
       <h2>${esc(m.title.replace(/^Level \d+: /, ""))}</h2>
       <p>${esc(m.blurb)} Project: ${esc(m.project)}.</p>
       <ul class="dc-files">${files.map(fileRow).join("")}</ul>
@@ -55,6 +59,7 @@ export function downloadCenterView(focus, extraHtml = "") {
   const arch = diagramById("lab-architecture");
   return {
     html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/downloads", label: "Downloads" }])}
+      <div class="dc-brand-banner">${zodiacBrandPill({ size: 36, title: "CypherMonkey Labs Download Center", link: true })}</div>
       <h1>Downloads</h1>
       <p class="lede" data-speak>Take a Level with you. Each Level comes as a PDF guide, a Word worksheet, PowerPoint slides, an offline web page and a cover image, all built from one source so they always agree. Free, no account.</p>
       <div class="dc-tools" role="search">

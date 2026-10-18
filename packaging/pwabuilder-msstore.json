@@ -1,0 +1,13 @@
+{
+  "name": "Python Lab · CypherMonkey Labs",
+  "shortName": "Python Lab",
+  "url": "https://cyphermonkeylabs.com/python-lab-free-university-mesmerizing/",
+  "manifestUrl": "https://cyphermonkeylabs.com/python-lab-free-university-mesmerizing/manifest.webmanifest",
+  "packageId": "CypherMonkeyLabs.PythonLab",
+  "version": "2.0.0.0",
+  "publisher": {
+    "displayName": "[HUMAN INPUT REQUIRED: Partner Center Publisher Display Name]",
+    "commonName": "[HUMAN INPUT REQUIRED: CN=YOUR-PARTNER-CENTER-ID]"
+  },
+  "iconUrl": "https://cyphermonkeylabs.com/python-lab-free-university-mesmerizing/assets/icon-512.png"
+}

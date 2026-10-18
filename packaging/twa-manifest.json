@@ -1,0 +1,39 @@
+{
+  "packageId": "com.cyphermonkeylabs.pythonlab",
+  "host": "cyphermonkeylabs.com",
+  "name": "Python Lab",
+  "launcherName": "Python Lab",
+  "display": "standalone",
+  "themeColor": "#241654",
+  "navigationColor": "#12161c",
+  "navigationColorDark": "#12161c",
+  "navigationDividerColor": "#241654",
+  "navigationDividerColorDark": "#241654",
+  "backgroundColor": "#f6f2ff",
+  "enableNotifications": false,
+  "startUrl": "/python-lab-free-university-mesmerizing/",
+  "iconUrl": "https://cyphermonkeylabs.com/python-lab-free-university-mesmerizing/assets/icon-512.png",
+  "maskableIconUrl": "https://cyphermonkeylabs.com/python-lab-free-university-mesmerizing/assets/icon-maskable-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "[HUMAN INPUT REQUIRED: path/to/upload-keystore.jks]",
+    "alias": "[HUMAN INPUT REQUIRED: upload-key-alias]"
+  },
+  "appVersionName": "2.0.0",
+  "appVersionCode": 2,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://cyphermonkeylabs.com/python-lab-free-university-mesmerizing/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://cyphermonkeylabs.com/python-lab-free-university-mesmerizing/",
+  "minSdkVersion": 21,
+  "orientation": "any",
+  "fingerprints": []
+}

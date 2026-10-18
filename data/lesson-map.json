@@ -347,6 +347,40 @@
    "last_verified": null
   },
   {
+   "key": "dsa/two-pointers",
+   "title": "Two pointers and sliding windows",
+   "level": 7,
+   "python_min": "3.13",
+   "minutes": 14,
+   "outcomes": [
+    "Use two indices on a sorted sequence instead of nested loops",
+    "Update a fixed-width sliding window sum in constant time per step"
+   ],
+   "sources": [
+    "stdtypes",
+    "timecomplexity"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
+   "key": "dsa/recursion-memo",
+   "title": "Recursion and memoization with functools.cache",
+   "level": 7,
+   "python_min": "3.13",
+   "minutes": 14,
+   "outcomes": [
+    "Write a recursive function with a clear base case",
+    "Cache repeated hashable calls with functools.cache"
+   ],
+   "sources": [
+    "functools",
+    "timecomplexity"
+   ],
+   "has_exercise": true,
+   "last_verified": null
+  },
+  {
    "key": "async/why",
    "title": "What async is for",
    "level": 8,

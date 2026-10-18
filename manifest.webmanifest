@@ -1,0 +1,71 @@
+{
+  "name": "Python Lab · CypherMonkey Labs",
+  "short_name": "Python Lab",
+  "description": "Free university-style interactive Python study studio with in-browser CPython 3.14 (Pyodide), 3D worlds, audio/video explainers, and offline downloads by cyphermonkeylabs.com.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f6f2ff",
+  "theme_color": "#241654",
+  "categories": ["education", "developer tools", "books"],
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/splash.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Python Lab by CypherMonkey Labs (cyphermonkeylabs.com)"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Practice & Challenges",
+      "short_name": "Practice",
+      "description": "Run Python 3.14 in your browser and solve interview challenges",
+      "url": "./#/practice",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Download Center",
+      "short_name": "Downloads",
+      "description": "Download PDF guides, Word worksheets, PowerPoint slides, HTML and covers",
+      "url": "./#/downloads",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Games & Puzzles",
+      "short_name": "Games",
+      "description": "Play Python coding games and interactive puzzles",
+      "url": "./#/games",
+      "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}

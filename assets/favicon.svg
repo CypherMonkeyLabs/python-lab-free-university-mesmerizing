@@ -1,7 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#12161c"/>
-  <rect x="8" y="7" width="16" height="11" rx="3" fill="#e2a13a"/>
-  <circle cx="13" cy="12" r="1.4" fill="#12161c"/>
-  <circle cx="19" cy="12" r="1.4" fill="#12161c"/>
-  <rect x="10" y="20" width="12" height="6" rx="2" fill="#7ec8c3"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Python Lab — CypherMonkey Labs">
+  <defs>
+    <radialGradient id="fv-bg" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#312e81"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </radialGradient>
+    <linearGradient id="fv-ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="50%" stop-color="#f472b6"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#fv-bg)"/>
+  <circle cx="32" cy="30" r="25" fill="none" stroke="url(#fv-ring)" stroke-width="2.2" stroke-dasharray="3 3"/>
+  <circle cx="14" cy="29" r="6.5" fill="#f59e0b" stroke="#92400e" stroke-width="1.5"/>
+  <circle cx="50" cy="29" r="6.5" fill="#f59e0b" stroke="#92400e" stroke-width="1.5"/>
+  <circle cx="14" cy="29" r="3.2" fill="#fb7185"/>
+  <circle cx="50" cy="29" r="3.2" fill="#fb7185"/>
+  <circle cx="32" cy="30" r="16" fill="#fbbf24" stroke="#92400e" stroke-width="1.6"/>
+  <path d="M32 10 L34 15 L39 15.5 L35 19 L36.2 24 L32 21 L27.8 24 L29 19 L25 15.5 L30 15 Z" fill="#fde047" stroke="#b45309" stroke-width="0.9"/>
+  <ellipse cx="32" cy="36.5" rx="10.5" ry="7" fill="#fef3c7"/>
+  <circle cx="26" cy="28" r="3.2" fill="#0f172a"/>
+  <circle cx="38" cy="28" r="3.2" fill="#0f172a"/>
+  <circle cx="26" cy="28" r="5.6" fill="none" stroke="#22d3ee" stroke-width="1.6"/>
+  <circle cx="38" cy="28" r="5.6" fill="none" stroke="#22d3ee" stroke-width="1.6"/>
+  <path d="M31.5 28h1" stroke="#22d3ee" stroke-width="1.6"/>
+  <path d="M27 38q5 4 10 0" fill="none" stroke="#1e1b4b" stroke-width="1.8" stroke-linecap="round"/>
+  <rect x="18" y="48" width="28" height="12" rx="6" fill="#22d3ee"/>
+  <text x="32" y="57" text-anchor="middle" font-family="monospace" font-weight="700" font-size="9.5" fill="#0f172a">py</text>
 </svg>

@@ -1,40 +1,50 @@
-/* Py, the lab bot: colourful, labelled, animated. Identical in every theme on purpose. */
-.bot { width: 96px; height: 128px; z-index: 45; }
+/* Py, the lab bot: bigger, livelier, colourful, labelled, animated. Identical in every theme on purpose. */
+.bot { width: 108px; height: 144px; z-index: 45; touch-action: none; user-select: none; -webkit-user-select: none; }
 .bot::after { display: none !important; }
-.bot-stage { position: absolute; inset: 0; perspective: 500px; }
+.bot-stage { position: absolute; inset: 0; perspective: 560px; }
 .bot-bubble {
-  position: absolute; z-index: 2; right: 0; top: 0; max-width: 150px; width: max-content; padding: 4px 10px 5px; border-radius: 14px 14px 4px 14px;
-  background: #fff; color: #10233a; border: 2px solid #ff5da2; box-shadow: 0 4px 14px rgba(255, 93, 162, 0.45), 0 0 0 3px rgba(255, 212, 59, 0.55);
-  font: 700 0.74rem/1.2 "Atkinson Hyperlegible", system-ui, sans-serif; text-align: left; pointer-events: none;
+  position: absolute; z-index: 4; right: 0; top: -4px; max-width: 168px; width: max-content; padding: 5px 11px 6px; border-radius: 16px 16px 4px 16px;
+  background: linear-gradient(135deg, #ffffff, #fff5fb 65%, #fef9c3); color: #0f172a; border: 2.5px solid #ff5da2;
+  box-shadow: 0 6px 18px rgba(255, 93, 162, 0.5), 0 0 0 3px rgba(255, 212, 59, 0.65), 0 0 18px rgba(34, 211, 238, 0.45);
+  font: 700 0.76rem/1.22 "Atkinson Hyperlegible", system-ui, sans-serif; text-align: left; pointer-events: none;
   animation: bubble-pop 360ms cubic-bezier(.3, 1.6, .5, 1);
 }
-.bot-bubble::after { content: ""; position: absolute; right: 16px; bottom: -9px; width: 12px; height: 12px; background: #fff; border-right: 2px solid #ff5da2; border-bottom: 2px solid #ff5da2; transform: rotate(45deg) skew(8deg, 8deg); border-radius: 0 0 4px 0; }
-.bot[data-side="left"] .bot-bubble { right: auto; left: 0; border-radius: 14px 14px 14px 4px; }
-.bot[data-side="left"] .bot-bubble::after { right: auto; left: 16px; }
+.bot-bubble::after { content: ""; position: absolute; right: 18px; bottom: -9px; width: 12px; height: 12px; background: #fef9c3; border-right: 2.5px solid #ff5da2; border-bottom: 2.5px solid #ff5da2; transform: rotate(45deg) skew(8deg, 8deg); border-radius: 0 0 4px 0; }
+.bot[data-side="left"] .bot-bubble { right: auto; left: 0; border-radius: 16px 16px 16px 4px; }
+.bot[data-side="left"] .bot-bubble::after { right: auto; left: 18px; }
 .bot.is-open .bot-bubble, .bot.is-dragging .bot-bubble { display: none; }
 @keyframes bubble-pop { from { opacity: 0; transform: scale(0.6) translateY(8px); } to { opacity: 1; transform: none; } }
-.bot-figure { position: absolute; left: 4px; bottom: 6px; width: 88px; height: 100px; margin: 0; transform-style: preserve-3d; animation: bot-idle 5s ease-in-out infinite; filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.35)); }
+.bot-figure { position: absolute; left: 5px; bottom: 6px; width: 98px; height: 114px; margin: 0; transform-style: preserve-3d; animation: bot-idle 4.2s ease-in-out infinite; filter: drop-shadow(0 8px 12px rgba(15, 23, 42, 0.42)) drop-shadow(0 0 10px rgba(255, 93, 162, 0.35)); }
+@keyframes bot-idle { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-6px) rotate(1.5deg); } }
 .bot-svg { width: 100%; height: 100%; overflow: visible; display: block; }
-.bot.is-open .bot-figure { filter: drop-shadow(0 0 12px #ffd43b) drop-shadow(0 0 20px #4b8bbe); }
-.bot-shadow { position: absolute; left: 18px; bottom: 2px; width: 60px; height: 9px; background: rgba(0, 0, 0, 0.35); border-radius: 50%; filter: blur(2px); animation: shadow-pulse 5s ease-in-out infinite; }
-@keyframes shadow-pulse { 0%, 100% { transform: scaleX(0.9); } 50% { transform: scaleX(1.1); } }
+.bot.is-open .bot-figure { filter: drop-shadow(0 0 14px #ffd43b) drop-shadow(0 0 24px #22d3ee) drop-shadow(0 0 30px #ff5da2); }
+.bot-shadow { position: absolute; left: 20px; bottom: 2px; width: 68px; height: 10px; background: radial-gradient(ellipse at center, rgba(255, 93, 162, 0.45), rgba(0, 0, 0, 0.38)); border-radius: 50%; filter: blur(2px); animation: shadow-pulse 4.2s ease-in-out infinite; }
+@keyframes shadow-pulse { 0%, 100% { transform: scaleX(0.92); } 50% { transform: scaleX(1.12); } }
 .bot .bulb { transform-box: fill-box; transform-origin: center; animation: bulb 1.4s ease-in-out infinite; }
-.bot .wave1, .bot .wave2 { opacity: 0; animation: signal 2.4s ease-out infinite; transform-box: fill-box; transform-origin: center bottom; }
+.bot .wave1, .bot .wave2 { opacity: 0; animation: signal 2.2s ease-out infinite; transform-box: fill-box; transform-origin: center bottom; }
 .bot .wave2 { animation-delay: 0.5s; }
-.bot .eye { transform-box: fill-box; transform-origin: center; animation: blink 5.5s infinite; }
+.bot .eye { transform-box: fill-box; transform-origin: center; animation: blink 5.2s infinite; }
 .bot .eye-r { animation-delay: 0.04s; }
 .bot .pupil { transform: translate(calc(var(--ex, 0) * 2.2px), calc(var(--ey, 0) * 1.6px)); transition: transform 90ms linear; }
-.bot .arm-wave { transform-box: fill-box; transform-origin: 8% 90%; animation: arm 3.2s ease-in-out infinite; }
-.bot .tail { transform-box: fill-box; transform-origin: 90% 10%; animation: tail 2.6s ease-in-out infinite; }
+.bot .arm-wave { transform-box: fill-box; transform-origin: 8% 90%; animation: arm 2.8s ease-in-out infinite; }
+.bot .tail { transform-box: fill-box; transform-origin: 90% 10%; animation: tail 2.3s ease-in-out infinite; }
+.bot .bot-orbit { transform-box: fill-box; transform-origin: center; animation: orbit-pulse 3.6s ease-in-out infinite; }
+.bot .thruster { transform-box: fill-box; transform-origin: center top; animation: thruster-glow 0.9s ease-in-out infinite alternate; }
 .bot .cursor { animation: cursor 1s steps(2) infinite; }
-.bot .led1 { animation: led 1.2s steps(2) infinite; } .bot .led2 { animation: led 1.2s steps(2) 0.4s infinite; } .bot .led3 { animation: led 1.2s steps(2) 0.8s infinite; }
+.bot .led1 { animation: led 1.1s steps(2) infinite; }
+.bot .led2 { animation: led 1.1s steps(2) 0.22s infinite; }
+.bot .led3 { animation: led 1.1s steps(2) 0.44s infinite; }
+.bot .led4 { animation: led 1.1s steps(2) 0.66s infinite; }
+.bot .led5 { animation: led 1.1s steps(2) 0.88s infinite; }
 .bot.wave .bot-figure { animation: bot-wave 700ms ease; }
 .bot.bounce .bot-figure { animation: bot-bounce 420ms ease; }
-@keyframes bulb { 0%, 100% { transform: scale(1); filter: brightness(1); } 50% { transform: scale(1.35); filter: brightness(1.5); } }
-@keyframes signal { 0% { opacity: 0.9; transform: scale(0.5); } 100% { opacity: 0; transform: scale(1.6); } }
+@keyframes bulb { 0%, 100% { transform: scale(1); filter: brightness(1); } 50% { transform: scale(1.38); filter: brightness(1.6); } }
+@keyframes signal { 0% { opacity: 0.95; transform: scale(0.5); } 100% { opacity: 0; transform: scale(1.65); } }
 @keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
-@keyframes arm { 0%, 55%, 100% { transform: rotate(0); } 62% { transform: rotate(-38deg); } 70% { transform: rotate(10deg); } 78% { transform: rotate(-38deg); } 86% { transform: rotate(0); } }
-@keyframes tail { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(10deg); } }
+@keyframes arm { 0%, 52%, 100% { transform: rotate(0); } 60% { transform: rotate(-40deg); } 68% { transform: rotate(12deg); } 76% { transform: rotate(-40deg); } 86% { transform: rotate(0); } }
+@keyframes tail { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(11deg); } }
+@keyframes orbit-pulse { 0%, 100% { transform: rotate(-6deg) scaleX(1); opacity: 0.78; } 50% { transform: rotate(6deg) scaleX(1.06); opacity: 1; } }
+@keyframes thruster-glow { 0% { transform: scaleY(0.75); opacity: 0.55; } 100% { transform: scaleY(1.35); opacity: 0.95; } }
 @keyframes cursor { 50% { opacity: 0; } }
 @keyframes led { 50% { opacity: 0.25; } }
 @media (prefers-reduced-motion: reduce) {
@@ -44,20 +54,21 @@
 @media print { #lab-bot, .howto-scrim { display: none !important; } }
 button.bp-go { font: inherit; text-align: left; width: 100%; cursor: pointer; }
 
-/* ---- PR5: Py outshines the screen: aura, sparkles, skins, size, mannerisms ---- */
+/* ---- Py outshines the screen: aura, sparkles, skins, size, mannerisms ---- */
 #pb-head stop:first-child { stop-color: var(--py-a, #6bb0e6); }
 #pb-head stop:last-child { stop-color: var(--py-b, #2f6aa3); }
-.bot { width: calc(96px * var(--py-s, 1.1)); height: calc(128px * var(--py-s, 1.1)); pointer-events: none; }
-.bot-stage, .bot-svg { pointer-events: auto; }
-.bot-stage { inset: auto; left: 0; bottom: 0; width: 96px; height: 128px; transform: scale(var(--py-s, 1.1)); transform-origin: left bottom; }
-.py-aura { position: absolute; left: -10px; bottom: -4px; width: 116px; height: 116px; border-radius: 50%; z-index: 0; pointer-events: none;
-  background: conic-gradient(from 0deg, #ff5da2, #ffd43b, #34d399, #22d3ee, #a78bfa, #ff5da2); filter: blur(14px); opacity: 0.55; animation: py-spin 7s linear infinite; }
+.bot { width: calc(108px * var(--py-s, 1.18)); height: calc(144px * var(--py-s, 1.18)); pointer-events: none; }
+.bot-stage, .bot-svg { pointer-events: auto; cursor: grab; }
+.bot.is-dragging .bot-stage, .bot.is-dragging .bot-svg { cursor: grabbing; }
+.bot-stage { inset: auto; left: 0; bottom: 0; width: 108px; height: 144px; transform: scale(var(--py-s, 1.18)); transform-origin: left bottom; }
+.py-aura { position: absolute; left: -12px; bottom: -6px; width: 132px; height: 132px; border-radius: 50%; z-index: 0; pointer-events: none;
+  background: conic-gradient(from 0deg, #ff5da2, #ffd43b, #34d399, #22d3ee, #a78bfa, #ff8fc3, #ff5da2); filter: blur(15px); opacity: 0.68; animation: py-spin 6s linear infinite; }
 .bot-figure { z-index: 1; }
 @keyframes py-spin { to { transform: rotate(360deg); } }
-.py-sparks b { position: absolute; font-size: 14px; color: #ffd43b; text-shadow: 0 0 8px #ff5da2; pointer-events: none; opacity: 0; animation: py-twinkle 3.2s ease-in-out infinite; z-index: 2; }
-.py-sparks b:nth-child(1) { left: -2px; top: 30px; } .py-sparks b:nth-child(2) { right: -2px; top: 54px; animation-delay: .8s; color: #7cf3ff; }
-.py-sparks b:nth-child(3) { left: 6px; bottom: 30px; animation-delay: 1.6s; color: #ff8fc3; } .py-sparks b:nth-child(4) { right: 8px; top: 18px; animation-delay: 2.4s; }
-@keyframes py-twinkle { 0%, 100% { opacity: 0; transform: scale(.4) rotate(0); } 50% { opacity: 1; transform: scale(1.2) rotate(90deg); } }
+.py-sparks b { position: absolute; font-size: 15px; color: #ffd43b; text-shadow: 0 0 8px #ff5da2; pointer-events: none; opacity: 0; animation: py-twinkle 3s ease-in-out infinite; z-index: 2; }
+.py-sparks b:nth-child(1) { left: -2px; top: 28px; } .py-sparks b:nth-child(2) { right: -2px; top: 54px; animation-delay: .75s; color: #7cf3ff; }
+.py-sparks b:nth-child(3) { left: 6px; bottom: 30px; animation-delay: 1.5s; color: #ff8fc3; } .py-sparks b:nth-child(4) { right: 8px; top: 16px; animation-delay: 2.25s; color: #34d399; }
+@keyframes py-twinkle { 0%, 100% { opacity: 0; transform: scale(.4) rotate(0); } 50% { opacity: 1; transform: scale(1.25) rotate(90deg); } }
 html[data-fx="off"] .py-aura { animation: none; opacity: .35; filter: blur(10px); }
 html[data-fx="off"] .py-sparks { display: none; }
 html[data-fx="low"] .py-aura { animation: none; }
@@ -65,7 +76,7 @@ html[data-fx="low"] .py-aura { animation: none; }
 .bot.py-celebrate .bot-figure { animation: py-jump .5s ease-in-out 4; }
 .bot.py-think .bot-figure { animation: py-think 1.6s ease-in-out; }
 .bot.py-hint .bot-figure { animation: py-hint .45s ease-in-out 3; }
-.bot.py-celebrate .py-aura { opacity: .95; }
+.bot.py-celebrate .py-aura { opacity: .98; }
 .bot.py-hint .bulb { fill: #ffd43b; filter: drop-shadow(0 0 8px #ffd43b); }
 @keyframes py-wave { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-12deg); } 40% { transform: rotate(10deg); } 60% { transform: rotate(-8deg); } 80% { transform: rotate(5deg); } }
 @keyframes py-jump { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-22px) scale(1.08) rotate(6deg); } }
@@ -77,8 +88,8 @@ html[data-fx="low"] .py-aura { animation: none; }
 @media (prefers-reduced-motion: reduce) { .py-aura, .py-sparks b, .bot .bot-figure { animation: none !important; } .py-aura { opacity: .35; } .py-sparks { display: none; } }
 /* panel */
 .bp-quick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 8px 0 4px; }
-.bp-qa { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 58px; padding: 6px 4px; border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, var(--bg)), var(--bg)); color: var(--ink); text-decoration: none; font: inherit; font-size: .82rem; font-weight: 700; cursor: pointer; }
-.bp-qa span { font-size: 1.3rem; line-height: 1; } .bp-qa:hover, .bp-qa:focus-visible { border-color: var(--accent); transform: translateY(-1px); }
+.bp-qa { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 58px; padding: 6px 4px; border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 24%, var(--bg)), var(--bg)); color: var(--ink); text-decoration: none; font: inherit; font-size: .82rem; font-weight: 700; cursor: pointer; transition: transform 120ms, border-color 120ms; }
+.bp-qa span { font-size: 1.32rem; line-height: 1; } .bp-qa:hover, .bp-qa:focus-visible { border-color: var(--accent); transform: translateY(-1px); }
 .bp-hint { margin: 8px 0 0; padding: 8px 10px; border-radius: 12px; border: 1px dashed var(--accent); font-size: .88rem; }
 .py-custom { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 8px; } .py-custom summary { cursor: pointer; font-weight: 700; min-height: 40px; display: flex; align-items: center; }
 .py-row { display: flex; align-items: center; gap: 8px; min-height: 40px; font-size: .9rem; } .py-row input[type=text], #py-name { flex: 1; min-height: 40px; padding: 4px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; }

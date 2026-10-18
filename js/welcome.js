@@ -3,6 +3,7 @@ import { readStore, writeStore, esc } from "./util.js";
 import { state, levelFor } from "./xp.js";
 import { startTour, isTourOpen } from "./tour.js";
 import { sayBot } from "./botfx.js";
+import { zodiacMonkeySvg, BRAND_DOMAIN } from "./cm-shared.js";
 
 const KEY = "pythonlab.visits.v1";
 const HOWTO_KEY = "pythonlab.howto.v2";
@@ -36,8 +37,8 @@ function show(w, info) {
   el.id = "welcome";
   el.className = "welcome";
   el.setAttribute("role", "status");
-  el.innerHTML = `<span class="wl-emoji" aria-hidden="true">${w.first ? "🐍" : "🌈"}</span>
-    <div><b>${esc(w.title)}</b><span class="wl-t">${esc(w.line)}</span>
+  el.innerHTML = `<span class="wl-emoji wl-zodiac" aria-hidden="true">${zodiacMonkeySvg(40)}<small class="wl-domain">${BRAND_DOMAIN}</small></span>
+    <div><b>${esc(w.title)} <span class="wl-brand-inline">· ${BRAND_DOMAIN}</span></b><span class="wl-t">${esc(w.line)}</span>
     <div class="wl-actions"><button type="button" class="wl-go" data-tour>${w.first ? "Start the 1 minute tour" : "Take the tour again"}</button>
     <button type="button" class="wl-go" data-welcome-play>Play a game</button></div></div>
     <button type="button" class="wl-x" aria-label="Dismiss the welcome">&times;</button>`;
