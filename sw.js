@@ -4,7 +4,7 @@
    the worker covers that folder only. A root scope would be
    rejected, because a worker cannot control paths above its script. */
 
-const CACHE_NAME = "pythonlab-pwa-v4";
+const CACHE_NAME = "pythonlab-pwa-v5";
 const CACHE_BUDGET_NOTE = "Precache stays under 3.5 MB: shell, lesson modules, default audio, short clips. Pyodide is not precached.";
 const SHELL_ASSETS = [
   "./",
@@ -36,6 +36,11 @@ const SHELL_ASSETS = [
   "./js/bot.js",
   "./js/botfx.js",
   "./js/botpanel.js",
+  "./js/botchat.js",
+  "./js/content/pybot-index.json",
+  "./shared/pybot-chat/engine.js",
+  "./shared/pybot-chat/ui.js",
+  "./shared/pybot-chat/chat.css",
   "./js/botteach.js",
   "./js/cm-shared.js",
   "./js/content/applied.js",

@@ -154,11 +154,12 @@ test("offline home and a lesson", async ({ page, context }) => {
   await page.waitForFunction(async () => {
     const ready = await navigator.serviceWorker.ready;
     if (!ready.active) return false;
-    const cache = await caches.open("pythonlab-pwa-v4");
+    const cache = await caches.open("pythonlab-pwa-v5");
     const shell = await cache.match("./js/app.js");
     const audio = await cache.match("./media/audio-syntax.mp3");
     const lesson = await cache.match("./js/content/start.js");
-    return !!(shell && audio && lesson);
+    const index = await cache.match("./js/content/pybot-index.json");
+    return !!(shell && audio && lesson && index);
   }, 0, { timeout: 20000 });
   await page.reload();
   await context.setOffline(true);
