@@ -183,6 +183,32 @@
           "sha256": "cfc4a191c3ae300777c25e27aa81cb2d25bb898c8632aa61787f305876a981c8"
         }
       ]
+    },
+    {
+      "name": "three.js subset",
+      "version": "r186 (npm 0.186.1)",
+      "licence": "MIT",
+      "url": "https://github.com/mrdoob/three.js",
+      "licence_file": "vendor/three/LICENSE",
+      "read": "MIT text in vendor/three/LICENSE. Subset listed in vendor/three/README.md. Already noted in THIRD_PARTY_NOTICES.md; the file hashes were missing from this manifest.",
+      "files": [
+        {
+          "path": "vendor/three/LICENSE",
+          "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+        },
+        {
+          "path": "vendor/three/README.md",
+          "sha256": "a28c7b9f7909af84fab72b026a86c5e16646111a85c3a8f331096669df363c90"
+        },
+        {
+          "path": "vendor/three/subset.js",
+          "sha256": "a88b23b6e14422f29679ccb1b3f599ad96059c9e89244dd0060e926a46609685"
+        },
+        {
+          "path": "vendor/three/three.subset.min.js",
+          "sha256": "92e0be12e2f53112956dbc241adf4a1189ffd1e1fffd1ff0a5ffa3d505be93ee"
+        }
+      ]
     }
   ]
 }

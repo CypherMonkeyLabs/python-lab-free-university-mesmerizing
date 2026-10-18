@@ -160,8 +160,11 @@ export const kinds = {
     }
     const geo = new T.BufferGeometry();
     geo.setAttribute("position", new T.BufferAttribute(pos, 3));
-    const stars = new T.Points(geo, new T.PointsMaterial({ color: "#fff6c8", size: 0.07, transparent: true, opacity: 0.9 }));
+    const stars = new T.Points(geo, new T.PointsMaterial({ color: "#fff6c8", size: 0.16, transparent: true, opacity: 0.95 }));
     scene.add(stars);
+    const moon = mesh(T, new T.SphereGeometry(0.55, 16, 12), "#ffe8a3");
+    moon.position.set(-3.2, 2.2, -2);
+    scene.add(moon);
     const tag = label(T, "yield", accent);
     tag.position.set(-2.2, 1.6, 0.4);
     scene.add(tag);
