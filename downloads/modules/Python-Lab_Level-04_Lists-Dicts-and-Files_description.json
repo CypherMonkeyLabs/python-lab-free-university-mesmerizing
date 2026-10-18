@@ -54,7 +54,7 @@
   "verified": {
     "pdf_pages": 3,
     "docx_paragraphs": 37,
-    "pptx_slides": 12
+    "pptx_slides": 13
   },
   "files": [
     {
@@ -67,30 +67,30 @@
     {
       "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Guide.html",
       "format": "html",
-      "bytes": 4077,
+      "bytes": 4130,
       "size": "4 KB",
-      "sha256": "badc7ffe2c3eaac5e97f13634353963b0a87e38278f42af98f9be7023fe7bea8"
+      "sha256": "e619ff7c3b1cf4b0b48b93f3191c7a0cfd18b044cc34316b77a5dc2e2db5dc3b"
     },
     {
       "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Guide.pdf",
       "format": "pdf",
-      "bytes": 23319,
+      "bytes": 23313,
       "size": "23 KB",
-      "sha256": "567dea6f72f8290ccfad867751abd51c819df709d45a5f73f622b60de5e9eca5"
+      "sha256": "acb169b77699c888e93076c9c8725856fe346c95d9ebbc006d4f473726c3f478"
     },
     {
       "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Slides.pptx",
       "format": "pptx",
-      "bytes": 89667,
-      "size": "88 KB",
-      "sha256": "940b27c663ac7802ce0b58554426cee8ff50ebb37a896275c951c74c8622693e"
+      "bytes": 92673,
+      "size": "91 KB",
+      "sha256": "04519eb1b5c7932ce73325d5aee8bc60400682ea35eea6ca82ded1d4a2861ef4"
     },
     {
       "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Worksheet.docx",
       "format": "docx",
       "bytes": 78195,
       "size": "76 KB",
-      "sha256": "9c57c07970488e4355f012fea9a66bc9bc8520971593a1d00af93d0e1800e8b3"
+      "sha256": "407fb3de37e874111e3b9ca23bb7488389e4eeb9c646abc19d31a68a799ca9e1"
     }
   ]
 }

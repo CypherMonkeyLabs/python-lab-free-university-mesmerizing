@@ -54,7 +54,7 @@
   "verified": {
     "pdf_pages": 2,
     "docx_paragraphs": 31,
-    "pptx_slides": 10
+    "pptx_slides": 11
   },
   "files": [
     {
@@ -67,30 +67,30 @@
     {
       "name": "Python-Lab_Level-05_Classes-and-Modules_Guide.html",
       "format": "html",
-      "bytes": 3777,
+      "bytes": 3830,
       "size": "4 KB",
-      "sha256": "139cd2152a600e7fc3cf99d222704c34d928ce3c3704f9cf337b17c4ae9c9be9"
+      "sha256": "5ebb4e52c801b24fdfa442311543735dbff7cc9eb3030cbf02f237087d80b635"
     },
     {
       "name": "Python-Lab_Level-05_Classes-and-Modules_Guide.pdf",
       "format": "pdf",
-      "bytes": 21257,
+      "bytes": 21256,
       "size": "21 KB",
-      "sha256": "efe89bf86766049bb3287a0c25257852b10ce842f78c0aa41c1d0375ad89f0d5"
+      "sha256": "0c07ce14e7b9e539829105072851fb4f950ab824115434770e973527c36bc8ac"
     },
     {
       "name": "Python-Lab_Level-05_Classes-and-Modules_Slides.pptx",
       "format": "pptx",
-      "bytes": 89776,
-      "size": "88 KB",
-      "sha256": "4eb3d4a1c38bbad0ef2018237c3fdaf86a12905a5e3d0090baadfadb0c70a033"
+      "bytes": 92948,
+      "size": "91 KB",
+      "sha256": "f7c687c4ee90c95d5083aa83c20292460f62ca3c2dccf1f779d0292ad82a3d1e"
     },
     {
       "name": "Python-Lab_Level-05_Classes-and-Modules_Worksheet.docx",
       "format": "docx",
       "bytes": 81721,
       "size": "80 KB",
-      "sha256": "b28c687fd6ace587e7dec4607756915eb5594f677965a9109d7dfdac525cd06a"
+      "sha256": "3cba0fed9ef69e704034ca7ace316609e88bd92e0fff1a4e0fe74ae9d2d96131"
     }
   ]
 }

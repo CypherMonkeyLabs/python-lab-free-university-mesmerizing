@@ -20,7 +20,7 @@ body{font:12pt/1.5 'DejaVu Sans',sans-serif;color:#1a1d2e;margin:0}
 h1{font-size:26pt;color:#2a1860;margin:0 0 8px}
 h2{color:#2a1860;margin-top:1.15em;font-size:16pt}
 .banner{background:ACCENT;color:#142018;padding:16px 18px;border-radius:14px;margin:0 0 14px}
-pre{background:#1b2140;color:#f4f7ff;padding:12px 14px;border-radius:10px;font-size:11pt;line-height:1.45;white-space:pre-wrap}
+pre{background:#1b2140;color:#f4f7ff;padding:12px 14px;border-radius:10px;font-size:11pt;line-height:1.45;white-space:pre-wrap;overflow-x:auto;max-width:100%;box-sizing:border-box}
 pre.out{background:#e7f6ec;color:#0c4630;border-left:6px solid #2bb673}
 .meta{background:#f7f4ff;padding:12px 14px;border-radius:10px;border:1px solid #d9d0f0}
 code{font-family:'DejaVu Sans Mono',monospace}

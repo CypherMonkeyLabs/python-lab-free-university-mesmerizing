@@ -49,7 +49,7 @@
   "verified": {
     "pdf_pages": 3,
     "docx_paragraphs": 41,
-    "pptx_slides": 14
+    "pptx_slides": 15
   },
   "files": [
     {
@@ -62,30 +62,30 @@
     {
       "name": "Python-Lab_Level-00_First-Program_Guide.html",
       "format": "html",
-      "bytes": 3960,
+      "bytes": 4013,
       "size": "4 KB",
-      "sha256": "c17d82a98df4253e3e219c117beedec9de8d49aa80841cea359144b2f56eebac"
+      "sha256": "95505d7965bdad047075d6e359fea7b8eadba8f01b507943786f090b07282d55"
     },
     {
       "name": "Python-Lab_Level-00_First-Program_Guide.pdf",
       "format": "pdf",
-      "bytes": 23180,
+      "bytes": 23175,
       "size": "23 KB",
-      "sha256": "2079272c8aff5a4f570abd0e32d14e8ed8c3990a571d2c5242ebf9fbdc6adab1"
+      "sha256": "a37ae7887534f9877cd2a2c6147a0768e7c67fa7e7356bca01d65a4e9ccde524"
     },
     {
       "name": "Python-Lab_Level-00_First-Program_Slides.pptx",
       "format": "pptx",
-      "bytes": 93634,
-      "size": "91 KB",
-      "sha256": "c4398580d8b50f33ac8f5cfaffe4524ef75cafad3e9d83c6eec7c1943a852a0c"
+      "bytes": 96887,
+      "size": "95 KB",
+      "sha256": "a35ebf9be72b2c2bb938c2fa398bb9ec171fe1defdb77a7e5e606863a24d0f0f"
     },
     {
       "name": "Python-Lab_Level-00_First-Program_Worksheet.docx",
       "format": "docx",
       "bytes": 78923,
       "size": "77 KB",
-      "sha256": "d527d987004acfd5b29e7ef6faa3f6d19ae3b0372aacbdfb81886e56ee2ef7d8"
+      "sha256": "3f10de7db37421175916749254659ff8303508b2448badbab03dfe2054faccc1"
     }
   ]
 }

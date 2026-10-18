@@ -59,7 +59,7 @@
   "verified": {
     "pdf_pages": 4,
     "docx_paragraphs": 48,
-    "pptx_slides": 17
+    "pptx_slides": 20
   },
   "files": [
     {
@@ -72,30 +72,30 @@
     {
       "name": "Python-Lab_Level-03_Functions-and-Scope_Guide.html",
       "format": "html",
-      "bytes": 5602,
-      "size": "5 KB",
-      "sha256": "f8b1b95c42914f410aca564f93731bcc95bb63a852216fc9cef3626e6326d756"
+      "bytes": 5655,
+      "size": "6 KB",
+      "sha256": "e866ee7c12b9add9a36f3d578a995186c96e942222dbf3a05a4379934eb6316a"
     },
     {
       "name": "Python-Lab_Level-03_Functions-and-Scope_Guide.pdf",
       "format": "pdf",
-      "bytes": 26511,
+      "bytes": 26510,
       "size": "26 KB",
-      "sha256": "884a803adfbadf33a36cecb5bc8b95be140a539a735e8d50ad2bdd07792cba99"
+      "sha256": "90d12b0412158222401b7780b2a2306ced27fc4fec3aa2e8fd6f868d624dfd58"
     },
     {
       "name": "Python-Lab_Level-03_Functions-and-Scope_Slides.pptx",
       "format": "pptx",
-      "bytes": 109105,
-      "size": "107 KB",
-      "sha256": "2ce9c2e71e4805907c79783ea04514f43c2b4255d7ed3175c5e6468def2b4ba6"
+      "bytes": 115735,
+      "size": "113 KB",
+      "sha256": "f95692480c5acb61774ca931aad0583eabd2ab67d94f2671c1c5c88942a94efb"
     },
     {
       "name": "Python-Lab_Level-03_Functions-and-Scope_Worksheet.docx",
       "format": "docx",
       "bytes": 89044,
       "size": "87 KB",
-      "sha256": "4be27441ad4959581f836294626ebdb42f49c18c08118d831d3cad775814a27c"
+      "sha256": "c112d305d5c5b6b8398655b87032ffc246478e59fa058be1f97413b1fd28a453"
     }
   ]
 }

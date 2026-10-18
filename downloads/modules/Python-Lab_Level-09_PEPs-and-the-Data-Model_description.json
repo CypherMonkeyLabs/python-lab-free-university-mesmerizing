@@ -67,30 +67,30 @@
     {
       "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Guide.html",
       "format": "html",
-      "bytes": 3545,
-      "size": "3 KB",
-      "sha256": "bc31319908dfbd94fb73470e9c3071366b0d72d8723571e0e8e20af7c6b48696"
+      "bytes": 3598,
+      "size": "4 KB",
+      "sha256": "e645a478514faa63a662ae190be38e073123ada26d3aa1f65639d50783fa714b"
     },
     {
       "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Guide.pdf",
       "format": "pdf",
-      "bytes": 21839,
+      "bytes": 21835,
       "size": "21 KB",
-      "sha256": "65d3c49c2d1c0cd3ed48c12e84643c6a9badf07b52f80a27827820535298d5ed"
+      "sha256": "a29ce6617b16537b114e0d5c6224636b63e75cb90eff757b5fcce3abad09005d"
     },
     {
       "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Slides.pptx",
       "format": "pptx",
-      "bytes": 86885,
-      "size": "85 KB",
-      "sha256": "9789ec4d18d3205ee5fe63b3f56c9c43bcd9289d930b7b0a007aff826a947458"
+      "bytes": 88468,
+      "size": "86 KB",
+      "sha256": "57de770b3bc821eb4769d2a10be8f443a6815b02290e3005bfc07e92db9aaebd"
     },
     {
       "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Worksheet.docx",
       "format": "docx",
       "bytes": 80611,
       "size": "79 KB",
-      "sha256": "03ef5ea7e348e6f3fdc5f036dbfd0aa6e0c345374ed2d5487e7dc6bb40e3b172"
+      "sha256": "ec40e98b6cd407306be7ee761d09a6e16975c7a4a8d2d3569803332b0904cec5"
     }
   ]
 }

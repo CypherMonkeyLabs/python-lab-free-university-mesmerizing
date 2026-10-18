@@ -62,30 +62,30 @@
     {
       "name": "Python-Lab_Level-02_Decisions-and-Loops_Guide.html",
       "format": "html",
-      "bytes": 4245,
+      "bytes": 4298,
       "size": "4 KB",
-      "sha256": "0f5c0a8b5d887e62b40a78e5e0c0260fa59c8f3b30e277728470c52d964a974f"
+      "sha256": "6f6a6b0678ca474479e3622b342ab7aa13c24ea1f827cc69631a807f8eb34b9c"
     },
     {
       "name": "Python-Lab_Level-02_Decisions-and-Loops_Guide.pdf",
       "format": "pdf",
-      "bytes": 24738,
+      "bytes": 24734,
       "size": "24 KB",
-      "sha256": "1539783d8f7d1f5a3898d0cef96516f5701cfead754c6e0cb9eb151e50ab9a29"
+      "sha256": "1b130d71f41cbd0f5b7f058e261177eefb50cd61257f4e8ffe51022e85f0240a"
     },
     {
       "name": "Python-Lab_Level-02_Decisions-and-Loops_Slides.pptx",
       "format": "pptx",
-      "bytes": 101359,
-      "size": "99 KB",
-      "sha256": "1d52d2d1bb246cae6f74a37fad09f55f0bda304d9347c86ef46e627e8bc906a1"
+      "bytes": 102821,
+      "size": "100 KB",
+      "sha256": "bd4479ec3ee596049e095d1fd92a1492c564b637be4bc1af11699947f827c9ab"
     },
     {
       "name": "Python-Lab_Level-02_Decisions-and-Loops_Worksheet.docx",
       "format": "docx",
       "bytes": 81474,
       "size": "80 KB",
-      "sha256": "630f46513c98618e066334c688750e7094312f68012df94ddb2e635789efb26a"
+      "sha256": "a71e325f7f2a2e3b5624d45f3e92702be81f2ce9e17f31333f3aca8be84c61a0"
     }
   ]
 }
