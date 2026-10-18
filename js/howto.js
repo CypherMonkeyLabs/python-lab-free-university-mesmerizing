@@ -43,7 +43,7 @@ function content() {
 
     <p class="howto-group">4. Help is one tap away</p>
     <div class="howto-grid">
-      ${card("#ff5da2", "#ffd43b", '<rect x="5" y="7" width="14" height="11" rx="4"/><path d="M12 7V4M9 12h.01M15 12h.01"/>', "Py, the lab bot", "The colourful bot on the right side. Tap it to open a helper with Level 1/2/3, Foundations, audio, video, downloads, and games. Drag it out of the way, or use the arrow keys on it.")}
+      ${card("#ff5da2", "#ffd43b", '<rect x="5" y="7" width="14" height="11" rx="4"/><path d="M12 7V4M9 12h.01M15 12h.01"/>', "Py, the lab bot", "The colourful bot on the right side. Tap it to type a question, or use Level 1/2/3, Foundations, audio, video, downloads, and games. Py answers only from this lab and can be wrong. Drag it out of the way, or use the arrow keys on it.")}
       ${card("#22d3ee", "#34d399", '<rect x="3" y="6" width="18" height="12" rx="3"/><path d="M7 10h.01M11 10h6M7 14h10"/>', "Keyboard", `<ul class="howto-keys"><li><kbd>/</kbd> search</li><li><kbd>?</kbd> this help</li><li><kbd>Esc</kbd> close</li><li><kbd>&larr;</kbd> <kbd>&rarr;</kbd> slides</li></ul>`)}
     </div>
   </div>

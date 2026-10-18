@@ -223,6 +223,13 @@ function onStop(event) {
   syncSpeaking();
 }
 
+export function speakAnswer(text) {
+  const voices = (catalog || FALLBACK).voices;
+  const selected = current(voices);
+  speakDevice(String(text || "").slice(0, 500));
+  return { kind: selected.kind };
+}
+
 export function initVoice() {
   catalog = FALLBACK;
   mountPickers();

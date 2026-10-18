@@ -5,6 +5,7 @@ import { py, quickActions, pyControls, bindPyPanel, act, speak, hint } from "./p
 import { isHowToOpen, closeHowTo } from "./howto.js";
 import { teachHtml, bindTeach, react } from "./botteach.js";
 import { neighbors, firstUnvisited, progressInfo, currentHash, sectionFor } from "./shell.js";
+import { chatHtml, hydrateChat, initBotChat } from "./botchat.js";
 
 const panel = () => document.getElementById("bot-panel");
 const bot = () => document.getElementById("lab-bot");
@@ -32,7 +33,8 @@ function build(keepOpen = false) {
   const quick = sections.map((s) => `<a class="bp-chip" href="${esc(s.href)}">${esc(s.title)}</a>`).join("");
   panel().innerHTML = `<div class="bp-head"><h2 id="bot-panel-title">${esc(greeting())}</h2>
       <button type="button" class="bp-close" id="bp-close" aria-label="Close the helper">&times;</button></div>
-    <p class="bp-bot">I'm Py, a bot. I can be wrong: check the docs links.</p>
+    <p class="bp-bot">Py answers only from this lab's lessons and can be wrong.</p>
+    <div class="bp-scroll">
     <p class="bp-line">You are in <strong>${esc(here)}</strong>. ${done} of ${total} lessons opened so far. Where would you like to go?</p>
     <div class="bp-quick" role="group" aria-label="Quick actions">${quickActions(sections).map((q) => q.href ? `<a class="bp-qa" href="${esc(q.href)}"><span aria-hidden="true">${q.icon}</span>${esc(q.label)}</a>` : `<button type="button" class="bp-qa" data-qa="${q.act}"><span aria-hidden="true">${q.icon}</span>${esc(q.label)}</button>`).join("")}</div>
     <p class="bp-hint" id="bp-hint" role="status" hidden></p>
@@ -41,8 +43,15 @@ function build(keepOpen = false) {
     ${inLesson ? "" : teachHtml()}
     <p class="bp-sub">Quick links</p>
     <div class="bp-chips">${quick}<button type="button" class="bp-chip bp-btn" id="bp-search">Search</button></div>
-    <p class="bp-foot">Drag me anywhere. Tap me to open this panel. <button type="button" class="bp-link" id="bp-reset">Put me back</button></p>${pyControls()}`;
+    <p class="bp-foot">Drag me anywhere. Tap me to open this panel. <button type="button" class="bp-link" id="bp-reset">Put me back</button></p>${pyControls()}
+    </div>
+    ${chatHtml()}`;
+  hydrateChat(panel());
   if (wasOpen) panel().querySelector(".py-custom").open = true;
+}
+
+function overlaps(a, b) {
+  return a.width > 0 && b.width > 0 && a.left < b.right - 1 && a.right > b.left + 1 && a.top < b.bottom - 1 && a.bottom > b.top + 1;
 }
 
 function position() {
@@ -55,15 +64,26 @@ function position() {
   const vh = window.innerHeight;
   const minTop = topH + 8;
   const maxBottom = vh - barH - 8;
-  p.style.maxHeight = `${Math.max(160, maxBottom - minTop)}px`;
+  const gap = 12;
+  const above = r.top - gap - minTop;
+  const below = maxBottom - (r.bottom + gap);
+  const placeAbove = above >= below;
+  const maxH = Math.max(180, placeAbove ? above : below);
+  p.style.maxHeight = `${maxH}px`;
   const pw = p.offsetWidth;
-  const ph = p.offsetHeight;
   const left = Math.min(Math.max(8, r.right - pw), vw - pw - 8);
-  let top = r.top - ph - 10;
-  if (top < minTop) top = r.bottom + 10;
-  top = Math.min(top, maxBottom - ph);
+  const height = Math.min(p.offsetHeight, maxH);
+  let top = placeAbove ? Math.max(minTop, r.top - gap - height) : Math.min(r.bottom + gap, maxBottom - height);
+  top = Math.max(minTop, Math.min(top, maxBottom - height));
   p.style.left = `${left}px`;
-  p.style.top = `${Math.max(minTop, top)}px`;
+  p.style.top = `${top}px`;
+  const form = p.querySelector(".py-chat-form");
+  if (form && overlaps(form.getBoundingClientRect(), bot().getBoundingClientRect())) {
+    const room = Math.max(180, r.top - gap - minTop);
+    p.style.maxHeight = `${room}px`;
+    const nextHeight = Math.min(p.offsetHeight, room);
+    p.style.top = `${Math.max(minTop, r.top - gap - nextHeight)}px`;
+  }
 }
 
 let openedAt = 0;
@@ -78,7 +98,7 @@ export function openPanel() {
   setTimeout(() => bot().classList.remove("wave"), 700);
   window.dispatchEvent(new CustomEvent("lab:bot", { detail: "tap" }));
   position();
-  p.querySelector(".bp-qa")?.focus({ preventScroll: true });
+  (p.querySelector("#py-chat-input") || p.querySelector(".bp-qa"))?.focus({ preventScroll: true });
   speak(greeting());
 }
 
@@ -92,6 +112,7 @@ export function closePanel(returnFocus = false) {
 }
 
 export function initBotPanel() {
+  initBotChat(panel());
   bindTeach(panel(), () => { build(); position(); panel().querySelector("#bp-rung")?.focus({ preventScroll: true }); });
   onBotTap(() => {
     /* One popup flow: a tap on the bot first dismisses the how-to window (remembered), so it never blocks the bot. */

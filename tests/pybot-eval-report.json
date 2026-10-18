@@ -1,0 +1,41 @@
+{
+  "indexDocs": 314,
+  "lessons": 56,
+  "questions": 250,
+  "top1": {
+    "hit": 250,
+    "total": 250,
+    "accuracy": 100
+  },
+  "top3": {
+    "hit": 250,
+    "total": 250,
+    "accuracy": 100
+  },
+  "titles": {
+    "top1": {
+      "hit": 112,
+      "total": 112,
+      "accuracy": 100
+    },
+    "top3": {
+      "hit": 112,
+      "total": 112,
+      "accuracy": 100
+    }
+  },
+  "hard": {
+    "top1": {
+      "hit": 138,
+      "total": 138,
+      "accuracy": 100
+    },
+    "top3": {
+      "hit": 138,
+      "total": 138,
+      "accuracy": 100
+    }
+  },
+  "injectionFails": 0,
+  "misses": []
+}

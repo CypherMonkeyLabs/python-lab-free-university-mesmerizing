@@ -124,7 +124,7 @@ export function pyControls() {
   const sz = Object.entries(SIZES).map(([k, [l]]) => `<button type="button" class="bp-chip py-opt${p.size === k ? " on" : ""}" data-py-size="${k}" aria-pressed="${p.size === k}">${l}</button>`).join("");
   const mo = ["wave", "celebrate", "think", "hint"].map((m) => `<button type="button" class="bp-chip" data-py-act="${m}">${m[0].toUpperCase() + m.slice(1)}</button>`).join("");
   return `<details class="py-custom"><summary>Customise ${esc(p.name)}</summary>
-    <label class="py-row">Name <input id="py-name" maxlength="14" value="${esc(p.name)}" autocomplete="off" spellcheck="false"></label>
+    <label class="py-row">Character name <input id="py-name" maxlength="14" value="${esc(p.name)}" autocomplete="off" spellcheck="false" aria-label="Character name"></label>
     <p class="bp-sub">Colour</p><div class="py-swatches">${sw}</div>
     <p class="bp-sub">Character</p><div class="bp-chips">${sk}</div>
     <p class="bp-sub">Size</p><div class="bp-chips">${sz}</div>
