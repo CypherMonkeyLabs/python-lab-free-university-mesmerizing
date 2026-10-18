@@ -1,17 +1,23 @@
 """Generate original motion clips, spoken offline audio lessons, and PWA brand icons for Python Lab.
 
-Frames use Pillow / PPM images; ffmpeg encodes WebM, MP4, GIF, and MP3; macOS 'say' (with pure-Python fallback) synthesizes offline spoken audio lessons.
-All generated media are original to CypherMonkeyLabs and licensed under CC BY-NC-SA 4.0 / MIT.
+Frames use Pillow / PPM images; ffmpeg encodes WebM, MP4, GIF, and MP3.
+Spoken lessons are synthesized with Piper. The engine is MIT. Each voice is chosen from its own
+model card and dataset page, not from the repository-wide MIT label.
+Shipped voices: en_US-ljspeech-medium, en_US-norman-medium, en_GB-cori-medium.
+Each was trained from scratch on a public-domain dataset. Weights are not committed.
+espeak-ng is the build fallback if a Piper model is absent. macOS `say` is not used.
+All generated media are original to CypherMonkeyLabs. Motion clips are CC BY-NC-SA 4.0.
+The speech waveforms follow the voice licence recorded in media/voices.json.
 """
 
 from __future__ import annotations
 
+import json
 import math
 import shutil
 import subprocess
 import tempfile
 import wave
-import struct
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
@@ -398,56 +404,129 @@ AUDIO_LESSONS = [
 ]
 
 
-def write_fallback_wav(path: Path, duration_s: float = 4.0) -> None:
-    """Pure-Python warm chord WAV fallback if macOS 'say' is unavailable."""
-    rate = 22050
-    n_samples = int(rate * duration_s)
-    freqs = (261.63, 329.63, 392.00, 523.25)
-    with wave.open(str(path), "wb") as wf:
-        wf.setnchannels(1)
-        wf.setsampwidth(2)
-        wf.setframerate(rate)
-        frames = bytearray()
-        for i in range(n_samples):
-            t = i / rate
-            env = min(1.0, t / 0.15) * max(0.0, 1.0 - (t / duration_s) ** 2)
-            val = sum(math.sin(2 * math.pi * f * t) for f in freqs) / len(freqs)
-            sample = int(max(-1.0, min(1.0, val * env * 0.45)) * 32767)
-            frames.extend(struct.pack("<h", sample))
-        wf.writeframes(bytes(frames))
+PIPER_DIR = Path("/tmp/piper-voices")
+SPEECH_VOICES = [
+    {
+        "id": "ljspeech",
+        "kind": "file",
+        "label": "Linda · United States",
+        "detail": "Piper en_US-ljspeech-medium, trained from scratch on the public-domain LJ Speech dataset (Linda Johnson, LibriVox)",
+        "model": "en_US-ljspeech-medium.onnx",
+        "espeak": "en-us",
+        "suffix": "",
+        "licence": "LJ Speech is public domain in the US. Keith Ito: “There are no restrictions on its use.” Piper engine is MIT. Weights are not shipped.",
+    },
+    {
+        "id": "norman",
+        "kind": "file",
+        "label": "Norman · United States",
+        "detail": "Piper en_US-norman-medium, trained from scratch by Bryce Beattie on public-domain LibriVox recordings",
+        "model": "en_US-norman-medium.onnx",
+        "espeak": "en-us",
+        "suffix": "-norman",
+        "licence": "LibriVox recordings are public domain in the US. LibriVox: “anyone can use all our recordings however they wish (even to sell them).” Piper engine is MIT. Weights are not shipped.",
+    },
+    {
+        "id": "cori",
+        "kind": "file",
+        "label": "Cori · Britain",
+        "detail": "Piper en_GB-cori-medium, trained from scratch by Bryce Beattie on public-domain LibriVox recordings",
+        "model": "en_GB-cori-medium.onnx",
+        "espeak": "en-gb",
+        "suffix": "-cori",
+        "licence": "LibriVox recordings are public domain in the US. LibriVox: “anyone can use all our recordings however they wish (even to sell them).” Piper engine is MIT. Weights are not shipped.",
+    },
+]
+DEVICE_VOICE = {
+    "id": "device",
+    "kind": "synth",
+    "label": "This device",
+    "detail": "The browser speechSynthesis voice. Quality depends on the operating system.",
+    "licence": "No audio file is shipped. Speech comes from the visitor's device.",
+    "preview": "",
+    "files": {},
+}
+PREVIEW_LINE = "Cypher Monkey, Python Lab, cyphermonkeylabs.com."
+
+
+def _to_mp3(src: Path, dest: Path) -> None:
+    subprocess.run(
+        ["ffmpeg", "-y", "-i", str(src), "-ac", "1", "-ar", "22050", "-b:a", "40k", str(dest)],
+        check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+    )
+
+
+def _piper_voice(model: Path):
+    from piper import PiperVoice
+    return PiperVoice.load(str(model))
+
+
+def _speak_piper(voice, text: str, wav_path: Path) -> None:
+    with wave.open(str(wav_path), "wb") as handle:
+        if hasattr(voice, "synthesize_wav"):
+            voice.synthesize_wav(text, handle)
+        else:
+            voice.synthesize(text, handle)
+
+
+def _speak_espeak(espeak_voice: str, text: str, wav_path: Path) -> None:
+    exe = shutil.which("espeak-ng") or shutil.which("espeak")
+    if not exe:
+        raise RuntimeError("Neither Piper nor espeak-ng is available")
+    subprocess.run([exe, "-v", espeak_voice, "-s", "148", "-w", str(wav_path), text], check=True)
 
 
 def make_audio_lessons() -> None:
-    """Synthesize 4 offline MP3 audio lessons using macOS 'say' + ffmpeg."""
+    """Synthesize three licence-safe voices. Piper when the models are present, else espeak-ng."""
     MEDIA.mkdir(parents=True, exist_ok=True)
-    say_bin = shutil.which("say")
+    slots = [(name.removesuffix(".mp3"), text) for name, text in AUDIO_LESSONS]
+    manifest_voices = []
+    engine = "piper"
     with tempfile.TemporaryDirectory() as tdir:
         tpath = Path(tdir)
-        for filename, script_text in AUDIO_LESSONS:
-            out_mp3 = MEDIA / filename
-            raw_aiff = tpath / (filename + ".aiff")
-            raw_wav = tpath / (filename + ".wav")
-            used_say = False
-            if say_bin:
-                try:
-                    subprocess.run(
-                        [say_bin, "-r", "185", "-o", str(raw_aiff), script_text],
-                        check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                    )
-                    used_say = raw_aiff.exists() and raw_aiff.stat().st_size > 1024
-                except Exception:
-                    used_say = False
-            if not used_say:
-                write_fallback_wav(raw_wav, duration_s=5.0)
-            src_audio = raw_aiff if used_say else raw_wav
-            subprocess.run(
-                [
-                    "ffmpeg", "-y", "-i", str(src_audio),
-                    "-ac", "1", "-ar", "22050", "-b:a", "48k",
-                    str(out_mp3),
-                ],
-                check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-            )
+        for spec in SPEECH_VOICES:
+            model = PIPER_DIR / spec["model"]
+            piper = None
+            if model.is_file():
+                piper = _piper_voice(model)
+            else:
+                engine = "espeak-ng"
+            files = {}
+            for slot, text in slots:
+                dest_name = f"{slot}{spec['suffix']}.mp3"
+                wav = tpath / f"{dest_name}.wav"
+                if piper is not None:
+                    _speak_piper(piper, text, wav)
+                else:
+                    _speak_espeak(spec["espeak"], text, wav)
+                _to_mp3(wav, MEDIA / dest_name)
+                files[slot.removeprefix("audio-")] = f"media/{dest_name}"
+            preview_name = f"voice-preview-{spec['id']}.mp3"
+            preview_wav = tpath / f"{preview_name}.wav"
+            if piper is not None:
+                _speak_piper(piper, PREVIEW_LINE, preview_wav)
+            else:
+                _speak_espeak(spec["espeak"], PREVIEW_LINE, preview_wav)
+            _to_mp3(preview_wav, MEDIA / preview_name)
+            manifest_voices.append({
+                "id": spec["id"],
+                "kind": "file",
+                "label": spec["label"],
+                "detail": spec["detail"] if piper is not None else f"espeak-ng voice {spec['espeak']} (Piper model was not on this machine)",
+                "licence": spec["licence"] if piper is not None else "Generated with espeak-ng (GPL-3.0-or-later), which is not vendored. Waveform only.",
+                "preview": f"media/{preview_name}",
+                "files": files,
+            })
+    manifest_voices.append(DEVICE_VOICE)
+    (MEDIA / "voices.json").write_text(json.dumps({
+        "generated": "2026-10-18",
+        "engine": engine,
+        "engine_url": "https://github.com/rhasspy/piper" if engine == "piper" else "https://github.com/espeak-ng/espeak-ng",
+        "engine_licence": "MIT" if engine == "piper" else "GPL-3.0-or-later",
+        "model_card": "https://huggingface.co/rhasspy/piper-voices",
+        "note": "macOS say was not used. Voice weights are not committed. Dataset licences were read from each voice MODEL_CARD and the dataset page on 2026-10-18. See licenses/piper-voices.txt.",
+        "voices": manifest_voices,
+    }, indent=2) + "\n", encoding="utf-8")
 
 
 def main() -> None:

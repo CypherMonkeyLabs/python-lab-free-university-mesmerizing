@@ -1,6 +1,10 @@
 let active = null;
 let token = 0;
 
+function speechEvent(state, text) {
+  document.dispatchEvent(new CustomEvent("lab:speech", { detail: { state, text: text || "" } }));
+}
+
 export function stopSpeech() {
   token += 1;
   active = null;
@@ -14,6 +18,7 @@ export function stopSpeech() {
   }
   const button = document.querySelector("[data-speech]");
   if (button) button.textContent = "Read aloud";
+  speechEvent("end", "");
 }
 
 function speakChunk(text, myToken) {
@@ -62,6 +67,7 @@ export async function readAloud(button) {
   token = myToken;
   active = myToken;
   button.textContent = "Stop reading";
+  speechEvent("start", textBlocks[0]?.text || "");
   for (const block of textBlocks) {
     if (myToken !== token) return;
     block.node?.classList.add("is-reading");

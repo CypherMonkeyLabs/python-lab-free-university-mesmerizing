@@ -265,11 +265,17 @@ test("desktop shell: left menu, top bar, bottom bar, 3D hero", async ({ page }) 
     expect((await item.locator(".side-desc").innerText()).trim().length).toBeGreaterThan(8);
     expect(await item.locator("svg").count()).toBe(1);
   }
-  await expect(page.locator(".hero3d .cube")).toBeVisible();
-  const transform = await page.locator(".hero3d .scene3d").evaluate((el) => getComputedStyle(el).transformStyle);
-  expect(transform).toBe("preserve-3d");
+  await expect.poll(async () => {
+    const cube = await page.locator(".hero3d .cube").isVisible();
+    const studio = await page.locator(".hero3d .studio-canvas").isVisible();
+    return cube || studio;
+  }).toBe(true);
+  if (await page.locator(".hero3d .cube").isVisible()) {
+    const transform = await page.locator(".hero3d .scene3d").evaluate((el) => getComputedStyle(el).transformStyle);
+    expect(transform).toBe("preserve-3d");
+  }
   await page.locator("#side-collapse").click();
-  await page.waitForTimeout(450);
+  await page.waitForTimeout(700);
   const narrow = (await side.boundingBox()).width;
   expect(narrow).toBeLessThan(100);
   await page.locator("#side-collapse").click();
@@ -390,6 +396,7 @@ test("the bot is labelled, colourful and animated", async ({ page }) => {
 });
 
 const diagramIds = ["how-python-runs", "function-call", "import-system", "event-loop", "task-lifecycle", "pandas-pipeline", "pyodide-architecture", "study-loop"];
+const planDiagrams = ["level-map", "lab-architecture"];
 
 test("every Archify diagram opens, loads its page, and has sources", async ({ page }) => {
   const errors = watchErrors(page);
@@ -397,14 +404,15 @@ test("every Archify diagram opens, loads its page, and has sources", async ({ pa
   page.on("response", (r) => { if (r.status() >= 400) bad.push(`${r.status()} ${r.url()}`); });
   await page.goto("/#/diagrams");
   await expect(page.locator("h1")).toHaveText("Diagrams");
-  await expect(page.locator(".dgrid .dcard")).toHaveCount(diagramIds.length);
-  for (const id of diagramIds) {
+  await expect(page.locator(".dgrid .dcard")).toHaveCount(diagramIds.length + planDiagrams.length);
+  for (const id of [...diagramIds, ...planDiagrams]) {
     await page.goto(`/#/diagram/${id}`);
     await expect(page.locator("h1")).toBeVisible();
     const frame = page.frameLocator("iframe.dframe-view");
     await expect(frame.locator("svg").first()).toBeVisible({ timeout: 8000 });
     expect(await page.locator("main .notice li").count()).toBeGreaterThanOrEqual(3);
-    expect(await page.locator('main a[href^="#/sources/"]').count()).toBeGreaterThanOrEqual(2);
+    const minimum = diagramIds.includes(id) ? 2 : 1;
+    expect(await page.locator('main a[href^="#/sources/"]').count()).toBeGreaterThanOrEqual(minimum);
   }
   expect(bad).toEqual([]);
   expect(errors).toEqual([]);

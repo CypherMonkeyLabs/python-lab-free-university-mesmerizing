@@ -1,0 +1,61 @@
+{
+  "generated": "2026-10-18",
+  "engine": "piper",
+  "engine_url": "https://github.com/rhasspy/piper",
+  "engine_licence": "MIT",
+  "model_card": "https://huggingface.co/rhasspy/piper-voices",
+  "note": "macOS say was not used. Voice weights are not committed. Dataset licences were read from each voice MODEL_CARD and the dataset page on 2026-10-18. See licenses/piper-voices.txt.",
+  "voices": [
+    {
+      "id": "ljspeech",
+      "kind": "file",
+      "label": "Linda \u00b7 United States",
+      "detail": "Piper en_US-ljspeech-medium, trained from scratch on the public-domain LJ Speech dataset (Linda Johnson, LibriVox)",
+      "licence": "LJ Speech is public domain in the US. Keith Ito: \u201cThere are no restrictions on its use.\u201d Piper engine is MIT. Weights are not shipped.",
+      "preview": "media/voice-preview-ljspeech.mp3",
+      "files": {
+        "syntax": "media/audio-syntax.mp3",
+        "structures": "media/audio-structures.mp3",
+        "async": "media/audio-async.mp3",
+        "interview": "media/audio-interview.mp3"
+      }
+    },
+    {
+      "id": "norman",
+      "kind": "file",
+      "label": "Norman \u00b7 United States",
+      "detail": "Piper en_US-norman-medium, trained from scratch by Bryce Beattie on public-domain LibriVox recordings",
+      "licence": "LibriVox recordings are public domain in the US. LibriVox: \u201canyone can use all our recordings however they wish (even to sell them).\u201d Piper engine is MIT. Weights are not shipped.",
+      "preview": "media/voice-preview-norman.mp3",
+      "files": {
+        "syntax": "media/audio-syntax-norman.mp3",
+        "structures": "media/audio-structures-norman.mp3",
+        "async": "media/audio-async-norman.mp3",
+        "interview": "media/audio-interview-norman.mp3"
+      }
+    },
+    {
+      "id": "cori",
+      "kind": "file",
+      "label": "Cori \u00b7 Britain",
+      "detail": "Piper en_GB-cori-medium, trained from scratch by Bryce Beattie on public-domain LibriVox recordings",
+      "licence": "LibriVox recordings are public domain in the US. LibriVox: \u201canyone can use all our recordings however they wish (even to sell them).\u201d Piper engine is MIT. Weights are not shipped.",
+      "preview": "media/voice-preview-cori.mp3",
+      "files": {
+        "syntax": "media/audio-syntax-cori.mp3",
+        "structures": "media/audio-structures-cori.mp3",
+        "async": "media/audio-async-cori.mp3",
+        "interview": "media/audio-interview-cori.mp3"
+      }
+    },
+    {
+      "id": "device",
+      "kind": "synth",
+      "label": "This device",
+      "detail": "The browser speechSynthesis voice. Quality depends on the operating system.",
+      "licence": "No audio file is shipped. Speech comes from the visitor's device.",
+      "preview": "",
+      "files": {}
+    }
+  ]
+}

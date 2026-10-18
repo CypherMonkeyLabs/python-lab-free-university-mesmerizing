@@ -15,7 +15,7 @@ from richdocs import write_docx, write_pptx
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 FENCE = re.compile(r"```python( run)?\n(.*?)```", re.S)
 PY = f"CPython {platform.python_version()}"
-CSS = """@page{size:A4;margin:16mm 14mm;@bottom-center{content:"CypherMonkeyLabs Python Lab - page " counter(page);font:9pt sans-serif;color:#334}}
+CSS = """@page{size:A4;margin:16mm 14mm;@bottom-center{content:"cyphermonkeylabs.com - page " counter(page);font:9pt sans-serif;color:#334}}
 body{font:12pt/1.5 'DejaVu Sans',sans-serif;color:#1a1d2e;margin:0}
 h1{font-size:26pt;color:#2a1860;margin:0 0 8px}
 h2{color:#2a1860;margin-top:1.15em;font-size:16pt}
@@ -71,7 +71,7 @@ def to_html(meta, blocks):
     head = (f"<div class='banner'><b>Level {meta['level']}</b> &middot; about {meta['hours']} h &middot; Python {meta['python_min']}+</div>"
             f"<div class='meta'><b>Project:</b> {html.escape(meta['project'])}<br>Examples run on {PY}. "
             f"<b>You will be able to:</b><ul>{outc}</ul></div>")
-    foot = (f"<h2>Sources</h2><ul>{src}</ul><p class='small'>Code &copy; CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. "
+    foot = (f"<h2>Sources</h2><ul>{src}</ul><p class='small'>cyphermonkeylabs.com · Cypher Monkey. Code &copy; CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. "
             "Educational material, not accredited coursework; no outcome or income promised. Built "
             f"{datetime.date.today()}.</p>")
     return (f"<!doctype html><html lang='en'><meta charset='utf-8'><title>{html.escape(meta['title'])}</title>"
@@ -126,7 +126,7 @@ def to_cover(meta, base, out):
         d.text((136, y + 6), lines[0], font=face, fill=ink)
         y += 52
     d.rectangle([0, 660, 1280, 720], fill=deep)
-    d.text((70, 678), f"Python Lab   ·   about {meta['hours']} h   ·   code MIT, text CC BY-NC-SA 4.0   ·   not accredited", font=font("DejaVuSans.ttf", 20), fill=(255, 250, 240))
+    d.text((70, 678), f"cyphermonkeylabs.com   ·   about {meta['hours']} h   ·   code MIT, text CC BY-NC-SA 4.0", font=font("DejaVuSans.ttf", 20), fill=(255, 250, 240))
     im.save(out, optimize=True)
 
 def to_pdf(h, out):

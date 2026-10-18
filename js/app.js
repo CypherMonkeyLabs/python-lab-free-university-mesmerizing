@@ -36,6 +36,8 @@ import { DOWNLOADS, FORMAT_LABEL } from "./content/downloads.js";
 import { initPy } from "./pycustom.js";
 import { initPWA } from "./pwa.js";
 import { zodiacBrandPill } from "./cm-shared.js";
+import { initVoice } from "./voice.js";
+import { studioTeaserHtml, studioPageHtml, bindStudioFloor } from "./studio-floor.js";
 
 const main = () => document.getElementById("main");
 let viewToken = 0;
@@ -85,6 +87,7 @@ function parseRoute() {
   if (head === "download-center") return { name: "download-center", id: a || "" };
   if (head === "sources") return { name: "sources", id: a || "" };
   if (head === "downloads") return { name: "downloads", id: a || "" };
+  if (head === "studio") return { name: "studio" };
   if (["practice", "about"].includes(head)) return { name: head };
   return { name: "missing" };
 }
@@ -217,6 +220,7 @@ function homeView() {
         ${studioMarkup({ scene: "fallback", accent: "#f5a623", n: 0, alt: "A slowly turning wireframe shape over a violet and amber aurora.", compact: true })}
       </section>
       ${homeWorlds()}
+      ${studioTeaserHtml()}
       <h2 class="sec-heading">${sections.length} sections, one path</h2>
       <p class="sec-sub">Every section opens a landing page with its lessons, labs, and links.</p>
       <div class="sec-grid">${sections.map(sectionTile).join("")}</div>
@@ -224,7 +228,7 @@ function homeView() {
         <p>${decks.length} slide decks (${slideCount} slides) from your first hour to advanced topics, and ${guides.length} guides with diagrams and checked code. Arrow keys or swipe.</p>
         <p><a class="primary" href="#/slides">Open the slides</a> <a class="text-btn" href="#/guides">Read the guides</a> <a class="text-btn" href="#/diagrams">See the diagrams</a></p></div>
         <div class="ring3d" style="--n:${decks.length}" aria-hidden="true"><div class="ring-spin">${decks.map((d, i) => `<span style="--i:${i}">${esc(d.title.split(" ").slice(0, 3).join(" "))}</span>`).join("")}</div><b class="ring-core">py</b></div></section>
-      <p data-speak>Lucky is a lifelong student and an AI enthusiast. He is moving into AI omni-channel agents, and this lab is the notebook he is willing to share: cited, runnable in the browser, and free of invented salary claims.</p>
+      <p data-speak>Cypher Monkey is a lifelong student and an AI builder. Lucky is moving into AI omni-channel agents, and this lab is the notebook he is willing to share: cited, runnable in the browser, and free of invented salary claims.</p>
       ${roomScene({ title: "Lobby of the lab.", cards: ["Syntax", "Data", "Agents"], screen: "print('hello')" })}
       <section class="clips" id="clips">
         <h2>Motion &amp; Visual Explainers, without Flash</h2>
@@ -275,22 +279,22 @@ function homeView() {
           <article class="audio-card">
             <h3>1. Names, Types &amp; Indentation</h3>
             <p>Four-space blocks, name binding vs. copying, and mutable vs. immutable built-in types (<a href="#/sources/lexical">Lexical analysis</a>, <a href="#/sources/datamodel">Data model</a>).</p>
-            <audio controls preload="metadata" src="media/audio-syntax.mp3"></audio>
+            <audio controls preload="metadata" data-voice-slot="syntax" src="media/audio-syntax.mp3"></audio>
           </article>
           <article class="audio-card">
             <h3>2. Choosing the Right Data Structure</h3>
             <p>CPython list amortized append vs. linear front insert, plus average O(1) dict/set hashing (<a href="#/sources/stdtypes">Built-in types</a>, <a href="#/sources/timecomplexity">TimeComplexity</a>).</p>
-            <audio controls preload="metadata" src="media/audio-structures.mp3"></audio>
+            <audio controls preload="metadata" data-voice-slot="structures" src="media/audio-structures.mp3"></audio>
           </article>
           <article class="audio-card">
             <h3>3. Generators &amp; Async Coroutines</h3>
             <p>Lazy iteration with <code>yield</code> and single-thread cooperative multitasking with <code>async</code> / <code>await</code> (<a href="#/sources/asyncio-docs">asyncio</a>).</p>
-            <audio controls preload="metadata" src="media/audio-async.mp3"></audio>
+            <audio controls preload="metadata" data-voice-slot="async" src="media/audio-async.mp3"></audio>
           </article>
           <article class="audio-card">
             <h3>4. Interview Problem-Solving Checklist</h3>
             <p>Clarifying inputs, edge cases, hand tracing, and stating honest CPython time/space costs (<a href="#/sources/timecomplexity">TimeComplexity</a>, <a href="#/sources/functools">functools</a>).</p>
-            <audio controls preload="metadata" src="media/audio-interview.mp3"></audio>
+            <audio controls preload="metadata" data-voice-slot="interview" src="media/audio-interview.mp3"></audio>
           </article>
         </div>
       </section>
@@ -508,10 +512,10 @@ function practiceView() {
       <section class="audio-section" id="audio-lessons">
         <h2>Audio Briefings While You Practice</h2>
         <div class="audio-grid">
-          <article class="audio-card"><h3>🔊 Syntax &amp; Types</h3><audio controls preload="metadata" src="media/audio-syntax.mp3"></audio></article>
-          <article class="audio-card"><h3>🔊 Data Structures Cost</h3><audio controls preload="metadata" src="media/audio-structures.mp3"></audio></article>
-          <article class="audio-card"><h3>🔊 Generators &amp; Async</h3><audio controls preload="metadata" src="media/audio-async.mp3"></audio></article>
-          <article class="audio-card"><h3>🔊 Interview Checklist</h3><audio controls preload="metadata" src="media/audio-interview.mp3"></audio></article>
+          <article class="audio-card"><h3>🔊 Syntax &amp; Types</h3><audio controls preload="metadata" data-voice-slot="syntax" src="media/audio-syntax.mp3"></audio></article>
+          <article class="audio-card"><h3>🔊 Data Structures Cost</h3><audio controls preload="metadata" data-voice-slot="structures" src="media/audio-structures.mp3"></audio></article>
+          <article class="audio-card"><h3>🔊 Generators &amp; Async</h3><audio controls preload="metadata" data-voice-slot="async" src="media/audio-async.mp3"></audio></article>
+          <article class="audio-card"><h3>🔊 Interview Checklist</h3><audio controls preload="metadata" data-voice-slot="interview" src="media/audio-interview.mp3"></audio></article>
         </div>
       </section>
       <section class="media-strip" id="video-explainers" aria-label="Visual explainers">
@@ -814,6 +818,16 @@ function sourcesView(id) {
     html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/sources", label: "Sources" }])}
       <h1>Sources</h1>
       <p class="lede" data-speak>Facts in the lab point here. Official pages win if a lesson and a live page ever disagree, especially for exam prices and release dates. This snapshot was written on 17 October 2026.</p>
+      <section class="voice-credits" id="source-voice-credits">
+        <h2>Spoken voice credits</h2>
+        <p>The offline MP3s use three Piper voices, each trained from scratch on a public-domain dataset. The Piper engine is MIT, copyright 2022 Michael Hansen. The voice weights are not in this site. “This device” uses the browser speech engine and ships no file.</p>
+        <ul>
+          <li><strong>Linda · United States</strong> — <code>en_US-ljspeech-medium</code>. LJ Speech is public domain in the US. Keith Ito: “There are no restrictions on its use.” Recordings by Linda Johnson for LibriVox. Alignment and annotation by Keith Ito.</li>
+          <li><strong>Norman · United States</strong> — <code>en_US-norman-medium</code>. Trained from scratch by Bryce Beattie on LibriVox recordings. LibriVox: “anyone can use all our recordings however they wish (even to sell them).”</li>
+          <li><strong>Cori · Britain</strong> — <code>en_GB-cori-medium</code>. Trained from scratch by Bryce Beattie on LibriVox recordings, under the same public-domain terms.</li>
+        </ul>
+        <p>LibriVox does not require a credit and prefers one: <a href="https://librivox.org/pages/public-domain/">librivox.org/pages/public-domain</a>. LJ Speech dataset: <a href="https://keithito.com/LJ-Speech-Dataset/">keithito.com/LJ-Speech-Dataset</a>.</p>
+      </section>
       ${html}`,
     after() {
       if (!id) return;
@@ -869,6 +883,7 @@ function missingView() {
 
 function viewFor(route) {
   if (route.name === "home") return homeView();
+  if (route.name === "studio") return { html: studioPageHtml(), after() { bindStudioFloor(main()); } };
   if (route.name === "section") return sectionView(route.id);
   if (route.name === "track") return trackView(route.id);
   if (route.name === "lesson") return lessonView(route.track, route.lesson);
@@ -952,6 +967,7 @@ function render() {
   applyWorld(location.hash);
   document.dispatchEvent(new CustomEvent("lab:world"));
   mountStudio(main());
+  bindStudioFloor(main());
   keepBotClear();
 }
 
@@ -970,6 +986,7 @@ initXP();
 initDisplay();
 initTour();
 initPWA();
+initVoice();
 window.addEventListener("hashchange", render);
 document.addEventListener("click", (event) => {
   const themeButton = event.target.closest("[data-theme-set]");

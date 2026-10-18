@@ -209,6 +209,84 @@
           "sha256": "92e0be12e2f53112956dbc241adf4a1189ffd1e1fffd1ff0a5ffa3d505be93ee"
         }
       ]
+    },
+    {
+      "name": "Piper voices (waveforms only)",
+      "version": "1.0.0 voices, piper-tts runtime used at build",
+      "licence": "Public domain (US) datasets; Piper engine MIT",
+      "url": "https://huggingface.co/rhasspy/piper-voices",
+      "licence_file": "licenses/piper-voices.txt",
+      "read": "Per-voice MODEL_CARD and dataset pages read 2026-10-18. en_US-ljspeech-medium, en_US-norman-medium, and en_GB-cori-medium are public domain and trained from scratch. The repo-wide MIT label is not the dataset licence. Weights not vendored. macOS say was not used.",
+      "files": [
+        {
+          "path": "licenses/piper-voices.txt",
+          "sha256": "1d5fbe366a025b29db277d0a752b975282d90c37bd2667248a18663779bee8fe"
+        },
+        {
+          "path": "media/audio-async-cori.mp3",
+          "sha256": "4658d638c45b01b68d31815dc0cb4b942fba441192a65a86ea2566b9485571df"
+        },
+        {
+          "path": "media/audio-async-norman.mp3",
+          "sha256": "ec6808afb7ba229e6a134f9aad8a55850a0263ca92634f82064049e11be0bfa9"
+        },
+        {
+          "path": "media/audio-async.mp3",
+          "sha256": "1610f87f2b83eb0c62cbbf177cf23a61c4e50b71be8d6eddbf8e764836e40b04"
+        },
+        {
+          "path": "media/audio-interview-cori.mp3",
+          "sha256": "22a70b3441ad9dff2375c468cc626e3627c548fd8b79755423a88db6bf657403"
+        },
+        {
+          "path": "media/audio-interview-norman.mp3",
+          "sha256": "4c5f5262596de3306bb1ccef1a7b7a5b2841ca479189b31327901534033f7bf2"
+        },
+        {
+          "path": "media/audio-interview.mp3",
+          "sha256": "1c357f6493adbddbbb2a601eb2720c65766c78a6b968d51f5d7240e9700c7eb9"
+        },
+        {
+          "path": "media/audio-structures-cori.mp3",
+          "sha256": "aed0fbd03f6d4ca18571cd0d5b5e8d11e0e6e3ffdf9817c256197f3cd8f85abe"
+        },
+        {
+          "path": "media/audio-structures-norman.mp3",
+          "sha256": "9bf514e1ac3bfbac416773a48e53730ddb347d2e900c624e486748eb39dadcc7"
+        },
+        {
+          "path": "media/audio-structures.mp3",
+          "sha256": "b96977a547c77867dfb63744c3affafb5f3c42385a1bf48e733104baa1d4f4a6"
+        },
+        {
+          "path": "media/audio-syntax-cori.mp3",
+          "sha256": "d3d45828832665745925b9ea7db3fdd94000dbed3091c3b990c0ff5635267d7f"
+        },
+        {
+          "path": "media/audio-syntax-norman.mp3",
+          "sha256": "0da34f7fe857b842f7bfef7a48dfc43f6e4a93276813ebe566aae7225d94dab7"
+        },
+        {
+          "path": "media/audio-syntax.mp3",
+          "sha256": "f11d7839c96874311aba2d0675bdad099ddd483f0a979b510acba829ee0a3c88"
+        },
+        {
+          "path": "media/voice-preview-cori.mp3",
+          "sha256": "b60fd3d802b82d5eddd0c8fe7a949ba34443bab89319ba3e9bdea0237af71cd2"
+        },
+        {
+          "path": "media/voice-preview-ljspeech.mp3",
+          "sha256": "883a0b213590ec5a6f21a82c7d55415b773be2111f32f2eb46b62b272b6c04d7"
+        },
+        {
+          "path": "media/voice-preview-norman.mp3",
+          "sha256": "d386e69ae5e5ad175725a961a913ca74bb1b8590a9e79a6d9dfef7bdbe2bcbf5"
+        },
+        {
+          "path": "media/voices.json",
+          "sha256": "792afa047e654bb64ade4c8d67c0b286583d9de8058e3d2461fd9a721d9e8ed2"
+        }
+      ]
     }
   ]
 }

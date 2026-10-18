@@ -24,6 +24,7 @@ Licences were read on 2026-10-17 from the upstream LICENSE files or the wheel ME
 | three.js (tree-shaken subset, WebGL renderer, geometries, basic materials, sprites) | r186 (npm 0.186.1) | MIT, Copyright 2010-2026 three.js authors | https://github.com/mrdoob/three.js | `vendor/three/three.subset.min.js` (built from `vendor/three/subset.js`) | `vendor/three/LICENSE` |
 | Archify viewer code inside the level map and architecture diagrams | as of 2026-10-17 | MIT (Archify); embedded JetBrains Mono is OFL-1.1 | https://github.com/tt-a1i/archify | `diagrams/level_map.html`, `diagrams/pylab_v2_architecture.html` | `diagrams/NOTICE.md` |
 | Downloadable level modules (PDF, DOCX, PPTX, HTML, PNG) | generated | Text CC BY-NC-SA 4.0, code samples MIT | this repo, `pipeline/build_downloads.py` | `downloads/modules/*` | `LICENSE` |
+| Piper speech waveforms (Linda / LJ Speech, Norman, Cori) | voices v1.0.0 | Public domain (US) datasets, trained from scratch. Piper engine is MIT (Michael Hansen, 2022). Weights are not shipped. | https://keithito.com/LJ-Speech-Dataset/ and https://librivox.org/pages/public-domain/ and https://github.com/rhasspy/piper | `media/audio-*.mp3`, `media/voice-preview-*.mp3` | `licenses/piper-voices.txt` |
 
 The shaders (`js/studio/aurora.js`, the probe in `js/studio/tiers.js`), scene modules, Py's hint ladders and poster art are original to this lab.
 

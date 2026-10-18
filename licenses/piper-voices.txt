@@ -1,0 +1,158 @@
+Piper voices used by Python Lab
+Read 2026-10-18 from each voice MODEL_CARD on Hugging Face and from the dataset page named on that card.
+The repository README at https://huggingface.co/rhasspy/piper-voices says `license: mit`. That label is the repo card. It is not the training-dataset licence. This file follows the per-voice card and the dataset source.
+
+The ONNX weights are not in this repository. Only the generated MP3 waveforms are shipped.
+macOS `say` was not used.
+
+Piper engine
+https://github.com/rhasspy/piper
+https://raw.githubusercontent.com/rhasspy/piper/master/LICENSE.md
+The engine is used at build time and is not vendored. Exact text:
+
+MIT License
+
+Copyright (c) 2022 Michael Hansen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Shipped voices
+All three were trained from scratch. None is a fine-tune of Lessac, Ryan, or any other restricted base.
+
+1. en_US-ljspeech-medium (picker: Linda · United States)
+Model card: https://huggingface.co/rhasspy/piper-voices/blob/main/en/en_US/ljspeech/medium/MODEL_CARD
+Card text, dataset and training sections, read 2026-10-18:
+
+    ## Dataset
+
+    * URL: https://keithito.com/LJ-Speech-Dataset/
+    * License: public domain
+
+    ## Training
+
+    See: https://brycebeattie.com/files/tts/
+
+    US English female voice. Single speaker. Trained from scratch for 1000 epochs on medium quality settings using the LJ Speech dataset. I reencoded the recordings to a bit rate of 22500 Hz so it would match other voices released for Piper TTS.
+
+Dataset page https://keithito.com/LJ-Speech-Dataset/ read 2026-10-18. Exact sentences:
+
+    This is a public domain speech dataset consisting of 13,100 short audio clips of a single speaker reading passages from 7 non-fiction books.
+
+    The texts were published between 1884 and 1964, and are in the public domain. The audio was recorded in 2016-17 by the LibriVox project and is also in the public domain.
+
+    This dataset is in the public domain in the US (and most likely other countries as well). There are no restrictions on its use. For more information, please see: librivox.org/pages/public-domain.
+
+    Recordings by Linda Johnson from LibriVox. Alignment and annotation by Keith Ito. All text, audio, and annotations are in the public domain. We request that you use this dataset for good and not evil.
+
+Trainer page https://brycebeattie.com/files/tts/ read 2026-10-18, for LJSpeech (medium): "License: public domain" and "I impose no further license or restrictions." Closing note on that page: "Feel free to use these for any legal and ethical purpose."
+
+Commercial public use: the dataset page says there are no restrictions on its use. The model was trained from scratch, so there is no earlier restricted checkpoint in the chain.
+
+2. en_US-norman-medium (picker: Norman · United States)
+Model card: https://huggingface.co/rhasspy/piper-voices/blob/main/en/en_US/norman/medium/MODEL_CARD
+Card text, dataset and training sections, read 2026-10-18:
+
+    ## Dataset
+
+    * URL: https://librivox.org
+    * License: public domain
+
+    ## Training
+
+    See: https://brycebeattie.com/files/tts/
+
+    US English male voice. Single Speaker. Trained from scratch on medium quality settings for 1200 epochs. I put together the dataset, which ended up with about 15.5 hours of recordings. All recordings came from LibriVox.org. I forgot to save the ckpt file on this one, sorry.
+
+Dataset page https://librivox.org/pages/public-domain/ read 2026-10-18. Exact sentences:
+
+    LibriVox records only texts that are in the public domain (in the USA – see below for why), and all our recordings are public domain (definitely in the USA, and maybe in your country as well, see below). This means anyone can use all our recordings however they wish (even to sell them).
+
+    LibriVox recordings are in the public domain, which means people can do anything they like with them. Mostly this just means people can listen to them for free. But it also means they can: sell them (for instance on ebay), broadcast them, put them in commercials, play them at political rallies, chop them up, remix them, make music recordings of them. The recordings are free, and there is no need to credit LibriVox, although of course we much prefer if you do credit us (with a link to our site).
+
+Trainer page https://brycebeattie.com/files/tts/ read 2026-10-18, for Norman: "License: public domain", "Trained from scratch", "All recordings came from LibriVox.org." "I impose no further license or restriction" is the page's general note for these releases ("Note: Feel free to use these for any legal and ethical purpose.").
+
+Commercial public use: LibriVox states the recordings may be sold and used in commercials. The model was trained from scratch on those recordings.
+
+3. en_GB-cori-medium (picker: Cori · Britain)
+Model card: https://huggingface.co/rhasspy/piper-voices/blob/main/en/en_GB/cori/medium/MODEL_CARD
+Card text, dataset and training sections, read 2026-10-18:
+
+    ## Dataset
+
+    * URL: https://librivox.org
+    * License: public domain
+
+    ## Training
+
+    See: https://brycebeattie.com/files/tts/
+
+    UK English female voice. Single Speaker. Trained from scratch on medium quality settings for 640 epochs. I put together the dataset, which ended up with about 24 hours of recordings. All recordings came from LibriVox.org.
+
+The LibriVox public-domain sentences quoted under Norman apply here as well. Bryce Beattie's page lists Cori (medium) as "License: public domain" and "Trained from scratch".
+
+Commercial public use: same LibriVox terms. Trained from scratch. No restricted base.
+
+Attribution included in the app
+Public-domain terms do not require attribution. LibriVox says a credit is preferred, and LJ Speech names Linda Johnson and Keith Ito. The lab prints those credits beside the voice picker and on the Sources page.
+
+Voices read and not shipped
+en_US-lessac-low, en_US-lessac-medium, en_US-lessac-high
+Card: License link https://www.cstr.ed.ac.uk/projects/blizzard/2013/lessac_blizzard2013/license.html
+Training: Trained from scratch.
+That licence page, read 2026-10-18, is a "RESEARCH LICENCE AGREEMENT". It defines "Research Purposes" as purposes "associated with research and exploration" and "for the avoidance of doubt excludes ... any commercial purpose, including the development, marketing, commercialisation, sale or licencing of voice synthesis or speech recognition products or services". Not used.
+
+en_GB-alba-medium
+Card: License https://creativecommons.org/licenses/by/4.0/
+Training: "Finetuned from U.S. English lessac voice (medium quality)."
+Not used. The fine-tune dataset is CC BY 4.0, but the base is the Lessac research-licence voice.
+
+en_GB-alan-low
+Card: dataset URL https://github.com/MycroftAI/mimic3-voices/blob/master/voices/en_UK/apope_low and "License: See URL"
+Training: "Finetuned from U.S. English Ryan voice (low quality)."
+Not used. The base is Ryan.
+
+en_US-ryan-low
+Card: License CC BY-NC-SA 4.0 (https://www.kaggle.com/datasets/roholazandie/ryanspeech)
+Training: Trained from scratch.
+Not used. CC BY-NC-SA 4.0 does not allow commercial use.
+
+en_US-ryan-medium
+Card: License CC BY-NC-SA 4.0
+Training: "Finetuned from U.S. English lessac voice (medium quality)."
+Not used. Non-commercial dataset and a Lessac base.
+
+en_US-kathleen-low
+Card: URL https://github.com/rhasspy/dataset-voice-kathleen and "License: CC0"
+Training: "Finetuned from U.S. English Ryan voice (low quality)."
+Not used. The named dataset is CC0, but the card says the voice is a fine-tune of Ryan, whose card says CC BY-NC-SA 4.0.
+
+en_US-libritts_r-medium
+Card: URL http://www.openslr.org/141/ and "License: CC BY 4.0"
+Training: "Fine-tuned from English lessac medium on train-clean-360."
+Not used. CC BY 4.0 would allow commercial use with attribution, but the base is the Lessac research-licence voice.
+
+en_US-libritts-high
+Card: URL http://www.openslr.org/60/ and "License: CC BY 4.0"
+Training: "Trained from scratch on train-clean-360."
+Not shipped. This card does not name a restricted base. It was not needed: the three shipped voices are single-speaker public-domain models. CC BY 4.0 attribution is therefore not a condition of the clips in this lab.
+
+en_US-bryce-medium
+Card: "License: public domain"
+Training: "Finetuned for an additional 1000 epochs from an unreleased voice".
+Not used. The base checkpoint is unreleased, so its licence cannot be read.

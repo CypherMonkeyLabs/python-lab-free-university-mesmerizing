@@ -54,6 +54,7 @@ export function isTourOpen() { return !!root; }
 
 export function endTour() {
   if (!root) return;
+  document.body.classList.remove("tour-open");
   root.remove();
   root = null;
   window.removeEventListener("resize", onResize);
@@ -80,6 +81,7 @@ export function startTour() {
   root.className = "tour-scrim";
   root.id = "tour";
   root.innerHTML = '<div class="tour-ring none"></div><div class="tour-card" role="dialog" aria-modal="true" aria-labelledby="tour-title"></div>';
+  document.body.classList.add("tour-open");
   document.body.appendChild(root);
   root.addEventListener("click", (e) => {
     if (e.target.closest("[data-next]")) { if (idx === STEPS.length - 1) endTour(); else { idx += 1; paint(); } }
