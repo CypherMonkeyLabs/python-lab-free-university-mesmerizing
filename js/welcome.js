@@ -5,12 +5,12 @@ import { startTour, isTourOpen } from "./tour.js";
 import { sayBot } from "./botfx.js";
 
 const KEY = "pythonlab.visits.v1";
-const HOWTO_KEY = "pythonlab.howto.v1";
+const HOWTO_KEY = "pythonlab.howto.v2";
 
-const MORNING = ["Good morning! A fresh day, a fresh `print`.", "Rise and code! Your next lesson is waiting.", "Morning! Ten minutes of Python beats zero."];
-const AFTERNOON = ["Good afternoon! Ready to level up?", "Hello again! Pick a game or a lesson, both count.", "Afternoon sparkle: one small program today?"];
-const EVENING = ["Good evening! A cosy lesson before the day ends?", "Evening! Tiny steps still add up.", "Welcome! Let the bugs be friendly tonight."];
-const NIGHT = ["Burning the midnight oil? Go gently, and take breaks.", "Late-night coder! Hydrate, then run something."];
+const MORNING = ["Good morning! A bright page, a fresh print, and eleven worlds to tap.", "Rise and code! Pick a colourful world or a game.", "Morning! Ten minutes of Python beats zero."];
+const AFTERNOON = ["Good afternoon! The lab is lit up. Ready to level up?", "Hello again! A game, a world, or a lesson — all three count.", "Afternoon sparkle: one small program today?"];
+const EVENING = ["Good evening! A cosy, colourful lesson before the day ends?", "Evening! Tiny steps still add up, and the worlds stay bright.", "Welcome! Let the bugs be friendly tonight."];
+const NIGHT = ["Burning the midnight oil? Go gently, take breaks, keep the colours.", "Late-night coder! Hydrate, then run something small."];
 
 export function visitInfo() {
   return readStore(KEY, { count: 0, last: null });
@@ -25,7 +25,7 @@ export function buildWelcome(info, xp) {
   const title = first ? "Welcome to Python Lab! 🎉" : `Welcome back! Visit number ${info.count} ✨`;
   const lvl = levelFor(xp.xp);
   const line = first
-    ? "Everything is free, runs in your browser, and has no account. Take the 1 minute tour: navigate, download, view, play."
+    ? "Everything is free, runs in your browser, and has no account. Tour first: navigate, download, view, then play a bright game."
     : `${pick(list, info.count).replace(/`/g, "")} You are level ${lvl} with ${xp.xp} XP.`;
   return { title, line, first };
 }

@@ -1,0 +1,96 @@
+{
+  "title": "Level 5: Classes and Modules",
+  "id": "L05",
+  "audience": "intermediate",
+  "hours": 35,
+  "whats_inside": [
+    "Define a class with an __init__ method and read an attribute",
+    "Build one instance and call a method on it",
+    "Explain that import runs a module once and stores it on sys.modules",
+    "Say what a virtual environment isolates"
+  ],
+  "project": "A Note class plus a one-line import check",
+  "how_to_use": {
+    "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+    "docx": "Edit freely for your own notes or classroom.",
+    "pptx": "Present or self-study slide by slide; green slides show verified output.",
+    "html": "Open offline in any browser.",
+    "png": "Cover and outcomes card; use it as a poster or a slide."
+  },
+  "python_min": "3.8",
+  "examples_run_on": "CPython 3.12.3",
+  "snippets_executed": 3,
+  "level": 5,
+  "base": "Python-Lab_Level-05_Classes-and-Modules",
+  "accent": "#ff6b6b",
+  "blurb": "Define a class with an __init__ method and read an attribute; Build one instance and call a method on it.",
+  "license": {
+    "code": "MIT",
+    "text": "CC BY-NC-SA 4.0"
+  },
+  "accredited": false,
+  "sources": [
+    {
+      "id": "classes",
+      "title": "Python tutorial: Classes",
+      "url": "https://docs.python.org/3/tutorial/classes.html"
+    },
+    {
+      "id": "modules",
+      "title": "Python tutorial: Modules",
+      "url": "https://docs.python.org/3/tutorial/modules.html"
+    },
+    {
+      "id": "venv",
+      "title": "Python docs: venv",
+      "url": "https://docs.python.org/3/library/venv.html"
+    },
+    {
+      "id": "pep405",
+      "title": "PEP 405 \u2013 Python Virtual Environments",
+      "url": "https://peps.python.org/pep-0405/"
+    }
+  ],
+  "verified": {
+    "pdf_pages": 2,
+    "docx_paragraphs": 31,
+    "pptx_slides": 11
+  },
+  "files": [
+    {
+      "name": "Python-Lab_Level-05_Classes-and-Modules_Cover.png",
+      "format": "png",
+      "bytes": 47102,
+      "size": "46 KB",
+      "sha256": "04432d5c6fc9cd89a9c380fc9bfccccfa44b0b8d045c9ed0bf16c51d5d0be7e5"
+    },
+    {
+      "name": "Python-Lab_Level-05_Classes-and-Modules_Guide.html",
+      "format": "html",
+      "bytes": 3830,
+      "size": "4 KB",
+      "sha256": "5ebb4e52c801b24fdfa442311543735dbff7cc9eb3030cbf02f237087d80b635"
+    },
+    {
+      "name": "Python-Lab_Level-05_Classes-and-Modules_Guide.pdf",
+      "format": "pdf",
+      "bytes": 21258,
+      "size": "21 KB",
+      "sha256": "06800b48dcfd425a48562622ed915769136000717ffda029dccc53b06148ac7f"
+    },
+    {
+      "name": "Python-Lab_Level-05_Classes-and-Modules_Slides.pptx",
+      "format": "pptx",
+      "bytes": 92408,
+      "size": "90 KB",
+      "sha256": "1a252a438f86297f8d5cb02838d91aeaeb6d607a82a4d08928fb119a9ab36017"
+    },
+    {
+      "name": "Python-Lab_Level-05_Classes-and-Modules_Worksheet.docx",
+      "format": "docx",
+      "bytes": 81721,
+      "size": "80 KB",
+      "sha256": "3ec58d6ec7de04c82484236e3e1567f50cb12dd4416e067b30439faf310cb919"
+    }
+  ]
+}

@@ -47,7 +47,8 @@ button.bp-go { font: inherit; text-align: left; width: 100%; cursor: pointer; }
 /* ---- PR5: Py outshines the screen: aura, sparkles, skins, size, mannerisms ---- */
 #pb-head stop:first-child { stop-color: var(--py-a, #6bb0e6); }
 #pb-head stop:last-child { stop-color: var(--py-b, #2f6aa3); }
-.bot { width: calc(96px * var(--py-s, 1.1)); height: calc(128px * var(--py-s, 1.1)); }
+.bot { width: calc(96px * var(--py-s, 1.1)); height: calc(128px * var(--py-s, 1.1)); pointer-events: none; }
+.bot-stage, .bot-svg { pointer-events: auto; }
 .bot-stage { inset: auto; left: 0; bottom: 0; width: 96px; height: 128px; transform: scale(var(--py-s, 1.1)); transform-origin: left bottom; }
 .py-aura { position: absolute; left: -10px; bottom: -4px; width: 116px; height: 116px; border-radius: 50%; z-index: 0; pointer-events: none;
   background: conic-gradient(from 0deg, #ff5da2, #ffd43b, #34d399, #22d3ee, #a78bfa, #ff5da2); filter: blur(14px); opacity: 0.55; animation: py-spin 7s linear infinite; }

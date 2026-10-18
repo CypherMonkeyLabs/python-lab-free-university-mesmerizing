@@ -1,0 +1,11 @@
+Level 0: First Program
+Audience: absolute-beginner  Hours: 4
+Examples run on CPython 3.12.3
+
+Inside:
+- Run a one-line program and read what it printed
+- Read an error message from the last line upward
+- Find the official docs page for a built-in function
+- Explain what a program is in your own words
+
+License: code MIT, text CC BY-NC-SA 4.0. Not accredited.

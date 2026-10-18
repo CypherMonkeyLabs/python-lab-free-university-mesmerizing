@@ -47,7 +47,7 @@ const routes = [
   "/#/guide/study-plan",
 ];
 
-const SEEN = () => localStorage.setItem("pythonlab.howto.v1", JSON.stringify({ seen: true }));
+const SEEN = () => localStorage.setItem("pythonlab.howto.v2", JSON.stringify({ seen: true }));
 test.beforeEach(async ({ context }) => { await context.addInitScript(SEEN); });
 
 const brandHosts = new Set(["cyphermonkeylabs.com", "www.cyphermonkeylabs.com", "github.com", "www.github.com", "linktr.ee", "www.linktr.ee", "creativecommons.org", "www.creativecommons.org"]);

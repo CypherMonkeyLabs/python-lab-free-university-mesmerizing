@@ -1,0 +1,75 @@
+<!doctype html><html lang='en'><meta charset='utf-8'><title>Decisions and Loops</title><style>@page{size:A4;margin:16mm 14mm;@bottom-center{content:"CypherMonkeyLabs Python Lab - page " counter(page);font:9pt sans-serif;color:#334}}
+body{font:12pt/1.5 'DejaVu Sans',sans-serif;color:#1a1d2e;margin:0}
+h1{font-size:26pt;color:#2a1860;margin:0 0 8px}
+h2{color:#2a1860;margin-top:1.15em;font-size:16pt}
+.banner{background:#ffd166;color:#142018;padding:16px 18px;border-radius:14px;margin:0 0 14px}
+pre{background:#1b2140;color:#f4f7ff;padding:12px 14px;border-radius:10px;font-size:11pt;line-height:1.45;white-space:pre-wrap;overflow-x:auto;max-width:100%;box-sizing:border-box}
+pre.out{background:#e7f6ec;color:#0c4630;border-left:6px solid #2bb673}
+.meta{background:#f7f4ff;padding:12px 14px;border-radius:10px;border:1px solid #d9d0f0}
+code{font-family:'DejaVu Sans Mono',monospace}
+table{border-collapse:collapse;width:100%;margin:10px 0}
+th,td{border:1px solid #c9c3e0;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#efe8ff}
+.small{font-size:9pt;color:#445}</style><body><div class='banner'><b>Level 2</b> &middot; about 14 h &middot; Python 3.8+</div><div class='meta'><b>Project:</b> A number-guess game<br>Examples run on CPython 3.12.3. <b>You will be able to:</b><ul><li>Write if, elif and else branches with comparison and boolean operators</li><li>Loop with for and range, and with while</li><li>Use break and continue and say when each is clearer</li><li>Trace a small program by hand, line by line</li></ul></div><h1>Decisions and Loops</h1>
+<h2>Decisions with if</h2>
+<p>Python runs the first branch whose test is true. Indentation shows which lines belong to the branch.</p><pre><code>score = 72
+if score &gt;= 90:
+    grade = &quot;A&quot;
+elif score &gt;= 70:
+    grade = &quot;C or better&quot;
+else:
+    grade = &quot;keep practising&quot;
+print(grade)
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+C or better</pre><h2>Comparing and combining</h2>
+<p>Comparisons give booleans. Combine them with <code>and</code>, <code>or</code>, <code>not</code>.</p><pre><code>age = 15
+has_ticket = True
+print(age &gt;= 13 and has_ticket)
+print(not has_ticket)
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+True
+False</pre><h2>Loops with for and range</h2>
+<p><code>range(n)</code> counts from 0 up to n - 1.</p><pre><code>for i in range(3):
+    print(&quot;lap&quot;, i)
+print(sum(range(1, 6)))
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+lap 0
+lap 1
+lap 2
+15</pre><h2>Loops with while</h2>
+<p>A while loop repeats as long as its test is true. Change something inside, or it never ends.</p><pre><code>n = 3
+while n &gt; 0:
+    print(n)
+    n -= 1
+print(&quot;go&quot;)
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+3
+2
+1
+go</pre><h2>break and continue</h2>
+<p><code>break</code> leaves the loop. <code>continue</code> skips to the next pass.</p><pre><code>for i in range(10):
+    if i % 2 == 0:
+        continue
+    if i &gt; 7:
+        break
+    print(i)
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+1
+3
+5
+7</pre><h2>Tracing by hand</h2>
+<p>Write each name and its value after every line. Compare your table with the output.</p><pre><code>total = 0
+for i in range(1, 4):
+    total += i
+    print(i, total)
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+1 1
+2 3
+3 6</pre><h2>Check yourself</h2>
+<ol>
+<li>Which branch runs when <code>score</code> is 70?</li>
+<li>How many times does <code>for i in range(3)</code> run its body?</li>
+<li>What does <code>continue</code> do?</li>
+</ol>
+<h2>Project: Number-guess game</h2>
+<p>The computer picks a number from 1 to 20 (use a fixed number first). Loop until the guess is right, print "higher" or "lower", and stop after 6 tries.</p><h2>Sources</h2><ul><li><a href='https://docs.python.org/3/tutorial/controlflow.html'>Python tutorial: More control flow tools</a></li><li><a href='https://peps.python.org/pep-0008/'>PEP 8 Style Guide for Python Code</a></li><li><a href='https://docs.python.org/3/library/stdtypes.html#truth-value-testing'>Python docs: Truth value testing</a></li></ul><p class='small'>Code &copy; CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. Educational material, not accredited coursework; no outcome or income promised. Built 2026-10-18.</p></body></html>

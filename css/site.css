@@ -287,6 +287,8 @@ textarea {
   line-height: 1.45;
 }
 
+.download-card a[download], .dl-list a { touch-action: manipulation; scroll-margin-bottom: 200px; scroll-margin-top: 90px; }
+@media (max-width: 899px) { .download-grid, .dl-list { padding-right: 124px; } }
 .menu-grid, .clip-grid, .card-grid, .download-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -556,9 +558,10 @@ code, .mono, textarea {
 #snake-canvas {
   width: min(100%, 420px);
   height: auto;
-  background: var(--code-bg);
-  border: 1px solid var(--line);
+  background: #12142b;
+  border: 2px solid #7f8cff;
   border-radius: 12px;
+  box-shadow: 0 0 22px color-mix(in srgb, #ff5da2 35%, transparent);
   touch-action: none;
 }
 

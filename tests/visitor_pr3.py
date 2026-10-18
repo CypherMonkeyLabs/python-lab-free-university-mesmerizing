@@ -84,7 +84,7 @@ async def main():
             rec(vp, "no console errors", not errs, errs[:3]); rec(vp, "same-origin only", not ext, ext[:3])
             await ctx.close()
             # reduced motion
-            ctx = await b.new_context(reduced_motion="reduce", **o); await ctx.add_init_script('localStorage.setItem("pythonlab.howto.v1",JSON.stringify({seen:true}))')
+            ctx = await b.new_context(reduced_motion="reduce", **o); await ctx.add_init_script('localStorage.setItem("pythonlab.howto.v2",JSON.stringify({seen:true}))')
             pg = await ctx.new_page(); await pg.goto(BASE); await pg.wait_for_timeout(1000)
             rec(vp, "reduced motion: tier off, canvas hidden", (await pg.evaluate("document.documentElement.dataset.fx")) == "off" and not await pg.locator("#fx-canvas").is_visible())
             rec(vp, "reduced motion: no running animations on blobs", await pg.evaluate("[...document.querySelectorAll('.fx-blob')].every(e=>getComputedStyle(e).animationName==='none')"))

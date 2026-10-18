@@ -1,0 +1,91 @@
+{
+  "title": "Level 6: Paths and Patterns",
+  "id": "L06",
+  "audience": "intermediate",
+  "hours": 30,
+  "whats_inside": [
+    "Join path pieces with pathlib instead of gluing strings",
+    "Find a number inside text with a regular expression",
+    "Give a small program a command-line option with argparse",
+    "Keep a sample from touching the real filesystem"
+  ],
+  "project": "A tiny note-sorter that accepts --title",
+  "how_to_use": {
+    "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+    "docx": "Edit freely for your own notes or classroom.",
+    "pptx": "Present or self-study slide by slide; green slides show verified output.",
+    "html": "Open offline in any browser.",
+    "png": "Cover and outcomes card; use it as a poster or a slide."
+  },
+  "python_min": "3.8",
+  "examples_run_on": "CPython 3.12.3",
+  "snippets_executed": 3,
+  "level": 6,
+  "base": "Python-Lab_Level-06_Paths-and-Patterns",
+  "accent": "#5eead4",
+  "blurb": "Join path pieces with pathlib instead of gluing strings; Find a number inside text with a regular expression.",
+  "license": {
+    "code": "MIT",
+    "text": "CC BY-NC-SA 4.0"
+  },
+  "accredited": false,
+  "sources": [
+    {
+      "id": "pathlib",
+      "title": "Python docs: pathlib",
+      "url": "https://docs.python.org/3/library/pathlib.html"
+    },
+    {
+      "id": "re",
+      "title": "Python docs: re",
+      "url": "https://docs.python.org/3/library/re.html"
+    },
+    {
+      "id": "argparse",
+      "title": "Python docs: argparse",
+      "url": "https://docs.python.org/3/library/argparse.html"
+    }
+  ],
+  "verified": {
+    "pdf_pages": 2,
+    "docx_paragraphs": 31,
+    "pptx_slides": 11
+  },
+  "files": [
+    {
+      "name": "Python-Lab_Level-06_Paths-and-Patterns_Cover.png",
+      "format": "png",
+      "bytes": 47038,
+      "size": "46 KB",
+      "sha256": "56d3457426732fdb999ceef9fb1f4f238d5b4e039ed38e41db24580e7b7f2671"
+    },
+    {
+      "name": "Python-Lab_Level-06_Paths-and-Patterns_Guide.html",
+      "format": "html",
+      "bytes": 3645,
+      "size": "4 KB",
+      "sha256": "1c2a0015b54b8b57cc27760fc255ad1db6bfc4b2bd4bcc816326df78af7d2bca"
+    },
+    {
+      "name": "Python-Lab_Level-06_Paths-and-Patterns_Guide.pdf",
+      "format": "pdf",
+      "bytes": 21304,
+      "size": "21 KB",
+      "sha256": "4888f9426d6ef3a705660bead5cbc29c6c32abb79a438a1f322c4fa5ab127daf"
+    },
+    {
+      "name": "Python-Lab_Level-06_Paths-and-Patterns_Slides.pptx",
+      "format": "pptx",
+      "bytes": 91184,
+      "size": "89 KB",
+      "sha256": "a1b923f9cb8320d788d2df09656ee9e8ff21759f92abcab8bc18a9d9490b7b5b"
+    },
+    {
+      "name": "Python-Lab_Level-06_Paths-and-Patterns_Worksheet.docx",
+      "format": "docx",
+      "bytes": 81028,
+      "size": "79 KB",
+      "sha256": "aa67194ac6cff2e34c9b4da0ec7d39cb4f856923a77eb11102d73dcf8ef78848"
+    }
+  ]
+}

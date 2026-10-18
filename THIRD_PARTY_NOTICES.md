@@ -21,6 +21,11 @@ Licences were read on 2026-10-17 from the upstream LICENSE files or the wheel ME
 | IBM Plex Mono | as shipped | OFL-1.1 | https://github.com/IBM/plex | `assets/fonts/plex-mono-400.woff2` | `licenses/OFL-ibm-plex.txt` |
 | canvas-confetti (confetti on wins, loaded lazily, same-origin) | 1.9.3 | ISC | https://github.com/catdad/canvas-confetti | `vendor/confetti.browser.min.js` | `licenses/ISC-canvas-confetti.txt` |
 | Archify viewer code and embedded JetBrains Mono (inside each `diagrams/*.html`) | see `diagrams/NOTICE.md` | MIT (Archify); JetBrains Mono is OFL-1.1 | https://github.com/tt-a1i/archify | `diagrams/*.html` | `diagrams/NOTICE.md` (JetBrains Mono OFL text not yet copied: listed as a follow-up in `docs/LICENCE_READS.md`) |
+| three.js (tree-shaken subset, WebGL renderer, geometries, basic materials, sprites) | r186 (npm 0.186.1) | MIT, Copyright 2010-2026 three.js authors | https://github.com/mrdoob/three.js | `vendor/three/three.subset.min.js` (built from `vendor/three/subset.js`) | `vendor/three/LICENSE` |
+| Archify viewer code inside the level map and architecture diagrams | as of 2026-10-17 | MIT (Archify); embedded JetBrains Mono is OFL-1.1 | https://github.com/tt-a1i/archify | `diagrams/level_map.html`, `diagrams/pylab_v2_architecture.html` | `diagrams/NOTICE.md` |
+| Downloadable level modules (PDF, DOCX, PPTX, HTML, PNG) | generated | Text CC BY-NC-SA 4.0, code samples MIT | this repo, `pipeline/build_downloads.py` | `downloads/modules/*` | `LICENSE` |
+
+The shaders (`js/studio/aurora.js`, the probe in `js/studio/tiers.js`), scene modules, Py's hint ladders and poster art are original to this lab.
 
 ## Used only to build or test (not shipped)
 
@@ -28,6 +33,12 @@ Licences were read on 2026-10-17 from the upstream LICENSE files or the wheel ME
 |---|---|---|
 | Playwright test runner 1.56.1 | Apache-2.0 | https://github.com/microsoft/playwright (`licenses/Apache-2.0-playwright.txt`) |
 | fpdf2 (cheat-sheet PDFs, `scripts/make_pdfs.py`) | LGPL-3.0, build-time only; output is not a derived work of the library | https://github.com/py-pdf/fpdf2 |
+| WeasyPrint (level PDFs, `pipeline/build_downloads.py`) | BSD-3-Clause | https://github.com/Kozea/WeasyPrint |
+| python-docx / python-pptx (level DOCX / PPTX) | MIT | https://github.com/python-openxml/python-docx , https://github.com/scanny/python-pptx |
+| Python-Markdown, PyYAML | BSD-3-Clause, MIT | https://github.com/Python-Markdown/markdown , https://github.com/yaml/pyyaml |
+| Pillow (cover PNG) | MIT-CMU (HPND) | https://github.com/python-pillow/Pillow |
+| DejaVu fonts (used at build for PNG/PDF text; not shipped) | Bitstream Vera licence + public domain changes | https://dejavu-fonts.github.io/ |
+| esbuild (bundles the three.js subset) | MIT | https://github.com/evanw/esbuild |
 | ffmpeg (clips, `scripts/make_media.py`) | LGPL/GPL depending on build; build-time only, no ffmpeg code shipped | https://ffmpeg.org/legal.html |
 
 ## Not used (read, for the record)

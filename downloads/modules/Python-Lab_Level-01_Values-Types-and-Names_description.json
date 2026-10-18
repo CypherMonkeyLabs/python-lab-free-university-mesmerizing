@@ -1,0 +1,96 @@
+{
+  "title": "Level 1: Values, Types and Names",
+  "id": "L01",
+  "audience": "beginner",
+  "hours": 10,
+  "whats_inside": [
+    "Name the basic types int, float, str and bool and check one with type()",
+    "Bind a value to a name and explain what reassignment does",
+    "Use f-strings to build readable text",
+    "Convert between str and numbers and handle the common error"
+  ],
+  "project": "A tip and tax calculator",
+  "how_to_use": {
+    "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+    "docx": "Edit freely for your own notes or classroom.",
+    "pptx": "Present or self-study slide by slide; green slides show verified output.",
+    "html": "Open offline in any browser.",
+    "png": "Cover and outcomes card; use it as a poster or a slide."
+  },
+  "python_min": "3.8",
+  "examples_run_on": "CPython 3.12.3",
+  "snippets_executed": 5,
+  "level": 1,
+  "base": "Python-Lab_Level-01_Values-Types-and-Names",
+  "accent": "#4fd1e6",
+  "blurb": "Name the basic types int, float, str and bool and check one with type(); Bind a value to a name and explain what reassignment does.",
+  "license": {
+    "code": "MIT",
+    "text": "CC BY-NC-SA 4.0"
+  },
+  "accredited": false,
+  "sources": [
+    {
+      "id": "tutorial-intro",
+      "title": "Python tutorial: An informal introduction",
+      "url": "https://docs.python.org/3/tutorial/introduction.html"
+    },
+    {
+      "id": "datamodel",
+      "title": "Python reference: The data model",
+      "url": "https://docs.python.org/3/reference/datamodel.html"
+    },
+    {
+      "id": "fstrings",
+      "title": "Python docs: Formatted string literals",
+      "url": "https://docs.python.org/3/reference/lexical_analysis.html#f-strings"
+    },
+    {
+      "id": "pep8",
+      "title": "PEP 8 Style Guide for Python Code",
+      "url": "https://peps.python.org/pep-0008/"
+    }
+  ],
+  "verified": {
+    "pdf_pages": 3,
+    "docx_paragraphs": 45,
+    "pptx_slides": 16
+  },
+  "files": [
+    {
+      "name": "Python-Lab_Level-01_Values-Types-and-Names_Cover.png",
+      "format": "png",
+      "bytes": 50538,
+      "size": "49 KB",
+      "sha256": "720a8a53e68699011420af828cfc188851f7efc6f7d40a5bda84774227c5fcd8"
+    },
+    {
+      "name": "Python-Lab_Level-01_Values-Types-and-Names_Guide.html",
+      "format": "html",
+      "bytes": 4317,
+      "size": "4 KB",
+      "sha256": "77222a6edd056b6ee263423ea8927fa678ef2e4e49fc4d6f5e65cdd345c6f6fa"
+    },
+    {
+      "name": "Python-Lab_Level-01_Values-Types-and-Names_Guide.pdf",
+      "format": "pdf",
+      "bytes": 24257,
+      "size": "24 KB",
+      "sha256": "ca3170c7c5759bdaba4f046174e43e14d5c1e46257fa61b9e607c23d40a44fd2"
+    },
+    {
+      "name": "Python-Lab_Level-01_Values-Types-and-Names_Slides.pptx",
+      "format": "pptx",
+      "bytes": 104478,
+      "size": "102 KB",
+      "sha256": "2e6fdc39281a09d2dd733adbc14c29cfc44bc11a98670a2f962e2ffb0cdbd616"
+    },
+    {
+      "name": "Python-Lab_Level-01_Values-Types-and-Names_Worksheet.docx",
+      "format": "docx",
+      "bytes": 85462,
+      "size": "83 KB",
+      "sha256": "0fdd1efc54eca9749a05f4c4f52acf8027d2105f157c9ed46ee2902d2ed0af15"
+    }
+  ]
+}
