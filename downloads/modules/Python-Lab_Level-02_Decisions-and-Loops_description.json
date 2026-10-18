@@ -71,21 +71,21 @@
       "format": "pdf",
       "bytes": 24734,
       "size": "24 KB",
-      "sha256": "1b130d71f41cbd0f5b7f058e261177eefb50cd61257f4e8ffe51022e85f0240a"
+      "sha256": "f176b476e0fcbad30eee5a0e87b954f6ea822d6a7cc3b59a45d5e4f7b8e84156"
     },
     {
       "name": "Python-Lab_Level-02_Decisions-and-Loops_Slides.pptx",
       "format": "pptx",
-      "bytes": 102821,
+      "bytes": 102244,
       "size": "100 KB",
-      "sha256": "bd4479ec3ee596049e095d1fd92a1492c564b637be4bc1af11699947f827c9ab"
+      "sha256": "36568bdafd2ca689a5f9e1c43b185643c63430fcb1eef2f6bc4fc04ae2221714"
     },
     {
       "name": "Python-Lab_Level-02_Decisions-and-Loops_Worksheet.docx",
       "format": "docx",
       "bytes": 81474,
       "size": "80 KB",
-      "sha256": "a71e325f7f2a2e3b5624d45f3e92702be81f2ce9e17f31333f3aca8be84c61a0"
+      "sha256": "aa9363d21f75ce04bc6f8e9fa8388530cf08898fef63d8c593ec04dea7895dd0"
     }
   ]
 }

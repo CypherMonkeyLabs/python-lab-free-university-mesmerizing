@@ -74,23 +74,23 @@
     {
       "name": "Python-Lab_Level-07_Generators-and-Type-Hints_Guide.pdf",
       "format": "pdf",
-      "bytes": 21954,
+      "bytes": 21956,
       "size": "21 KB",
-      "sha256": "580965313107eb3215206c22f5f3df468ed5c97bd57cba7716cce707168053ed"
+      "sha256": "7847c61f622f69f06c4f142ed128191d8963c4774ae3ac414f1b60601a211591"
     },
     {
       "name": "Python-Lab_Level-07_Generators-and-Type-Hints_Slides.pptx",
       "format": "pptx",
-      "bytes": 93908,
-      "size": "92 KB",
-      "sha256": "a148174b6ae92357282a2efd94e6727d37a52e0ad149e0c356c5ba803864d3b1"
+      "bytes": 93543,
+      "size": "91 KB",
+      "sha256": "7ed39369f6372cc287f611ba951b6061f18ec509db57b01c6d53ef09e2445874"
     },
     {
       "name": "Python-Lab_Level-07_Generators-and-Type-Hints_Worksheet.docx",
       "format": "docx",
       "bytes": 82801,
       "size": "81 KB",
-      "sha256": "49685721a2429093d39a7099fb81b4f3a8e83c56867f509e343ac83f29fb020e"
+      "sha256": "7e629be42789379edf5802d14e9cb8a919af8ab3fc7d5b7453a21a490b8b8afa"
     }
   ]
 }

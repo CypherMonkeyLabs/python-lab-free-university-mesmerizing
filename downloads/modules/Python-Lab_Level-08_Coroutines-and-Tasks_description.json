@@ -64,23 +64,23 @@
     {
       "name": "Python-Lab_Level-08_Coroutines-and-Tasks_Guide.pdf",
       "format": "pdf",
-      "bytes": 20648,
+      "bytes": 20649,
       "size": "20 KB",
-      "sha256": "f7010181e0db8001fbbc2e575a84bd1e8c8c4b6f5340ac3f3461a1ccb07361fd"
+      "sha256": "b9060f451184feb4890c66f20dfdb79ce5dabd9b0ee2bf058857c4bf84a96f85"
     },
     {
       "name": "Python-Lab_Level-08_Coroutines-and-Tasks_Slides.pptx",
       "format": "pptx",
-      "bytes": 93110,
-      "size": "91 KB",
-      "sha256": "c649f5a8bc8fb2fb00fbfa93fd54b53230068be50816dd20e6c0ad07818043b5"
+      "bytes": 92232,
+      "size": "90 KB",
+      "sha256": "b51f945ba94272822dc53141ca6045476e34f0689bf00ec6f0c16757a65415cb"
     },
     {
       "name": "Python-Lab_Level-08_Coroutines-and-Tasks_Worksheet.docx",
       "format": "docx",
       "bytes": 82011,
       "size": "80 KB",
-      "sha256": "f9cbd2118dda880bf8531643f2e6b4e385fe71bef74a6f66ad4fd7b2eb25c97c"
+      "sha256": "e7ab5760fab731c7eb29f5fa4a78f688a1db5bea6f7386f0b6c53327b8dceeed"
     }
   ]
 }

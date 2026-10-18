@@ -5,6 +5,7 @@ No third-party images. Code text is the module source; output text is what the
 build interpreter printed.
 """
 import pathlib
+import re
 import textwrap
 
 from docx import Document
@@ -55,7 +56,9 @@ def wrap_lines(text, width, keep_indent=False):
                 break_long_words=True, break_on_hyphens=False,
             ) or [raw]
         else:
-            bits = textwrap.wrap(raw, width=width, break_long_words=True) or [raw]
+            bits = textwrap.wrap(
+                raw, width=width, break_long_words=True, break_on_hyphens=False,
+            ) or [raw]
         out.extend(bits)
     return out
 
@@ -394,47 +397,80 @@ def _title_band(slide, theme, title):
     return 0.2 + h + 0.12
 
 
-def _paint_card(slide, theme, text, x, y, w, h, color, mark, icon):
-    """Coloured card. Every word of text is drawn, or the leftover is returned for the next slide."""
+def _sentences(text):
+    """Split a paragraph into sentences. Version numbers such as 2.4.6 stay intact."""
+    clean = " ".join(str(text).split())
+    if not clean:
+        return []
+    versions = []
+
+    def hold(match):
+        versions.append(match.group(0))
+        return f"\x00{len(versions) - 1}\x00"
+
+    protected = re.sub(r"\d+(?:\.\d+)+", hold, clean)
+    parts = re.split(r"(?<=[.!?])\s+", protected)
+    out = []
+    for part in parts:
+        restored = re.sub(r"\x00(\d+)\x00", lambda m: versions[int(m.group(1))], part).strip()
+        if restored:
+            out.append(restored)
+    return out or [clean]
+
+
+def _paint_card(slide, theme, text, x, y, w, h, color, mark, icon, continued=False):
+    """One idea: a large icon and the whole sentence, wrapped inside this card."""
     _box(slide, x, y, w, h, mix(color, (255, 255, 255), 0.5), line=color, rounded=True, radius=0.1)
-    text_left = 1.2
-    text_w = w - text_left - 0.22
-    fitted = fit_lines(text, text_w, h - 0.16, (30, 26, 22, 18, 16, 14), spacing=2)
+    icon_d = min(1.2, max(0.78, h * 0.62))
+    if icon_d > h - 0.16:
+        icon_d = max(0.56, h - 0.16)
+    ix = x + 0.2
+    iy = y + (h - icon_d) / 2
+    shape = slide.shapes.add_shape(icon, PInches(ix), PInches(iy), PInches(icon_d), PInches(icon_d))
+    shape.fill.solid()
+    shape.fill.fore_color.rgb = prgb(color)
+    shape.line.fill.background()
+    # A continued fragment of the same sentence is not a new point.
+    label = "" if continued else (mark or "›")
+    if label:
+        mark_size = 36 if icon_d >= 1.05 else 28 if icon_d >= 0.85 else 22
+        _text(shape, [label], mark_size, theme["ink"], bold=True, align="center", anchor="ctr")
+        frame = shape.text_frame
+        frame.margin_left = PInches(0.02)
+        frame.margin_right = PInches(0.02)
+        frame.margin_top = PInches(0.02)
+        frame.margin_bottom = PInches(0.02)
+    text_left = ix + icon_d + 0.22
+    text_w = (x + w) - text_left - 0.18
+    fitted = fit_lines(text, text_w, h - 0.18, (32, 28, 26, 22, 20, 18, 16, 14), spacing=2)
     if fitted:
         lines, size = fitted
         rest = ""
     else:
         lines = wrap_lines(text.strip(), _chars_for(text_w, 14))
         size = 14
-        cap = max(1, int((h - 0.2) / (_line_in(14, 2) + 0.08)))
-        shown, tail = lines[:cap], lines[cap:]
+        cap = max(1, int((h - 0.22) / _line_in(14, 2)))
+        shown = lines[:cap]
         lines = shown
         rest = _unread(text, shown)
-    rows = max(1, len(lines))
-    gap = 0.08
-    row_h = (h - 0.16 - gap * (rows - 1)) / rows
-    for i, line in enumerate(lines):
-        ry = y + 0.08 + i * (row_h + gap)
-        inner = mix(color, (255, 255, 255), 0.78 if i % 2 == 0 else 0.9)
-        _box(slide, x + 0.1, ry, w - 0.2, row_h, inner, line=color, rounded=True, radius=0.15)
-        icon_d = min(0.84, max(0.36, row_h - 0.1))
-        ix = x + 0.2
-        iy = ry + (row_h - icon_d) / 2
-        shape = slide.shapes.add_shape(icon, PInches(ix), PInches(iy), PInches(icon_d), PInches(icon_d * (0.72 if icon == MSO_SHAPE.CHEVRON else 1)))
-        shape.fill.solid()
-        shape.fill.fore_color.rgb = prgb(color)
-        shape.line.fill.background()
-        label = mark if i == 0 and mark else "›"
-        _text(shape, [label], 14 if icon_d < 0.5 else 18, theme["ink"], bold=True, align="center", anchor="ctr")
-        tb = _box(slide, x + text_left, ry, text_w, row_h, inner)
-        _text(tb, [line], size, theme["ink"], bold=True, spacing=0, anchor="ctr")
+    ink_h = min(h - 0.12, 0.16 + len(lines) * _line_in(size, 2))
+    tb = _box(slide, text_left, y + (h - ink_h) / 2, text_w, ink_h, mix(color, (255, 255, 255), 0.5))
+    _text(tb, lines, size, theme["ink"], bold=True, spacing=2, anchor="ctr")
     return rest
 
 
 def _text_slides(new, theme, spec, cols):
     numbered = bool(spec["nums"]) and not spec["bullets"]
-    items = spec["bullets"] or spec["nums"] or spec["prose"] or ["See the guide for the full wording."]
-    queue = [(text, i) for i, text in enumerate(items)]
+    if numbered:
+        raw_items = list(spec["nums"])
+    elif spec["bullets"]:
+        raw_items = [sentence for item in spec["bullets"] for sentence in _sentences(item)]
+    elif spec["prose"]:
+        raw_items = [sentence for item in spec["prose"] for sentence in _sentences(item)]
+    else:
+        raw_items = ["See the guide for the full wording."]
+    # (text, idea index, continued)
+    queue = [(text, i, False) for i, text in enumerate(raw_items)]
     part = 0
     while queue:
         part += 1
@@ -446,25 +482,26 @@ def _text_slides(new, theme, spec, cols):
         batch = []
         used = 0.0
         while queue and len(batch) < 4:
-            text, idx = queue[0]
-            need = max(1.15, 0.24 + len(wrap_lines(text, _chars_for(11.0, 22))) * _line_in(22, 2))
-            if batch and used + 0.1 + need > room:
+            text, idx, continued = queue[0]
+            need = max(1.35, 0.28 + len(wrap_lines(text, _chars_for(10.4, 22))) * _line_in(22, 2))
+            if batch and used + 0.12 + need > room:
                 break
             batch.append(queue.pop(0))
-            used += need + 0.1
+            used += need + 0.12
             if need > room:
                 break
         n = len(batch)
-        gap = 0.1
+        gap = 0.12
         height = (room - gap * (n - 1)) / n
-        for i, (text, idx) in enumerate(batch):
+        for i, (text, idx, continued) in enumerate(batch):
             y = top + i * (height + gap)
+            mark = str(idx + 1) if numbered else ""
             rest = _paint_card(
                 slide, theme, text, 0.38, y, 12.55, height,
-                cols[idx % 4], str(idx + 1) if numbered else "", _ICONS[idx % len(_ICONS)],
+                cols[idx % 4], mark, _ICONS[idx % len(_ICONS)], continued=continued,
             )
             if rest:
-                queue.insert(0, (rest, idx))
+                queue.insert(0, (rest, idx, True))
 
 
 def _chunk_lines(lines, box_h, size, spacing):

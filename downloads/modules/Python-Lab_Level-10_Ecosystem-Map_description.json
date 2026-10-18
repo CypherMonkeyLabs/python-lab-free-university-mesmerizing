@@ -79,23 +79,23 @@
     {
       "name": "Python-Lab_Level-10_Ecosystem-Map_Guide.pdf",
       "format": "pdf",
-      "bytes": 21143,
+      "bytes": 21142,
       "size": "21 KB",
-      "sha256": "2cb3e68f29635b31e100303479ae1e7f88215956fc813a51ffb271914fa9a58c"
+      "sha256": "098bbdc275719d9ffc149c810abbd83c2002314b5796b244b9c546f71909c6ad"
     },
     {
       "name": "Python-Lab_Level-10_Ecosystem-Map_Slides.pptx",
       "format": "pptx",
-      "bytes": 92960,
-      "size": "91 KB",
-      "sha256": "a5250ead1ffcd0714b55bafa93a074322dc823a5e6428b85e32b21fd4b7eb41e"
+      "bytes": 92249,
+      "size": "90 KB",
+      "sha256": "9dd7ce4bff292ca52564f3086f16f512eedbf13b0bb61efbfb1e5875dd3df4e0"
     },
     {
       "name": "Python-Lab_Level-10_Ecosystem-Map_Worksheet.docx",
       "format": "docx",
       "bytes": 83147,
       "size": "81 KB",
-      "sha256": "0b9c8ee910eb7d51873b14ead62c2ffe615fc0814efc91ffe86f7af4ce7c03b3"
+      "sha256": "8cfb67d484c5100083158f69f4ae1b007f4a069dcdb1e0c3b8520bf9c5e27883"
     }
   ]
 }

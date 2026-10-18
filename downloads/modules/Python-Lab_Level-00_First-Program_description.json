@@ -69,23 +69,23 @@
     {
       "name": "Python-Lab_Level-00_First-Program_Guide.pdf",
       "format": "pdf",
-      "bytes": 23175,
+      "bytes": 23180,
       "size": "23 KB",
-      "sha256": "a37ae7887534f9877cd2a2c6147a0768e7c67fa7e7356bca01d65a4e9ccde524"
+      "sha256": "80d9c74a7e26029c3569aa96b3f75a8ef829e00b69693d06e5aed1c55d5b0f0c"
     },
     {
       "name": "Python-Lab_Level-00_First-Program_Slides.pptx",
       "format": "pptx",
-      "bytes": 96887,
-      "size": "95 KB",
-      "sha256": "a35ebf9be72b2c2bb938c2fa398bb9ec171fe1defdb77a7e5e606863a24d0f0f"
+      "bytes": 96049,
+      "size": "94 KB",
+      "sha256": "300c06b039d5b88dc5069095033a35c82b21c49e5206acd6f265d90de741cf1c"
     },
     {
       "name": "Python-Lab_Level-00_First-Program_Worksheet.docx",
       "format": "docx",
       "bytes": 78923,
       "size": "77 KB",
-      "sha256": "3f10de7db37421175916749254659ff8303508b2448badbab03dfe2054faccc1"
+      "sha256": "8118047083b85a85554edbc030c056840d71f662e9e5b526582f7353f270c88e"
     }
   ]
 }

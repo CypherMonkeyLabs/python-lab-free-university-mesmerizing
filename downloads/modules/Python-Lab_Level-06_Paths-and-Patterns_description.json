@@ -69,23 +69,23 @@
     {
       "name": "Python-Lab_Level-06_Paths-and-Patterns_Guide.pdf",
       "format": "pdf",
-      "bytes": 21299,
+      "bytes": 21304,
       "size": "21 KB",
-      "sha256": "2ef4b219446353117dc7937594517df3fde3edadb233409c3d7e0c9a11321dec"
+      "sha256": "4888f9426d6ef3a705660bead5cbc29c6c32abb79a438a1f322c4fa5ab127daf"
     },
     {
       "name": "Python-Lab_Level-06_Paths-and-Patterns_Slides.pptx",
       "format": "pptx",
-      "bytes": 91693,
-      "size": "90 KB",
-      "sha256": "7cb377a80ad6d60e9e6760bed020ed7b6f55ac2f23a97463560a7c640a8c96e4"
+      "bytes": 91184,
+      "size": "89 KB",
+      "sha256": "a1b923f9cb8320d788d2df09656ee9e8ff21759f92abcab8bc18a9d9490b7b5b"
     },
     {
       "name": "Python-Lab_Level-06_Paths-and-Patterns_Worksheet.docx",
       "format": "docx",
       "bytes": 81028,
       "size": "79 KB",
-      "sha256": "374720a4cc8cacae460fe59c2104616067611706ec66055047d4b1a35ae664aa"
+      "sha256": "aa67194ac6cff2e34c9b4da0ec7d39cb4f856923a77eb11102d73dcf8ef78848"
     }
   ]
 }

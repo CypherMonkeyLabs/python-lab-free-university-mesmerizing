@@ -54,7 +54,7 @@
   "verified": {
     "pdf_pages": 2,
     "docx_paragraphs": 27,
-    "pptx_slides": 9
+    "pptx_slides": 10
   },
   "files": [
     {
@@ -76,21 +76,21 @@
       "format": "pdf",
       "bytes": 21835,
       "size": "21 KB",
-      "sha256": "a29ce6617b16537b114e0d5c6224636b63e75cb90eff757b5fcce3abad09005d"
+      "sha256": "dc088a78dfa335033db6b28ebebd4fa0a97a2c7d02a56786e7a04865eed4d21d"
     },
     {
       "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Slides.pptx",
       "format": "pptx",
-      "bytes": 88468,
-      "size": "86 KB",
-      "sha256": "57de770b3bc821eb4769d2a10be8f443a6815b02290e3005bfc07e92db9aaebd"
+      "bytes": 89842,
+      "size": "88 KB",
+      "sha256": "7cca0e28c2df7cc176dfec7412c648e584bed1ce0679d2d5ac83e550b761bf36"
     },
     {
       "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Worksheet.docx",
       "format": "docx",
       "bytes": 80611,
       "size": "79 KB",
-      "sha256": "ec40e98b6cd407306be7ee761d09a6e16975c7a4a8d2d3569803332b0904cec5"
+      "sha256": "71f32fe51dbc990af7e81ddb83cdc334f428d583f131e1c974b976df3f2ecd9d"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-18T03:15:42",
+  "generated": "2026-10-18T03:47:48",
   "modules": [
     {
       "title": "Level 0: First Program",
@@ -72,23 +72,23 @@
         {
           "name": "Python-Lab_Level-00_First-Program_Guide.pdf",
           "format": "pdf",
-          "bytes": 23175,
+          "bytes": 23180,
           "size": "23 KB",
-          "sha256": "a37ae7887534f9877cd2a2c6147a0768e7c67fa7e7356bca01d65a4e9ccde524"
+          "sha256": "80d9c74a7e26029c3569aa96b3f75a8ef829e00b69693d06e5aed1c55d5b0f0c"
         },
         {
           "name": "Python-Lab_Level-00_First-Program_Slides.pptx",
           "format": "pptx",
-          "bytes": 96887,
-          "size": "95 KB",
-          "sha256": "a35ebf9be72b2c2bb938c2fa398bb9ec171fe1defdb77a7e5e606863a24d0f0f"
+          "bytes": 96049,
+          "size": "94 KB",
+          "sha256": "300c06b039d5b88dc5069095033a35c82b21c49e5206acd6f265d90de741cf1c"
         },
         {
           "name": "Python-Lab_Level-00_First-Program_Worksheet.docx",
           "format": "docx",
           "bytes": 78923,
           "size": "77 KB",
-          "sha256": "3f10de7db37421175916749254659ff8303508b2448badbab03dfe2054faccc1"
+          "sha256": "8118047083b85a85554edbc030c056840d71f662e9e5b526582f7353f270c88e"
         }
       ]
     },
@@ -168,23 +168,23 @@
         {
           "name": "Python-Lab_Level-01_Values-Types-and-Names_Guide.pdf",
           "format": "pdf",
-          "bytes": 24255,
+          "bytes": 24257,
           "size": "24 KB",
-          "sha256": "ccb9e2e2470bcdf6c4c9052543a48e015fbf34819c150c459882d397c054a05b"
+          "sha256": "ca3170c7c5759bdaba4f046174e43e14d5c1e46257fa61b9e607c23d40a44fd2"
         },
         {
           "name": "Python-Lab_Level-01_Values-Types-and-Names_Slides.pptx",
           "format": "pptx",
-          "bytes": 104980,
-          "size": "103 KB",
-          "sha256": "fa400b365482d793dcaee9dc75125187f4e9ea38d35544adc05c35e079c6fac7"
+          "bytes": 104478,
+          "size": "102 KB",
+          "sha256": "2e6fdc39281a09d2dd733adbc14c29cfc44bc11a98670a2f962e2ffb0cdbd616"
         },
         {
           "name": "Python-Lab_Level-01_Values-Types-and-Names_Worksheet.docx",
           "format": "docx",
           "bytes": 85462,
           "size": "83 KB",
-          "sha256": "4b7ccdef1153f1178be5c4dde022d13cdcdfa54e6a13e06b78b0d5cef03cfd88"
+          "sha256": "0fdd1efc54eca9749a05f4c4f52acf8027d2105f157c9ed46ee2902d2ed0af15"
         }
       ]
     },
@@ -261,21 +261,21 @@
           "format": "pdf",
           "bytes": 24734,
           "size": "24 KB",
-          "sha256": "1b130d71f41cbd0f5b7f058e261177eefb50cd61257f4e8ffe51022e85f0240a"
+          "sha256": "f176b476e0fcbad30eee5a0e87b954f6ea822d6a7cc3b59a45d5e4f7b8e84156"
         },
         {
           "name": "Python-Lab_Level-02_Decisions-and-Loops_Slides.pptx",
           "format": "pptx",
-          "bytes": 102821,
+          "bytes": 102244,
           "size": "100 KB",
-          "sha256": "bd4479ec3ee596049e095d1fd92a1492c564b637be4bc1af11699947f827c9ab"
+          "sha256": "36568bdafd2ca689a5f9e1c43b185643c63430fcb1eef2f6bc4fc04ae2221714"
         },
         {
           "name": "Python-Lab_Level-02_Decisions-and-Loops_Worksheet.docx",
           "format": "docx",
           "bytes": 81474,
           "size": "80 KB",
-          "sha256": "a71e325f7f2a2e3b5624d45f3e92702be81f2ce9e17f31333f3aca8be84c61a0"
+          "sha256": "aa9363d21f75ce04bc6f8e9fa8388530cf08898fef63d8c593ec04dea7895dd0"
         }
       ]
     },
@@ -360,23 +360,23 @@
         {
           "name": "Python-Lab_Level-03_Functions-and-Scope_Guide.pdf",
           "format": "pdf",
-          "bytes": 26510,
+          "bytes": 26508,
           "size": "26 KB",
-          "sha256": "90d12b0412158222401b7780b2a2306ced27fc4fec3aa2e8fd6f868d624dfd58"
+          "sha256": "a1e8597a215f14f3ebb82424bb89c2f858bd65e4594d50cf0afe448e25522b4f"
         },
         {
           "name": "Python-Lab_Level-03_Functions-and-Scope_Slides.pptx",
           "format": "pptx",
-          "bytes": 115735,
-          "size": "113 KB",
-          "sha256": "f95692480c5acb61774ca931aad0583eabd2ab67d94f2671c1c5c88942a94efb"
+          "bytes": 114366,
+          "size": "112 KB",
+          "sha256": "5f71c01a2c8700986e8fee87865966088c96936dd41a4595bd47d0af645fc2a9"
         },
         {
           "name": "Python-Lab_Level-03_Functions-and-Scope_Worksheet.docx",
           "format": "docx",
           "bytes": 89044,
           "size": "87 KB",
-          "sha256": "c112d305d5c5b6b8398655b87032ffc246478e59fa058be1f97413b1fd28a453"
+          "sha256": "a2bbf439f690df4989bfa4f8cec94f0e78d07aba1bd0cc548dbe46ceb1cf422a"
         }
       ]
     },
@@ -456,23 +456,23 @@
         {
           "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Guide.pdf",
           "format": "pdf",
-          "bytes": 23313,
+          "bytes": 23318,
           "size": "23 KB",
-          "sha256": "acb169b77699c888e93076c9c8725856fe346c95d9ebbc006d4f473726c3f478"
+          "sha256": "2bdfb188bc9de4ee46ea0e98918321b93f2b3decdfc380e657e733e2d6866a70"
         },
         {
           "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Slides.pptx",
           "format": "pptx",
-          "bytes": 92673,
+          "bytes": 93661,
           "size": "91 KB",
-          "sha256": "04519eb1b5c7932ce73325d5aee8bc60400682ea35eea6ca82ded1d4a2861ef4"
+          "sha256": "ee1efe1e304a0a3fe9bb5161a4da5e369356d95246b9dbd4cdf67ec2b0482be2"
         },
         {
           "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Worksheet.docx",
           "format": "docx",
           "bytes": 78195,
           "size": "76 KB",
-          "sha256": "407fb3de37e874111e3b9ca23bb7488389e4eeb9c646abc19d31a68a799ca9e1"
+          "sha256": "aa4894bf900a1e35e3ce144007427ed6e5800dbb53923606bed073f0ab1156a6"
         }
       ]
     },
@@ -552,23 +552,23 @@
         {
           "name": "Python-Lab_Level-05_Classes-and-Modules_Guide.pdf",
           "format": "pdf",
-          "bytes": 21256,
+          "bytes": 21258,
           "size": "21 KB",
-          "sha256": "0c07ce14e7b9e539829105072851fb4f950ab824115434770e973527c36bc8ac"
+          "sha256": "06800b48dcfd425a48562622ed915769136000717ffda029dccc53b06148ac7f"
         },
         {
           "name": "Python-Lab_Level-05_Classes-and-Modules_Slides.pptx",
           "format": "pptx",
-          "bytes": 92948,
-          "size": "91 KB",
-          "sha256": "f7c687c4ee90c95d5083aa83c20292460f62ca3c2dccf1f779d0292ad82a3d1e"
+          "bytes": 92408,
+          "size": "90 KB",
+          "sha256": "1a252a438f86297f8d5cb02838d91aeaeb6d607a82a4d08928fb119a9ab36017"
         },
         {
           "name": "Python-Lab_Level-05_Classes-and-Modules_Worksheet.docx",
           "format": "docx",
           "bytes": 81721,
           "size": "80 KB",
-          "sha256": "3cba0fed9ef69e704034ca7ace316609e88bd92e0fff1a4e0fe74ae9d2d96131"
+          "sha256": "3ec58d6ec7de04c82484236e3e1567f50cb12dd4416e067b30439faf310cb919"
         }
       ]
     },
@@ -643,23 +643,23 @@
         {
           "name": "Python-Lab_Level-06_Paths-and-Patterns_Guide.pdf",
           "format": "pdf",
-          "bytes": 21299,
+          "bytes": 21304,
           "size": "21 KB",
-          "sha256": "2ef4b219446353117dc7937594517df3fde3edadb233409c3d7e0c9a11321dec"
+          "sha256": "4888f9426d6ef3a705660bead5cbc29c6c32abb79a438a1f322c4fa5ab127daf"
         },
         {
           "name": "Python-Lab_Level-06_Paths-and-Patterns_Slides.pptx",
           "format": "pptx",
-          "bytes": 91693,
-          "size": "90 KB",
-          "sha256": "7cb377a80ad6d60e9e6760bed020ed7b6f55ac2f23a97463560a7c640a8c96e4"
+          "bytes": 91184,
+          "size": "89 KB",
+          "sha256": "a1b923f9cb8320d788d2df09656ee9e8ff21759f92abcab8bc18a9d9490b7b5b"
         },
         {
           "name": "Python-Lab_Level-06_Paths-and-Patterns_Worksheet.docx",
           "format": "docx",
           "bytes": 81028,
           "size": "79 KB",
-          "sha256": "374720a4cc8cacae460fe59c2104616067611706ec66055047d4b1a35ae664aa"
+          "sha256": "aa67194ac6cff2e34c9b4da0ec7d39cb4f856923a77eb11102d73dcf8ef78848"
         }
       ]
     },
@@ -739,23 +739,23 @@
         {
           "name": "Python-Lab_Level-07_Generators-and-Type-Hints_Guide.pdf",
           "format": "pdf",
-          "bytes": 21954,
+          "bytes": 21956,
           "size": "21 KB",
-          "sha256": "580965313107eb3215206c22f5f3df468ed5c97bd57cba7716cce707168053ed"
+          "sha256": "7847c61f622f69f06c4f142ed128191d8963c4774ae3ac414f1b60601a211591"
         },
         {
           "name": "Python-Lab_Level-07_Generators-and-Type-Hints_Slides.pptx",
           "format": "pptx",
-          "bytes": 93908,
-          "size": "92 KB",
-          "sha256": "a148174b6ae92357282a2efd94e6727d37a52e0ad149e0c356c5ba803864d3b1"
+          "bytes": 93543,
+          "size": "91 KB",
+          "sha256": "7ed39369f6372cc287f611ba951b6061f18ec509db57b01c6d53ef09e2445874"
         },
         {
           "name": "Python-Lab_Level-07_Generators-and-Type-Hints_Worksheet.docx",
           "format": "docx",
           "bytes": 82801,
           "size": "81 KB",
-          "sha256": "49685721a2429093d39a7099fb81b4f3a8e83c56867f509e343ac83f29fb020e"
+          "sha256": "7e629be42789379edf5802d14e9cb8a919af8ab3fc7d5b7453a21a490b8b8afa"
         }
       ]
     },
@@ -825,23 +825,23 @@
         {
           "name": "Python-Lab_Level-08_Coroutines-and-Tasks_Guide.pdf",
           "format": "pdf",
-          "bytes": 20648,
+          "bytes": 20649,
           "size": "20 KB",
-          "sha256": "f7010181e0db8001fbbc2e575a84bd1e8c8c4b6f5340ac3f3461a1ccb07361fd"
+          "sha256": "b9060f451184feb4890c66f20dfdb79ce5dabd9b0ee2bf058857c4bf84a96f85"
         },
         {
           "name": "Python-Lab_Level-08_Coroutines-and-Tasks_Slides.pptx",
           "format": "pptx",
-          "bytes": 93110,
-          "size": "91 KB",
-          "sha256": "c649f5a8bc8fb2fb00fbfa93fd54b53230068be50816dd20e6c0ad07818043b5"
+          "bytes": 92232,
+          "size": "90 KB",
+          "sha256": "b51f945ba94272822dc53141ca6045476e34f0689bf00ec6f0c16757a65415cb"
         },
         {
           "name": "Python-Lab_Level-08_Coroutines-and-Tasks_Worksheet.docx",
           "format": "docx",
           "bytes": 82011,
           "size": "80 KB",
-          "sha256": "f9cbd2118dda880bf8531643f2e6b4e385fe71bef74a6f66ad4fd7b2eb25c97c"
+          "sha256": "e7ab5760fab731c7eb29f5fa4a78f688a1db5bea6f7386f0b6c53327b8dceeed"
         }
       ]
     },
@@ -923,21 +923,21 @@
           "format": "pdf",
           "bytes": 21835,
           "size": "21 KB",
-          "sha256": "a29ce6617b16537b114e0d5c6224636b63e75cb90eff757b5fcce3abad09005d"
+          "sha256": "dc088a78dfa335033db6b28ebebd4fa0a97a2c7d02a56786e7a04865eed4d21d"
         },
         {
           "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Slides.pptx",
           "format": "pptx",
-          "bytes": 88468,
-          "size": "86 KB",
-          "sha256": "57de770b3bc821eb4769d2a10be8f443a6815b02290e3005bfc07e92db9aaebd"
+          "bytes": 89842,
+          "size": "88 KB",
+          "sha256": "7cca0e28c2df7cc176dfec7412c648e584bed1ce0679d2d5ac83e550b761bf36"
         },
         {
           "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Worksheet.docx",
           "format": "docx",
           "bytes": 80611,
           "size": "79 KB",
-          "sha256": "ec40e98b6cd407306be7ee761d09a6e16975c7a4a8d2d3569803332b0904cec5"
+          "sha256": "71f32fe51dbc990af7e81ddb83cdc334f428d583f131e1c974b976df3f2ecd9d"
         }
       ]
     },
@@ -1022,23 +1022,23 @@
         {
           "name": "Python-Lab_Level-10_Ecosystem-Map_Guide.pdf",
           "format": "pdf",
-          "bytes": 21143,
+          "bytes": 21142,
           "size": "21 KB",
-          "sha256": "2cb3e68f29635b31e100303479ae1e7f88215956fc813a51ffb271914fa9a58c"
+          "sha256": "098bbdc275719d9ffc149c810abbd83c2002314b5796b244b9c546f71909c6ad"
         },
         {
           "name": "Python-Lab_Level-10_Ecosystem-Map_Slides.pptx",
           "format": "pptx",
-          "bytes": 92960,
-          "size": "91 KB",
-          "sha256": "a5250ead1ffcd0714b55bafa93a074322dc823a5e6428b85e32b21fd4b7eb41e"
+          "bytes": 92249,
+          "size": "90 KB",
+          "sha256": "9dd7ce4bff292ca52564f3086f16f512eedbf13b0bb61efbfb1e5875dd3df4e0"
         },
         {
           "name": "Python-Lab_Level-10_Ecosystem-Map_Worksheet.docx",
           "format": "docx",
           "bytes": 83147,
           "size": "81 KB",
-          "sha256": "0b9c8ee910eb7d51873b14ead62c2ffe615fc0814efc91ffe86f7af4ce7c03b3"
+          "sha256": "8cfb67d484c5100083158f69f4ae1b007f4a069dcdb1e0c3b8520bf9c5e27883"
         }
       ]
     }
