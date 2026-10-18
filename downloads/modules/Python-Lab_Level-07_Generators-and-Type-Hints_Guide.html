@@ -1,0 +1,47 @@
+<!doctype html><html lang='en'><meta charset='utf-8'><title>Generators and Type Hints</title><style>@page{size:A4;margin:16mm 14mm;@bottom-center{content:"CypherMonkeyLabs Python Lab - page " counter(page);font:9pt sans-serif;color:#334}}
+body{font:12pt/1.5 'DejaVu Sans',sans-serif;color:#1a1d2e;margin:0}
+h1{font-size:26pt;color:#2a1860;margin:0 0 8px}
+h2{color:#2a1860;margin-top:1.15em;font-size:16pt}
+.banner{background:#8ab4ff;color:#142018;padding:16px 18px;border-radius:14px;margin:0 0 14px}
+pre{background:#1b2140;color:#f4f7ff;padding:12px 14px;border-radius:10px;font-size:11pt;line-height:1.45;white-space:pre-wrap}
+pre.out{background:#e7f6ec;color:#0c4630;border-left:6px solid #2bb673}
+.meta{background:#f7f4ff;padding:12px 14px;border-radius:10px;border:1px solid #d9d0f0}
+code{font-family:'DejaVu Sans Mono',monospace}
+table{border-collapse:collapse;width:100%;margin:10px 0}
+th,td{border:1px solid #c9c3e0;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#efe8ff}
+.small{font-size:9pt;color:#445}</style><body><div class='banner'><b>Level 7</b> &middot; about 40 h &middot; Python 3.9+</div><div class='meta'><b>Project:</b> A countdown generator with a hinted total<br>Examples run on CPython 3.12.3. <b>You will be able to:</b><ul><li>Write a generator that yields one value at a time</li><li>Wrap a def with a decorator</li><li>Read a hint back from __annotations__</li><li>State that hints are not enforced while the program runs</li></ul></div><h1>Generators and Type Hints</h1>
+<h2>yield pauses and resumes</h2>
+<p>A generator produces values one at a time. <code>list</code> pulls every yielded value. The reference describes <code>yield</code> as the way a generator sends a value to its caller.</p><pre><code>def countdown(n):
+    while n:
+        yield n
+        n -= 1
+
+print(list(countdown(3)))
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+[3, 2, 1]</pre><h2>A decorator wraps a def</h2>
+<p>The glossary defines a decorator as a way to return a new object, usually a wrapper, that replaces the original. This wrapper uppercases the returned text. Hints are not involved yet.</p><pre><code>def shout(fn):
+    def wrapped(text):
+        return fn(text).upper()
+    return wrapped
+
+@shout
+def greet(text):
+    return &quot;hi &quot; + text
+
+print(greet(&quot;ada&quot;))
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+HI ADA</pre><h2>Hints are readable, not a gate</h2>
+<p>PEP 484 says type hints are optional and are not required at runtime. CPython stores them on <code>__annotations__</code>. It does not reject a call that ignores them. <code>typing</code> is the standard-library module for the hint names.</p><pre><code>def add(a: int, b: int) -&gt; int:
+    return a + b
+
+print(add(2, 5))
+print(add.__annotations__[&quot;return&quot;].__name__)
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+7
+int</pre><h2>Check yourself</h2>
+<ol>
+<li>What does <code>yield</code> do that <code>return</code> does not?</li>
+<li>What does a decorator return?</li>
+<li>Does Python stop you when a call ignores a hint?</li>
+</ol><h2>Sources</h2><ul><li><a href='https://docs.python.org/3/reference/expressions.html#yield-expressions'>Python reference: Yield expressions</a></li><li><a href='https://docs.python.org/3/glossary.html#term-decorator'>Python glossary: decorator</a></li><li><a href='https://docs.python.org/3/library/typing.html'>Python docs: typing</a></li><li><a href='https://peps.python.org/pep-0484/'>PEP 484 – Type Hints</a></li></ul><p class='small'>Code &copy; CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. Educational material, not accredited coursework; no outcome or income promised. Built 2026-10-18.</p></body></html>

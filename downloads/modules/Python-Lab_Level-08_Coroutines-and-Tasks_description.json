@@ -1,0 +1,86 @@
+{
+  "title": "Level 8: Coroutines and Tasks",
+  "id": "L08",
+  "audience": "intermediate",
+  "hours": 40,
+  "whats_inside": [
+    "Write an async def and run it with asyncio.run",
+    "Wait for two tasks with asyncio.gather",
+    "Tell a coroutine object from the value it returns",
+    "Name the docs page for tasks and timeouts"
+  ],
+  "project": "Two tiny coroutines gathered into one result",
+  "how_to_use": {
+    "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+    "docx": "Edit freely for your own notes or classroom.",
+    "pptx": "Present or self-study slide by slide; green slides show verified output.",
+    "html": "Open offline in any browser.",
+    "png": "Cover and outcomes card; use it as a poster or a slide."
+  },
+  "python_min": "3.8",
+  "examples_run_on": "CPython 3.12.3",
+  "snippets_executed": 3,
+  "level": 8,
+  "base": "Python-Lab_Level-08_Coroutines-and-Tasks",
+  "accent": "#f78fb3",
+  "blurb": "Write an async def and run it with asyncio.run; Wait for two tasks with asyncio.gather.",
+  "license": {
+    "code": "MIT",
+    "text": "CC BY-NC-SA 4.0"
+  },
+  "accredited": false,
+  "sources": [
+    {
+      "id": "asyncio",
+      "title": "Python docs: asyncio",
+      "url": "https://docs.python.org/3/library/asyncio.html"
+    },
+    {
+      "id": "asyncio-task",
+      "title": "Python docs: Coroutines and Tasks",
+      "url": "https://docs.python.org/3/library/asyncio-task.html"
+    }
+  ],
+  "verified": {
+    "pdf_pages": 2,
+    "docx_paragraphs": 31,
+    "pptx_slides": 10
+  },
+  "files": [
+    {
+      "name": "Python-Lab_Level-08_Coroutines-and-Tasks_Cover.png",
+      "format": "png",
+      "bytes": 47850,
+      "size": "47 KB",
+      "sha256": "2fb3e51c675e3e3d24048f6454086fcb34406f84f452b2f3c77da28007ae06c1"
+    },
+    {
+      "name": "Python-Lab_Level-08_Coroutines-and-Tasks_Guide.html",
+      "format": "html",
+      "bytes": 3461,
+      "size": "3 KB",
+      "sha256": "ab5be9c594a2b99f4d5036f7affb02d31973aa682140ae5e9909f1c58f9065de"
+    },
+    {
+      "name": "Python-Lab_Level-08_Coroutines-and-Tasks_Guide.pdf",
+      "format": "pdf",
+      "bytes": 20649,
+      "size": "20 KB",
+      "sha256": "6f2e70feb4a7c0a15d65ae63c62c67715952423d961de321458d34a54095c6cd"
+    },
+    {
+      "name": "Python-Lab_Level-08_Coroutines-and-Tasks_Slides.pptx",
+      "format": "pptx",
+      "bytes": 90140,
+      "size": "88 KB",
+      "sha256": "6c8cc67df64e80527f3f0e151a21ed3cb17dc64021f6fc71b1a730e2205d0f6c"
+    },
+    {
+      "name": "Python-Lab_Level-08_Coroutines-and-Tasks_Worksheet.docx",
+      "format": "docx",
+      "bytes": 82011,
+      "size": "80 KB",
+      "sha256": "aaf9140e1f874f6d2d2e0462d29e2882cc81879da629a284f82a71a2c3718314"
+    }
+  ]
+}

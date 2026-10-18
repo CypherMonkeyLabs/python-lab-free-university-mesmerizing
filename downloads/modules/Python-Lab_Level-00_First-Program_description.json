@@ -18,7 +18,7 @@
     "png": "Cover and outcomes card; use it as a poster or a slide."
   },
   "python_min": "3.8",
-  "examples_run_on": "CPython 3.13.5",
+  "examples_run_on": "CPython 3.12.3",
   "snippets_executed": 4,
   "level": 0,
   "base": "Python-Lab_Level-00_First-Program",
@@ -47,45 +47,45 @@
     }
   ],
   "verified": {
-    "pdf_pages": 2,
-    "docx_paragraphs": 30,
-    "pptx_slides": 8
+    "pdf_pages": 3,
+    "docx_paragraphs": 41,
+    "pptx_slides": 14
   },
   "files": [
     {
       "name": "Python-Lab_Level-00_First-Program_Cover.png",
       "format": "png",
-      "bytes": 45777,
-      "size": "45 KB",
-      "sha256": "20d9a89549e887e8d01c0f83f2c31f951ff8ec9f68d89b20e7b44170f967b882"
+      "bytes": 44648,
+      "size": "44 KB",
+      "sha256": "03a8eea35d0ce65c93f34046ed5d62774b1008ce641a91e0c19e2a89bdbc9e82"
     },
     {
       "name": "Python-Lab_Level-00_First-Program_Guide.html",
       "format": "html",
-      "bytes": 3620,
+      "bytes": 3960,
       "size": "4 KB",
-      "sha256": "22d0432d6de295c55edbeae5ae9f5aa49bb9bff44ac0001ee55942d646fa5919"
+      "sha256": "c17d82a98df4253e3e219c117beedec9de8d49aa80841cea359144b2f56eebac"
     },
     {
       "name": "Python-Lab_Level-00_First-Program_Guide.pdf",
       "format": "pdf",
-      "bytes": 22668,
-      "size": "22 KB",
-      "sha256": "68153ab47bb403120e94db46977a7bd937cc9e7f2e39cbeeebdc17744545a08f"
+      "bytes": 23180,
+      "size": "23 KB",
+      "sha256": "2079272c8aff5a4f570abd0e32d14e8ed8c3990a571d2c5242ebf9fbdc6adab1"
     },
     {
       "name": "Python-Lab_Level-00_First-Program_Slides.pptx",
       "format": "pptx",
-      "bytes": 36480,
-      "size": "36 KB",
-      "sha256": "219a07c211679394ad223cda825f8c0c734706b3b3af1c214e63ca54331fb9fa"
+      "bytes": 93634,
+      "size": "91 KB",
+      "sha256": "c4398580d8b50f33ac8f5cfaffe4524ef75cafad3e9d83c6eec7c1943a852a0c"
     },
     {
       "name": "Python-Lab_Level-00_First-Program_Worksheet.docx",
       "format": "docx",
-      "bytes": 37651,
-      "size": "37 KB",
-      "sha256": "7e9cb61e97d2c9d1bf2548320119a079d9ee365a56550d936a776ddc3427661c"
+      "bytes": 78923,
+      "size": "77 KB",
+      "sha256": "d527d987004acfd5b29e7ef6faa3f6d19ae3b0372aacbdfb81886e56ee2ef7d8"
     }
   ]
 }

@@ -1,0 +1,96 @@
+{
+  "title": "Level 9: PEPs and the Data Model",
+  "id": "L09",
+  "audience": "intermediate",
+  "hours": 40,
+  "whats_inside": [
+    "Call len and see it use the __len__ method",
+    "Name two PEPs this lab already cites for dates and style",
+    "Tell a style guide apart from a language rule",
+    "Find the data model chapter in the language reference"
+  ],
+  "project": "A small Bag whose len is the number of items you stored",
+  "how_to_use": {
+    "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+    "docx": "Edit freely for your own notes or classroom.",
+    "pptx": "Present or self-study slide by slide; green slides show verified output.",
+    "html": "Open offline in any browser.",
+    "png": "Cover and outcomes card; use it as a poster or a slide."
+  },
+  "python_min": "3.8",
+  "examples_run_on": "CPython 3.12.3",
+  "snippets_executed": 2,
+  "level": 9,
+  "base": "Python-Lab_Level-09_PEPs-and-the-Data-Model",
+  "accent": "#e4d9a8",
+  "blurb": "Call len and see it use the __len__ method; Name two PEPs this lab already cites for dates and style.",
+  "license": {
+    "code": "MIT",
+    "text": "CC BY-NC-SA 4.0"
+  },
+  "accredited": false,
+  "sources": [
+    {
+      "id": "datamodel",
+      "title": "Python reference: Data model",
+      "url": "https://docs.python.org/3/reference/datamodel.html"
+    },
+    {
+      "id": "pep8",
+      "title": "PEP 8 \u2013 Style Guide for Python Code",
+      "url": "https://peps.python.org/pep-0008/"
+    },
+    {
+      "id": "pep790",
+      "title": "PEP 790 \u2013 Python 3.15 Release Schedule",
+      "url": "https://peps.python.org/pep-0790/"
+    },
+    {
+      "id": "pep-index",
+      "title": "PEP index",
+      "url": "https://peps.python.org/"
+    }
+  ],
+  "verified": {
+    "pdf_pages": 2,
+    "docx_paragraphs": 27,
+    "pptx_slides": 9
+  },
+  "files": [
+    {
+      "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Cover.png",
+      "format": "png",
+      "bytes": 46106,
+      "size": "45 KB",
+      "sha256": "f06ec984985a7d6a83c4b05b7ce787643a22bc97ad16de8b31829b4a109a1353"
+    },
+    {
+      "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Guide.html",
+      "format": "html",
+      "bytes": 3545,
+      "size": "3 KB",
+      "sha256": "bc31319908dfbd94fb73470e9c3071366b0d72d8723571e0e8e20af7c6b48696"
+    },
+    {
+      "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Guide.pdf",
+      "format": "pdf",
+      "bytes": 21839,
+      "size": "21 KB",
+      "sha256": "65d3c49c2d1c0cd3ed48c12e84643c6a9badf07b52f80a27827820535298d5ed"
+    },
+    {
+      "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Slides.pptx",
+      "format": "pptx",
+      "bytes": 86885,
+      "size": "85 KB",
+      "sha256": "9789ec4d18d3205ee5fe63b3f56c9c43bcd9289d930b7b0a007aff826a947458"
+    },
+    {
+      "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Worksheet.docx",
+      "format": "docx",
+      "bytes": 80611,
+      "size": "79 KB",
+      "sha256": "03ef5ea7e348e6f3fdc5f036dbfd0aa6e0c345374ed2d5487e7dc6bb40e3b172"
+    }
+  ]
+}

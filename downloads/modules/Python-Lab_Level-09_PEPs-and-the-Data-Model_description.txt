@@ -1,0 +1,11 @@
+Level 9: PEPs and the Data Model
+Audience: intermediate  Hours: 40
+Examples run on CPython 3.12.3
+
+Inside:
+- Call len and see it use the __len__ method
+- Name two PEPs this lab already cites for dates and style
+- Tell a style guide apart from a language rule
+- Find the data model chapter in the language reference
+
+License: code MIT, text CC BY-NC-SA 4.0. Not accredited.

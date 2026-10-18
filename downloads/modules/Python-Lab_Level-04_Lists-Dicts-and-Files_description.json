@@ -1,0 +1,96 @@
+{
+  "title": "Level 4: Lists, Dicts and Files",
+  "id": "L04",
+  "audience": "beginner",
+  "hours": 30,
+  "whats_inside": [
+    "Store several values in a list and read one by index",
+    "Look up a value in a dict by its key",
+    "Tell a set apart from a list",
+    "Read and write a small text file with pathlib"
+  ],
+  "project": "An address card kept in a dict and saved as a text file",
+  "how_to_use": {
+    "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+    "docx": "Edit freely for your own notes or classroom.",
+    "pptx": "Present or self-study slide by slide; green slides show verified output.",
+    "html": "Open offline in any browser.",
+    "png": "Cover and outcomes card; use it as a poster or a slide."
+  },
+  "python_min": "3.8",
+  "examples_run_on": "CPython 3.12.3",
+  "snippets_executed": 4,
+  "level": 4,
+  "base": "Python-Lab_Level-04_Lists-Dicts-and-Files",
+  "accent": "#c792ff",
+  "blurb": "Store several values in a list and read one by index; Look up a value in a dict by its key.",
+  "license": {
+    "code": "MIT",
+    "text": "CC BY-NC-SA 4.0"
+  },
+  "accredited": false,
+  "sources": [
+    {
+      "id": "stdtypes",
+      "title": "Python docs: Built-in types",
+      "url": "https://docs.python.org/3/library/stdtypes.html"
+    },
+    {
+      "id": "pathlib",
+      "title": "Python docs: pathlib",
+      "url": "https://docs.python.org/3/library/pathlib.html"
+    },
+    {
+      "id": "io",
+      "title": "Python tutorial: Input and output",
+      "url": "https://docs.python.org/3/tutorial/inputoutput.html"
+    },
+    {
+      "id": "timecomplexity",
+      "title": "Python wiki: TimeComplexity",
+      "url": "https://wiki.python.org/moin/TimeComplexity"
+    }
+  ],
+  "verified": {
+    "pdf_pages": 3,
+    "docx_paragraphs": 37,
+    "pptx_slides": 12
+  },
+  "files": [
+    {
+      "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Cover.png",
+      "format": "png",
+      "bytes": 43331,
+      "size": "42 KB",
+      "sha256": "39cfff7ec27f3848134e446ef5d6ff94445b919954b6a09471b27370dbb323e0"
+    },
+    {
+      "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Guide.html",
+      "format": "html",
+      "bytes": 4077,
+      "size": "4 KB",
+      "sha256": "badc7ffe2c3eaac5e97f13634353963b0a87e38278f42af98f9be7023fe7bea8"
+    },
+    {
+      "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Guide.pdf",
+      "format": "pdf",
+      "bytes": 23319,
+      "size": "23 KB",
+      "sha256": "567dea6f72f8290ccfad867751abd51c819df709d45a5f73f622b60de5e9eca5"
+    },
+    {
+      "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Slides.pptx",
+      "format": "pptx",
+      "bytes": 89667,
+      "size": "88 KB",
+      "sha256": "940b27c663ac7802ce0b58554426cee8ff50ebb37a896275c951c74c8622693e"
+    },
+    {
+      "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Worksheet.docx",
+      "format": "docx",
+      "bytes": 78195,
+      "size": "76 KB",
+      "sha256": "9c57c07970488e4355f012fea9a66bc9bc8520971593a1d00af93d0e1800e8b3"
+    }
+  ]
+}

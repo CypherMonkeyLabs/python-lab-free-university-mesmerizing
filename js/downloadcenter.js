@@ -66,7 +66,7 @@ export function downloadCenterView(focus, extraHtml = "") {
       </div>
       <p class="muted" id="dc-status" role="status">Loading the file list.</p>
       <div class="dc-grid" id="dc-cards"></div>
-      <p class="muted">Only Levels 0 to 3 have files so far. The Level 3 guide is the deepest sample. The cheat sheets, slides Markdown and notebook are further down this page.</p>
+      <p class="muted">Each Level with a module has a PDF, a Word worksheet, slides, an HTML guide and a cover image. The cheat sheets, slides Markdown and notebook are further down this page.</p>
       ${extraHtml}
       <h2>How the level files are built</h2>
       <p>One Markdown source per Level goes through a script that runs every code block, then writes the PDF, Word, PowerPoint, HTML, image and description files. The map below was made with Archify. It shows the whole plan, so some boxes are not built yet.</p>

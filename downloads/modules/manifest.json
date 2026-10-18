@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-17T15:53:08",
+  "generated": "2026-10-18T02:16:49",
   "modules": [
     {
       "title": "Level 0: First Program",
@@ -21,7 +21,7 @@
         "png": "Cover and outcomes card; use it as a poster or a slide."
       },
       "python_min": "3.8",
-      "examples_run_on": "CPython 3.13.5",
+      "examples_run_on": "CPython 3.12.3",
       "snippets_executed": 4,
       "level": 0,
       "base": "Python-Lab_Level-00_First-Program",
@@ -50,45 +50,45 @@
         }
       ],
       "verified": {
-        "pdf_pages": 3,
-        "docx_paragraphs": 37,
-        "pptx_slides": 10
+        "pdf_pages": 2,
+        "docx_paragraphs": 27,
+        "pptx_slides": 9
       },
       "files": [
         {
           "name": "Python-Lab_Level-00_First-Program_Cover.png",
           "format": "png",
-          "bytes": 45777,
-          "size": "45 KB",
-          "sha256": "20d9a89549e887e8d01c0f83f2c31f951ff8ec9f68d89b20e7b44170f967b882"
+          "bytes": 44648,
+          "size": "44 KB",
+          "sha256": "03a8eea35d0ce65c93f34046ed5d62774b1008ce641a91e0c19e2a89bdbc9e82"
         },
         {
           "name": "Python-Lab_Level-00_First-Program_Guide.html",
           "format": "html",
-          "bytes": 3620,
+          "bytes": 3960,
           "size": "4 KB",
-          "sha256": "22d0432d6de295c55edbeae5ae9f5aa49bb9bff44ac0001ee55942d646fa5919"
+          "sha256": "c17d82a98df4253e3e219c117beedec9de8d49aa80841cea359144b2f56eebac"
         },
         {
           "name": "Python-Lab_Level-00_First-Program_Guide.pdf",
           "format": "pdf",
-          "bytes": 22668,
-          "size": "22 KB",
-          "sha256": "68153ab47bb403120e94db46977a7bd937cc9e7f2e39cbeeebdc17744545a08f"
+          "bytes": 23180,
+          "size": "23 KB",
+          "sha256": "2079272c8aff5a4f570abd0e32d14e8ed8c3990a571d2c5242ebf9fbdc6adab1"
         },
         {
           "name": "Python-Lab_Level-00_First-Program_Slides.pptx",
           "format": "pptx",
-          "bytes": 36480,
-          "size": "36 KB",
-          "sha256": "219a07c211679394ad223cda825f8c0c734706b3b3af1c214e63ca54331fb9fa"
+          "bytes": 93634,
+          "size": "91 KB",
+          "sha256": "c4398580d8b50f33ac8f5cfaffe4524ef75cafad3e9d83c6eec7c1943a852a0c"
         },
         {
           "name": "Python-Lab_Level-00_First-Program_Worksheet.docx",
           "format": "docx",
-          "bytes": 37651,
-          "size": "37 KB",
-          "sha256": "7e9cb61e97d2c9d1bf2548320119a079d9ee365a56550d936a776ddc3427661c"
+          "bytes": 78923,
+          "size": "77 KB",
+          "sha256": "d527d987004acfd5b29e7ef6faa3f6d19ae3b0372aacbdfb81886e56ee2ef7d8"
         }
       ]
     },
@@ -112,7 +112,7 @@
         "png": "Cover and outcomes card; use it as a poster or a slide."
       },
       "python_min": "3.8",
-      "examples_run_on": "CPython 3.13.5",
+      "examples_run_on": "CPython 3.12.3",
       "snippets_executed": 5,
       "level": 1,
       "base": "Python-Lab_Level-01_Values-Types-and-Names",
@@ -146,45 +146,45 @@
         }
       ],
       "verified": {
-        "pdf_pages": 3,
-        "docx_paragraphs": 37,
-        "pptx_slides": 10
+        "pdf_pages": 2,
+        "docx_paragraphs": 27,
+        "pptx_slides": 9
       },
       "files": [
         {
           "name": "Python-Lab_Level-01_Values-Types-and-Names_Cover.png",
           "format": "png",
-          "bytes": 52365,
-          "size": "51 KB",
-          "sha256": "e483123142a03a2779140e781064b6958a13a3bf2648547d00940b98eeae7d1e"
+          "bytes": 50538,
+          "size": "49 KB",
+          "sha256": "720a8a53e68699011420af828cfc188851f7efc6f7d40a5bda84774227c5fcd8"
         },
         {
           "name": "Python-Lab_Level-01_Values-Types-and-Names_Guide.html",
           "format": "html",
-          "bytes": 3924,
+          "bytes": 4264,
           "size": "4 KB",
-          "sha256": "300fe11a609522f90610dfd1401a77322a1d9c7082dd189de697362aa6205fe3"
+          "sha256": "8be80fb9fe3f954a637e4b2f108d76c7a827c01d3de8d930aa0e9f72a616d5ff"
         },
         {
           "name": "Python-Lab_Level-01_Values-Types-and-Names_Guide.pdf",
           "format": "pdf",
-          "bytes": 24000,
-          "size": "23 KB",
-          "sha256": "8eec8f5bc1ebff359cd2963793947577a8062ad63d7627ae2142ba0db7cffc96"
+          "bytes": 24258,
+          "size": "24 KB",
+          "sha256": "d8e6dd0ea83a7c59e55e3d6d2cb1844bc19799321a84ae20f5836bc74eb03a75"
         },
         {
           "name": "Python-Lab_Level-01_Values-Types-and-Names_Slides.pptx",
           "format": "pptx",
-          "bytes": 37785,
-          "size": "37 KB",
-          "sha256": "f0481673724fd7a45660da890a5e7584406f7262b58f617d59b703a4f549afbc"
+          "bytes": 102068,
+          "size": "100 KB",
+          "sha256": "dff7fcbbe1c61bba84d75edc13ed980b0396b9eb52c0415aa9e18116bfbc5d65"
         },
         {
           "name": "Python-Lab_Level-01_Values-Types-and-Names_Worksheet.docx",
           "format": "docx",
-          "bytes": 37743,
-          "size": "37 KB",
-          "sha256": "3582caabcde5661cd256099f90563ec3e64b8aad0823d372b60209eca52fc3f5"
+          "bytes": 85462,
+          "size": "83 KB",
+          "sha256": "95a7b46e7e86266b15cd8453d2601d1969d2d025ad852720d6cb2fdb6914cb64"
         }
       ]
     },
@@ -208,7 +208,7 @@
         "png": "Cover and outcomes card; use it as a poster or a slide."
       },
       "python_min": "3.8",
-      "examples_run_on": "CPython 3.13.5",
+      "examples_run_on": "CPython 3.12.3",
       "snippets_executed": 6,
       "level": 2,
       "base": "Python-Lab_Level-02_Decisions-and-Loops",
@@ -237,45 +237,45 @@
         }
       ],
       "verified": {
-        "pdf_pages": 3,
-        "docx_paragraphs": 37,
-        "pptx_slides": 10
+        "pdf_pages": 2,
+        "docx_paragraphs": 27,
+        "pptx_slides": 9
       },
       "files": [
         {
           "name": "Python-Lab_Level-02_Decisions-and-Loops_Cover.png",
           "format": "png",
-          "bytes": 49295,
-          "size": "48 KB",
-          "sha256": "c8eb9616338c8f36ec38706d606ba87afe0945d680d8999ccc7081540cf35a25"
+          "bytes": 46692,
+          "size": "46 KB",
+          "sha256": "01cbf945ed81c4effc573efb4047620cf14e75282d2b538e8cfd11b1984c71d3"
         },
         {
           "name": "Python-Lab_Level-02_Decisions-and-Loops_Guide.html",
           "format": "html",
-          "bytes": 3905,
+          "bytes": 4245,
           "size": "4 KB",
-          "sha256": "605ad6f38d0b97ae770eb0df1e3788ebd668eb96a155ef0868c2c97be82290d1"
+          "sha256": "0f5c0a8b5d887e62b40a78e5e0c0260fa59c8f3b30e277728470c52d964a974f"
         },
         {
           "name": "Python-Lab_Level-02_Decisions-and-Loops_Guide.pdf",
           "format": "pdf",
-          "bytes": 24183,
+          "bytes": 24738,
           "size": "24 KB",
-          "sha256": "abecc36f9117627da71bf27798b9c4dd3d800eafc37a0640e33043c840f2b139"
+          "sha256": "1539783d8f7d1f5a3898d0cef96516f5701cfead754c6e0cb9eb151e50ab9a29"
         },
         {
           "name": "Python-Lab_Level-02_Decisions-and-Loops_Slides.pptx",
           "format": "pptx",
-          "bytes": 38883,
-          "size": "38 KB",
-          "sha256": "81a8b7cc6ab32384bace6aa98b2baea64ce394e6c1eda3b90e6e20e9f8844e72"
+          "bytes": 101359,
+          "size": "99 KB",
+          "sha256": "1d52d2d1bb246cae6f74a37fad09f55f0bda304d9347c86ef46e627e8bc906a1"
         },
         {
           "name": "Python-Lab_Level-02_Decisions-and-Loops_Worksheet.docx",
           "format": "docx",
-          "bytes": 37806,
-          "size": "37 KB",
-          "sha256": "23e8d39350a9a8974ae1902fcfdaeb77919f43534c2dadfe150d304823c8247c"
+          "bytes": 81474,
+          "size": "80 KB",
+          "sha256": "630f46513c98618e066334c688750e7094312f68012df94ddb2e635789efb26a"
         }
       ]
     },
@@ -299,7 +299,7 @@
         "png": "Cover and outcomes card; use it as a poster or a slide."
       },
       "python_min": "3.8",
-      "examples_run_on": "CPython 3.13.5",
+      "examples_run_on": "CPython 3.12.3",
       "snippets_executed": 5,
       "level": 3,
       "base": "Python-Lab_Level-03_Functions-and-Scope",
@@ -338,45 +338,707 @@
         }
       ],
       "verified": {
-        "pdf_pages": 3,
-        "docx_paragraphs": 37,
-        "pptx_slides": 10
+        "pdf_pages": 2,
+        "docx_paragraphs": 27,
+        "pptx_slides": 9
       },
       "files": [
         {
           "name": "Python-Lab_Level-03_Functions-and-Scope_Cover.png",
           "format": "png",
-          "bytes": 56556,
-          "size": "55 KB",
-          "sha256": "f3934320f089bff25e618f5d8c422684177236fdc7909a0003b7f2b4f2267acc"
+          "bytes": 53696,
+          "size": "52 KB",
+          "sha256": "15da6e8fd4bdadbe8775b328c2b4320f9bd4f0ac0b4a3cbdac8b2b460312efad"
         },
         {
           "name": "Python-Lab_Level-03_Functions-and-Scope_Guide.html",
           "format": "html",
-          "bytes": 5262,
+          "bytes": 5602,
           "size": "5 KB",
-          "sha256": "57b9c8ec41701eca51404cb11327ec765ca7e3407a5912b034eb3e8c3c01af7b"
+          "sha256": "f8b1b95c42914f410aca564f93731bcc95bb63a852216fc9cef3626e6326d756"
         },
         {
           "name": "Python-Lab_Level-03_Functions-and-Scope_Guide.pdf",
           "format": "pdf",
-          "bytes": 25966,
-          "size": "25 KB",
-          "sha256": "f46e4e4ef9d7a4c9a14a284ac8f7ac2d74a9899570828f37ebfae03e2846d41a"
+          "bytes": 26511,
+          "size": "26 KB",
+          "sha256": "884a803adfbadf33a36cecb5bc8b95be140a539a735e8d50ad2bdd07792cba99"
         },
         {
           "name": "Python-Lab_Level-03_Functions-and-Scope_Slides.pptx",
           "format": "pptx",
-          "bytes": 39224,
-          "size": "38 KB",
-          "sha256": "6757299487c8a0ff3ab19b50f62f0f3beaaa9109e049b2ccee71c08513a05e0a"
+          "bytes": 109105,
+          "size": "107 KB",
+          "sha256": "2ce9c2e71e4805907c79783ea04514f43c2b4255d7ed3175c5e6468def2b4ba6"
         },
         {
           "name": "Python-Lab_Level-03_Functions-and-Scope_Worksheet.docx",
           "format": "docx",
-          "bytes": 38235,
-          "size": "37 KB",
-          "sha256": "0a8a8bc67f77bcd857f72e16e6f1d0492d44693b12219903f9c0252a60175fc0"
+          "bytes": 89044,
+          "size": "87 KB",
+          "sha256": "4be27441ad4959581f836294626ebdb42f49c18c08118d831d3cad775814a27c"
+        }
+      ]
+    },
+    {
+      "title": "Level 4: Lists, Dicts and Files",
+      "id": "L04",
+      "audience": "beginner",
+      "hours": 30,
+      "whats_inside": [
+        "Store several values in a list and read one by index",
+        "Look up a value in a dict by its key",
+        "Tell a set apart from a list",
+        "Read and write a small text file with pathlib"
+      ],
+      "project": "An address card kept in a dict and saved as a text file",
+      "how_to_use": {
+        "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+        "docx": "Edit freely for your own notes or classroom.",
+        "pptx": "Present or self-study slide by slide; green slides show verified output.",
+        "html": "Open offline in any browser.",
+        "png": "Cover and outcomes card; use it as a poster or a slide."
+      },
+      "python_min": "3.8",
+      "examples_run_on": "CPython 3.12.3",
+      "snippets_executed": 4,
+      "level": 4,
+      "base": "Python-Lab_Level-04_Lists-Dicts-and-Files",
+      "accent": "#c792ff",
+      "blurb": "Store several values in a list and read one by index; Look up a value in a dict by its key.",
+      "license": {
+        "code": "MIT",
+        "text": "CC BY-NC-SA 4.0"
+      },
+      "accredited": false,
+      "sources": [
+        {
+          "id": "stdtypes",
+          "title": "Python docs: Built-in types",
+          "url": "https://docs.python.org/3/library/stdtypes.html"
+        },
+        {
+          "id": "pathlib",
+          "title": "Python docs: pathlib",
+          "url": "https://docs.python.org/3/library/pathlib.html"
+        },
+        {
+          "id": "io",
+          "title": "Python tutorial: Input and output",
+          "url": "https://docs.python.org/3/tutorial/inputoutput.html"
+        },
+        {
+          "id": "timecomplexity",
+          "title": "Python wiki: TimeComplexity",
+          "url": "https://wiki.python.org/moin/TimeComplexity"
+        }
+      ],
+      "verified": {
+        "pdf_pages": 2,
+        "docx_paragraphs": 27,
+        "pptx_slides": 9
+      },
+      "files": [
+        {
+          "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Cover.png",
+          "format": "png",
+          "bytes": 43331,
+          "size": "42 KB",
+          "sha256": "39cfff7ec27f3848134e446ef5d6ff94445b919954b6a09471b27370dbb323e0"
+        },
+        {
+          "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Guide.html",
+          "format": "html",
+          "bytes": 4077,
+          "size": "4 KB",
+          "sha256": "badc7ffe2c3eaac5e97f13634353963b0a87e38278f42af98f9be7023fe7bea8"
+        },
+        {
+          "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Guide.pdf",
+          "format": "pdf",
+          "bytes": 23319,
+          "size": "23 KB",
+          "sha256": "567dea6f72f8290ccfad867751abd51c819df709d45a5f73f622b60de5e9eca5"
+        },
+        {
+          "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Slides.pptx",
+          "format": "pptx",
+          "bytes": 89667,
+          "size": "88 KB",
+          "sha256": "940b27c663ac7802ce0b58554426cee8ff50ebb37a896275c951c74c8622693e"
+        },
+        {
+          "name": "Python-Lab_Level-04_Lists-Dicts-and-Files_Worksheet.docx",
+          "format": "docx",
+          "bytes": 78195,
+          "size": "76 KB",
+          "sha256": "9c57c07970488e4355f012fea9a66bc9bc8520971593a1d00af93d0e1800e8b3"
+        }
+      ]
+    },
+    {
+      "title": "Level 5: Classes and Modules",
+      "id": "L05",
+      "audience": "intermediate",
+      "hours": 35,
+      "whats_inside": [
+        "Define a class with an __init__ method and read an attribute",
+        "Build one instance and call a method on it",
+        "Explain that import runs a module once and stores it on sys.modules",
+        "Say what a virtual environment isolates"
+      ],
+      "project": "A Note class plus a one-line import check",
+      "how_to_use": {
+        "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+        "docx": "Edit freely for your own notes or classroom.",
+        "pptx": "Present or self-study slide by slide; green slides show verified output.",
+        "html": "Open offline in any browser.",
+        "png": "Cover and outcomes card; use it as a poster or a slide."
+      },
+      "python_min": "3.8",
+      "examples_run_on": "CPython 3.12.3",
+      "snippets_executed": 3,
+      "level": 5,
+      "base": "Python-Lab_Level-05_Classes-and-Modules",
+      "accent": "#ff6b6b",
+      "blurb": "Define a class with an __init__ method and read an attribute; Build one instance and call a method on it.",
+      "license": {
+        "code": "MIT",
+        "text": "CC BY-NC-SA 4.0"
+      },
+      "accredited": false,
+      "sources": [
+        {
+          "id": "classes",
+          "title": "Python tutorial: Classes",
+          "url": "https://docs.python.org/3/tutorial/classes.html"
+        },
+        {
+          "id": "modules",
+          "title": "Python tutorial: Modules",
+          "url": "https://docs.python.org/3/tutorial/modules.html"
+        },
+        {
+          "id": "venv",
+          "title": "Python docs: venv",
+          "url": "https://docs.python.org/3/library/venv.html"
+        },
+        {
+          "id": "pep405",
+          "title": "PEP 405 \u2013 Python Virtual Environments",
+          "url": "https://peps.python.org/pep-0405/"
+        }
+      ],
+      "verified": {
+        "pdf_pages": 2,
+        "docx_paragraphs": 27,
+        "pptx_slides": 9
+      },
+      "files": [
+        {
+          "name": "Python-Lab_Level-05_Classes-and-Modules_Cover.png",
+          "format": "png",
+          "bytes": 47102,
+          "size": "46 KB",
+          "sha256": "04432d5c6fc9cd89a9c380fc9bfccccfa44b0b8d045c9ed0bf16c51d5d0be7e5"
+        },
+        {
+          "name": "Python-Lab_Level-05_Classes-and-Modules_Guide.html",
+          "format": "html",
+          "bytes": 3777,
+          "size": "4 KB",
+          "sha256": "139cd2152a600e7fc3cf99d222704c34d928ce3c3704f9cf337b17c4ae9c9be9"
+        },
+        {
+          "name": "Python-Lab_Level-05_Classes-and-Modules_Guide.pdf",
+          "format": "pdf",
+          "bytes": 21257,
+          "size": "21 KB",
+          "sha256": "efe89bf86766049bb3287a0c25257852b10ce842f78c0aa41c1d0375ad89f0d5"
+        },
+        {
+          "name": "Python-Lab_Level-05_Classes-and-Modules_Slides.pptx",
+          "format": "pptx",
+          "bytes": 89776,
+          "size": "88 KB",
+          "sha256": "4eb3d4a1c38bbad0ef2018237c3fdaf86a12905a5e3d0090baadfadb0c70a033"
+        },
+        {
+          "name": "Python-Lab_Level-05_Classes-and-Modules_Worksheet.docx",
+          "format": "docx",
+          "bytes": 81721,
+          "size": "80 KB",
+          "sha256": "b28c687fd6ace587e7dec4607756915eb5594f677965a9109d7dfdac525cd06a"
+        }
+      ]
+    },
+    {
+      "title": "Level 6: Paths and Patterns",
+      "id": "L06",
+      "audience": "intermediate",
+      "hours": 30,
+      "whats_inside": [
+        "Join path pieces with pathlib instead of gluing strings",
+        "Find a number inside text with a regular expression",
+        "Give a small program a command-line option with argparse",
+        "Keep a sample from touching the real filesystem"
+      ],
+      "project": "A tiny note-sorter that accepts --title",
+      "how_to_use": {
+        "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+        "docx": "Edit freely for your own notes or classroom.",
+        "pptx": "Present or self-study slide by slide; green slides show verified output.",
+        "html": "Open offline in any browser.",
+        "png": "Cover and outcomes card; use it as a poster or a slide."
+      },
+      "python_min": "3.8",
+      "examples_run_on": "CPython 3.12.3",
+      "snippets_executed": 3,
+      "level": 6,
+      "base": "Python-Lab_Level-06_Paths-and-Patterns",
+      "accent": "#5eead4",
+      "blurb": "Join path pieces with pathlib instead of gluing strings; Find a number inside text with a regular expression.",
+      "license": {
+        "code": "MIT",
+        "text": "CC BY-NC-SA 4.0"
+      },
+      "accredited": false,
+      "sources": [
+        {
+          "id": "pathlib",
+          "title": "Python docs: pathlib",
+          "url": "https://docs.python.org/3/library/pathlib.html"
+        },
+        {
+          "id": "re",
+          "title": "Python docs: re",
+          "url": "https://docs.python.org/3/library/re.html"
+        },
+        {
+          "id": "argparse",
+          "title": "Python docs: argparse",
+          "url": "https://docs.python.org/3/library/argparse.html"
+        }
+      ],
+      "verified": {
+        "pdf_pages": 2,
+        "docx_paragraphs": 27,
+        "pptx_slides": 9
+      },
+      "files": [
+        {
+          "name": "Python-Lab_Level-06_Paths-and-Patterns_Cover.png",
+          "format": "png",
+          "bytes": 47038,
+          "size": "46 KB",
+          "sha256": "56d3457426732fdb999ceef9fb1f4f238d5b4e039ed38e41db24580e7b7f2671"
+        },
+        {
+          "name": "Python-Lab_Level-06_Paths-and-Patterns_Guide.html",
+          "format": "html",
+          "bytes": 3592,
+          "size": "4 KB",
+          "sha256": "421438fcccd70e29380a0ab1ae9c5a45d8685b9bec0a2f55edcc4ee60e3f2dde"
+        },
+        {
+          "name": "Python-Lab_Level-06_Paths-and-Patterns_Guide.pdf",
+          "format": "pdf",
+          "bytes": 21303,
+          "size": "21 KB",
+          "sha256": "3c244022bf773ee34f41f1aec365730cd2882e97d3e0b30ae863921f72ef5037"
+        },
+        {
+          "name": "Python-Lab_Level-06_Paths-and-Patterns_Slides.pptx",
+          "format": "pptx",
+          "bytes": 89124,
+          "size": "87 KB",
+          "sha256": "37aa49f5f5a3ac4e1b8a7d0261e17b02e0916dc6d15f03ebfc2f541c50672171"
+        },
+        {
+          "name": "Python-Lab_Level-06_Paths-and-Patterns_Worksheet.docx",
+          "format": "docx",
+          "bytes": 81028,
+          "size": "79 KB",
+          "sha256": "8fcb7fce9ae6440a4135a4fbc30f88b08736408b942a7431c8392cc61a5126fc"
+        }
+      ]
+    },
+    {
+      "title": "Level 7: Generators and Type Hints",
+      "id": "L07",
+      "audience": "intermediate",
+      "hours": 40,
+      "whats_inside": [
+        "Write a generator that yields one value at a time",
+        "Wrap a def with a decorator",
+        "Read a hint back from __annotations__",
+        "State that hints are not enforced while the program runs"
+      ],
+      "project": "A countdown generator with a hinted total",
+      "how_to_use": {
+        "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+        "docx": "Edit freely for your own notes or classroom.",
+        "pptx": "Present or self-study slide by slide; green slides show verified output.",
+        "html": "Open offline in any browser.",
+        "png": "Cover and outcomes card; use it as a poster or a slide."
+      },
+      "python_min": "3.9",
+      "examples_run_on": "CPython 3.12.3",
+      "snippets_executed": 3,
+      "level": 7,
+      "base": "Python-Lab_Level-07_Generators-and-Type-Hints",
+      "accent": "#8ab4ff",
+      "blurb": "Write a generator that yields one value at a time; Wrap a def with a decorator.",
+      "license": {
+        "code": "MIT",
+        "text": "CC BY-NC-SA 4.0"
+      },
+      "accredited": false,
+      "sources": [
+        {
+          "id": "yield-expr",
+          "title": "Python reference: Yield expressions",
+          "url": "https://docs.python.org/3/reference/expressions.html#yield-expressions"
+        },
+        {
+          "id": "glossary-decorator",
+          "title": "Python glossary: decorator",
+          "url": "https://docs.python.org/3/glossary.html#term-decorator"
+        },
+        {
+          "id": "typing",
+          "title": "Python docs: typing",
+          "url": "https://docs.python.org/3/library/typing.html"
+        },
+        {
+          "id": "pep484",
+          "title": "PEP 484 \u2013 Type Hints",
+          "url": "https://peps.python.org/pep-0484/"
+        }
+      ],
+      "verified": {
+        "pdf_pages": 2,
+        "docx_paragraphs": 27,
+        "pptx_slides": 9
+      },
+      "files": [
+        {
+          "name": "Python-Lab_Level-07_Generators-and-Type-Hints_Cover.png",
+          "format": "png",
+          "bytes": 48011,
+          "size": "47 KB",
+          "sha256": "b5897418ebbeef59d365da349edb0e33f802912fbc8de58bd0e1bd6a3ff7c651"
+        },
+        {
+          "name": "Python-Lab_Level-07_Generators-and-Type-Hints_Guide.html",
+          "format": "html",
+          "bytes": 3701,
+          "size": "4 KB",
+          "sha256": "4d303076ab7cc56ca5782eb7df6fe127048f87fff3c1ec014cc21473e35f1ac4"
+        },
+        {
+          "name": "Python-Lab_Level-07_Generators-and-Type-Hints_Guide.pdf",
+          "format": "pdf",
+          "bytes": 21954,
+          "size": "21 KB",
+          "sha256": "cbcbd8c26df79a2f4477c04ecc6b5a294c6c37b0f7542e58fed23c00b1dea2ca"
+        },
+        {
+          "name": "Python-Lab_Level-07_Generators-and-Type-Hints_Slides.pptx",
+          "format": "pptx",
+          "bytes": 90892,
+          "size": "89 KB",
+          "sha256": "5a299100951c8d135182580673ba1061b7235d36826451f8fd8a5b149c9892e4"
+        },
+        {
+          "name": "Python-Lab_Level-07_Generators-and-Type-Hints_Worksheet.docx",
+          "format": "docx",
+          "bytes": 82801,
+          "size": "81 KB",
+          "sha256": "3b8ef505fc182e9a0f7f1bea858adb4a9d849640ca1b9c43dbba7a0e1803d8f1"
+        }
+      ]
+    },
+    {
+      "title": "Level 8: Coroutines and Tasks",
+      "id": "L08",
+      "audience": "intermediate",
+      "hours": 40,
+      "whats_inside": [
+        "Write an async def and run it with asyncio.run",
+        "Wait for two tasks with asyncio.gather",
+        "Tell a coroutine object from the value it returns",
+        "Name the docs page for tasks and timeouts"
+      ],
+      "project": "Two tiny coroutines gathered into one result",
+      "how_to_use": {
+        "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+        "docx": "Edit freely for your own notes or classroom.",
+        "pptx": "Present or self-study slide by slide; green slides show verified output.",
+        "html": "Open offline in any browser.",
+        "png": "Cover and outcomes card; use it as a poster or a slide."
+      },
+      "python_min": "3.8",
+      "examples_run_on": "CPython 3.12.3",
+      "snippets_executed": 3,
+      "level": 8,
+      "base": "Python-Lab_Level-08_Coroutines-and-Tasks",
+      "accent": "#f78fb3",
+      "blurb": "Write an async def and run it with asyncio.run; Wait for two tasks with asyncio.gather.",
+      "license": {
+        "code": "MIT",
+        "text": "CC BY-NC-SA 4.0"
+      },
+      "accredited": false,
+      "sources": [
+        {
+          "id": "asyncio",
+          "title": "Python docs: asyncio",
+          "url": "https://docs.python.org/3/library/asyncio.html"
+        },
+        {
+          "id": "asyncio-task",
+          "title": "Python docs: Coroutines and Tasks",
+          "url": "https://docs.python.org/3/library/asyncio-task.html"
+        }
+      ],
+      "verified": {
+        "pdf_pages": 2,
+        "docx_paragraphs": 27,
+        "pptx_slides": 9
+      },
+      "files": [
+        {
+          "name": "Python-Lab_Level-08_Coroutines-and-Tasks_Cover.png",
+          "format": "png",
+          "bytes": 47850,
+          "size": "47 KB",
+          "sha256": "2fb3e51c675e3e3d24048f6454086fcb34406f84f452b2f3c77da28007ae06c1"
+        },
+        {
+          "name": "Python-Lab_Level-08_Coroutines-and-Tasks_Guide.html",
+          "format": "html",
+          "bytes": 3461,
+          "size": "3 KB",
+          "sha256": "ab5be9c594a2b99f4d5036f7affb02d31973aa682140ae5e9909f1c58f9065de"
+        },
+        {
+          "name": "Python-Lab_Level-08_Coroutines-and-Tasks_Guide.pdf",
+          "format": "pdf",
+          "bytes": 20649,
+          "size": "20 KB",
+          "sha256": "6f2e70feb4a7c0a15d65ae63c62c67715952423d961de321458d34a54095c6cd"
+        },
+        {
+          "name": "Python-Lab_Level-08_Coroutines-and-Tasks_Slides.pptx",
+          "format": "pptx",
+          "bytes": 90140,
+          "size": "88 KB",
+          "sha256": "6c8cc67df64e80527f3f0e151a21ed3cb17dc64021f6fc71b1a730e2205d0f6c"
+        },
+        {
+          "name": "Python-Lab_Level-08_Coroutines-and-Tasks_Worksheet.docx",
+          "format": "docx",
+          "bytes": 82011,
+          "size": "80 KB",
+          "sha256": "aaf9140e1f874f6d2d2e0462d29e2882cc81879da629a284f82a71a2c3718314"
+        }
+      ]
+    },
+    {
+      "title": "Level 9: PEPs and the Data Model",
+      "id": "L09",
+      "audience": "intermediate",
+      "hours": 40,
+      "whats_inside": [
+        "Call len and see it use the __len__ method",
+        "Name two PEPs this lab already cites for dates and style",
+        "Tell a style guide apart from a language rule",
+        "Find the data model chapter in the language reference"
+      ],
+      "project": "A small Bag whose len is the number of items you stored",
+      "how_to_use": {
+        "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+        "docx": "Edit freely for your own notes or classroom.",
+        "pptx": "Present or self-study slide by slide; green slides show verified output.",
+        "html": "Open offline in any browser.",
+        "png": "Cover and outcomes card; use it as a poster or a slide."
+      },
+      "python_min": "3.8",
+      "examples_run_on": "CPython 3.12.3",
+      "snippets_executed": 2,
+      "level": 9,
+      "base": "Python-Lab_Level-09_PEPs-and-the-Data-Model",
+      "accent": "#e4d9a8",
+      "blurb": "Call len and see it use the __len__ method; Name two PEPs this lab already cites for dates and style.",
+      "license": {
+        "code": "MIT",
+        "text": "CC BY-NC-SA 4.0"
+      },
+      "accredited": false,
+      "sources": [
+        {
+          "id": "datamodel",
+          "title": "Python reference: Data model",
+          "url": "https://docs.python.org/3/reference/datamodel.html"
+        },
+        {
+          "id": "pep8",
+          "title": "PEP 8 \u2013 Style Guide for Python Code",
+          "url": "https://peps.python.org/pep-0008/"
+        },
+        {
+          "id": "pep790",
+          "title": "PEP 790 \u2013 Python 3.15 Release Schedule",
+          "url": "https://peps.python.org/pep-0790/"
+        },
+        {
+          "id": "pep-index",
+          "title": "PEP index",
+          "url": "https://peps.python.org/"
+        }
+      ],
+      "verified": {
+        "pdf_pages": 2,
+        "docx_paragraphs": 27,
+        "pptx_slides": 9
+      },
+      "files": [
+        {
+          "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Cover.png",
+          "format": "png",
+          "bytes": 46106,
+          "size": "45 KB",
+          "sha256": "f06ec984985a7d6a83c4b05b7ce787643a22bc97ad16de8b31829b4a109a1353"
+        },
+        {
+          "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Guide.html",
+          "format": "html",
+          "bytes": 3545,
+          "size": "3 KB",
+          "sha256": "bc31319908dfbd94fb73470e9c3071366b0d72d8723571e0e8e20af7c6b48696"
+        },
+        {
+          "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Guide.pdf",
+          "format": "pdf",
+          "bytes": 21839,
+          "size": "21 KB",
+          "sha256": "65d3c49c2d1c0cd3ed48c12e84643c6a9badf07b52f80a27827820535298d5ed"
+        },
+        {
+          "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Slides.pptx",
+          "format": "pptx",
+          "bytes": 86885,
+          "size": "85 KB",
+          "sha256": "9789ec4d18d3205ee5fe63b3f56c9c43bcd9289d930b7b0a007aff826a947458"
+        },
+        {
+          "name": "Python-Lab_Level-09_PEPs-and-the-Data-Model_Worksheet.docx",
+          "format": "docx",
+          "bytes": 80611,
+          "size": "79 KB",
+          "sha256": "03ef5ea7e348e6f3fdc5f036dbfd0aa6e0c345374ed2d5487e7dc6bb40e3b172"
+        }
+      ]
+    },
+    {
+      "title": "Level 10: Ecosystem Map",
+      "id": "L10",
+      "audience": "intermediate",
+      "hours": 70,
+      "whats_inside": [
+        "Name three standard-library modules and what each one is for",
+        "Separate a vendored library in this lab from one that is not",
+        "Point at the official docs for NumPy, pandas and Flask",
+        "Sketch a capstone that only uses libraries you can cite"
+      ],
+      "project": "A one-page map of three libraries, each with its docs link",
+      "how_to_use": {
+        "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+        "docx": "Edit freely for your own notes or classroom.",
+        "pptx": "Present or self-study slide by slide; green slides show verified output.",
+        "html": "Open offline in any browser.",
+        "png": "Cover and outcomes card; use it as a poster or a slide."
+      },
+      "python_min": "3.8",
+      "examples_run_on": "CPython 3.12.3",
+      "snippets_executed": 2,
+      "level": 10,
+      "base": "Python-Lab_Level-10_Ecosystem-Map",
+      "accent": "#7f8cff",
+      "blurb": "Name three standard-library modules and what each one is for; Separate a vendored library in this lab from one that is not.",
+      "license": {
+        "code": "MIT",
+        "text": "CC BY-NC-SA 4.0"
+      },
+      "accredited": false,
+      "sources": [
+        {
+          "id": "tutorial",
+          "title": "The Python Tutorial",
+          "url": "https://docs.python.org/3/tutorial/index.html"
+        },
+        {
+          "id": "numpy",
+          "title": "NumPy documentation",
+          "url": "https://numpy.org/doc/stable/"
+        },
+        {
+          "id": "pandas",
+          "title": "pandas documentation",
+          "url": "https://pandas.pydata.org/docs/"
+        },
+        {
+          "id": "flask",
+          "title": "Flask documentation",
+          "url": "https://flask.palletsprojects.com/"
+        },
+        {
+          "id": "pyodide",
+          "title": "Pyodide",
+          "url": "https://pyodide.org/en/stable/"
+        }
+      ],
+      "verified": {
+        "pdf_pages": 2,
+        "docx_paragraphs": 27,
+        "pptx_slides": 9
+      },
+      "files": [
+        {
+          "name": "Python-Lab_Level-10_Ecosystem-Map_Cover.png",
+          "format": "png",
+          "bytes": 49086,
+          "size": "48 KB",
+          "sha256": "2c4dc055c1a191b8fa775e481f39658fd61ee1ef3f7ac13065fec1857a87d52d"
+        },
+        {
+          "name": "Python-Lab_Level-10_Ecosystem-Map_Guide.html",
+          "format": "html",
+          "bytes": 3902,
+          "size": "4 KB",
+          "sha256": "cd9da82327d1b65be40fe372115956a133402abf91fba47eb4bc66f4593487e3"
+        },
+        {
+          "name": "Python-Lab_Level-10_Ecosystem-Map_Guide.pdf",
+          "format": "pdf",
+          "bytes": 21146,
+          "size": "21 KB",
+          "sha256": "e92db5b68d61796459ca3ea84e87a317240a08ebf9a92abe05cea052b5fdd638"
+        },
+        {
+          "name": "Python-Lab_Level-10_Ecosystem-Map_Slides.pptx",
+          "format": "pptx",
+          "bytes": 89449,
+          "size": "87 KB",
+          "sha256": "311a87a4b14c3d42cd4fcc8da8336162036c4ffcfff9b33be703b300effddca7"
+        },
+        {
+          "name": "Python-Lab_Level-10_Ecosystem-Map_Worksheet.docx",
+          "format": "docx",
+          "bytes": 83147,
+          "size": "81 KB",
+          "sha256": "f6891d8ea7256f37e93e9a84cf9cbff7459f51f0e1eade9aac35ebfbf9ccb7f7"
         }
       ]
     }

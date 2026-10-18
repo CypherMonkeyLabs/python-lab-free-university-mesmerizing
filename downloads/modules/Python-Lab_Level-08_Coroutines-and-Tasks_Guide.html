@@ -1,0 +1,46 @@
+<!doctype html><html lang='en'><meta charset='utf-8'><title>Coroutines and Tasks</title><style>@page{size:A4;margin:16mm 14mm;@bottom-center{content:"CypherMonkeyLabs Python Lab - page " counter(page);font:9pt sans-serif;color:#334}}
+body{font:12pt/1.5 'DejaVu Sans',sans-serif;color:#1a1d2e;margin:0}
+h1{font-size:26pt;color:#2a1860;margin:0 0 8px}
+h2{color:#2a1860;margin-top:1.15em;font-size:16pt}
+.banner{background:#f78fb3;color:#142018;padding:16px 18px;border-radius:14px;margin:0 0 14px}
+pre{background:#1b2140;color:#f4f7ff;padding:12px 14px;border-radius:10px;font-size:11pt;line-height:1.45;white-space:pre-wrap}
+pre.out{background:#e7f6ec;color:#0c4630;border-left:6px solid #2bb673}
+.meta{background:#f7f4ff;padding:12px 14px;border-radius:10px;border:1px solid #d9d0f0}
+code{font-family:'DejaVu Sans Mono',monospace}
+table{border-collapse:collapse;width:100%;margin:10px 0}
+th,td{border:1px solid #c9c3e0;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#efe8ff}
+.small{font-size:9pt;color:#445}</style><body><div class='banner'><b>Level 8</b> &middot; about 40 h &middot; Python 3.8+</div><div class='meta'><b>Project:</b> Two tiny coroutines gathered into one result<br>Examples run on CPython 3.12.3. <b>You will be able to:</b><ul><li>Write an async def and run it with asyncio.run</li><li>Wait for two tasks with asyncio.gather</li><li>Tell a coroutine object from the value it returns</li><li>Name the docs page for tasks and timeouts</li></ul></div><h1>Coroutines and Tasks</h1>
+<h2>asyncio.run drives one coroutine</h2>
+<p><code>async def</code> defines a coroutine. Calling it does not run the body; it returns a coroutine object. <code>asyncio.run</code> creates an event loop, runs that coroutine, and closes the loop.</p><pre><code>import asyncio
+
+async def ping():
+    return &quot;pong&quot;
+
+print(asyncio.run(ping()))
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+pong</pre><h2>gather waits for more than one</h2>
+<p><code>asyncio.gather</code> schedules the awaitables together and returns their results in order. The tasks page in the docs covers <code>gather</code>, cancellation, and timeouts.</p><pre><code>import asyncio
+
+async def add(a, b):
+    return a + b
+
+async def main():
+    return await asyncio.gather(add(1, 2), add(3, 4))
+
+print(asyncio.run(main()))
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+[3, 7]</pre><h2>A coroutine is not the result</h2>
+<p>Printing the coroutine object without awaiting it does not print the return value. This sample closes it so the build does not warn about a coroutine that was never awaited.</p><pre><code>async def ping():
+    return &quot;pong&quot;
+
+coro = ping()
+print(type(coro).__name__)
+coro.close()
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+coroutine</pre><h2>Check yourself</h2>
+<ol>
+<li>What does calling an <code>async def</code> return before you await it?</li>
+<li>What does <code>asyncio.gather</code> preserve about order?</li>
+<li>Which docs page describes <code>create_task</code> and timeouts?</li>
+</ol><h2>Sources</h2><ul><li><a href='https://docs.python.org/3/library/asyncio.html'>Python docs: asyncio</a></li><li><a href='https://docs.python.org/3/library/asyncio-task.html'>Python docs: Coroutines and Tasks</a></li></ul><p class='small'>Code &copy; CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. Educational material, not accredited coursework; no outcome or income promised. Built 2026-10-18.</p></body></html>

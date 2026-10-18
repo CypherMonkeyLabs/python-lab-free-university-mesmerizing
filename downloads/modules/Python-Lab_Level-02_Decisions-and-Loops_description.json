@@ -18,7 +18,7 @@
     "png": "Cover and outcomes card; use it as a poster or a slide."
   },
   "python_min": "3.8",
-  "examples_run_on": "CPython 3.13.5",
+  "examples_run_on": "CPython 3.12.3",
   "snippets_executed": 6,
   "level": 2,
   "base": "Python-Lab_Level-02_Decisions-and-Loops",
@@ -47,45 +47,45 @@
     }
   ],
   "verified": {
-    "pdf_pages": 3,
-    "docx_paragraphs": 36,
-    "pptx_slides": 10
+    "pdf_pages": 4,
+    "docx_paragraphs": 51,
+    "pptx_slides": 17
   },
   "files": [
     {
       "name": "Python-Lab_Level-02_Decisions-and-Loops_Cover.png",
       "format": "png",
-      "bytes": 49295,
-      "size": "48 KB",
-      "sha256": "c8eb9616338c8f36ec38706d606ba87afe0945d680d8999ccc7081540cf35a25"
+      "bytes": 46692,
+      "size": "46 KB",
+      "sha256": "01cbf945ed81c4effc573efb4047620cf14e75282d2b538e8cfd11b1984c71d3"
     },
     {
       "name": "Python-Lab_Level-02_Decisions-and-Loops_Guide.html",
       "format": "html",
-      "bytes": 3905,
+      "bytes": 4245,
       "size": "4 KB",
-      "sha256": "605ad6f38d0b97ae770eb0df1e3788ebd668eb96a155ef0868c2c97be82290d1"
+      "sha256": "0f5c0a8b5d887e62b40a78e5e0c0260fa59c8f3b30e277728470c52d964a974f"
     },
     {
       "name": "Python-Lab_Level-02_Decisions-and-Loops_Guide.pdf",
       "format": "pdf",
-      "bytes": 24183,
+      "bytes": 24738,
       "size": "24 KB",
-      "sha256": "abecc36f9117627da71bf27798b9c4dd3d800eafc37a0640e33043c840f2b139"
+      "sha256": "1539783d8f7d1f5a3898d0cef96516f5701cfead754c6e0cb9eb151e50ab9a29"
     },
     {
       "name": "Python-Lab_Level-02_Decisions-and-Loops_Slides.pptx",
       "format": "pptx",
-      "bytes": 38883,
-      "size": "38 KB",
-      "sha256": "81a8b7cc6ab32384bace6aa98b2baea64ce394e6c1eda3b90e6e20e9f8844e72"
+      "bytes": 101359,
+      "size": "99 KB",
+      "sha256": "1d52d2d1bb246cae6f74a37fad09f55f0bda304d9347c86ef46e627e8bc906a1"
     },
     {
       "name": "Python-Lab_Level-02_Decisions-and-Loops_Worksheet.docx",
       "format": "docx",
-      "bytes": 37806,
-      "size": "37 KB",
-      "sha256": "23e8d39350a9a8974ae1902fcfdaeb77919f43534c2dadfe150d304823c8247c"
+      "bytes": 81474,
+      "size": "80 KB",
+      "sha256": "630f46513c98618e066334c688750e7094312f68012df94ddb2e635789efb26a"
     }
   ]
 }

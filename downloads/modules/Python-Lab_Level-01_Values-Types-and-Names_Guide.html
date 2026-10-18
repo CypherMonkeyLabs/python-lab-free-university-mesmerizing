@@ -1,14 +1,22 @@
-<!doctype html><html lang='en'><meta charset='utf-8'><title>Values, Types and Names</title><style>@page{size:A4;margin:18mm 16mm;@bottom-center{content:"CypherMonkeyLabs Python Lab - page " counter(page);font:8pt sans-serif;color:#667}}
-body{font:10.5pt/1.5 'DejaVu Sans',sans-serif;color:#1a1d2e}h1{font-size:24pt;color:#4b2a9b;border-bottom:3px solid #f5a623}
-h2{color:#4b2a9b;margin-top:1.2em}pre{background:#10142a;color:#e8ecff;padding:8px;border-radius:6px;font-size:9pt;white-space:pre-wrap}
-pre.out{background:#e9f7ee;color:#0b3d1d;border-left:4px solid #2bb673}.meta{background:#f3efff;padding:8px;border-radius:6px}
-code{font-family:'DejaVu Sans Mono',monospace}footer,.small{font-size:8pt;color:#667}</style><body><div class='meta'><b>Level 1</b> &middot; about 10 h &middot; Python 3.8+ (examples run on CPython 3.13.5) &middot; Project: A tip and tax calculator<br><b>You will be able to:</b><ul><li>Name the basic types int, float, str and bool and check one with type()</li><li>Bind a value to a name and explain what reassignment does</li><li>Use f-strings to build readable text</li><li>Convert between str and numbers and handle the common error</li></ul></div><h1>Values, Types and Names</h1>
+<!doctype html><html lang='en'><meta charset='utf-8'><title>Values, Types and Names</title><style>@page{size:A4;margin:16mm 14mm;@bottom-center{content:"CypherMonkeyLabs Python Lab - page " counter(page);font:9pt sans-serif;color:#334}}
+body{font:12pt/1.5 'DejaVu Sans',sans-serif;color:#1a1d2e;margin:0}
+h1{font-size:26pt;color:#2a1860;margin:0 0 8px}
+h2{color:#2a1860;margin-top:1.15em;font-size:16pt}
+.banner{background:#4fd1e6;color:#142018;padding:16px 18px;border-radius:14px;margin:0 0 14px}
+pre{background:#1b2140;color:#f4f7ff;padding:12px 14px;border-radius:10px;font-size:11pt;line-height:1.45;white-space:pre-wrap}
+pre.out{background:#e7f6ec;color:#0c4630;border-left:6px solid #2bb673}
+.meta{background:#f7f4ff;padding:12px 14px;border-radius:10px;border:1px solid #d9d0f0}
+code{font-family:'DejaVu Sans Mono',monospace}
+table{border-collapse:collapse;width:100%;margin:10px 0}
+th,td{border:1px solid #c9c3e0;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#efe8ff}
+.small{font-size:9pt;color:#445}</style><body><div class='banner'><b>Level 1</b> &middot; about 10 h &middot; Python 3.8+</div><div class='meta'><b>Project:</b> A tip and tax calculator<br>Examples run on CPython 3.12.3. <b>You will be able to:</b><ul><li>Name the basic types int, float, str and bool and check one with type()</li><li>Bind a value to a name and explain what reassignment does</li><li>Use f-strings to build readable text</li><li>Convert between str and numbers and handle the common error</li></ul></div><h1>Values, Types and Names</h1>
 <h2>Values have types</h2>
 <p>Every value has a type. <code>type()</code> tells you which.</p><pre><code>print(type(42))
 print(type(3.5))
 print(type(&quot;hi&quot;))
 print(type(True))
-</code></pre><pre class='out'>Output (CPython 3.13.5):
+</code></pre><pre class='out'>Output (CPython 3.12.3):
 &lt;class &#x27;int&#x27;&gt;
 &lt;class &#x27;float&#x27;&gt;
 &lt;class &#x27;str&#x27;&gt;
@@ -16,13 +24,13 @@ print(type(True))
 <p>A name is a label stuck to a value. Reassigning moves the label; it does not change the old value.</p><pre><code>total = 10
 total = total + 5
 print(total)
-</code></pre><pre class='out'>Output (CPython 3.13.5):
+</code></pre><pre class='out'>Output (CPython 3.12.3):
 15</pre><h2>Numbers and arithmetic</h2>
 <p><code>/</code> always gives a float. <code>//</code> divides and rounds down. <code>%</code> gives the remainder.</p><pre><code>print(7 / 2)
 print(7 // 2)
 print(7 % 2)
 print(2 ** 10)
-</code></pre><pre class='out'>Output (CPython 3.13.5):
+</code></pre><pre class='out'>Output (CPython 3.12.3):
 3.5
 3
 1
@@ -31,7 +39,7 @@ print(2 ** 10)
 price = 19.5
 print(f&quot;{name} pays {price:.2f}&quot;)
 print(name.upper(), len(name))
-</code></pre><pre class='out'>Output (CPython 3.13.5):
+</code></pre><pre class='out'>Output (CPython 3.12.3):
 Ada pays 19.50
 ADA 3</pre><h2>Converting types</h2>
 <p><code>input()</code> always returns text. Convert it before doing arithmetic.</p><pre><code>text = &quot;12&quot;
@@ -40,7 +48,7 @@ try:
     int(&quot;twelve&quot;)
 except ValueError as err:
     print(&quot;ValueError:&quot;, err)
-</code></pre><pre class='out'>Output (CPython 3.13.5):
+</code></pre><pre class='out'>Output (CPython 3.12.3):
 13
 ValueError: invalid literal for int() with base 10: &#x27;twelve&#x27;</pre><h2>Check yourself</h2>
 <ol>
@@ -49,4 +57,4 @@ ValueError: invalid literal for int() with base 10: &#x27;twelve&#x27;</pre><h2>
 <li>Why must you convert the result of <code>input()</code> before adding numbers?</li>
 </ol>
 <h2>Project: Tip and tax calculator</h2>
-<p>Ask for a bill, a tip percent and a tax percent, convert them, and print the total with two decimals using an f-string.</p><h2>Sources</h2><ul><li><a href='https://docs.python.org/3/tutorial/introduction.html'>Python tutorial: An informal introduction</a></li><li><a href='https://docs.python.org/3/reference/datamodel.html'>Python reference: The data model</a></li><li><a href='https://docs.python.org/3/reference/lexical_analysis.html#f-strings'>Python docs: Formatted string literals</a></li><li><a href='https://peps.python.org/pep-0008/'>PEP 8 Style Guide for Python Code</a></li></ul><p class='small'>Code &copy; CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. Educational material, not accredited coursework; no outcome or income promised. Built 2026-10-17.</p></body></html>
+<p>Ask for a bill, a tip percent and a tax percent, convert them, and print the total with two decimals using an f-string.</p><h2>Sources</h2><ul><li><a href='https://docs.python.org/3/tutorial/introduction.html'>Python tutorial: An informal introduction</a></li><li><a href='https://docs.python.org/3/reference/datamodel.html'>Python reference: The data model</a></li><li><a href='https://docs.python.org/3/reference/lexical_analysis.html#f-strings'>Python docs: Formatted string literals</a></li><li><a href='https://peps.python.org/pep-0008/'>PEP 8 Style Guide for Python Code</a></li></ul><p class='small'>Code &copy; CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. Educational material, not accredited coursework; no outcome or income promised. Built 2026-10-18.</p></body></html>

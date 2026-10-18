@@ -1,6 +1,6 @@
 Level 3: Functions and Scope
 Audience: beginner-to-intermediate  Hours: 6
-Examples run on CPython 3.13.5
+Examples run on CPython 3.12.3
 
 Inside:
 - Define functions with positional, keyword, default and variadic parameters

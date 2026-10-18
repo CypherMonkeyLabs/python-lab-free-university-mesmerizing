@@ -18,7 +18,7 @@
     "png": "Cover and outcomes card; use it as a poster or a slide."
   },
   "python_min": "3.8",
-  "examples_run_on": "CPython 3.13.5",
+  "examples_run_on": "CPython 3.12.3",
   "snippets_executed": 5,
   "level": 3,
   "base": "Python-Lab_Level-03_Functions-and-Scope",
@@ -57,45 +57,45 @@
     }
   ],
   "verified": {
-    "pdf_pages": 3,
-    "docx_paragraphs": 37,
-    "pptx_slides": 10
+    "pdf_pages": 4,
+    "docx_paragraphs": 48,
+    "pptx_slides": 17
   },
   "files": [
     {
       "name": "Python-Lab_Level-03_Functions-and-Scope_Cover.png",
       "format": "png",
-      "bytes": 56556,
-      "size": "55 KB",
-      "sha256": "f3934320f089bff25e618f5d8c422684177236fdc7909a0003b7f2b4f2267acc"
+      "bytes": 53696,
+      "size": "52 KB",
+      "sha256": "15da6e8fd4bdadbe8775b328c2b4320f9bd4f0ac0b4a3cbdac8b2b460312efad"
     },
     {
       "name": "Python-Lab_Level-03_Functions-and-Scope_Guide.html",
       "format": "html",
-      "bytes": 5262,
+      "bytes": 5602,
       "size": "5 KB",
-      "sha256": "57b9c8ec41701eca51404cb11327ec765ca7e3407a5912b034eb3e8c3c01af7b"
+      "sha256": "f8b1b95c42914f410aca564f93731bcc95bb63a852216fc9cef3626e6326d756"
     },
     {
       "name": "Python-Lab_Level-03_Functions-and-Scope_Guide.pdf",
       "format": "pdf",
-      "bytes": 25966,
-      "size": "25 KB",
-      "sha256": "f46e4e4ef9d7a4c9a14a284ac8f7ac2d74a9899570828f37ebfae03e2846d41a"
+      "bytes": 26511,
+      "size": "26 KB",
+      "sha256": "884a803adfbadf33a36cecb5bc8b95be140a539a735e8d50ad2bdd07792cba99"
     },
     {
       "name": "Python-Lab_Level-03_Functions-and-Scope_Slides.pptx",
       "format": "pptx",
-      "bytes": 39224,
-      "size": "38 KB",
-      "sha256": "6757299487c8a0ff3ab19b50f62f0f3beaaa9109e049b2ccee71c08513a05e0a"
+      "bytes": 109105,
+      "size": "107 KB",
+      "sha256": "2ce9c2e71e4805907c79783ea04514f43c2b4255d7ed3175c5e6468def2b4ba6"
     },
     {
       "name": "Python-Lab_Level-03_Functions-and-Scope_Worksheet.docx",
       "format": "docx",
-      "bytes": 38235,
-      "size": "37 KB",
-      "sha256": "0a8a8bc67f77bcd857f72e16e6f1d0492d44693b12219903f9c0252a60175fc0"
+      "bytes": 89044,
+      "size": "87 KB",
+      "sha256": "4be27441ad4959581f836294626ebdb42f49c18c08118d831d3cad775814a27c"
     }
   ]
 }

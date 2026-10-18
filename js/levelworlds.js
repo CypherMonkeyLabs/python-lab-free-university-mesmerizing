@@ -11,7 +11,7 @@ import { moduleFor } from "./downloadcenter.js";
 const glyphSvg = (g) => `<span class="lvl-glyph" aria-hidden="true">${icon({ seedling: "start", drop: "fundamentals", fork: "async", gear: "dsa", shelf: "dsa", anvil: "practice", conveyor: "automation", telescope: "ecosystem", turbine: "async", scroll: "sources", core: "rooms" }[g] || "rooms")}</span>`;
 
 function levelCard(l) {
-  const scene = l.scene === "fallback" ? "shared scene" : "own 3D scene";
+  const scene = "own 3D scene";
   return `<a class="lvl-card" data-tilt href="#/worlds/${l.n}" style="--acc:${esc(l.accent)}">
     <span class="lvl-n">${l.n}</span>${glyphSvg(l.glyph)}
     <span class="lvl-name">${esc(l.name)}</span>
@@ -19,12 +19,19 @@ function levelCard(l) {
     <span class="lvl-meta"><span class="pill">${l.hours} h</span><span class="pill">${scene}</span>${l.module ? '<span class="pill pill-ok">downloads</span>' : ""}</span></a>`;
 }
 
+export function homeWorlds() {
+  return `<h2 class="sec-heading">Eleven worlds</h2>
+    <p class="sec-sub">One world for each Level, from a first print to a capstone you choose. Open any of them. Nothing is locked.</p>
+    <div class="lvl-grid">${levels.map(levelCard).join("")}</div>
+    <p><a class="primary" href="#/worlds">Open the world map</a> <a class="text-btn" href="#/downloads">Downloads for every Level</a></p>`;
+}
+
 export function worldsView() {
   const map = diagramById("level-map");
   return {
     html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/worlds", label: "Worlds" }])}
       <h1>Worlds</h1>
-      <p class="lede" data-speak>Eleven worlds, one for each Level. Pick any of them: the map suggests an order and never locks a Level. Levels 0 to 3 have their own 3D scene. Levels 4 to 10 share one scene tinted with their colour until their own scenes are built.</p>
+      <p class="lede" data-speak>Eleven worlds, one for each Level. Pick any of them: the map suggests an order and never locks a Level. Every Level has its own picture. Tap it and it reacts. With 3D off, or when your device asks for reduced motion, you still get that Level's still picture.</p>
       ${studioMarkup({ scene: "fallback", accent: "#f5a623", n: 0, title: "Campus of Eleven Worlds", alt: "A slowly turning wireframe shape over a violet and amber aurora, with drifting points of light.", })}
       <p class="muted studio-note">The 3D layer is decoration. Every link on this page works with it off. Change the 3D quality (Auto, Off, Flat, Light, Full) in <b>Display</b>.</p>
       <div class="lvl-grid">${levels.map(levelCard).join("")}</div>
@@ -43,16 +50,17 @@ export function worldView(n) {
   const lessons = l.lessons.map((h) => `<li><a href="${esc(h)}">${esc(h.replace(/^#\//, "").replace(/\//g, " / "))}</a></li>`).join("");
   return {
     html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/worlds", label: "Worlds" }, { href: `#/worlds/${l.n}`, label: `Level ${l.n}` }])}
-      <p class="kicker"><span class="pill">Level ${l.n}</span><span class="pill">about ${l.hours} h</span><span class="pill">${l.scene === "fallback" ? "shared scene" : "own 3D scene"}</span></p>
+      <p class="kicker"><span class="pill">Level ${l.n}</span><span class="pill">about ${l.hours} h</span><span class="pill">own 3D scene</span></p>
       <h1 style="--acc:${esc(l.accent)}"><span class="h1-glyph" style="color:${esc(l.accent)}">${glyphSvg(l.glyph)}</span> ${esc(l.name)}</h1>
       <p class="lede" data-speak>${esc(l.blurb)}</p>
       ${studioMarkup({ scene: l.scene, accent: l.accent, n: l.n, title: `Level ${l.n}: ${l.name}`, alt: l.alt })}
+      <p class="muted studio-note">Tap or click the picture. Quality stays on Auto, Off, Flat, Light or Full from the Display menu. Reduced motion keeps the still picture.</p>
       <div class="lvl-two">
         <section class="panel"><h2>Start here</h2><ul>${lessons}</ul>
           <p class="muted">The lessons are today's 54 lessons. A full map from Level to lesson comes with the content PR.</p></section>
         <section class="panel"><h2>Files for this Level</h2>
           ${mod ? `<p>${esc(mod.blurb)}</p><p><a class="primary" href="#/downloads/${esc(mod.id)}">Open in the Download Center</a></p><p class="muted">PDF, Word, PowerPoint, HTML and a cover image.</p>`
-            : `<p>No files for this Level yet. Levels 0 to 3 have a download module today.</p><p><a class="text-btn" href="#/downloads">Download Center</a></p>`}</section>
+            : `<p>No files for this Level yet.</p><p><a class="text-btn" href="#/downloads">Open Downloads</a></p>`}</section>
       </div>
       <nav class="pager" aria-label="Levels">
         ${prev ? `<a class="text-btn" href="#/worlds/${prev.n}">Level ${prev.n}: ${esc(prev.name)}</a>` : ""}

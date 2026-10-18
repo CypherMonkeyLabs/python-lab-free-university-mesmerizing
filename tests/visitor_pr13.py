@@ -80,10 +80,11 @@ async def main():
             rec(vp, "reduced motion -> still picture (off tier)", await p2.evaluate("document.querySelector('[data-studio]')?.dataset.tier") == "off"); await ctx2.close()
             # C. downloads: one catalogue
             await pg.goto(BASE + "#/downloads"); await pg.wait_for_timeout(1500)
-            rec(vp, "downloads: level cards (4) on the one page", await pg.locator(".dc-card").count() == 4, await pg.locator(".dc-card").count())
+            nmod = len(man["modules"])
+            rec(vp, f"downloads: level cards ({nmod}) on the one page", await pg.locator(".dc-card").count() == nmod, await pg.locator(".dc-card").count())
             rec(vp, "downloads: legacy cards present", await pg.locator(".download-card[data-download]").count() >= 4, await pg.locator(".download-card[data-download]").count())
             await pg.goto(BASE + "#/download-center"); await pg.wait_for_timeout(1200)
-            rec(vp, "old #/download-center still resolves to same catalogue", await pg.locator(".dc-card").count() == 4)
+            rec(vp, "old #/download-center still resolves to same catalogue", await pg.locator(".dc-card").count() == nmod)
             await pg.screenshot(path=f"{OUT}/{vp}_pr13_downloads.png", full_page=False)
             bad = []
             for m in man["modules"]:
@@ -100,6 +101,28 @@ async def main():
                         await (loc.tap() if touch else loc.click())
                     dl = await d.value; path = await dl.path()
                     rec(vp, f"click-download {fmt}: {dl.suggested_filename}", path and __import__("os").path.getsize(path) > 500)
+                    if touch and fmt == "pdf":
+                        hit = await pg.evaluate("""() => {
+                          const a = document.querySelector('.dc-file[data-format="pdf"] a');
+                          const bot = document.querySelector('#lab-bot').getBoundingClientRect();
+                          const mid = bot.top + bot.height / 2;
+                          const before = a.getBoundingClientRect();
+                          window.scrollBy(0, (before.top + before.height / 2) - mid);
+                          const r = a.getBoundingClientRect();
+                          const y = Math.min(Math.max(r.top + 6, mid), r.bottom - 6);
+                          const xs = [r.left + 8, r.left + r.width / 2, r.right - 8];
+                          const hits = xs.map((x) => {
+                            const e = document.elementFromPoint(x, y);
+                            return { ok: !!(e && e.closest('a') === a), who: e ? (e.id || e.className || e.tagName) : null };
+                          });
+                          a.scrollIntoView({ block: 'end', inline: 'nearest' });
+                          const end = a.getBoundingClientRect();
+                          const ey = end.top + end.height / 2;
+                          const ee = document.elementFromPoint(end.left + end.width / 2, ey);
+                          return { hits, endOk: !!(ee && ee.closest('a') === a), endWho: ee ? (ee.id || ee.className || ee.tagName) : null };
+                        }""")
+                        rec(vp, "touch: download link left/center/right miss the bot", all(h["ok"] for h in hit["hits"]), hit["hits"])
+                        rec(vp, "touch: scroll-end still hits the download link", hit["endOk"], hit["endWho"])
                 except Exception as e:
                     rec(vp, f"click-download {fmt}", False, e)
             for sel, nm in [("#dc-q", "filter")]:

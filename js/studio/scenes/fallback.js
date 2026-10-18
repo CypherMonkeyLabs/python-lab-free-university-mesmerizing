@@ -25,8 +25,11 @@ export default function build(T, { accent, q, aspect, n = 0 }) {
   scene.add(pts);
   return {
     scene, camera: cam,
-    update(t, dt, px, py) {
-      core.rotation.y += dt * 0.35; core.rotation.x = Math.sin(t * 0.3) * 0.25;
+    update(t, dt, px, py, input) {
+      const pulse = input && input.pulse ? input.pulse : 0;
+      core.rotation.y += dt * (0.35 + pulse);
+      core.rotation.x = Math.sin(t * 0.3) * 0.25;
+      core.scale.setScalar(1 + pulse * 0.12);
       pts.rotation.y -= dt * 0.05;
       cam.position.x += (px * 1.2 - cam.position.x) * 0.05; cam.position.y += (0.4 + py * 0.5 - cam.position.y) * 0.05; cam.lookAt(0, 0, 0);
       aurora.update(t);

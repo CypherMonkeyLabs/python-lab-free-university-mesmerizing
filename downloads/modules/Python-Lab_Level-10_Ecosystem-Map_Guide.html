@@ -1,0 +1,35 @@
+<!doctype html><html lang='en'><meta charset='utf-8'><title>Ecosystem Map</title><style>@page{size:A4;margin:16mm 14mm;@bottom-center{content:"CypherMonkeyLabs Python Lab - page " counter(page);font:9pt sans-serif;color:#334}}
+body{font:12pt/1.5 'DejaVu Sans',sans-serif;color:#1a1d2e;margin:0}
+h1{font-size:26pt;color:#2a1860;margin:0 0 8px}
+h2{color:#2a1860;margin-top:1.15em;font-size:16pt}
+.banner{background:#7f8cff;color:#142018;padding:16px 18px;border-radius:14px;margin:0 0 14px}
+pre{background:#1b2140;color:#f4f7ff;padding:12px 14px;border-radius:10px;font-size:11pt;line-height:1.45;white-space:pre-wrap}
+pre.out{background:#e7f6ec;color:#0c4630;border-left:6px solid #2bb673}
+.meta{background:#f7f4ff;padding:12px 14px;border-radius:10px;border:1px solid #d9d0f0}
+code{font-family:'DejaVu Sans Mono',monospace}
+table{border-collapse:collapse;width:100%;margin:10px 0}
+th,td{border:1px solid #c9c3e0;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#efe8ff}
+.small{font-size:9pt;color:#445}</style><body><div class='banner'><b>Level 10</b> &middot; about 70 h &middot; Python 3.8+</div><div class='meta'><b>Project:</b> A one-page map of three libraries, each with its docs link<br>Examples run on CPython 3.12.3. <b>You will be able to:</b><ul><li>Name three standard-library modules and what each one is for</li><li>Separate a vendored library in this lab from one that is not</li><li>Point at the official docs for NumPy, pandas and Flask</li><li>Sketch a capstone that only uses libraries you can cite</li></ul></div><h1>Ecosystem Map</h1>
+<h2>Start from the standard library</h2>
+<p><code>json</code>, <code>pathlib</code> and <code>math</code> ship with Python. You do not install them. This sample only checks that <code>math.sqrt</code> returns the value the docs describe for a perfect square.</p><pre><code>import math
+mods = [&quot;json&quot;, &quot;pathlib&quot;, &quot;math&quot;]
+print(&quot;, &quot;.join(mods))
+print(math.sqrt(9))
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+json, pathlib, math
+3.0</pre><h2>This lab vendors some libraries and not others</h2>
+<p>The browser runtime in this site vendors Pyodide, NumPy 2.4.6 and pandas 3.0.2. Flask is not part of that runtime. The build machine for these files does not import Flask or NumPy, so this page does not print their versions. Read their docs from the links under Sources.</p><pre><code>vendored_here = [&quot;Pyodide&quot;, &quot;NumPy&quot;, &quot;pandas&quot;]
+not_vendored_here = [&quot;Flask&quot;]
+print(&quot;vendored: &quot; + &quot;, &quot;.join(vendored_here))
+print(&quot;not vendored: &quot; + &quot;, &quot;.join(not_vendored_here))
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+vendored: Pyodide, NumPy, pandas
+not vendored: Flask</pre><h2>A capstone is a project you choose</h2>
+<p>Pick one small program that uses the standard library, and optionally NumPy or pandas inside the lab's browser runner. Write down the docs page you followed. This Level does not grade it and does not promise a job, a certificate, or a result.</p>
+<h2>Check yourself</h2>
+<ol>
+<li>Name one standard-library module from the first sample.</li>
+<li>Which of NumPy and Flask is vendored in this lab's browser runtime?</li>
+<li>What belongs on your capstone map besides the library name?</li>
+</ol><h2>Sources</h2><ul><li><a href='https://docs.python.org/3/tutorial/index.html'>The Python Tutorial</a></li><li><a href='https://numpy.org/doc/stable/'>NumPy documentation</a></li><li><a href='https://pandas.pydata.org/docs/'>pandas documentation</a></li><li><a href='https://flask.palletsprojects.com/'>Flask documentation</a></li><li><a href='https://pyodide.org/en/stable/'>Pyodide</a></li></ul><p class='small'>Code &copy; CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. Educational material, not accredited coursework; no outcome or income promised. Built 2026-10-18.</p></body></html>

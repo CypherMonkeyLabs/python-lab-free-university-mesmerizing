@@ -1,0 +1,101 @@
+{
+  "title": "Level 10: Ecosystem Map",
+  "id": "L10",
+  "audience": "intermediate",
+  "hours": 70,
+  "whats_inside": [
+    "Name three standard-library modules and what each one is for",
+    "Separate a vendored library in this lab from one that is not",
+    "Point at the official docs for NumPy, pandas and Flask",
+    "Sketch a capstone that only uses libraries you can cite"
+  ],
+  "project": "A one-page map of three libraries, each with its docs link",
+  "how_to_use": {
+    "pdf": "Read or print; follow the code blocks in your own editor or the in-browser runner.",
+    "docx": "Edit freely for your own notes or classroom.",
+    "pptx": "Present or self-study slide by slide; green slides show verified output.",
+    "html": "Open offline in any browser.",
+    "png": "Cover and outcomes card; use it as a poster or a slide."
+  },
+  "python_min": "3.8",
+  "examples_run_on": "CPython 3.12.3",
+  "snippets_executed": 2,
+  "level": 10,
+  "base": "Python-Lab_Level-10_Ecosystem-Map",
+  "accent": "#7f8cff",
+  "blurb": "Name three standard-library modules and what each one is for; Separate a vendored library in this lab from one that is not.",
+  "license": {
+    "code": "MIT",
+    "text": "CC BY-NC-SA 4.0"
+  },
+  "accredited": false,
+  "sources": [
+    {
+      "id": "tutorial",
+      "title": "The Python Tutorial",
+      "url": "https://docs.python.org/3/tutorial/index.html"
+    },
+    {
+      "id": "numpy",
+      "title": "NumPy documentation",
+      "url": "https://numpy.org/doc/stable/"
+    },
+    {
+      "id": "pandas",
+      "title": "pandas documentation",
+      "url": "https://pandas.pydata.org/docs/"
+    },
+    {
+      "id": "flask",
+      "title": "Flask documentation",
+      "url": "https://flask.palletsprojects.com/"
+    },
+    {
+      "id": "pyodide",
+      "title": "Pyodide",
+      "url": "https://pyodide.org/en/stable/"
+    }
+  ],
+  "verified": {
+    "pdf_pages": 2,
+    "docx_paragraphs": 27,
+    "pptx_slides": 9
+  },
+  "files": [
+    {
+      "name": "Python-Lab_Level-10_Ecosystem-Map_Cover.png",
+      "format": "png",
+      "bytes": 49086,
+      "size": "48 KB",
+      "sha256": "2c4dc055c1a191b8fa775e481f39658fd61ee1ef3f7ac13065fec1857a87d52d"
+    },
+    {
+      "name": "Python-Lab_Level-10_Ecosystem-Map_Guide.html",
+      "format": "html",
+      "bytes": 3902,
+      "size": "4 KB",
+      "sha256": "cd9da82327d1b65be40fe372115956a133402abf91fba47eb4bc66f4593487e3"
+    },
+    {
+      "name": "Python-Lab_Level-10_Ecosystem-Map_Guide.pdf",
+      "format": "pdf",
+      "bytes": 21146,
+      "size": "21 KB",
+      "sha256": "e92db5b68d61796459ca3ea84e87a317240a08ebf9a92abe05cea052b5fdd638"
+    },
+    {
+      "name": "Python-Lab_Level-10_Ecosystem-Map_Slides.pptx",
+      "format": "pptx",
+      "bytes": 89449,
+      "size": "87 KB",
+      "sha256": "311a87a4b14c3d42cd4fcc8da8336162036c4ffcfff9b33be703b300effddca7"
+    },
+    {
+      "name": "Python-Lab_Level-10_Ecosystem-Map_Worksheet.docx",
+      "format": "docx",
+      "bytes": 83147,
+      "size": "81 KB",
+      "sha256": "f6891d8ea7256f37e93e9a84cf9cbff7459f51f0e1eade9aac35ebfbf9ccb7f7"
+    }
+  ]
+}

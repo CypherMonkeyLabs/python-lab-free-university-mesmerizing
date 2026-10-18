@@ -1,0 +1,11 @@
+Level 10: Ecosystem Map
+Audience: intermediate  Hours: 70
+Examples run on CPython 3.12.3
+
+Inside:
+- Name three standard-library modules and what each one is for
+- Separate a vendored library in this lab from one that is not
+- Point at the official docs for NumPy, pandas and Flask
+- Sketch a capstone that only uses libraries you can cite
+
+License: code MIT, text CC BY-NC-SA 4.0. Not accredited.
