@@ -4,15 +4,15 @@
   "engine_url": "https://github.com/rhasspy/piper",
   "engine_licence": "MIT",
   "model_card": "https://huggingface.co/rhasspy/piper-voices",
-  "note": "macOS say was not used. Voice weights are not committed.",
+  "note": "macOS say was not used. Voice weights are not committed. Dataset licences were read from each voice MODEL_CARD and the dataset page on 2026-10-18. See licenses/piper-voices.txt.",
   "voices": [
     {
-      "id": "lessac",
+      "id": "ljspeech",
       "kind": "file",
-      "label": "Lessac \u00b7 United States",
-      "detail": "Piper voice en_US-lessac-low, United States English",
-      "licence": "Piper is MIT. The rhasspy/piper-voices model card states MIT (read 2026-10-18). This file is a generated waveform; the voice weights are not in the repo.",
-      "preview": "media/voice-preview-lessac.mp3",
+      "label": "Linda \u00b7 United States",
+      "detail": "Piper en_US-ljspeech-medium, trained from scratch on the public-domain LJ Speech dataset (Linda Johnson, LibriVox)",
+      "licence": "LJ Speech is public domain in the US. Keith Ito: \u201cThere are no restrictions on its use.\u201d Piper engine is MIT. Weights are not shipped.",
+      "preview": "media/voice-preview-ljspeech.mp3",
       "files": {
         "syntax": "media/audio-syntax.mp3",
         "structures": "media/audio-structures.mp3",
@@ -21,31 +21,31 @@
       }
     },
     {
-      "id": "alba",
+      "id": "norman",
       "kind": "file",
-      "label": "Alba \u00b7 Scotland",
-      "detail": "Piper voice en_GB-alba-medium, Scottish English",
-      "licence": "Piper is MIT. The rhasspy/piper-voices model card states MIT (read 2026-10-18). This file is a generated waveform; the voice weights are not in the repo.",
-      "preview": "media/voice-preview-alba.mp3",
+      "label": "Norman \u00b7 United States",
+      "detail": "Piper en_US-norman-medium, trained from scratch by Bryce Beattie on public-domain LibriVox recordings",
+      "licence": "LibriVox recordings are public domain in the US. LibriVox: \u201canyone can use all our recordings however they wish (even to sell them).\u201d Piper engine is MIT. Weights are not shipped.",
+      "preview": "media/voice-preview-norman.mp3",
       "files": {
-        "syntax": "media/audio-syntax-alba.mp3",
-        "structures": "media/audio-structures-alba.mp3",
-        "async": "media/audio-async-alba.mp3",
-        "interview": "media/audio-interview-alba.mp3"
+        "syntax": "media/audio-syntax-norman.mp3",
+        "structures": "media/audio-structures-norman.mp3",
+        "async": "media/audio-async-norman.mp3",
+        "interview": "media/audio-interview-norman.mp3"
       }
     },
     {
-      "id": "alan",
+      "id": "cori",
       "kind": "file",
-      "label": "Alan \u00b7 Britain",
-      "detail": "Piper voice en_GB-alan-low, British English",
-      "licence": "Piper is MIT. The rhasspy/piper-voices model card states MIT (read 2026-10-18). This file is a generated waveform; the voice weights are not in the repo.",
-      "preview": "media/voice-preview-alan.mp3",
+      "label": "Cori \u00b7 Britain",
+      "detail": "Piper en_GB-cori-medium, trained from scratch by Bryce Beattie on public-domain LibriVox recordings",
+      "licence": "LibriVox recordings are public domain in the US. LibriVox: \u201canyone can use all our recordings however they wish (even to sell them).\u201d Piper engine is MIT. Weights are not shipped.",
+      "preview": "media/voice-preview-cori.mp3",
       "files": {
-        "syntax": "media/audio-syntax-alan.mp3",
-        "structures": "media/audio-structures-alan.mp3",
-        "async": "media/audio-async-alan.mp3",
-        "interview": "media/audio-interview-alan.mp3"
+        "syntax": "media/audio-syntax-cori.mp3",
+        "structures": "media/audio-structures-cori.mp3",
+        "async": "media/audio-async-cori.mp3",
+        "interview": "media/audio-interview-cori.mp3"
       }
     },
     {

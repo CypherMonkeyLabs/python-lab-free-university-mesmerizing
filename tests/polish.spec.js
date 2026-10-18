@@ -74,9 +74,12 @@ test.describe("desktop", () => {
     await expect(bot).toBeVisible();
     await expect(bot).not.toHaveClass(/is-speaking/, { timeout: 12000 });
     await expect(bot).toBeVisible();
-    await page.locator("#audio-lessons input[value='alba']").check();
+    await expect(page.locator("#voice-credits")).toContainText("Linda");
+    await expect(page.locator("#voice-credits")).toContainText("public domain");
+    await expect(page.locator("#audio-lessons input[value='cori']")).toBeVisible();
+    await page.locator("#audio-lessons input[value='cori']").check();
     await page.reload();
-    await expect(page.locator("#audio-lessons input[value='alba']")).toBeChecked();
+    await expect(page.locator("#audio-lessons input[value='cori']")).toBeChecked();
     await page.screenshot({ path: path.join(shotDir, "after-voice-1440.png") });
     expect(errors.filter((line) => !/favicon/i.test(line))).toEqual([]);
   });
@@ -114,9 +117,16 @@ test.describe("phone", () => {
     await page.addInitScript(seen);
     await page.goto("/");
     await page.locator(".wl-x").click({ timeout: 3000 }).catch(() => {});
+    const panels = ".disclaimer-panel, .footer-zodiac-lockup, .brand-icons, .footer-bar";
+    for (const y of [13000, 13200, 13400, 13600]) {
+      await page.evaluate((top) => window.scrollTo(0, top), y);
+      await page.waitForTimeout(120);
+      const hit = await overlap(page, panels);
+      expect(hit, `bot overlaps a footer panel at scroll ${y}`).toBe(false);
+    }
     await page.locator(".footer-zodiac-lockup").scrollIntoViewIfNeeded();
     await page.waitForTimeout(250);
-    expect(await overlap(page, ".footer-zodiac-lockup, .disclaimer-panel a, #site-footer p")).toBe(false);
+    expect(await overlap(page, panels)).toBe(false);
     await page.screenshot({ path: path.join(shotDir, "after-footer-390.png") });
     await page.locator("h1").scrollIntoViewIfNeeded();
     await page.waitForTimeout(250);
@@ -144,7 +154,7 @@ test("offline home and a lesson", async ({ page, context }) => {
   await page.waitForFunction(async () => {
     const ready = await navigator.serviceWorker.ready;
     if (!ready.active) return false;
-    const cache = await caches.open("pythonlab-pwa-v3");
+    const cache = await caches.open("pythonlab-pwa-v4");
     const shell = await cache.match("./js/app.js");
     const audio = await cache.match("./media/audio-syntax.mp3");
     const lesson = await cache.match("./js/content/start.js");

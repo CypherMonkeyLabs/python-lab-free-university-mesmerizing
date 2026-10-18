@@ -687,6 +687,12 @@ def _set_table_widths(table, widths):
             tc_w.set(qn("w:type"), "dxa")
 
 
+def _keep_with_next(paragraph):
+    """Keep a heading on the same page as the paragraph that follows it."""
+    paragraph.paragraph_format.keep_with_next = True
+    paragraph.paragraph_format.keep_together = True
+
+
 def write_docx(meta, blocks, out, cover, interpreter):
     accent = rgb_of(meta.get("accent", "#f5a623"))
     deep = mix(accent, (18, 16, 48), 0.45)
@@ -712,6 +718,7 @@ def write_docx(meta, blocks, out, cover, interpreter):
         p.add_run().add_picture(str(cover), width=Inches(6.6))
 
     h = d.add_heading(meta["title"], 0)
+    _keep_with_next(h)
     for run in h.runs:
         _set_run_font(run, "Calibri", 26, deep, True)
     intro = d.add_paragraph()
@@ -725,6 +732,7 @@ def write_docx(meta, blocks, out, cover, interpreter):
     _set_run_font(r, "Calibri", 14, ink, True)
 
     d.add_heading("You will be able to", 1)
+    _keep_with_next(d.paragraphs[-1])
     for run in d.paragraphs[-1].runs:
         _set_run_font(run, "Calibri", 18, deep, True)
     table = d.add_table(rows=1 + len(meta["outcomes"]), cols=2)
@@ -745,11 +753,16 @@ def write_docx(meta, blocks, out, cover, interpreter):
                 if not s:
                     continue
                 if s.startswith("# "):
-                    p = d.add_heading(_strip(s[2:]), 0)
+                    title = _strip(s[2:])
+                    if title == meta["title"]:
+                        continue
+                    p = d.add_heading(title, 0)
+                    _keep_with_next(p)
                     for run in p.runs:
                         _set_run_font(run, "Calibri", 26, deep, True)
                 elif s.startswith("## "):
                     p = d.add_heading(_strip(s[3:]), 1)
+                    _keep_with_next(p)
                     for run in p.runs:
                         _set_run_font(run, "Calibri", 18, deep, True)
                 elif s.startswith("- "):
@@ -776,6 +789,7 @@ def write_docx(meta, blocks, out, cover, interpreter):
             _code_table(d, text.rstrip("\n") or "(no output)", "E7F6EC", (12, 70, 36), content_dxa)
 
     d.add_heading("Sources", 1)
+    _keep_with_next(d.paragraphs[-1])
     for run in d.paragraphs[-1].runs:
         _set_run_font(run, "Calibri", 18, deep, True)
     src = d.add_table(rows=1 + len(meta["sources"]), cols=2)

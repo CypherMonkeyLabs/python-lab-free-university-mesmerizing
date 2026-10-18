@@ -4,7 +4,7 @@
    the worker covers that folder only. A root scope would be
    rejected, because a worker cannot control paths above its script. */
 
-const CACHE_NAME = "pythonlab-pwa-v3";
+const CACHE_NAME = "pythonlab-pwa-v4";
 const CACHE_BUDGET_NOTE = "Precache stays under 3.5 MB: shell, lesson modules, default audio, short clips. Pyodide is not precached.";
 const SHELL_ASSETS = [
   "./",
@@ -83,9 +83,9 @@ const SHELL_ASSETS = [
   "./js/welcome.js",
   "./js/worlds.js",
   "./js/xp.js",
-  "./media/voice-preview-lessac.mp3",
-  "./media/voice-preview-alba.mp3",
-  "./media/voice-preview-alan.mp3",
+  "./media/voice-preview-ljspeech.mp3",
+  "./media/voice-preview-norman.mp3",
+  "./media/voice-preview-cori.mp3",
   "./media/audio-syntax.mp3",
   "./media/audio-structures.mp3",
   "./media/audio-async.mp3",
@@ -96,14 +96,14 @@ const SHELL_ASSETS = [
   "./media/async-loop.gif",
   "./media/list-comprehension.mp4",
   "./vendor/three/three.subset.min.js",
-  "./media/audio-syntax-alba.mp3",
-  "./media/audio-structures-alba.mp3",
-  "./media/audio-async-alba.mp3",
-  "./media/audio-interview-alba.mp3",
-  "./media/audio-syntax-alan.mp3",
-  "./media/audio-structures-alan.mp3",
-  "./media/audio-async-alan.mp3",
-  "./media/audio-interview-alan.mp3",
+  "./media/audio-syntax-norman.mp3",
+  "./media/audio-structures-norman.mp3",
+  "./media/audio-async-norman.mp3",
+  "./media/audio-interview-norman.mp3",
+  "./media/audio-syntax-cori.mp3",
+  "./media/audio-structures-cori.mp3",
+  "./media/audio-async-cori.mp3",
+  "./media/audio-interview-cori.mp3",
 ];
 
 self.addEventListener("install", (event) => {

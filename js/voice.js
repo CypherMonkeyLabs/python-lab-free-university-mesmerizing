@@ -11,12 +11,12 @@ const FALLBACK = {
   engine: "piper",
   voices: [
     {
-      id: "lessac",
+      id: "ljspeech",
       kind: "file",
-      label: "Lessac · United States",
-      detail: "Piper voice en_US-lessac-low",
-      licence: "Piper and the published rhasspy/piper-voices models are MIT. Waveforms only; weights are not shipped.",
-      preview: "media/voice-preview-lessac.mp3",
+      label: "Linda · United States",
+      detail: "Piper en_US-ljspeech-medium, trained from scratch on the public-domain LJ Speech dataset",
+      licence: "LJ Speech is public domain in the US. Keith Ito: “There are no restrictions on its use.” Recordings by Linda Johnson for LibriVox. Piper engine is MIT. Weights are not shipped.",
+      preview: "media/voice-preview-ljspeech.mp3",
       files: {
         syntax: "media/audio-syntax.mp3",
         structures: "media/audio-structures.mp3",
@@ -25,31 +25,31 @@ const FALLBACK = {
       },
     },
     {
-      id: "alba",
+      id: "norman",
       kind: "file",
-      label: "Alba · Scotland",
-      detail: "Piper voice en_GB-alba-medium",
-      licence: "Piper and the published rhasspy/piper-voices models are MIT. Waveforms only; weights are not shipped.",
-      preview: "media/voice-preview-alba.mp3",
+      label: "Norman · United States",
+      detail: "Piper en_US-norman-medium, trained from scratch on public-domain LibriVox recordings",
+      licence: "LibriVox recordings are public domain in the US. LibriVox: “anyone can use all our recordings however they wish (even to sell them).” Piper engine is MIT. Weights are not shipped.",
+      preview: "media/voice-preview-norman.mp3",
       files: {
-        syntax: "media/audio-syntax-alba.mp3",
-        structures: "media/audio-structures-alba.mp3",
-        async: "media/audio-async-alba.mp3",
-        interview: "media/audio-interview-alba.mp3",
+        syntax: "media/audio-syntax-norman.mp3",
+        structures: "media/audio-structures-norman.mp3",
+        async: "media/audio-async-norman.mp3",
+        interview: "media/audio-interview-norman.mp3",
       },
     },
     {
-      id: "alan",
+      id: "cori",
       kind: "file",
-      label: "Alan · Britain",
-      detail: "Piper voice en_GB-alan-low",
-      licence: "Piper and the published rhasspy/piper-voices models are MIT. Waveforms only; weights are not shipped.",
-      preview: "media/voice-preview-alan.mp3",
+      label: "Cori · Britain",
+      detail: "Piper en_GB-cori-medium, trained from scratch on public-domain LibriVox recordings",
+      licence: "LibriVox recordings are public domain in the US. LibriVox: “anyone can use all our recordings however they wish (even to sell them).” Piper engine is MIT. Weights are not shipped.",
+      preview: "media/voice-preview-cori.mp3",
       files: {
-        syntax: "media/audio-syntax-alan.mp3",
-        structures: "media/audio-structures-alan.mp3",
-        async: "media/audio-async-alan.mp3",
-        interview: "media/audio-interview-alan.mp3",
+        syntax: "media/audio-syntax-cori.mp3",
+        structures: "media/audio-structures-cori.mp3",
+        async: "media/audio-async-cori.mp3",
+        interview: "media/audio-interview-cori.mp3",
       },
     },
     {
@@ -66,7 +66,7 @@ const FALLBACK = {
 
 function savedId() {
   const stored = readStore(KEY, null);
-  return stored && typeof stored.id === "string" ? stored.id : "lessac";
+  return stored && typeof stored.id === "string" ? stored.id : "ljspeech";
 }
 
 function current(voices) {
@@ -104,6 +104,17 @@ function applyFiles(voice) {
   });
 }
 
+function creditsHtml(voices) {
+  const recorded = voices.filter((voice) => voice.kind === "file");
+  const items = recorded.map((voice) => `<li><strong>${voice.label}</strong> — ${voice.detail}. ${voice.licence}</li>`).join("");
+  return `<section class="voice-credits" id="voice-credits">
+    <h3>Voice credits</h3>
+    <p>The recorded clips are waveforms made with Piper. The Piper engine is MIT, copyright 2022 Michael Hansen. The voice weights are not stored in this site.</p>
+    <ul>${items}</ul>
+    <p>Linda’s clips use the LJ Speech dataset (public domain; recordings by Linda Johnson for LibriVox, alignment by Keith Ito). Norman and Cori were trained from scratch on LibriVox recordings (public domain in the US). LibriVox does not require a credit and prefers one. This device uses the browser speech engine and ships no file. Dataset pages and the copied licence sentences are on <a href="#/sources">Sources</a> and in <a href="licenses/piper-voices.txt">licenses/piper-voices.txt</a>.</p>
+  </section>`;
+}
+
 function pickerHtml(voices, selected) {
   const options = voices.map((voice) => `<label><input type="radio" name="lab-voice" value="${voice.id}" ${voice.id === selected.id ? "checked" : ""}> ${voice.label}</label>`).join("");
   return `<fieldset class="voice-picker">
@@ -119,13 +130,14 @@ function mountPickers() {
   const voices = catalog.voices;
   const selected = current(voices);
   document.querySelectorAll(".audio-section").forEach((section) => {
-    let box = section.querySelector(".voice-picker");
-    if (!box) {
-      section.insertAdjacentHTML("afterbegin", pickerHtml(voices, selected));
-      box = section.querySelector(".voice-picker");
-    } else {
-      box.outerHTML = pickerHtml(voices, selected);
-    }
+    const picker = pickerHtml(voices, selected);
+    const box = section.querySelector(".voice-picker");
+    if (!box) section.insertAdjacentHTML("afterbegin", picker);
+    else box.outerHTML = picker;
+    const credits = creditsHtml(voices);
+    const existing = section.querySelector(".voice-credits");
+    if (!existing) section.querySelector(".voice-picker").insertAdjacentHTML("afterend", credits);
+    else existing.outerHTML = credits;
   });
   if (selected.kind === "file") applyFiles(selected);
 }

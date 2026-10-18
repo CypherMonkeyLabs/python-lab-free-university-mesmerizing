@@ -1,9 +1,11 @@
 """Generate original motion clips, spoken offline audio lessons, and PWA brand icons for Python Lab.
 
 Frames use Pillow / PPM images; ffmpeg encodes WebM, MP4, GIF, and MP3.
-Spoken lessons are synthesized with Piper (MIT) using the published rhasspy/piper-voices models (MIT on the model card).
-The voice weights are not committed. espeak-ng is the build fallback if Piper is absent.
-macOS `say` is not used.
+Spoken lessons are synthesized with Piper. The engine is MIT. Each voice is chosen from its own
+model card and dataset page, not from the repository-wide MIT label.
+Shipped voices: en_US-ljspeech-medium, en_US-norman-medium, en_GB-cori-medium.
+Each was trained from scratch on a public-domain dataset. Weights are not committed.
+espeak-ng is the build fallback if a Piper model is absent. macOS `say` is not used.
 All generated media are original to CypherMonkeyLabs. Motion clips are CC BY-NC-SA 4.0.
 The speech waveforms follow the voice licence recorded in media/voices.json.
 """
@@ -405,34 +407,34 @@ AUDIO_LESSONS = [
 PIPER_DIR = Path("/tmp/piper-voices")
 SPEECH_VOICES = [
     {
-        "id": "lessac",
+        "id": "ljspeech",
         "kind": "file",
-        "label": "Lessac · United States",
-        "detail": "Piper voice en_US-lessac-low, United States English",
-        "model": "en_US-lessac-low.onnx",
+        "label": "Linda · United States",
+        "detail": "Piper en_US-ljspeech-medium, trained from scratch on the public-domain LJ Speech dataset (Linda Johnson, LibriVox)",
+        "model": "en_US-ljspeech-medium.onnx",
         "espeak": "en-us",
         "suffix": "",
-        "licence": "Piper is MIT. The rhasspy/piper-voices model card states MIT (read 2026-10-18). This file is a generated waveform; the voice weights are not in the repo.",
+        "licence": "LJ Speech is public domain in the US. Keith Ito: “There are no restrictions on its use.” Piper engine is MIT. Weights are not shipped.",
     },
     {
-        "id": "alba",
+        "id": "norman",
         "kind": "file",
-        "label": "Alba · Scotland",
-        "detail": "Piper voice en_GB-alba-medium, Scottish English",
-        "model": "en_GB-alba-medium.onnx",
-        "espeak": "en-gb-scotland",
-        "suffix": "-alba",
-        "licence": "Piper is MIT. The rhasspy/piper-voices model card states MIT (read 2026-10-18). This file is a generated waveform; the voice weights are not in the repo.",
+        "label": "Norman · United States",
+        "detail": "Piper en_US-norman-medium, trained from scratch by Bryce Beattie on public-domain LibriVox recordings",
+        "model": "en_US-norman-medium.onnx",
+        "espeak": "en-us",
+        "suffix": "-norman",
+        "licence": "LibriVox recordings are public domain in the US. LibriVox: “anyone can use all our recordings however they wish (even to sell them).” Piper engine is MIT. Weights are not shipped.",
     },
     {
-        "id": "alan",
+        "id": "cori",
         "kind": "file",
-        "label": "Alan · Britain",
-        "detail": "Piper voice en_GB-alan-low, British English",
-        "model": "en_GB-alan-low.onnx",
+        "label": "Cori · Britain",
+        "detail": "Piper en_GB-cori-medium, trained from scratch by Bryce Beattie on public-domain LibriVox recordings",
+        "model": "en_GB-cori-medium.onnx",
         "espeak": "en-gb",
-        "suffix": "-alan",
-        "licence": "Piper is MIT. The rhasspy/piper-voices model card states MIT (read 2026-10-18). This file is a generated waveform; the voice weights are not in the repo.",
+        "suffix": "-cori",
+        "licence": "LibriVox recordings are public domain in the US. LibriVox: “anyone can use all our recordings however they wish (even to sell them).” Piper engine is MIT. Weights are not shipped.",
     },
 ]
 DEVICE_VOICE = {
@@ -522,7 +524,7 @@ def make_audio_lessons() -> None:
         "engine_url": "https://github.com/rhasspy/piper" if engine == "piper" else "https://github.com/espeak-ng/espeak-ng",
         "engine_licence": "MIT" if engine == "piper" else "GPL-3.0-or-later",
         "model_card": "https://huggingface.co/rhasspy/piper-voices",
-        "note": "macOS say was not used. Voice weights are not committed.",
+        "note": "macOS say was not used. Voice weights are not committed. Dataset licences were read from each voice MODEL_CARD and the dataset page on 2026-10-18. See licenses/piper-voices.txt.",
         "voices": manifest_voices,
     }, indent=2) + "\n", encoding="utf-8")
 

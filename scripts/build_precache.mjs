@@ -41,9 +41,9 @@ for (const name of ["icon-192.png", "icon-512.png", "icon-maskable-512.png", "ap
 
 const jsFiles = [...seen].map((abs) => path.relative(root, abs).split(path.sep).join("/")).sort();
 const mediaPriority = [
-  "media/voice-preview-lessac.mp3",
-  "media/voice-preview-alba.mp3",
-  "media/voice-preview-alan.mp3",
+  "media/voice-preview-ljspeech.mp3",
+  "media/voice-preview-norman.mp3",
+  "media/voice-preview-cori.mp3",
   "media/audio-syntax.mp3",
   "media/audio-structures.mp3",
   "media/audio-async.mp3",
@@ -54,14 +54,14 @@ const mediaPriority = [
   "media/async-loop.gif",
   "media/list-comprehension.mp4",
   "vendor/three/three.subset.min.js",
-  "media/audio-syntax-alba.mp3",
-  "media/audio-structures-alba.mp3",
-  "media/audio-async-alba.mp3",
-  "media/audio-interview-alba.mp3",
-  "media/audio-syntax-alan.mp3",
-  "media/audio-structures-alan.mp3",
-  "media/audio-async-alan.mp3",
-  "media/audio-interview-alan.mp3",
+  "media/audio-syntax-norman.mp3",
+  "media/audio-structures-norman.mp3",
+  "media/audio-async-norman.mp3",
+  "media/audio-interview-norman.mp3",
+  "media/audio-syntax-cori.mp3",
+  "media/audio-structures-cori.mp3",
+  "media/audio-async-cori.mp3",
+  "media/audio-interview-cori.mp3",
 ];
 
 const chosen = [];
@@ -80,8 +80,6 @@ const body = chosen.map((rel) => `  "./${rel}",`).join("\n");
 const swPath = path.join(root, "sw.js");
 let sw = fs.readFileSync(swPath, "utf8");
 sw = sw.replace(/const SHELL_ASSETS = \[[\s\S]*?\];/, `const SHELL_ASSETS = [\n  "./",\n${body}\n];`);
-if (!sw.includes("pythonlab-pwa-v3")) {
-  sw = sw.replace("pythonlab-pwa-v2", "pythonlab-pwa-v3");
-}
+sw = sw.replace(/pythonlab-pwa-v\d+/, "pythonlab-pwa-v4");
 fs.writeFileSync(swPath, sw);
 console.log(`precache ${chosen.length + 1} files, ${total} bytes, budget ${budget}`);

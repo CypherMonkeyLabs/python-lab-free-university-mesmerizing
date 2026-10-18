@@ -38,14 +38,11 @@ function metrics() {
 function obstacles() {
   const selectors = [
     "main h1",
-    "#site-footer p",
-    "#site-footer h2",
-    "#site-footer a",
+    "#site-footer .disclaimer-panel",
     "#site-footer .footer-zodiac-lockup",
     "#site-footer .brand-icons",
-    "#site-footer .brand-icon",
     "#site-footer .footer-bar",
-    "#site-footer .footer-domain",
+    "#site-footer .site-copy",
     "audio",
     ".voice-picker",
     "main .hero-cta",
@@ -58,11 +55,12 @@ function obstacles() {
   }
   return nodes.map((el) => {
     const rect = el.getBoundingClientRect();
+    const pad = el.closest("#site-footer") ? 16 : 10;
     return {
-      left: rect.left - 10,
-      top: rect.top - 10,
-      right: rect.right + 10,
-      bottom: rect.bottom + 10,
+      left: rect.left - pad,
+      top: rect.top - pad,
+      right: rect.right + pad,
+      bottom: rect.bottom + pad,
       isHeading: el.tagName === "H1",
     };
   }).filter((rect) => rect.bottom > 0 && rect.top < window.innerHeight && rect.right > 0 && rect.left < window.innerWidth);
@@ -104,6 +102,11 @@ export function clampBot(x, y) {
     }
     if (!hit) break;
   }
+  for (const rect of blocks) {
+    if (!rect.isHeading || !overlaps(x, y, w, h, rect)) continue;
+    const below = rect.bottom + 10;
+    if (below <= maxY) y = Math.min(below, maxY);
+  }
   return { x, y };
 }
 
@@ -120,7 +123,7 @@ function park(preferred) {
     node.classList.add(size === "is-mini" ? "is-docked" : size, ...(size === "is-mini" ? ["is-mini"] : []));
     const { w, h } = metrics();
     const box = bounds();
-    const rects = obstacles().filter((rect) => !rect.isHeading);
+    const rects = obstacles();
     let best = null;
     let bestDist = Infinity;
     for (let y = box.minY; y <= box.maxY; y += 10) {

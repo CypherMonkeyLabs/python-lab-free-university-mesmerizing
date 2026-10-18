@@ -818,6 +818,16 @@ function sourcesView(id) {
     html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/sources", label: "Sources" }])}
       <h1>Sources</h1>
       <p class="lede" data-speak>Facts in the lab point here. Official pages win if a lesson and a live page ever disagree, especially for exam prices and release dates. This snapshot was written on 17 October 2026.</p>
+      <section class="voice-credits" id="source-voice-credits">
+        <h2>Spoken voice credits</h2>
+        <p>The offline MP3s use three Piper voices, each trained from scratch on a public-domain dataset. The Piper engine is MIT, copyright 2022 Michael Hansen. The voice weights are not in this site. “This device” uses the browser speech engine and ships no file.</p>
+        <ul>
+          <li><strong>Linda · United States</strong> — <code>en_US-ljspeech-medium</code>. LJ Speech is public domain in the US. Keith Ito: “There are no restrictions on its use.” Recordings by Linda Johnson for LibriVox. Alignment and annotation by Keith Ito.</li>
+          <li><strong>Norman · United States</strong> — <code>en_US-norman-medium</code>. Trained from scratch by Bryce Beattie on LibriVox recordings. LibriVox: “anyone can use all our recordings however they wish (even to sell them).”</li>
+          <li><strong>Cori · Britain</strong> — <code>en_GB-cori-medium</code>. Trained from scratch by Bryce Beattie on LibriVox recordings, under the same public-domain terms.</li>
+        </ul>
+        <p>LibriVox does not require a credit and prefers one: <a href="https://librivox.org/pages/public-domain/">librivox.org/pages/public-domain</a>. LJ Speech dataset: <a href="https://keithito.com/LJ-Speech-Dataset/">keithito.com/LJ-Speech-Dataset</a>.</p>
+      </section>
       ${html}`,
     after() {
       if (!id) return;
