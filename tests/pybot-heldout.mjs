@@ -1,5 +1,6 @@
-/* Score the frozen held-out set once. Does not tune anything.
-   Usage: node tests/pybot-heldout.mjs [report-path]
+/* Score a frozen held-out set once. Does not tune anything.
+   Usage: node tests/pybot-heldout.mjs [--spec ./pybot-heldout.json] [--out ./pybot-heldout-report.json]
+   A bare positional argument is still the report path, so older commands keep working.
    A beginner/typo/follow/nav turn is relevant when the answer is not a
    fallback, every needle matches, and any primary link is an allowed page.
    A primary link outside that list is confidently wrong.
@@ -8,8 +9,18 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { createRetriever } from "../shared/pybot-chat/engine.js";
 
+const flags = {};
+const positionals = [];
+for (let i = 2; i < process.argv.length; i += 1) {
+  const arg = process.argv[i];
+  if (arg.startsWith("--")) {
+    flags[arg.slice(2)] = process.argv[i + 1];
+    i += 1;
+  } else positionals.push(arg);
+}
+
 const index = JSON.parse(readFileSync(new URL("../js/content/pybot-index.json", import.meta.url), "utf8"));
-const spec = JSON.parse(readFileSync(new URL("./pybot-heldout.json", import.meta.url), "utf8"));
+const spec = JSON.parse(readFileSync(new URL(flags.spec || "./pybot-heldout.json", import.meta.url), "utf8"));
 const host = {
   progress() {
     return { done: 4, total: 56, xpLevel: 2, nextHref: "#/lesson/start/map", nextTitle: "A map of the language" };
@@ -47,7 +58,9 @@ function judge(answer, turn) {
     };
   }
   const hrefs = turn.hrefs || [];
-  const linkedWrong = Boolean(href) && hrefs.length > 0 && !hrefs.includes(href);
+  const linkedWrong = turn.forbidHref
+    ? Boolean(href)
+    : Boolean(href) && hrefs.length > 0 && !hrefs.includes(href);
   const intentOk = !turn.intent || answer.intent === turn.intent;
   const textOk = needlesOk(text, turn.needles);
   const fallback = answer.mode === "fallback";
@@ -109,7 +122,7 @@ const report = {
   inject: tally("inject"),
   followTurns: tally("follow"),
   followPairs: { ok: followPairs.filter((pair) => pair.ok).length, total: followPairs.length },
-  target: {
+  target: spec.target || {
     beginnerRelevantPct: 85,
     offtopicConfidentWrong: 0,
     injectConfidentWrong: 0,
@@ -117,9 +130,7 @@ const report = {
   misses: rows.filter((row) => !row.relevant || row.confidentWrong),
 };
 
-const outPath = process.argv[2]
-  ? new URL(process.argv[2], import.meta.url)
-  : new URL("./pybot-heldout-report.json", import.meta.url);
+const outPath = new URL(flags.out || positionals[0] || "./pybot-heldout-report.json", import.meta.url);
 writeFileSync(outPath, `${JSON.stringify(report, null, 2)}\n`);
 
 console.log(`held-out questions ${report.questions}`);
