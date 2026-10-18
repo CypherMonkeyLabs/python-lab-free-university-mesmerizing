@@ -7,11 +7,24 @@
   padding-top: 8px;
   border-top: 1px solid var(--line);
   background: var(--bg-elev);
+  flex: 0 1 auto;
+  min-height: 0;
 }
-.bot-panel { display: flex; flex-direction: column; overflow: hidden; }
+.bot-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: calc(100dvh - var(--top-h, 60px) - var(--bar-h, 64px) - 16px);
+}
+.bp-head,
+.bp-bot,
+.py-chat-form,
+.py-chat > .bp-link { flex: 0 0 auto; }
 .bp-scroll { overflow: auto; min-height: 0; flex: 1 1 auto; }
 .py-chat-log {
   max-height: 112px;
+  min-height: 0;
+  flex: 1 1 auto;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -64,6 +77,16 @@
 @media (max-width: 420px) {
   .py-chat-log { max-height: 88px; }
   .py-chat-form button[type="submit"] { padding-inline: 8px; }
+}
+@media (max-height: 560px) {
+  .bot-panel { padding: 6px 8px; }
+  .bp-bot { display: none; }
+  .bp-head h2 { font-size: 0.95rem; line-height: 1.2; }
+  .py-chat { margin-top: 4px; padding-top: 4px; gap: 4px; }
+  .py-chat-try,
+  .py-chat-examples { display: none; }
+  .py-chat-log { max-height: 48px; }
+  .py-chat > .bp-link { min-height: 28px; margin: 0; padding: 2px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .bot-panel { animation: none; }

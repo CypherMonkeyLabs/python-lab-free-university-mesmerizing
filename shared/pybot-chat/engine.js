@@ -1,8 +1,9 @@
 /* Local retrieval for a lab chat bot. No network, no model.
-   Tokenise, stem, synonyms, BM25, and a short fuzzy pass for typos.
-   Answers are excerpts the caller stored in the index. This file does not invent text. */
+   Tokenise, stem, synonyms, BM25, typo fix, and index seeds.
+   Answers are excerpts the caller stored in the index. This file does not invent text.
+   Weak scores fall back. Injection is refused before any search. */
 
-const STOP = new Set(`a an the and or to of for in on with is are was be do does did how what why when where who you i me my it this that from as at by not can your about into than then just like using use used please tell want need something thing things really very know code python lab learn learning work works write writing make makes lesson page explain mean means show ask asking have has could would should will its if`.split(" "));
+const STOP = new Set(`a an the and or to of for in on with is are was be do does did how what why when where who you i me my it this that from as at by not can your about into than then just like using use used please tell want need something thing things really very know code python lab learn learning work works write writing make makes lesson page explain mean means show ask asking have has could would should will its if times`.split(" "));
 
 const KIND_WEIGHT = {
   lesson: 1.22,
@@ -20,7 +21,10 @@ const KIND_WEIGHT = {
   diagram: 0.98,
 };
 
-const MIN_SCORE = 1.45;
+const MIN_SCORE = 2.4;
+const MIN_MARGIN = 1.2;
+const FILLER = new Set("one ones onto some here there also still only own per via etc yes no ok okay please just really very two three four five six seven eight nine ten over under between across around after before without within during versus vs along among happen happens happened instead".split(" "));
+const STOP_WORDS = [...STOP];
 
 export function normalize(value) {
   return String(value || "")
@@ -46,7 +50,7 @@ function stem(word) {
   }
   if (word.endsWith("ed") && word.length > 5) return word.slice(0, -2);
   if (/(ches|shes|sses|xes|zes|oes)$/.test(word)) return word.slice(0, -2);
-  if (word.endsWith("s") && !word.endsWith("ss")) return word.slice(0, -1);
+  if (word.endsWith("s") && !word.endsWith("ss") && !word.endsWith("us") && !word.endsWith("is")) return word.slice(0, -1);
   return word;
 }
 
@@ -97,36 +101,132 @@ function distance(a, b, max) {
   return row[bl];
 }
 
-function fuzzy(word, pool) {
-  if (word.length < 5) return "";
-  const max = word.length >= 8 ? 2 : 1;
-  let best = "";
-  let bestD = max + 1;
-  const first = word[0];
-  for (const cand of pool) {
-    if (cand[0] !== first) continue;
-    if (Math.abs(cand.length - word.length) > max) continue;
-    const dist = distance(word, cand, max);
-    if (dist < bestD) {
-      bestD = dist;
-      best = cand;
-      if (dist === 0) break;
+function damerau(a, b, max) {
+  const al = a.length;
+  const bl = b.length;
+  if (Math.abs(al - bl) > max) return max + 1;
+  const rows = Array.from({ length: al + 1 }, () => new Array(bl + 1).fill(0));
+  for (let i = 0; i <= al; i += 1) rows[i][0] = i;
+  for (let j = 0; j <= bl; j += 1) rows[0][j] = j;
+  for (let i = 1; i <= al; i += 1) {
+    let best = rows[i][0];
+    for (let j = 1; j <= bl; j += 1) {
+      const cost = a.charCodeAt(i - 1) === b.charCodeAt(j - 1) ? 0 : 1;
+      let next = Math.min(rows[i - 1][j] + 1, rows[i][j - 1] + 1, rows[i - 1][j - 1] + cost);
+      if (i > 1 && j > 1 && a.charCodeAt(i - 1) === b.charCodeAt(j - 2) && a.charCodeAt(i - 2) === b.charCodeAt(j - 1)) {
+        next = Math.min(next, rows[i - 2][j - 2] + 1);
+      }
+      rows[i][j] = next;
+      if (next < best) best = next;
     }
+    if (best > max) return max + 1;
   }
-  return bestD <= max ? best : "";
+  return rows[al][bl];
 }
 
-function queryTokens(text, syn, pool) {
+function sharedPrefix(left, right) {
+  let i = 0;
+  const limit = Math.min(left.length, right.length);
+  while (i < limit && left.charCodeAt(i) === right.charCodeAt(i)) i += 1;
+  return i;
+}
+
+function sameFuzzyRank(word, left, leftD, right, rightD) {
+  if (leftD !== rightD) return false;
+  if (word.startsWith(left) !== word.startsWith(right)) return false;
+  if (sharedPrefix(word, left) !== sharedPrefix(word, right)) return false;
+  return Math.abs(left.length - word.length) === Math.abs(right.length - word.length);
+}
+
+function betterFuzzy(word, cand, dist, best, bestD) {
+  if (!best || dist < bestD) return true;
+  if (dist > bestD) return false;
+  const candHead = word.startsWith(cand);
+  const bestHead = word.startsWith(best);
+  if (candHead !== bestHead) return candHead;
+  const gain = sharedPrefix(word, cand) - sharedPrefix(word, best);
+  if (gain !== 0) return gain > 0;
+  return Math.abs(cand.length - word.length) < Math.abs(best.length - word.length);
+}
+
+function fuzzy(word, pool, forcedMax) {
+  if (!word || word.length < 2) return "";
+  if (!forcedMax && word.length < 4) return "";
+  const max = forcedMax || (word.length >= 7 ? 2 : 1);
+  let best = "";
+  let bestD = max + 1;
+  const winners = [];
+  const first = word[0];
+  for (const cand of pool) {
+    if (!cand || cand[0] !== first) continue;
+    if (Math.abs(cand.length - word.length) > max) continue;
+    const dist = damerau(word, cand, max);
+    if (dist > max || dist === 0) continue;
+    if (word.length >= 6 && sharedPrefix(word, cand) < 2) continue;
+    if (betterFuzzy(word, cand, dist, best, bestD)) {
+      bestD = dist;
+      best = cand;
+      winners.length = 0;
+      winners.push(cand);
+    } else if (sameFuzzyRank(word, cand, dist, best, bestD)) {
+      winners.push(cand);
+    }
+  }
+  if (winners.length === 1) return winners[0];
+  if (winners.length < 2) return "";
+  let shared = winners[0];
+  for (const cand of winners.slice(1)) {
+    const n = sharedPrefix(shared, cand);
+    shared = shared.slice(0, n);
+  }
+  const poolSet = new Set(pool);
+  for (let n = shared.length; n >= 4; n -= 1) {
+    const head = shared.slice(0, n);
+    if (poolSet.has(head)) return head;
+  }
+  return "";
+}
+
+function collapseToKnown(word, isKnown) {
+  if (!/(.)\1/.test(word)) return "";
+  const seen = new Set([word]);
+  let layer = [word];
+  for (let pass = 0; pass < 2; pass += 1) {
+    const next = [];
+    for (const item of layer) {
+      for (let i = 0; i < item.length - 1; i += 1) {
+        if (item[i] !== item[i + 1]) continue;
+        const cand = item.slice(0, i) + item.slice(i + 1);
+        if (seen.has(cand)) continue;
+        seen.add(cand);
+        if (isKnown(cand)) return cand;
+        next.push(cand);
+      }
+    }
+    layer = next;
+  }
+  return "";
+}
+
+function queryTokens(text, syn, pool, knownSet, seedPool) {
   const out = [];
-  const known = new Set(pool);
-  for (const raw of normalize(text).split(" ")) {
-    if (!raw || STOP.has(raw)) continue;
+  const isKnown = (word) => Boolean(word) && (knownSet.has(word) || knownSet.has(stem(word)) || Boolean(syn[word]) || Boolean(syn[stem(word)]));
+  const parts = normalize(text).split(" ").filter((raw) => raw && !STOP.has(raw));
+  const unknown = parts.filter((raw) => !isKnown(raw) && !collapseToKnown(raw, isKnown));
+  const allowFuzzy = unknown.length < 3;
+  for (const raw of parts) {
     let word = raw;
-    const direct = canon(word, syn);
-    const knownDirect = known.has(word) || known.has(stem(word)) || known.has(direct) || Boolean(syn[word]);
-    if (!knownDirect && word.length >= 6) {
-      const fix = fuzzy(word, pool);
-      if (fix) word = fix;
+    if (!isKnown(word)) {
+      const collapsed = collapseToKnown(word, isKnown);
+      if (collapsed) word = collapsed;
+      else if (allowFuzzy) {
+        const fix = fuzzy(word, pool);
+        if (fix) word = fix;
+        else if (seedPool && word.length <= 3) {
+          const small = fuzzy(word, seedPool, 1);
+          if (small) word = small;
+        }
+      }
     }
     const term = canon(word, syn);
     if (!term || term.length < 2 || STOP.has(term)) continue;
@@ -166,8 +266,29 @@ function frameOf(text) {
   return "what is";
 }
 
-function injection(q) {
-  return /\b(ignore (your |all |the )?(rules|instructions|prompt)|disregard (your |the )?(rules|instructions)|you are now|system prompt|jailbreak|reveal your (prompt|instructions|rules)|forget (your |previous |all )?(instructions|rules)|act as |developer mode)\b/.test(q);
+function injection(raw) {
+  const original = String(raw || "").toLowerCase();
+  const q = normalize(original);
+  if (/\bsystem\s*:/.test(original)) return true;
+  if (/\bdan\b/.test(q)) return true;
+  const patterns = [
+    /\bignore\b(?:\s+\w+){0,6}\s+(?:rules|instructions|prompts?)\b/,
+    /\bdisregard\b(?:\s+\w+){0,6}\s+(?:rules|instructions|prompts?)\b/,
+    /\byou are now\b/,
+    /\bsystem prompt\b/,
+    /\bjailbreak\b/,
+    /\bdo anything now\b/,
+    /\bdeveloper mode\b/,
+    /\breveal your\b/,
+    /\brepeat the words above\b/,
+    /\bpretend (you are|to be)\b/,
+    /\bact as \b/,
+    /\bforget\b(?:\s+\w+){0,5}\s+(?:rules|instructions|lab)\b/,
+    /\bnew instructions\b/,
+    /\bfrom now on you are\b/,
+    /\bunrestricted assistant\b/,
+  ];
+  return patterns.some((pattern) => pattern.test(q) || pattern.test(original));
 }
 
 function clip(text, max = 280) {
@@ -232,13 +353,43 @@ export function createRetriever(index) {
     });
   });
   Object.keys(syn).forEach(addPool);
+  const knownSet = new Set(pool);
+  df.forEach((_, term) => knownSet.add(term));
+  tdf.forEach((_, term) => knownSet.add(term));
+  Object.entries(syn).forEach(([key, value]) => {
+    knownSet.add(key);
+    knownSet.add(value);
+  });
+  const seeds = Array.isArray(index && index.seeds) ? index.seeds : [];
+  const seedPool = [];
+  const seedSeen = new Set();
+  const addSeed = (term) => {
+    if (!term || term.length < 2 || seedSeen.has(term)) return;
+    seedSeen.add(term);
+    seedPool.push(term);
+    knownSet.add(term);
+    addPool(term);
+    if (term.length < 3) return;
+    [`${term}s`, `${term}ing`, `${term}ed`, term.endsWith("e") ? `${term.slice(0, -1)}ing` : ""].forEach((variant) => {
+      if (!variant || seedSeen.has(variant)) return;
+      seedSeen.add(variant);
+      seedPool.push(variant);
+      addPool(variant);
+    });
+  };
+  seeds.forEach((seed) => {
+    (seed.all || []).forEach(addSeed);
+    (seed.any || []).forEach(addSeed);
+    (seed.allow || []).forEach(addSeed);
+    (seed.block || []).forEach(addSeed);
+  });
   const nDocs = docs.length || 1;
   const avgdl = docs.reduce((sum, doc) => sum + doc.dl, 0) / nDocs || 1;
   const avgtdl = docs.reduce((sum, doc) => sum + doc.tdl, 0) / nDocs || 1;
   let memory = null;
 
   function search(text, limit = 3) {
-    const qTerms = queryTokens(text, syn, pool);
+    const qTerms = queryTokens(text, syn, pool, knownSet, seedPool);
     const qset = new Set(qTerms);
     const nq = normalize(text);
     const ranked = [];
@@ -298,7 +449,70 @@ export function createRetriever(index) {
     });
   }
 
-  function remember(doc, raw) {
+  function wordKnown(word) {
+    return Boolean(word) && (knownSet.has(word) || knownSet.has(stem(word)) || Boolean(syn[word]) || Boolean(syn[stem(word)]));
+  }
+
+  function fixTypos(word, allowFuzzy) {
+    if (!word || STOP.has(word) || wordKnown(word)) return word;
+    const collapsed = collapseToKnown(word, wordKnown);
+    if (collapsed) return collapsed;
+    if (word.length <= 4) {
+      const stopFix = fuzzy(word, STOP_WORDS, 1);
+      if (stopFix) return stopFix;
+    }
+    if (!allowFuzzy) return word;
+    const fix = fuzzy(word, pool);
+    if (fix) return fix;
+    if (word.length <= 4) {
+      const small = fuzzy(word, seedPool, 1);
+      if (small) return small;
+    }
+    return word;
+  }
+
+  function prepare(text) {
+    const normalized = normalize(text);
+    const raws = normalized.split(" ").filter(Boolean);
+    const unknown = raws.filter((raw) => !STOP.has(raw) && !wordKnown(raw) && !collapseToKnown(raw, wordKnown));
+    const allowFuzzy = unknown.length < 3;
+    const corrected = raws.map((raw) => fixTypos(raw, allowFuzzy));
+    const forms = new Set();
+    const content = [];
+    for (const word of corrected) {
+      const pieces = new Set([word, stem(word), canon(word, syn)]);
+      if (word.endsWith("ing") && word.length > 6) {
+        const base = word.slice(0, -3);
+        pieces.add(base);
+        pieces.add(`${base}e`);
+      }
+      pieces.forEach((part) => {
+        if (part) forms.add(part);
+      });
+      if (!word || word.length < 2 || (STOP.has(word) && word !== "if")) continue;
+      const term = canon(word, syn);
+      if (!term || term.length < 2 || (STOP.has(term) && term !== "if")) continue;
+      content.push(term);
+      forms.add(term);
+    }
+    const how = /^(how (do|does|to|can|should)|how to)\b/.test(normalized);
+    if (/\bover and over\b|\bagain and again\b/.test(normalized)) {
+      forms.add("loop");
+      content.push("loop");
+    }
+    return { forms, content, how };
+  }
+
+  function topicFrom(raw, fallbackTitle) {
+    const prepared = prepare(raw);
+    const prefer = ["string", "list", "tuple", "dict", "function", "file", "loop", "class", "module", "error", "set", "print", "comment"];
+    for (const term of prefer) {
+      if (prepared.forms.has(term)) return term;
+    }
+    return fallbackTitle || "";
+  }
+
+  function remember(doc, raw, topic) {
     memory = {
       href: doc.h,
       title: doc.ti,
@@ -307,7 +521,113 @@ export function createRetriever(index) {
       kind: doc.k,
       act: doc.act || "",
       link: doc.k === "lesson" ? "Open this lesson" : "Open this page",
+      topic: topic || topicFrom(raw, doc.titleNorm),
     };
+  }
+
+  function matchSeed(text) {
+    const prepared = prepare(text);
+    let best = null;
+    let bestScore = 0;
+    for (const seed of seeds) {
+      if (seed.block && seed.block.some((term) => prepared.forms.has(term))) continue;
+      if (seed.all && seed.all.length && !seed.all.every((term) => prepared.forms.has(term))) continue;
+      const anyHit = seed.any && seed.any.some((term) => prepared.forms.has(term));
+      const allowHits = (seed.allow || []).filter((term) => prepared.forms.has(term)).length;
+      if (seed.any && seed.any.length && !anyHit && !(prepared.how && allowHits >= 3)) continue;
+      if ((!seed.all || !seed.all.length) && (!seed.any || !seed.any.length)) continue;
+      const skipAllow = Boolean(seed.loose) || (prepared.how && seed.how !== false);
+      if (!skipAllow && seed.allow && seed.allow.length) {
+        const allow = new Set([...(seed.allow || []), ...(seed.all || []), ...(seed.any || [])]);
+        [...allow].forEach((term) => {
+          allow.add(stem(term));
+          const canonical = canon(term, syn);
+          if (canonical) allow.add(canonical);
+        });
+        const extra = prepared.content.filter((term) => {
+          if (allow.has(term) || FILLER.has(term) || /^\d+$/.test(term)) return false;
+          if (term === "if" && !(seed.any || []).includes("if") && !(seed.all || []).includes("if")) return false;
+          return true;
+        });
+        if (extra.length) continue;
+      }
+      let score = seed.rank || 0;
+      if (seed.all) score += seed.all.length * 12;
+      if (seed.any) score += seed.any.filter((term) => prepared.forms.has(term)).length * 8;
+      score += prepared.content.filter((term) => (
+        (seed.allow || []).includes(term) || (seed.all || []).includes(term) || (seed.any || []).includes(term)
+      )).length;
+      if (score > bestScore) {
+        bestScore = score;
+        best = seed;
+      }
+    }
+    return best;
+  }
+
+  function fromSeed(seed, raw) {
+    const link = seed.k === "lesson" ? "Open this lesson" : "Open this page";
+    memory = {
+      href: seed.h,
+      title: seed.ti,
+      example: seed.eg || "",
+      frame: frameOf(raw),
+      kind: seed.k || "page",
+      act: "",
+      link,
+      topic: seed.topic || topicFrom(raw, normalize(seed.ti)),
+    };
+    return emptyAnswer({
+      mode: "answer",
+      intent: "seed",
+      text: clip(seed.ex),
+      href: seed.h,
+      link,
+      example: "",
+      follow: seed.eg ? "Show an example" : "Where do I start?",
+      followQ: seed.eg ? "Show an example" : "Where do I start?",
+      hits: [{ href: seed.h, title: seed.ti, score: 1, kind: seed.k || "page", section: "", id: seed.i }],
+    });
+  }
+
+  function isConfident(top, second, qTerms, doc, nq) {
+    if (!top || !doc || top.score < MIN_SCORE) return false;
+    const unique = [...new Set(qTerms)];
+    const known = unique.filter((term) => df.has(term));
+    const matched = known.filter((term) => doc.tf.has(term) || doc.ttf.has(term));
+    const coverage = known.length ? matched.length / known.length : 0;
+    const titleTerms = doc.title.filter((term) => known.includes(term));
+    const titlePhrase = doc.titleNorm.length >= 4 && ` ${nq} `.includes(` ${doc.titleNorm} `);
+    const margin = !second || second.href === top.href ? top.score : top.score - second.score;
+    const ratio = !second || second.href === top.href || second.score <= 0 ? 99 : top.score / second.score;
+    if (titlePhrase && coverage >= 0.34) return true;
+    if (titleTerms.some((term) => term.length >= 3) && coverage >= 0.5 && top.score >= 3 && ratio >= 1.08) return true;
+    if (coverage < 0.67) return false;
+    if (second && second.href !== top.href && margin < MIN_MARGIN && ratio < 1.22) return false;
+    return true;
+  }
+
+  function fallbackAnswer(hits, followMode) {
+    const closest = (hits || [])
+      .filter((hit) => hit.kind === "lesson" || hit.kind === "slide" || hit.kind === "guide" || hit.kind === "glossary")
+      .slice(0, 2)
+      .map((hit) => ({ href: hit.href, title: hit.title }));
+    const tail = closest.length
+      ? ` Closest pages: ${closest.map((item) => item.title).join("; ")}.`
+      : "";
+    const stuck = followMode && memory
+      ? ` I was still on “${memory.title}”, and that follow-up is not in these pages.`
+      : "";
+    return emptyAnswer({
+      mode: "fallback",
+      intent: "fallback",
+      text: `I don't have that yet.${stuck}${tail} I only answer from this lab's lessons. You can also use Search.`,
+      act: "search",
+      closest,
+      hits: hits || [],
+      follow: closest[0] && !followMode ? `What about ${closest[0].title}?` : "Where do I start?",
+      followQ: closest[0] && !followMode ? closest[0].title : "Where do I start?",
+    });
   }
 
   function intentAnswer(name, doc, text, extra = {}) {
@@ -329,7 +649,7 @@ export function createRetriever(index) {
   function route(raw, host) {
     const q = normalize(raw);
     if (!q) return emptyAnswer({ text: "Type a question about a lesson in this lab." });
-    if (injection(q)) {
+    if (injection(raw)) {
       memory = null;
       return emptyAnswer({
         mode: "fallback",
@@ -366,7 +686,7 @@ export function createRetriever(index) {
         followQ: "How do I run code?",
       });
     }
-    if (memory && /^(show|give)( me)?( an)? example[. ]*$/.test(q)) {
+    if (memory && /^(?:(?:can|could) you )?(?:show|give)(?: me)?(?: an)? example(?: of (?:that|it|this))?[. ]*$/.test(q)) {
       if (!memory.example) {
         return emptyAnswer({
           mode: "answer",
@@ -401,10 +721,15 @@ export function createRetriever(index) {
       });
     }
     let searchText = raw;
-    const follow = q.match(/^(?:and |what about |how about |ok and )(.+)$/);
-    if (follow && memory) {
-      const rest = follow[1].replace(/[?.!]+/g, "").trim();
-      searchText = `${memory.frame} ${rest}`;
+    let followMode = false;
+    const follow = q.match(/^(?:and |also |plus |what about |how about |ok and )(.+)$/);
+    const anaphora = memory && /\b(it|that|them|those)\b/.test(q);
+    if (memory && (follow || anaphora)) {
+      let rest = (follow ? follow[1] : q).replace(/[?.!]+/g, "").trim();
+      rest = rest.replace(/\b(it|that|them|those)\b/g, memory.topic || memory.title || "");
+      if (!/^(how|what|why|where|when)\b/.test(rest)) rest = `${memory.frame} ${rest}`.trim();
+      searchText = rest;
+      followMode = true;
     }
     if (/\b(play|open|start)\b.*\b(game|games)\b|\bgames\b[. ]*$|what games/.test(q)) {
       const named = gameNamed(q);
@@ -448,7 +773,7 @@ export function createRetriever(index) {
         followQ: "Play audio",
       });
     }
-    if (/\b(download|downloads|cheat sheet|cheatsheet|cheatsheets)\b/.test(q)) {
+    if (/\b(downloads?|downloadable|cheat sheets?|cheatsheets?)\b/.test(q)) {
       const rows = docs.filter((doc) => doc.k === "download");
       const text = rows.length
         ? `Downloads in this lab: ${rows.map((doc) => doc.ti).join("; ")}.`
@@ -462,7 +787,7 @@ export function createRetriever(index) {
         followQ: "How do I run code?",
       });
     }
-    if (/\b(where (do|should) i start|how do i (start|begin)|getting started|first lesson|start here)\b/.test(q)) {
+    if (/\b(where (do|should) i start|how (do|should|can) i (start|begin)|how to (start|begin)|getting started|first lesson|start here|begin here|beginner begin)\b/.test(q)) {
       const doc = docBy((item) => item.i === "lesson:start/how-to-use") || docBy((item) => item.h === "#/section/start");
       const text = doc ? `Start with “${doc.ti}”. ${clip(doc.ex, 220)}` : "Start with the Start Here section.";
       return intentAnswer("start", doc, text, { raw, follow: "How do I run code?", followQ: "How do I run code?" });
@@ -499,14 +824,25 @@ export function createRetriever(index) {
         followQ: "Where do I start?",
       });
     }
-    if (/^(help|help me|help please)[. ]*$/.test(q) || /how (do i|to) use (this )?(site|lab)/.test(q)) {
+    if (/\b(what can you do|what do you do|what can you help|how can you help|what are you able to do)\b/.test(q)) {
+      return emptyAnswer({
+        mode: "intent",
+        intent: "help",
+        text: "I look up this lab's lessons and answer from those pages. Ask where to start, about a topic such as lists, loops, or functions, or an error name such as NameError. I can open downloads, games, audio, and the practice desk. I don't answer from outside the lab.",
+        href: "#/lesson/start/how-to-use",
+        link: "Open this lesson",
+        follow: "Where do I start?",
+        followQ: "Where do I start?",
+      });
+    }
+    if (/^(help|help me|help please)[. ]*$/.test(q) || /help me use/.test(q) || /how (do i|to|can i) use (this )?(site|lab)/.test(q)) {
       const doc = docBy((item) => item.i === "lesson:start/how-to-use");
       const text = doc
         ? `Help for this lab starts at “${doc.ti}”. ${clip(doc.ex, 200)}`
         : "Open How to use this lab, or press Help in the footer.";
       return intentAnswer("help", doc, text, { raw, follow: "Where do I start?", followQ: "Where do I start?" });
     }
-    return { searchText };
+    return { searchText, followMode };
   }
 
   function gameNamed(q, bare = false) {
@@ -521,51 +857,30 @@ export function createRetriever(index) {
   }
 
   function ask(raw, host) {
-    const routed = route(String(raw || "").slice(0, 400), host || {});
+    const limited = String(raw || "").slice(0, 400);
+    const routed = route(limited, host || {});
     if (!routed.searchText) return routed;
-    const qTerms = queryTokens(routed.searchText, syn, pool);
-    const knownTerms = qTerms.filter((term) => df.has(term));
+    const seed = matchSeed(routed.searchText);
+    if (seed) return fromSeed(seed, limited);
+    const qTerms = queryTokens(routed.searchText, syn, pool, knownSet, seedPool);
+    const indexed = qTerms.filter((term) => df.has(term));
+    const topical = indexed.filter((term) => !/^\d+$/.test(term));
     const unknownTerms = qTerms.filter((term) => !df.has(term));
-    if (qTerms.length && unknownTerms.length >= knownTerms.length) {
-      return emptyAnswer({
-        mode: "fallback",
-        intent: "fallback",
-        text: "I don't have that yet. I only answer from this lab's lessons. You can also use Search.",
-        act: "search",
-        follow: "Where do I start?",
-        followQ: "Where do I start?",
-      });
-    }
-    const hits = search(routed.searchText, 3);
+    if (qTerms.length && !topical.length) return fallbackAnswer([], routed.followMode);
+    if (unknownTerms.length > indexed.length && indexed.length <= 1) return fallbackAnswer([], routed.followMode);
+    const hits = search(routed.searchText, 4);
     const top = hits[0];
-    const topDoc = top ? docs.find((doc) => doc.i === top.id) : null;
-    if (!top || !topDoc || top.score < MIN_SCORE) {
-      const closest = search(routed.searchText, 4)
-        .filter((hit) => hit.kind === "lesson" || hit.kind === "guide" || hit.kind === "glossary")
-        .slice(0, 2)
-        .map((hit) => ({ href: hit.href, title: hit.title }));
-      const tail = closest.length
-        ? ` Closest pages: ${closest.map((item) => item.title).join("; ")}.`
-        : "";
-      return emptyAnswer({
-        mode: "fallback",
-        intent: "fallback",
-        text: `I don't have that yet.${tail} I only answer from this lab's lessons. You can also use Search.`,
-        act: "search",
-        closest,
-        hits,
-        follow: closest[0] ? `What about ${closest[0].title}?` : "Where do I start?",
-        followQ: closest[0] ? closest[0].title : "Where do I start?",
-      });
-    }
     const second = hits[1];
+    const topDoc = top ? docs.find((doc) => doc.i === top.id) : null;
+    const nq = normalize(routed.searchText);
+    if (!isConfident(top, second, qTerms, topDoc, nq)) return fallbackAnswer(hits, routed.followMode);
     const follow = topDoc.eg
       ? "Show an example"
       : (second && second.href !== top.href ? `What about ${second.title}?` : (topDoc.fu || "Where do I start?"));
     const followQ = topDoc.eg
       ? "Show an example"
       : (second && second.href !== top.href ? second.title : (topDoc.fq || "Where do I start?"));
-    remember(topDoc, raw);
+    remember(topDoc, limited);
     return emptyAnswer({
       mode: "answer",
       intent: "",
@@ -576,7 +891,7 @@ export function createRetriever(index) {
       follow,
       followQ,
       act: topDoc.act || "",
-      hits,
+      hits: hits.slice(0, 3),
     });
   }
 
