@@ -1,6 +1,6 @@
 Level 0: First Program
 Audience: absolute-beginner  Hours: 4
-Examples run on CPython 3.13.5
+Examples run on CPython 3.12.3
 
 Inside:
 - Run a one-line program and read what it printed

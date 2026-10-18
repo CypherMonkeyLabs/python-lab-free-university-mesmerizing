@@ -199,8 +199,9 @@ export function bindTilt(root) {
       const y = (e.clientY - r.top) / r.height - 0.5;
       el.style.setProperty("--tx", `${(-y * 10).toFixed(2)}deg`);
       el.style.setProperty("--ty", `${(x * 12).toFixed(2)}deg`);
+      el.classList.add("is-tilting");
     });
-    el.addEventListener("pointerleave", () => { el.style.removeProperty("--tx"); el.style.removeProperty("--ty"); });
+    el.addEventListener("pointerleave", () => { el.classList.remove("is-tilting"); el.style.removeProperty("--tx"); el.style.removeProperty("--ty"); });
   });
 }
 

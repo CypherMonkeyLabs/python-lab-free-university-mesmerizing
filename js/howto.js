@@ -35,7 +35,7 @@ function content() {
     <div class="howto-grid">
       <div class="howto-card" style="--c1:#fbbf24;--c2:#fb7185"><span class="hc-ico">${ico('<circle cx="12" cy="12" r="8"/><path d="M12 4v16"/>')}</span><span><b>Four themes</b><span class="hc-t">Pick one now. Your choice is remembered.</span>
         <span class="howto-themes" role="group" aria-label="Pick a theme"><button type="button" data-howto-theme="ink">Ink</button><button type="button" data-howto-theme="paper">Paper</button><button type="button" data-howto-theme="terminal">Terminal</button><button type="button" data-howto-theme="contrast">Contrast</button></span></span></div>
-      ${card("#22d3ee", "#34d399", '<path d="M4 20V10L12 4l8 6v10"/><path d="M10 20v-6h4v6"/>', "3D worlds", 'Eleven themed worlds, one per Level. <a href="#/worlds" data-howto-go>Open the worlds</a>. Pick the 3D quality in Display. With reduced motion you get still pictures.')}
+      ${card("#22d3ee", "#34d399", '<path d="M4 20V10L12 4l8 6v10"/><path d="M10 20v-6h4v6"/>', "3D worlds", 'Eleven themed worlds, one picture per Level. Tap or click the picture and it reacts. <a href="#/worlds" data-howto-go>Open the worlds</a>. Pick Off, Flat, Light or Full in Display. With reduced motion you get the still picture.')}
       ${card("#f472b6", "#fbbf24", '<path d="M4 5h16v11H4zM8 20h8M12 16v4"/>', "Slides", 'Slide decks from fundamentals to advanced. Use the left and right arrow keys, or swipe. <a href="#/slides" data-howto-go>Browse slides</a>.')}
       ${card("#a78bfa", "#22d3ee", '<rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9l5 3-5 3z"/>', "Videos and diagrams", 'Short clips sit on the home page. Architecture diagrams are under <a href="#/diagrams" data-howto-go>Diagrams</a>.')}
     </div>

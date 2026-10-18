@@ -80,8 +80,15 @@ async function startGL(host, tier) {
   const ro = new ResizeObserver(() => { built.camera.aspect = size(); built.camera.updateProjectionMatrix(); });
   ro.observe(host);
   let px = 0; let py = 0;
-  const onMove = (e) => { const r = host.getBoundingClientRect(); px = ((e.clientX - r.left) / r.width - 0.5) * 2; py = -((e.clientY - r.top) / r.height - 0.5) * 2; };
+  const input = { px: 0, py: 0, pulse: 0, taps: 0 };
+  const onMove = (e) => { const r = host.getBoundingClientRect(); px = ((e.clientX - r.left) / r.width - 0.5) * 2; py = -((e.clientY - r.top) / r.height - 0.5) * 2; input.px = px; input.py = py; };
+  const onDown = (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    input.pulse = 1;
+    input.taps += 1;
+  };
   host.addEventListener("pointermove", onMove);
+  host.addEventListener("pointerdown", onDown);
   const frameTimes = [];
   const minGap = 1000 / b.fps - 2;
   const loop = (now) => {
@@ -92,7 +99,8 @@ async function startGL(host, tier) {
     const dt = last ? Math.min((now - last) / 1000, 0.1) : 0.016;
     const gap = now - last; last = now; t += dt;
     const w0 = performance.now();
-    built.update(t, dt, px, py);
+    built.update(t, dt, px, py, input);
+    input.pulse = Math.max(0, input.pulse - dt);
     renderer.render(built.scene, built.camera);
     const cost = performance.now() - w0;
     stats.frames += 1; stats.drawCalls = renderer.info.render.calls; stats.triangles = renderer.info.render.triangles;
@@ -109,7 +117,7 @@ async function startGL(host, tier) {
   kick();
   return () => {
     alive = false; cancelAnimationFrame(raf); io.disconnect(); ro.disconnect();
-    host.removeEventListener("pointermove", onMove); document.removeEventListener("visibilitychange", vis);
+    host.removeEventListener("pointermove", onMove); host.removeEventListener("pointerdown", onDown); document.removeEventListener("visibilitychange", vis);
     built.scene.traverse((o) => { o.geometry?.dispose?.(); const m = o.material; (Array.isArray(m) ? m : m ? [m] : []).forEach((mm) => { mm.map?.dispose?.(); mm.dispose?.(); }); });
     renderer.dispose(); renderer.forceContextLoss(); canvas.hidden = true; host.classList.remove("is-gl");
   };

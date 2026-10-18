@@ -1,8 +1,16 @@
-<!doctype html><html lang='en'><meta charset='utf-8'><title>Functions and Scope</title><style>@page{size:A4;margin:18mm 16mm;@bottom-center{content:"CypherMonkeyLabs Python Lab - page " counter(page);font:8pt sans-serif;color:#667}}
-body{font:10.5pt/1.5 'DejaVu Sans',sans-serif;color:#1a1d2e}h1{font-size:24pt;color:#4b2a9b;border-bottom:3px solid #f5a623}
-h2{color:#4b2a9b;margin-top:1.2em}pre{background:#10142a;color:#e8ecff;padding:8px;border-radius:6px;font-size:9pt;white-space:pre-wrap}
-pre.out{background:#e9f7ee;color:#0b3d1d;border-left:4px solid #2bb673}.meta{background:#f3efff;padding:8px;border-radius:6px}
-code{font-family:'DejaVu Sans Mono',monospace}footer,.small{font-size:8pt;color:#667}</style><body><div class='meta'><b>Level 3</b> &middot; about 6 h &middot; Python 3.8+ (examples run on CPython 3.13.5) &middot; Project: Unit converter CLI with tested pure functions<br><b>You will be able to:</b><ul><li>Define functions with positional, keyword, default and variadic parameters</li><li>Explain the LEGB rule and predict which name a line of code sees</li><li>Avoid the mutable-default-argument trap</li><li>Write a docstring that follows PEP 257 and a signature with PEP 484 hints</li></ul></div><h1>Functions and Scope</h1>
+<!doctype html><html lang='en'><meta charset='utf-8'><title>Functions and Scope</title><style>@page{size:A4;margin:16mm 14mm;@bottom-center{content:"CypherMonkeyLabs Python Lab - page " counter(page);font:9pt sans-serif;color:#334}}
+body{font:12pt/1.5 'DejaVu Sans',sans-serif;color:#1a1d2e;margin:0}
+h1{font-size:26pt;color:#2a1860;margin:0 0 8px}
+h2{color:#2a1860;margin-top:1.15em;font-size:16pt}
+.banner{background:#ff9f43;color:#142018;padding:16px 18px;border-radius:14px;margin:0 0 14px}
+pre{background:#1b2140;color:#f4f7ff;padding:12px 14px;border-radius:10px;font-size:11pt;line-height:1.45;white-space:pre-wrap;overflow-x:auto;max-width:100%;box-sizing:border-box}
+pre.out{background:#e7f6ec;color:#0c4630;border-left:6px solid #2bb673}
+.meta{background:#f7f4ff;padding:12px 14px;border-radius:10px;border:1px solid #d9d0f0}
+code{font-family:'DejaVu Sans Mono',monospace}
+table{border-collapse:collapse;width:100%;margin:10px 0}
+th,td{border:1px solid #c9c3e0;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#efe8ff}
+.small{font-size:9pt;color:#445}</style><body><div class='banner'><b>Level 3</b> &middot; about 6 h &middot; Python 3.8+</div><div class='meta'><b>Project:</b> Unit converter CLI with tested pure functions<br>Examples run on CPython 3.12.3. <b>You will be able to:</b><ul><li>Define functions with positional, keyword, default and variadic parameters</li><li>Explain the LEGB rule and predict which name a line of code sees</li><li>Avoid the mutable-default-argument trap</li><li>Write a docstring that follows PEP 257 and a signature with PEP 484 hints</li></ul></div><h1>Functions and Scope</h1>
 <h2>Why functions</h2>
 <p>A function gives a block of code a name so you can reuse it and test it alone. Keep each function doing one thing and returning a value instead of printing it.</p>
 <h2>Defining and calling</h2><pre><code>def area(width, height=1):
@@ -12,7 +20,7 @@ code{font-family:'DejaVu Sans Mono',monospace}footer,.small{font-size:8pt;color:
 print(area(3, 4))
 print(area(5))
 print(area(height=2, width=6))
-</code></pre><pre class='out'>Output (CPython 3.13.5):
+</code></pre><pre class='out'>Output (CPython 3.12.3):
 12
 5
 12</pre><ul>
@@ -24,7 +32,7 @@ print(area(height=2, width=6))
     return len(args), sorted(kwargs)
 
 print(describe(1, 2, 3, unit=&quot;cm&quot;, colour=&quot;red&quot;))
-</code></pre><pre class='out'>Output (CPython 3.13.5):
+</code></pre><pre class='out'>Output (CPython 3.12.3):
 (3, [&#x27;colour&#x27;, &#x27;unit&#x27;])</pre><h2>The LEGB rule</h2>
 <p>Python looks a name up in this order: Local, Enclosing function, Global, Built-in. Assigning to a name inside a function makes it local to that function unless you declare <code>global</code> or <code>nonlocal</code>.</p><pre><code>x = &quot;global&quot;
 
@@ -38,7 +46,7 @@ def outer():
 
 print(outer())
 print(x)
-</code></pre><pre class='out'>Output (CPython 3.13.5):
+</code></pre><pre class='out'>Output (CPython 3.12.3):
 changed by inner
 global</pre><h2>The mutable default trap</h2>
 <p>Default values are evaluated once, when the <code>def</code> runs, not on each call.</p><pre><code>def add_item(item, bucket=[]):
@@ -56,7 +64,7 @@ def add_item_safe(item, bucket=None):
 
 print(add_item_safe(&quot;a&quot;))
 print(add_item_safe(&quot;b&quot;))
-</code></pre><pre class='out'>Output (CPython 3.13.5):
+</code></pre><pre class='out'>Output (CPython 3.12.3):
 [&#x27;a&#x27;]
 [&#x27;a&#x27;, &#x27;b&#x27;]
 [&#x27;a&#x27;]
@@ -66,7 +74,7 @@ print(add_item_safe(&quot;b&quot;))
     return c * 9 / 5 + 32
 
 print(celsius_to_fahrenheit(100))
-</code></pre><pre class='out'>Output (CPython 3.13.5):
+</code></pre><pre class='out'>Output (CPython 3.12.3):
 212.0</pre><h2>Check yourself</h2>
 <ol>
 <li>What does <code>area(height=2, width=6)</code> return?</li>
@@ -74,4 +82,4 @@ print(celsius_to_fahrenheit(100))
 <li>Which scope does a name assigned inside <code>inner</code> belong to without <code>nonlocal</code>?</li>
 </ol>
 <h2>Project: Unit converter CLI</h2>
-<p>Build three pure functions (km to miles, kg to pounds, Celsius to Fahrenheit), add docstrings and hints, then write four <code>pytest</code> tests. Stretch: accept values with <code>argparse</code>.</p><h2>Sources</h2><ul><li><a href='https://docs.python.org/3/tutorial/controlflow.html#defining-functions'>Python tutorial: More on defining functions</a></li><li><a href='https://peps.python.org/pep-0257/'>PEP 257 Docstring Conventions</a></li><li><a href='https://peps.python.org/pep-0484/'>PEP 484 Type Hints</a></li><li><a href='https://peps.python.org/pep-0008/'>PEP 8 Style Guide for Python Code</a></li><li><a href='https://docs.python.org/3/reference/executionmodel.html#naming-and-binding'>Python reference: Naming and binding</a></li></ul><p class='small'>Code &copy; CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. Educational material, not accredited coursework; no outcome or income promised. Built 2026-10-17.</p></body></html>
+<p>Build three pure functions (km to miles, kg to pounds, Celsius to Fahrenheit), add docstrings and hints, then write four <code>pytest</code> tests. Stretch: accept values with <code>argparse</code>.</p><h2>Sources</h2><ul><li><a href='https://docs.python.org/3/tutorial/controlflow.html#defining-functions'>Python tutorial: More on defining functions</a></li><li><a href='https://peps.python.org/pep-0257/'>PEP 257 Docstring Conventions</a></li><li><a href='https://peps.python.org/pep-0484/'>PEP 484 Type Hints</a></li><li><a href='https://peps.python.org/pep-0008/'>PEP 8 Style Guide for Python Code</a></li><li><a href='https://docs.python.org/3/reference/executionmodel.html#naming-and-binding'>Python reference: Naming and binding</a></li></ul><p class='small'>Code &copy; CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. Educational material, not accredited coursework; no outcome or income promised. Built 2026-10-18.</p></body></html>

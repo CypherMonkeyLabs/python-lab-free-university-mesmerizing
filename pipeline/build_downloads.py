@@ -6,22 +6,28 @@ Code fences tagged ```python run are EXECUTED at build time; the captured output
 labelled with the interpreter that produced it (honesty rule: no invented output).
 Deps: markdown, PyYAML, weasyprint (BSD-3), python-docx (MIT), python-pptx (MIT). No network.
 Usage: build_downloads.py [--content DIR] [--out DIR]"""
-import argparse, html, json, re, subprocess, sys, tempfile, hashlib, datetime, pathlib, platform
+import argparse, base64, html, json, re, subprocess, sys, tempfile, hashlib, datetime, pathlib, platform
 import yaml, markdown
 from docx import Document
-from docx.shared import Pt, RGBColor
 from pptx import Presentation
-from pptx.util import Inches, Pt as PPt
-from pptx.dml.color import RGBColor as PRGB
+from richdocs import write_docx, write_pptx
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 FENCE = re.compile(r"```python( run)?\n(.*?)```", re.S)
 PY = f"CPython {platform.python_version()}"
-CSS = """@page{size:A4;margin:18mm 16mm;@bottom-center{content:"CypherMonkeyLabs Python Lab - page " counter(page);font:8pt sans-serif;color:#667}}
-body{font:10.5pt/1.5 'DejaVu Sans',sans-serif;color:#1a1d2e}h1{font-size:24pt;color:#4b2a9b;border-bottom:3px solid #f5a623}
-h2{color:#4b2a9b;margin-top:1.2em}pre{background:#10142a;color:#e8ecff;padding:8px;border-radius:6px;font-size:9pt;white-space:pre-wrap}
-pre.out{background:#e9f7ee;color:#0b3d1d;border-left:4px solid #2bb673}.meta{background:#f3efff;padding:8px;border-radius:6px}
-code{font-family:'DejaVu Sans Mono',monospace}footer,.small{font-size:8pt;color:#667}"""
+CSS = """@page{size:A4;margin:16mm 14mm;@bottom-center{content:"CypherMonkeyLabs Python Lab - page " counter(page);font:9pt sans-serif;color:#334}}
+body{font:12pt/1.5 'DejaVu Sans',sans-serif;color:#1a1d2e;margin:0}
+h1{font-size:26pt;color:#2a1860;margin:0 0 8px}
+h2{color:#2a1860;margin-top:1.15em;font-size:16pt}
+.banner{background:ACCENT;color:#142018;padding:16px 18px;border-radius:14px;margin:0 0 14px}
+pre{background:#1b2140;color:#f4f7ff;padding:12px 14px;border-radius:10px;font-size:11pt;line-height:1.45;white-space:pre-wrap;overflow-x:auto;max-width:100%;box-sizing:border-box}
+pre.out{background:#e7f6ec;color:#0c4630;border-left:6px solid #2bb673}
+.meta{background:#f7f4ff;padding:12px 14px;border-radius:10px;border:1px solid #d9d0f0}
+code{font-family:'DejaVu Sans Mono',monospace}
+table{border-collapse:collapse;width:100%;margin:10px 0}
+th,td{border:1px solid #c9c3e0;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#efe8ff}
+.small{font-size:9pt;color:#445}"""
 
 def split(path):
     t = path.read_text(encoding="utf-8")
@@ -61,89 +67,73 @@ def to_html(meta, blocks):
         else: parts.append(f"<pre class='out'>Output ({PY}):\n{html.escape(t)}</pre>")
     src = "".join(f"<li><a href='{s['url']}'>{html.escape(s['title'])}</a></li>" for s in meta["sources"])
     outc = "".join(f"<li>{html.escape(o)}</li>" for o in meta["outcomes"])
-    head = (f"<div class='meta'><b>Level {meta['level']}</b> &middot; about {meta['hours']} h &middot; Python {meta['python_min']}+ "
-            f"(examples run on {PY}) &middot; Project: {html.escape(meta['project'])}<br><b>You will be able to:</b><ul>{outc}</ul></div>")
+    css = CSS.replace("ACCENT", html.escape(meta.get("accent", "#f5a623"), quote=True))
+    head = (f"<div class='banner'><b>Level {meta['level']}</b> &middot; about {meta['hours']} h &middot; Python {meta['python_min']}+</div>"
+            f"<div class='meta'><b>Project:</b> {html.escape(meta['project'])}<br>Examples run on {PY}. "
+            f"<b>You will be able to:</b><ul>{outc}</ul></div>")
     foot = (f"<h2>Sources</h2><ul>{src}</ul><p class='small'>Code &copy; CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. "
             "Educational material, not accredited coursework; no outcome or income promised. Built "
             f"{datetime.date.today()}.</p>")
     return (f"<!doctype html><html lang='en'><meta charset='utf-8'><title>{html.escape(meta['title'])}</title>"
-            f"<style>{CSS}</style><body>{head}{''.join(parts)}{foot}</body></html>")
+            f"<style>{css}</style><body>{head}{''.join(parts)}{foot}</body></html>")
+
+def _hex_rgb(value):
+    h = str(value).lstrip("#")
+    if len(h) != 6:
+        h = "f5a623"
+    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def _mix(a, b, t):
+    return tuple(int(a[i] * (1 - t) + b[i] * t) for i in range(3))
+
 
 def to_cover(meta, base, out):
     """Cover and outcomes card as PNG (Pillow, HPND licence). Accent colour = the Level's world colour."""
     from PIL import Image, ImageDraw, ImageFont
     fd = "/usr/share/fonts/truetype/dejavu/"
-    f = lambda n, z: ImageFont.truetype(fd + n, z)
-    acc = meta.get("accent", "#f5a623")
-    im = Image.new("RGB", (1280, 720), "#12142b"); d = ImageDraw.Draw(im)
-    d.rectangle([0, 0, 1280, 26], fill=acc); d.rectangle([0, 694, 1280, 720], fill="#4b2a9b")
-    d.text((70, 60), f"LEVEL {int(meta['level']):02d}", font=f("DejaVuSans-Bold.ttf", 120), fill=acc)
-    d.text((70, 210), meta["title"], font=f("DejaVuSerif-Bold.ttf", 60), fill="#e8ecff")
-    d.text((70, 300), "You will be able to:", font=f("DejaVuSans-Bold.ttf", 26), fill=acc)
-    y = 345
-    for o in meta["outcomes"]:
-        words, line = o.split(), ""
+    font = lambda n, z: ImageFont.truetype(fd + n, z)
+    acc = _hex_rgb(meta.get("accent", "#f5a623"))
+    deep = _mix(acc, (28, 18, 72), 0.45)
+    paper = _mix(acc, (255, 252, 246), 0.82)
+    ink = (24, 28, 48)
+    im = Image.new("RGB", (1280, 720), paper)
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, 36, 720], fill=acc)
+    d.rectangle([0, 0, 1280, 18], fill=deep)
+    d.ellipse([980, -80, 1380, 320], fill=_mix(acc, (255, 255, 255), 0.35))
+    d.ellipse([1040, 420, 1320, 760], fill=_mix(acc, (255, 220, 120), 0.45))
+    d.rounded_rectangle([70, 48, 360, 130], radius=28, fill=acc)
+    d.text((92, 62), f"LEVEL {int(meta['level']):02d}", font=font("DejaVuSans-Bold.ttf", 42), fill=ink)
+    d.text((70, 160), meta["title"], font=font("DejaVuSerif-Bold.ttf", 54), fill=ink)
+    d.text((70, 250), "You will be able to", font=font("DejaVuSans-Bold.ttf", 28), fill=deep)
+    y = 310
+    chips = (acc, (255, 196, 61), (94, 196, 160), (255, 122, 166))
+    for i, outcome in enumerate(meta["outcomes"][:4]):
+        d.ellipse([78, y + 4, 118, y + 44], fill=chips[i % 4])
+        d.text((90, y + 8), str(i + 1), font=font("DejaVuSans-Bold.ttf", 22), fill=ink)
+        words, line, lines = outcome.split(), "", []
+        face = font("DejaVuSans.ttf", 24)
         for w in words:
-            if d.textlength(line + " " + w, font=f("DejaVuSans.ttf", 26)) > 1100: d.text((90, y), "- " + line.strip(), font=f("DejaVuSans.ttf", 26), fill="#e8ecff"); y += 36; line = "  " + w
-            else: line += " " + w
-        d.text((90, y), "- " + line.strip(), font=f("DejaVuSans.ttf", 26), fill="#e8ecff"); y += 44
-    d.text((70, 700), f"Python Lab  |  about {meta['hours']} h  |  code MIT, text CC BY-NC-SA 4.0  |  not accredited", font=f("DejaVuSans.ttf", 18), fill="#e8ecff")
+            trial = (line + " " + w).strip()
+            if d.textlength(trial, font=face) > 980 and line:
+                lines.append(line)
+                line = w
+            else:
+                line = trial
+        if line:
+            lines.append(line)
+        d.text((136, y + 6), lines[0], font=face, fill=ink)
+        y += 52
+    d.rectangle([0, 660, 1280, 720], fill=deep)
+    d.text((70, 678), f"Python Lab   ·   about {meta['hours']} h   ·   code MIT, text CC BY-NC-SA 4.0   ·   not accredited", font=font("DejaVuSans.ttf", 20), fill=(255, 250, 240))
     im.save(out, optimize=True)
 
 def to_pdf(h, out):
     from weasyprint import HTML
     HTML(string=h).write_pdf(str(out))
 
-def to_docx(meta, blocks, out):
-    d = Document(); d.core_properties.title = meta["title"]; d.core_properties.author = "CypherMonkeyLabs"
-    for k, t in blocks:
-        if k == "md":
-            for line in t.splitlines():
-                s = line.rstrip()
-                if not s: continue
-                if s.startswith("# "): d.add_heading(s[2:], 0)
-                elif s.startswith("## "): d.add_heading(s[3:], 1)
-                elif s.startswith("- "): d.add_paragraph(strip_md(s[2:]), style="List Bullet")
-                elif re.match(r"\d+\. ", s): d.add_paragraph(strip_md(re.sub(r"^\d+\. ", "", s)), style="List Number")
-                else: d.add_paragraph(strip_md(s))
-        else:
-            p = d.add_paragraph(); r = p.add_run(("Output:\n" if k == "out" else "") + t); r.font.name = "Courier New"; r.font.size = Pt(9)
-            if k == "out": r.font.color.rgb = RGBColor(0x0b, 0x3d, 0x1d)
-    d.add_heading("Sources", 1)
-    for s in meta["sources"]: d.add_paragraph(f"{s['title']} - {s['url']}", style="List Bullet")
-    d.add_paragraph(f"Examples run on {PY}. Code MIT, text CC BY-NC-SA 4.0. Not accredited coursework.")
-    d.save(out)
-
 def strip_md(s): return re.sub(r"[`*]", "", s)
-
-def to_pptx(meta, blocks, out):
-    pr = Presentation(); pr.slide_width, pr.slide_height = Inches(13.33), Inches(7.5)
-    def slide(title, lines, mono=False, green=False):
-        s = pr.slides.add_slide(pr.slide_layouts[6])
-        bg = s.background.fill; bg.solid(); bg.fore_color.rgb = PRGB(0x12, 0x14, 0x2b)
-        tb = s.shapes.add_textbox(Inches(.6), Inches(.4), Inches(12), Inches(1)).text_frame
-        tb.text = title; r = tb.paragraphs[0].runs[0]; r.font.size = PPt(34); r.font.bold = True; r.font.color.rgb = PRGB(0xf5, 0xa6, 0x23)
-        bd = s.shapes.add_textbox(Inches(.8), Inches(1.6), Inches(11.8), Inches(5.2)).text_frame; bd.word_wrap = True
-        for i, l in enumerate(lines):
-            p = bd.paragraphs[0] if i == 0 else bd.add_paragraph(); p.text = l or ' '
-            f = p.runs[0].font; f.size = PPt(16 if mono else 22)
-            f.name = "Courier New" if mono else "Calibri"
-            f.color.rgb = PRGB(0x7d, 0xf2, 0xa6) if green else PRGB(0xe8, 0xec, 0xff)
-    slide(meta["title"], [f"Python Lab - Level {meta['level']}", f"About {meta['hours']} hours", "Project: " + meta["project"]])
-    slide("You will be able to", meta["outcomes"])
-    cur, last_code = meta["title"], None
-    for k, t in blocks:
-        if k == "md":
-            for line in t.splitlines():
-                if line.startswith("## "): cur = line[3:]
-            bullets = [strip_md(l[2:]) for l in t.splitlines() if l.startswith("- ")]
-            nums = [strip_md(l) for l in t.splitlines() if re.match(r"\d+\. ", l)]
-            if bullets or nums: slide(cur, bullets or nums)
-        elif k == "code": last_code = t
-        else:
-            slide(cur + " - run it", last_code.splitlines() + ["", f"# Output ({PY}):"] + t.splitlines(), mono=True, green=True)
-    slide("Sources", [f"{s['title']}" for s in meta["sources"]] + ["Code MIT, text CC BY-NC-SA 4.0. Not accredited."])
-    pr.save(out)
 
 VR = {}
 def sidecar(meta, base, files, ok_runs):
@@ -181,23 +171,28 @@ def center_page(cards, out):
         + f"</ul><details><summary>What's inside</summary><ul>{''.join('<li>'+html.escape(i)+'</li>' for i in x['whats_inside'])}</ul></details>"
         f"<small>About {x['hours']} h &middot; examples run on {html.escape(x['run_on'])} &middot; not accredited</small></article>" for x in cards)
     page = f"""<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Download Center - Python Lab</title><style>body{{font:16px/1.5 system-ui;background:#12142b;color:#e8ecff;margin:0;padding:24px}}
-.grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}}.card{{background:#1c2040;border:1px solid #4b2a9b;border-radius:14px;padding:16px;transition:transform .2s}}
-.card:hover{{transform:perspective(600px) rotateX(2deg) translateY(-3px)}}a{{color:#f5a623}}li span{{opacity:.7;margin-left:.5em}}
-@media (prefers-reduced-motion:reduce){{.card{{transition:none}}.card:hover{{transform:none}}}}</style>
-<h1>Download Center</h1><p>Prototype. Every file is built from one Markdown source. Free, no account.</p><div class="grid">{c}</div></html>"""
+<title>Download Center - Python Lab</title><style>body{{font:16px/1.5 system-ui;background:#f6f3ff;color:#1a1d2e;margin:0;padding:24px}}
+h1{{color:#2a1860}}
+.grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}}.card{{background:#fff;border:1px solid #d9d0f0;border-top:8px solid #7f8cff;border-radius:14px;padding:16px}}
+a{{color:#3a2a86;font-weight:700}}li span{{color:#445;margin-left:.5em}}
+@media (prefers-reduced-motion:reduce){{.card{{transition:none}}}}</style>
+<h1>Download Center</h1><p>Every file is built from one Markdown source. Free, no account.</p><div class="grid">{c}</div></html>"""
     out.write_text(page, encoding="utf-8")
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--content", default=str(ROOT / "content")); ap.add_argument("--out", default=str(ROOT / "dist/downloads"))
+    ap.add_argument("--pack-b64", action="store_true", help="Write _b64 parts and refresh SHA256SUMS for pdf/docx/pptx/png")
     a = ap.parse_args(); out = pathlib.Path(a.out); out.mkdir(parents=True, exist_ok=True)
     cards, manifest = [], []
     for mp in sorted(pathlib.Path(a.content).glob("*/module.md")):
         meta, body = split(mp); blocks, log = execute(body); base = names(meta)
         h = to_html(meta, blocks)
         (out / f"{base}_Guide.html").write_text(h, encoding="utf-8")
-        to_pdf(h, out / f"{base}_Guide.pdf"); to_docx(meta, blocks, out / f"{base}_Worksheet.docx"); to_pptx(meta, blocks, out / f"{base}_Slides.pptx")
-        to_cover(meta, base, out / f"{base}_Cover.png")
+        cover = out / f"{base}_Cover.png"
+        to_cover(meta, base, cover)
+        to_pdf(h, out / f"{base}_Guide.pdf")
+        write_docx(meta, blocks, out / f"{base}_Worksheet.docx", cover, PY)
+        write_pptx(meta, blocks, out / f"{base}_Slides.pptx", cover, PY)
         vr = verify(out, base); print('verify', base, vr)
         files = []
         for f in sorted(out.glob(base + "_*")):
@@ -211,5 +206,40 @@ def main():
     (out / "manifest.json").write_text(json.dumps({"generated": datetime.datetime.now().isoformat(timespec="seconds"), "modules": manifest}, indent=2))
     center_page(cards, out / "index.html")
     print(f"built {len(manifest)} module(s) -> {out}")
+    if a.pack_b64:
+        pack_b64(out)
+
+
+def pack_b64(out, part_chars=100000):
+    """Store pdf/docx/pptx/png as joined base64 parts under _b64/, and refresh SHA256SUMS.
+
+    Part names match .github/workflows/restore-binaries.yml: <path>.b64.001, .002, ...
+    """
+    exts = {".pdf", ".docx", ".pptx", ".png"}
+    b64_root = ROOT / "_b64"
+    files = sorted(p for p in out.iterdir() if p.suffix.lower() in exts and p.is_file())
+    # Drop previous parts for this output directory only.
+    rel_out = out.resolve().relative_to(ROOT.resolve())
+    old_dir = b64_root / rel_out
+    if old_dir.is_dir():
+        for stale in old_dir.glob("*.b64.*"):
+            stale.unlink()
+    written = []
+    for src in files:
+        raw = base64.b64encode(src.read_bytes()).decode("ascii")
+        chunks = [raw[i:i + part_chars] for i in range(0, len(raw), part_chars)] or [""]
+        for n, chunk in enumerate(chunks, start=1):
+            dest = b64_root / rel_out / f"{src.name}.b64.{n:03d}"
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_text(chunk + "\n", encoding="ascii")
+        rel = str(rel_out / src.name)
+        written.append((hashlib.sha256(src.read_bytes()).hexdigest(), rel))
+        print(f"packed {rel} ({len(chunks)} part(s))")
+    sums = ROOT / "SHA256SUMS"
+    lines = sums.read_text(encoding="utf-8").splitlines() if sums.exists() else []
+    prefix = str(rel_out).replace("\\", "/") + "/"
+    kept = [ln for ln in lines if ln.strip() and not ln.split(None, 1)[-1].startswith(prefix)]
+    kept.extend(f"{digest}  {rel}" for digest, rel in written)
+    sums.write_text("\n".join(kept) + "\n", encoding="utf-8")
 
 if __name__ == "__main__": main()

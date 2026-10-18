@@ -28,7 +28,7 @@ html[data-theme="contrast"] .studio { border-color: #fff; box-shadow: none; }
 .hero3d .studio-compact .studio-badge { top: auto; bottom: 10px; }
 /* worlds */
 .lvl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin: 12px 0 18px; }
-.lvl-card { position: relative; display: grid; gap: 4px; padding: 14px 14px 12px; border-radius: 16px; text-decoration: none; color: var(--ink); background: linear-gradient(160deg, color-mix(in srgb, var(--acc) 22%, var(--bg-elev)), var(--bg-elev) 62%); border: 1px solid color-mix(in srgb, var(--acc) 55%, var(--line)); transform: perspective(700px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)); transition: transform 140ms, box-shadow 200ms; }
+.lvl-card { position: relative; display: grid; gap: 4px; padding: 14px 14px 12px; border-radius: 16px; text-decoration: none; color: var(--ink); background: linear-gradient(160deg, color-mix(in srgb, var(--acc) 22%, var(--bg-elev)), var(--bg-elev) 62%); border: 1px solid color-mix(in srgb, var(--acc) 55%, var(--line)); transform: none; transition: transform 140ms, box-shadow 200ms; }
 .lvl-card:hover, .lvl-card:focus-visible { box-shadow: 0 0 22px color-mix(in srgb, var(--acc) 45%, transparent); }
 .lvl-n { position: absolute; right: 12px; top: 6px; font: 800 2.4rem "Fraunces", Georgia, serif; color: color-mix(in srgb, var(--acc) 70%, transparent); line-height: 1; }
 .lvl-glyph { color: var(--acc); display: inline-flex; } .lvl-glyph svg { width: 28px; height: 28px; }
@@ -43,20 +43,27 @@ html[data-theme="contrast"] .studio { border-color: #fff; box-shadow: none; }
 .dc-tools input { flex: 1 1 220px; min-height: 44px; padding: 8px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg-elev); color: var(--ink); font: inherit; }
 .dc-fmts { display: flex; flex-wrap: wrap; gap: 6px; }
 .dc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 16px; margin: 12px 0 18px; }
-.dc-card { display: flex; flex-direction: column; border-radius: 18px; overflow: hidden; background: var(--bg-elev); border: 1px solid color-mix(in srgb, var(--acc) 55%, var(--line)); transform: perspective(900px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)); transition: transform 140ms, box-shadow 200ms; }
+.dc-card { display: flex; flex-direction: column; border-radius: 18px; overflow: hidden; background: var(--bg-elev); border: 1px solid color-mix(in srgb, var(--acc) 55%, var(--line)); transform: none; transition: transform 140ms, box-shadow 200ms; }
 .dc-card[hidden] { display: none; }
 .dc-card.is-focus, .dc-card:hover { box-shadow: 0 0 26px color-mix(in srgb, var(--acc) 40%, transparent); }
 .dc-cover { aspect-ratio: 16 / 9; background: linear-gradient(135deg, var(--acc), #12142b); } .dc-cover img { width: 100%; height: 100%; display: block; object-fit: cover; }
 .dc-body { padding: 14px 16px 16px; } .dc-body h2 { margin: 6px 0; }
 .dc-files { list-style: none; padding: 0; margin: 10px 0; display: grid; gap: 8px; }
 .dc-file[hidden] { display: none; }
-.dc-btn { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; min-height: 44px; padding: 8px 12px; border-radius: 12px; text-decoration: none; color: var(--ink); background: color-mix(in srgb, var(--acc) 16%, var(--bg)); border: 1px solid color-mix(in srgb, var(--acc) 60%, var(--line)); font-weight: 700; }
+.dc-btn { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; min-height: 48px; padding: 8px 12px; border-radius: 12px; text-decoration: none; color: var(--ink); background: color-mix(in srgb, var(--acc) 16%, var(--bg)); border: 1px solid color-mix(in srgb, var(--acc) 60%, var(--line)); font-weight: 700; position: relative; z-index: 2; touch-action: manipulation; scroll-margin-top: 96px; scroll-margin-bottom: 220px; }
 .dc-btn:hover, .dc-btn:focus-visible { background: color-mix(in srgb, var(--acc) 32%, var(--bg)); }
 .dc-chip { font: 800 .72rem "IBM Plex Mono", monospace; padding: 3px 7px; border-radius: 6px; background: var(--acc); color: #10142a; }
 .dc-size { font-weight: 400; color: var(--muted); font-size: .85rem; }
 .dc-desc { display: block; margin: 3px 4px 0; font-size: .86rem; color: var(--muted); }
 .dc-fn { display: block; font: .72rem "IBM Plex Mono", monospace; opacity: .8; word-break: break-all; }
 .dc-sums code { font-size: .68rem; word-break: break-all; }
+@media (hover: hover) and (pointer: fine) {
+  .dc-card.is-tilting, .lvl-card.is-tilting { transform: perspective(900px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)); }
+}
+@media (max-width: 899px) {
+  /* The bot sits in the lower-right corner. Keep the whole download control to its left so a finger on the right edge still hits the link. */
+  .dc-files { padding-right: 124px; }
+}
 @media (prefers-reduced-motion: reduce) { .lvl-card, .dc-card { transform: none !important; transition: none; } }
 /* Py teacher */
 .bp-bot { margin: 0 0 8px; padding: 6px 10px; border-radius: 10px; background: color-mix(in srgb, #ffd43b 22%, var(--bg-elev)); font-size: .85rem; font-weight: 700; }

@@ -11,6 +11,7 @@
   width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
 }
 
+html { scroll-padding-top: calc(var(--top-h) + 16px); scroll-padding-bottom: calc(var(--bar-h) + 36px); }
 body {
   padding-top: var(--top-h);
   padding-left: var(--side-now);
@@ -319,6 +320,10 @@ body {
   .search-open .top-search-wrap { display: block; }
   .top-search-wrap input { background: var(--bg-elev); box-shadow: var(--shadow); }
   .topbar .brand { margin-right: auto; }
+  .bottombar { pointer-events: none; }
+  .bottombar .bar-btn { pointer-events: auto; flex: 0 0 auto; }
+  .bar-next { margin-left: auto; }
+  .bottombar .bar-label, .bottombar .bar-sub { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .bar-menu { display: inline-flex; }
   .bar-progress { display: none; }
   .bar-home .bar-label { display: none; }

@@ -35,6 +35,7 @@ export function initDisplay() {
   sync();
 
   const host = document.querySelector(".display-menu");
+  window.addEventListener("hashchange", () => { if (host) host.open = false; });
   if (host && !document.getElementById("xp-chip")) {
     const a = document.createElement("a");
     a.id = "xp-chip";

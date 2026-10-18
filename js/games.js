@@ -112,17 +112,28 @@ function mountSnake(root) {
     if (snake.length >= 8) win("snake", 25, "arcade-pro");
   }
 
+  const BODY = ["#22d3ee", "#34d399", "#fbbf24", "#f472b6", "#a78bfa", "#fb7185"];
   function draw() {
     const size = canvas.width / cols;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#e2a13a";
+    ctx.fillStyle = "#12142b";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = "rgba(127, 140, 255, 0.25)";
+    for (let i = 1; i < cols; i += 1) {
+      ctx.beginPath();
+      ctx.moveTo(i * size, 0);
+      ctx.lineTo(i * size, canvas.height);
+      ctx.moveTo(0, i * size);
+      ctx.lineTo(canvas.width, i * size);
+      ctx.stroke();
+    }
+    ctx.fillStyle = "#ffd43b";
     ctx.fillRect(food.x * size + 2, food.y * size + 2, size - 4, size - 4);
     snake.forEach((part, index) => {
-      ctx.fillStyle = index === 0 ? "#7ec8c3" : "#f4f0e6";
+      ctx.fillStyle = index === 0 ? "#ff5da2" : BODY[index % BODY.length];
       ctx.fillRect(part.x * size + 1, part.y * size + 1, size - 2, size - 2);
     });
     if (!alive) {
-      ctx.fillStyle = "#f4f0e6";
+      ctx.fillStyle = "#fff6e8";
       ctx.font = "20px sans-serif";
       ctx.fillText("The snake stopped.", 16, canvas.height / 2);
     }

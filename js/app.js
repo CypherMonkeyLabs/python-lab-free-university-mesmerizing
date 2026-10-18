@@ -20,7 +20,7 @@ import { initHowTo } from "./howto.js";
 import { initBotFx } from "./botfx.js";
 import { initTeachReactions } from "./botteach.js";
 import { mountStudio, disposeStudio, initQualityControl, studioMarkup } from "./studio/studio.js";
-import { worldsView, worldView } from "./levelworlds.js";
+import { worldsView, worldView, homeWorlds } from "./levelworlds.js";
 import { downloadCenterView } from "./downloadcenter.js";
 import { diagramsView, diagramView, diagramStrip, watchDiagramTheme } from "./views.js";
 import { applyPrefs } from "./prefs.js";
@@ -30,7 +30,7 @@ import { initXP } from "./xp.js";
 import { initDisplay } from "./display.js";
 import { initTour } from "./tour.js";
 import { initWelcome } from "./welcome.js";
-import { levelView, meView, levelCards } from "./views2.js";
+import { levelView, meView } from "./views2.js";
 import { PLAY } from "./play.js";
 import { DOWNLOADS, FORMAT_LABEL } from "./content/downloads.js";
 import { initPy } from "./pycustom.js";
@@ -214,9 +214,7 @@ function homeView() {
         ${heroScene()}
         ${studioMarkup({ scene: "fallback", accent: "#f5a623", n: 0, alt: "A slowly turning wireframe shape over a violet and amber aurora.", compact: true })}
       </section>
-      <h2 class="sec-heading">Pick your level</h2>
-      <p class="sec-sub">Each level has its own world. Earn XP and badges as you go.</p>
-      ${levelCards()}
+      ${homeWorlds()}
       <h2 class="sec-heading">${sections.length} sections, one path</h2>
       <p class="sec-sub">Every section opens a landing page with its lessons, labs, and links.</p>
       <div class="sec-grid">${sections.map(sectionTile).join("")}</div>

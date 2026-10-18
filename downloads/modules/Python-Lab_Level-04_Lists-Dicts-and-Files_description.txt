@@ -1,0 +1,11 @@
+Level 4: Lists, Dicts and Files
+Audience: beginner  Hours: 30
+Examples run on CPython 3.12.3
+
+Inside:
+- Store several values in a list and read one by index
+- Look up a value in a dict by its key
+- Tell a set apart from a list
+- Read and write a small text file with pathlib
+
+License: code MIT, text CC BY-NC-SA 4.0. Not accredited.

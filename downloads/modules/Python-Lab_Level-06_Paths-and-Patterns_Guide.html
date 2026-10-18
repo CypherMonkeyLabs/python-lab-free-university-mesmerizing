@@ -1,0 +1,40 @@
+<!doctype html><html lang='en'><meta charset='utf-8'><title>Paths and Patterns</title><style>@page{size:A4;margin:16mm 14mm;@bottom-center{content:"CypherMonkeyLabs Python Lab - page " counter(page);font:9pt sans-serif;color:#334}}
+body{font:12pt/1.5 'DejaVu Sans',sans-serif;color:#1a1d2e;margin:0}
+h1{font-size:26pt;color:#2a1860;margin:0 0 8px}
+h2{color:#2a1860;margin-top:1.15em;font-size:16pt}
+.banner{background:#5eead4;color:#142018;padding:16px 18px;border-radius:14px;margin:0 0 14px}
+pre{background:#1b2140;color:#f4f7ff;padding:12px 14px;border-radius:10px;font-size:11pt;line-height:1.45;white-space:pre-wrap;overflow-x:auto;max-width:100%;box-sizing:border-box}
+pre.out{background:#e7f6ec;color:#0c4630;border-left:6px solid #2bb673}
+.meta{background:#f7f4ff;padding:12px 14px;border-radius:10px;border:1px solid #d9d0f0}
+code{font-family:'DejaVu Sans Mono',monospace}
+table{border-collapse:collapse;width:100%;margin:10px 0}
+th,td{border:1px solid #c9c3e0;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#efe8ff}
+.small{font-size:9pt;color:#445}</style><body><div class='banner'><b>Level 6</b> &middot; about 30 h &middot; Python 3.8+</div><div class='meta'><b>Project:</b> A tiny note-sorter that accepts --title<br>Examples run on CPython 3.12.3. <b>You will be able to:</b><ul><li>Join path pieces with pathlib instead of gluing strings</li><li>Find a number inside text with a regular expression</li><li>Give a small program a command-line option with argparse</li><li>Keep a sample from touching the real filesystem</li></ul></div><h1>Paths and Patterns</h1>
+<h2>Paths are objects</h2>
+<p><code>pathlib.Path</code> joins pieces with <code>/</code>. <code>as_posix</code> shows the forward-slash form, which is what the docs use in examples.</p><pre><code>from pathlib import Path
+path = Path(&quot;notes&quot;) / &quot;week&quot; / &quot;a.txt&quot;
+print(path.as_posix())
+print(path.suffix)
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+notes/week/a.txt
+.txt</pre><h2>Patterns find a piece of text</h2>
+<p><code>re.search</code> returns a match object, or <code>None</code> when nothing matched. This example looks for digits.</p><pre><code>import re
+match = re.search(r&quot;\d+&quot;, &quot;room 12b&quot;)
+print(match.group(0) if match else &quot;none&quot;)
+print(re.sub(r&quot;\s+&quot;, &quot;-&quot;, &quot;a  b   c&quot;))
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+12
+a-b-c</pre><h2>argparse reads options</h2>
+<p><code>parse_args([])</code> reads an empty argument list, so the build does not depend on how the script was started. The default is what a user would get if they passed no flags.</p><pre><code>import argparse
+parser = argparse.ArgumentParser(prog=&quot;notes&quot;)
+parser.add_argument(&quot;--title&quot;, default=&quot;inbox&quot;)
+args = parser.parse_args([])
+print(args.title)
+</code></pre><pre class='out'>Output (CPython 3.12.3):
+inbox</pre><h2>Check yourself</h2>
+<ol>
+<li>What does <code>Path("notes") / "a.txt"</code> produce?</li>
+<li>What does <code>re.search</code> return when the pattern is missing?</li>
+<li>Why does this page call <code>parse_args([])</code>?</li>
+</ol><h2>Sources</h2><ul><li><a href='https://docs.python.org/3/library/pathlib.html'>Python docs: pathlib</a></li><li><a href='https://docs.python.org/3/library/re.html'>Python docs: re</a></li><li><a href='https://docs.python.org/3/library/argparse.html'>Python docs: argparse</a></li></ul><p class='small'>Code &copy; CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. Educational material, not accredited coursework; no outcome or income promised. Built 2026-10-18.</p></body></html>

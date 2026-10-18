@@ -1,0 +1,11 @@
+Level 5: Classes and Modules
+Audience: intermediate  Hours: 35
+Examples run on CPython 3.12.3
+
+Inside:
+- Define a class with an __init__ method and read an attribute
+- Build one instance and call a method on it
+- Explain that import runs a module once and stores it on sys.modules
+- Say what a virtual environment isolates
+
+License: code MIT, text CC BY-NC-SA 4.0. Not accredited.

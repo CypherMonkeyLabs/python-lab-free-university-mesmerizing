@@ -1,6 +1,6 @@
 Level 2: Decisions and Loops
 Audience: beginner  Hours: 14
-Examples run on CPython 3.13.5
+Examples run on CPython 3.12.3
 
 Inside:
 - Write if, elif and else branches with comparison and boolean operators

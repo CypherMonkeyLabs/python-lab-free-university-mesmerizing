@@ -18,7 +18,7 @@ Python Lab is a free static site. Thanks for helping. Small, reviewable PRs are 
    - `python3 scripts/csp_check.py`
    - `npm install && npx playwright test` (serves the site on 127.0.0.1:41731)
 4. Open a PR using the template. Maintainers squash-merge after review; the site deploys from `main` via GitHub Pages.
-5. Binary files (images, PDFs, wheels) go in as base64 parts under `_b64/` and are restored by the `Restore binary assets` workflow; see `.github/workflows/restore-binaries.yml`.
+5. Binary files (images, PDFs, wheels, and the level PDF/DOCX/PPTX/PNG guides) go in as base64 parts under `_b64/`. Pack the level guides with `python3 pipeline/build_downloads.py --content content --out downloads/modules --pack-b64`. Check a local decode with `python3 pipeline/restore_binaries.py --check` (that command keeps `_b64`). The `Restore binary assets` workflow (`.github/workflows/restore-binaries.yml`) decodes on `main`, deletes `_b64`, checks `SHA256SUMS`, and commits the binaries. Do not commit the decoded binaries on a feature branch.
 
 ## Reporting a mistake in a lesson
 Use the "Content correction" issue form with the lesson URL, what is wrong, and a source. Corrections are a priority; there is no guaranteed response time yet (to be set by the maintainer).

@@ -1,0 +1,11 @@
+Level 8: Coroutines and Tasks
+Audience: intermediate  Hours: 40
+Examples run on CPython 3.12.3
+
+Inside:
+- Write an async def and run it with asyncio.run
+- Wait for two tasks with asyncio.gather
+- Tell a coroutine object from the value it returns
+- Name the docs page for tasks and timeouts
+
+License: code MIT, text CC BY-NC-SA 4.0. Not accredited.
