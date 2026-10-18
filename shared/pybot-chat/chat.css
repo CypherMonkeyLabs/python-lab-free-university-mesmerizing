@@ -81,23 +81,37 @@
   .py-chat-form button[type="submit"] { padding-inline: 8px; }
 }
 @media (max-height: 560px) {
-  .bot-panel { padding: 6px 8px; }
-  .bp-bot { display: none; }
-  .bp-head h2 { font-size: 0.95rem; line-height: 1.2; }
-  .bp-scroll { flex: 0 1 0; }
+  .bot-panel { padding: 4px 8px; }
+  .bp-head,
+  .bp-bot,
+  .bp-scroll { display: none; }
   .py-chat {
     flex: 1 1 auto;
     min-height: 0;
-    margin-top: 4px;
-    padding-top: 4px;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
     gap: 4px;
     overflow: hidden;
   }
   .py-chat-try,
   .py-chat-examples,
-  .py-chat-chips,
-  .py-chat > .bp-link { display: none; }
-  .py-chat-log { flex: 1 1 auto; max-height: 36px; min-height: 0; }
+  .py-chat-chips { display: none; }
+  .py-chat > .bp-link {
+    display: inline-flex;
+    margin: 0;
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
+  .py-chat-log {
+    flex: 1 1 auto;
+    min-height: 48px;
+    max-height: none;
+    overflow: auto;
+  }
+  .py-chat-form button,
+  .py-mic,
+  .py-chat-form input { min-height: 40px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .bot-panel { animation: none; }

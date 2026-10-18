@@ -23,7 +23,7 @@ const KIND_WEIGHT = {
 
 const MIN_SCORE = 2.4;
 const MIN_MARGIN = 1.2;
-const FILLER = new Set("one ones onto some here there also still only own per via etc yes no ok okay please just really very two three four five six seven eight nine ten over under between across around after before without within during versus vs along among happen happens happened instead".split(" "));
+const FILLER = new Set("one ones onto some here there also still only own per via etc yes no ok okay please just really very two three four five six seven eight nine ten over under between across around after before without within during versus vs along among happen happens happened instead good useful".split(" "));
 const STOP_WORDS = [...STOP];
 
 export function normalize(value) {
@@ -31,6 +31,14 @@ export function normalize(value) {
     .toLowerCase()
     .replace(/f-strings?/g, " fstring ")
     .replace(/t-strings?/g, " tstring ")
+    .replace(/==/g, " equals ")
+    .replace(/!=/g, " unequals ")
+    .replace(/<=/g, " lesseq ")
+    .replace(/>=/g, " greatereq ")
+    .replace(/\/\//g, " floordiv ")
+    .replace(/\*\*/g, " powerop ")
+    .replace(/%/g, " modulo ")
+    .replace(/=/g, " assign ")
     .replace(/[^a-z0-9+]+/g, " ")
     .replace(/\s+/g, " ")
     .trim();
@@ -149,7 +157,7 @@ function betterFuzzy(word, cand, dist, best, bestD) {
   return Math.abs(cand.length - word.length) < Math.abs(best.length - word.length);
 }
 
-function fuzzy(word, pool, forcedMax) {
+function fuzzy(word, pool, forcedMax, freq) {
   if (!word || word.length < 2) return "";
   if (!forcedMax && word.length < 4) return "";
   const max = forcedMax || (word.length >= 7 ? 2 : 1);
@@ -184,7 +192,12 @@ function fuzzy(word, pool, forcedMax) {
     const head = shared.slice(0, n);
     if (poolSet.has(head)) return head;
   }
-  return "";
+  const prefixed = winners.filter((cand) => cand.startsWith(word) || word.startsWith(cand));
+  const weight = (cand) => (freq && freq.get(cand)) || 0;
+  const ranked = (prefixed.length ? prefixed : winners).slice().sort((a, b) => (
+    a.length - b.length || weight(b) - weight(a) || a.localeCompare(b)
+  ));
+  return ranked[0] || "";
 }
 
 function collapseToKnown(word, isKnown) {
@@ -208,10 +221,10 @@ function collapseToKnown(word, isKnown) {
   return "";
 }
 
-function queryTokens(text, syn, pool, knownSet, seedPool) {
+function queryTokens(text, syn, pool, knownSet, seedPool, freq) {
   const out = [];
   const isKnown = (word) => Boolean(word) && (knownSet.has(word) || knownSet.has(stem(word)) || Boolean(syn[word]) || Boolean(syn[stem(word)]));
-  const parts = normalize(text).split(" ").filter((raw) => raw && !STOP.has(raw));
+    const parts = normalize(text).split(" ").filter((raw) => raw && !STOP.has(raw));
   const unknown = parts.filter((raw) => !isKnown(raw) && !collapseToKnown(raw, isKnown));
   const allowFuzzy = unknown.length < 3;
   for (const raw of parts) {
@@ -220,10 +233,10 @@ function queryTokens(text, syn, pool, knownSet, seedPool) {
       const collapsed = collapseToKnown(word, isKnown);
       if (collapsed) word = collapsed;
       else if (allowFuzzy) {
-        const fix = fuzzy(word, pool);
+        const fix = fuzzy(word, pool, 0, freq);
         if (fix) word = fix;
         else if (seedPool && word.length <= 3) {
-          const small = fuzzy(word, seedPool, 1);
+          const small = fuzzy(word, seedPool, 1, freq);
           if (small) word = small;
         }
       }
@@ -272,23 +285,152 @@ function injection(raw) {
   if (/\bsystem\s*:/.test(original)) return true;
   if (/\bdan\b/.test(q)) return true;
   const patterns = [
-    /\bignore\b(?:\s+\w+){0,6}\s+(?:rules|instructions|prompts?)\b/,
-    /\bdisregard\b(?:\s+\w+){0,6}\s+(?:rules|instructions|prompts?)\b/,
+    /\bignore\b(?:\s+\w+){0,8}\s+(?:rules|instructions|prompts?|everything|all|what|previous|above|told)\b/,
+    /\bdisregard\b(?:\s+\w+){0,8}\s+(?:rules|instructions|prompts?|guidelines|everything)\b/,
     /\byou are now\b/,
     /\bsystem prompt\b/,
+    /\bsystem message\b/,
     /\bjailbreak\b/,
     /\bdo anything now\b/,
     /\bdeveloper mode\b/,
     /\breveal your\b/,
-    /\brepeat the words above\b/,
-    /\bpretend (you are|to be)\b/,
+    /\b(repeat|print|reveal|output|dump|show)\b(?:\s+\w+){0,8}\s+(?:the\s+|your\s+)?(?:hidden\s+)?(?:text|words|prompt|instructions|message|guidelines)\b/,
+    /\b(?:text|words|prompt|instructions|message)\b(?:\s+\w+){0,4}\s+above\b/,
+    /\bstarting with\b[\s\S]{0,40}\byou are\b/,
+    /\broleplay\b/,
+    /\bpretend\b/,
     /\bact as \b/,
-    /\bforget\b(?:\s+\w+){0,5}\s+(?:rules|instructions|lab)\b/,
+    /\bact like\b/,
+    /\bno restrictions\b/,
+    /\bforget\b(?:\s+\w+){0,6}\s+(?:rules|instructions|lab|you are)\b/,
     /\bnew instructions\b/,
     /\bfrom now on you are\b/,
     /\bunrestricted assistant\b/,
+    /\bhidden instructions\b/,
+    /\byour prompt\b/,
   ];
   return patterns.some((pattern) => pattern.test(q) || pattern.test(original));
+}
+
+const AMBIGUOUS = new Set("set list time key name file type open read match pass break call run end add new get use make home world page level course value data text line number item code help start show play count group say says said want need look come take give know think tell tell".split(" "));
+const STRONG_WORDS = new Set("dict tuple string str int float bool none bytes function def class module import pip venv path loop range while print input error exception syntax indent comment slice sort append hash recursion decorator generator yield async await numpy pandas flask csv json sqlite argparse pytest assert annotation dataclass context gil http request package variable assign bind equal equals operator modulo remainder method upper lower strip split replace fstring format brace comprehension heap deque counter pointer continue return self lambda scope mutable copy encode unicode iterator iterable parameter argument kwargs logging warning isinstance len join try except raise traceback index division power floor decimal true false object instance attribute installer environment pathlib bytecode interpreter fastapi pyodide virtual lesson".split(" "));
+const GENERIC_ENGLISH = new Set("time life home world page course help start people person spanish tokyo poem sea thank thanks meaning telephone calorie calories banana capital hiking restaurant population colour color breakfast winter rainfall lullaby haiku mango egg moon landing movie pizza weather flight story dragon cricket tire cake president bitcoin joke french goodbye".split(" "));
+
+function buildDomain(df, seeds) {
+  const strong = new Set(STRONG_WORDS);
+  const consider = (term, min) => {
+    if (!term || term.length < min) return;
+    if (STOP.has(term) || FILLER.has(term) || GENERIC_ENGLISH.has(term) || AMBIGUOUS.has(term)) return;
+    strong.add(term);
+  };
+  for (const term of df.keys()) consider(term, 3);
+  for (const seed of seeds || []) {
+    for (const term of [...(seed.any || []), ...(seed.all || [])]) consider(term, 4);
+  }
+  return { strong, weak: AMBIGUOUS };
+}
+
+function domainKind(word, domain, syn) {
+  const forms = [word, stem(word)];
+  const canonical = canon(word, syn);
+  if (canonical) forms.push(canonical);
+  if (forms.some((form) => domain.strong.has(form))) return "strong";
+  if (forms.some((form) => domain.weak.has(form))) return "weak";
+  const collapsed = collapseToKnown(word, (candidate) => {
+    const stemmed = stem(candidate);
+    return domain.strong.has(candidate) || domain.strong.has(stemmed) || domain.weak.has(candidate) || domain.weak.has(stemmed);
+  });
+  if (!collapsed) return "";
+  if (domain.strong.has(collapsed) || domain.strong.has(stem(collapsed))) return "strong";
+  return "weak";
+}
+
+function typoKind(word, domain, syn, pool, freq) {
+  if (!word || word.length < 4 || GENERIC_ENGLISH.has(word)) return "";
+  const fix = fuzzy(word, pool, word.length >= 7 ? 2 : 1, freq);
+  if (!fix) return "";
+  if (STOP.has(fix) || STOP.has(stem(fix))) return "stop";
+  const kind = domainKind(fix, domain, syn);
+  if (!kind) return "";
+  if (kind === "weak" && sharedPrefix(word, fix) < 2) return "";
+  if (word.length >= 6 && sharedPrefix(word, fix) < 2) return "";
+  return kind;
+}
+
+function hasDomainTerm(text, domain, syn, pool, freq) {
+  const parts = normalize(text).split(" ").filter((word) => word && word.length >= 2 && !STOP.has(word) && !FILLER.has(word));
+  if (!parts.length) return false;
+  let strong = 0;
+  let weak = 0;
+  let foreign = 0;
+  let typoStrong = 0;
+  for (const word of parts) {
+    const rawKind = domainKind(word, domain, syn);
+    if (rawKind === "strong") {
+      strong += 1;
+      continue;
+    }
+    if (rawKind === "weak") {
+      weak += 1;
+      continue;
+    }
+    const kind = typoKind(word, domain, syn, pool, freq);
+    if (kind === "stop") continue;
+    if (kind === "strong") typoStrong += 1;
+    else if (kind === "weak") weak += 1;
+    else if (word.length <= 3 || STOP.has(stem(word))) continue;
+    else foreign += 1;
+  }
+  if (strong >= 1) return true;
+  if (typoStrong >= 1 && foreign === 0) return true;
+  if (weak >= 2 && foreign === 0) return true;
+  return weak >= 1 && foreign === 0;
+}
+
+const GREET_FILL = new Set("there friend py everyone folks all buddy pal anyone home up whats ya bot again today please just so hi hello".split(" "));
+
+function smallTalk(q) {
+  const words = q.split(" ").filter(Boolean);
+  if (!words.length || words.length > 8) return null;
+  const tailOk = (rest) => rest.every((word) => GREET_FILL.has(word));
+  let kind = "";
+  if (words[0] === "good" && /^(morning|afternoon|evening|night|day)$/.test(words[1] || "") && tailOk(words.slice(2))) kind = "greet";
+  else if (/^(hi|hello|hey|hiya|howdy|yo|morning|evening)$/.test(words[0]) && tailOk(words.slice(1))) kind = "greet";
+  else if (/^(thanks|thank|thx|ty|cheers)$/.test(words[0]) && words.slice(1).every((word) => /^(you|a|lot|bunch|ton|million|so|much|py)$/.test(word))) kind = "thanks";
+  else if (/^(good job|nice work|well done)$/.test(q)) kind = "thanks";
+  else if (/^(bye|goodbye|cya|later)$/.test(words[0]) && tailOk(words.slice(1))) kind = "bye";
+  else if (q === "see you" || q === "see you later" || q === "see ya") kind = "bye";
+  else if (/^(who are you|what are you|whats your name|what is your name)$/.test(q)) kind = "who";
+  else if (/^are you\b/.test(q) && /\b(robot|person|human|bot|ai|real)\b/.test(q) && words.length <= 8) kind = "who";
+  else if (/^how are you\b/.test(q) && tailOk(words.slice(3))) kind = "how";
+  if (!kind) return null;
+  let text = "Hello. I look up pages in this lab. Ask where to start, or about lists, functions, or errors.";
+  let mode = "greet";
+  let intent = "greet";
+  if (kind === "who") {
+    mode = "smalltalk";
+    intent = "smalltalk";
+    text = "I am Py, the lab bot in Cypher Monkey's Python Lab. I answer only from this lab's lessons, and I can be wrong.";
+  } else if (kind === "bye") {
+    mode = "smalltalk";
+    intent = "smalltalk";
+    text = "See you in the lab. The lessons stay on this device.";
+  } else if (kind === "thanks") {
+    mode = "smalltalk";
+    intent = "smalltalk";
+    text = "You're welcome. Open a lesson when you want to try it.";
+  } else if (kind === "how") {
+    mode = "smalltalk";
+    intent = "smalltalk";
+    text = "Ready when you are. Ask about a Python topic from this lab.";
+  }
+  return emptyAnswer({
+    mode,
+    intent,
+    text,
+    follow: "Where do I start?",
+    followQ: "Where do I start?",
+  });
 }
 
 function clip(text, max = 280) {
@@ -360,6 +502,9 @@ export function createRetriever(index) {
     knownSet.add(key);
     knownSet.add(value);
   });
+  const freq = new Map(df);
+  tdf.forEach((count, term) => freq.set(term, (freq.get(term) || 0) + count));
+  const domain = buildDomain(df, index && index.seeds);
   const seeds = Array.isArray(index && index.seeds) ? index.seeds : [];
   const seedPool = [];
   const seedSeen = new Set();
@@ -369,7 +514,7 @@ export function createRetriever(index) {
     seedPool.push(term);
     knownSet.add(term);
     addPool(term);
-    if (term.length < 3) return;
+    if (term.length < 4) return;
     [`${term}s`, `${term}ing`, `${term}ed`, term.endsWith("e") ? `${term.slice(0, -1)}ing` : ""].forEach((variant) => {
       if (!variant || seedSeen.has(variant)) return;
       seedSeen.add(variant);
@@ -389,7 +534,7 @@ export function createRetriever(index) {
   let memory = null;
 
   function search(text, limit = 3) {
-    const qTerms = queryTokens(text, syn, pool, knownSet, seedPool);
+    const qTerms = queryTokens(text, syn, pool, knownSet, seedPool, freq);
     const qset = new Set(qTerms);
     const nq = normalize(text);
     const ranked = [];
@@ -462,10 +607,10 @@ export function createRetriever(index) {
       if (stopFix) return stopFix;
     }
     if (!allowFuzzy) return word;
-    const fix = fuzzy(word, pool);
+    const fix = fuzzy(word, pool, 0, freq);
     if (fix) return fix;
     if (word.length <= 4) {
-      const small = fuzzy(word, seedPool, 1);
+      const small = fuzzy(word, seedPool, 1, freq);
       if (small) return small;
     }
     return word;
@@ -500,7 +645,34 @@ export function createRetriever(index) {
       forms.add("loop");
       content.push("loop");
     }
+    const addForm = (term) => {
+      forms.add(term);
+      content.push(term);
+    };
+    if (/\bf\b/.test(normalized) && /\b(string|quote|quotes|brace|braces)\b/.test(normalized)) addForm("fstring");
+    if (/\b(uppercase|lowercase|capital|capitals)\b/.test(normalized)) addForm("upper");
+    if (/\b(both ends|each end)\b/.test(normalized) && /\b(space|spaces|whitespace|text|string)\b/.test(normalized)) addForm("strip");
+    if (/\binto words\b/.test(normalized) || (/\bbreak\b/.test(normalized) && /\bwords\b/.test(normalized))) addForm("split");
+    if (/\b(swap|replace)\b/.test(normalized) && /\b(word|text|string|substring)\b/.test(normalized)) addForm("replace");
+    if (/\blowercase\b|\blower case\b|\bsmall letters\b|\blowercase\b/.test(normalized)) addForm("lower");
+    if (/\bduplicate\b/.test(normalized) && /\blist\b/.test(normalized)) addForm("copy");
+    if (/\b(from zero|not including|up to but)\b/.test(normalized)) addForm("range");
+    if (/\bcount\b/.test(normalized) && /\b(each|letter|letters|times)\b/.test(normalized)) addForm("counter");
+    if (/\bfirst\b/.test(normalized) && /\b(item|items|sequence|elements)\b/.test(normalized) && /\b(two|three|four|five|only)\b/.test(normalized)) addForm("slice");
+    if (/\bin one line\b/.test(normalized) && /\b(pair|tuple|names)\b/.test(normalized)) addForm("unpack");
     return { forms, content, how };
+  }
+
+  function stickToTopic(q) {
+    if (!memory || !memory.topic) return q;
+    const prepared = prepare(q);
+    const named = ["list", "tuple", "dict", "string", "function", "file", "loop", "class", "module", "error", "sort", "set"].filter((term) => prepared.forms.has(term));
+    if (named.some((term) => term !== memory.topic)) return q;
+    if (named.includes(memory.topic)) return q;
+    const sticky = new Set("add new key value item another put store fresh insert update change extra under".split(" "));
+    const content = prepared.content.filter((term) => !FILLER.has(term));
+    if (!content.length || !content.every((term) => sticky.has(term) || AMBIGUOUS.has(term))) return q;
+    return `${q} ${memory.topic}`;
   }
 
   function topicFrom(raw, fallbackTitle) {
@@ -607,8 +779,8 @@ export function createRetriever(index) {
     return true;
   }
 
-  function fallbackAnswer(hits, followMode) {
-    const closest = (hits || [])
+  function fallbackAnswer(hits, followMode, quiet = false) {
+    const closest = quiet ? [] : (hits || [])
       .filter((hit) => hit.kind === "lesson" || hit.kind === "slide" || hit.kind === "guide" || hit.kind === "glossary")
       .slice(0, 2)
       .map((hit) => ({ href: hit.href, title: hit.title }));
@@ -660,33 +832,9 @@ export function createRetriever(index) {
         act: "search",
       });
     }
-    if (/^(hi|hello|hey|hiya|howdy|yo|good morning|good afternoon|good evening)[. ]*$/.test(q)) {
-      return emptyAnswer({
-        mode: "greet",
-        intent: "greet",
-        text: "Hello. I look up pages in this lab. Ask where to start, or about lists, functions, or errors.",
-        follow: "Where do I start?",
-        followQ: "Where do I start?",
-      });
-    }
-    if (/^(thanks|thank you|thx|bye|goodbye|see you|how are you|who are you|what is your name|whats your name|good job)[. ]*$/.test(q)) {
-      const who = /who are you|your name/.test(q);
-      const bye = /^(bye|goodbye|see you)/.test(q);
-      const thanks = /thank|thx|good job/.test(q);
-      let text = "I'm here. Ask me about a topic this lab teaches.";
-      if (who) text = "I am Py, the lab bot in Cypher Monkey's Python Lab. I answer only from this lab's lessons, and I can be wrong.";
-      else if (bye) text = "See you in the lab. The lessons stay on this device.";
-      else if (thanks) text = "You're welcome. Open a lesson when you want to try it.";
-      else if (/how are you/.test(q)) text = "Ready when you are. Ask about a Python topic from this lab.";
-      return emptyAnswer({
-        mode: "smalltalk",
-        intent: "smalltalk",
-        text,
-        follow: "How do I run code?",
-        followQ: "How do I run code?",
-      });
-    }
-    if (memory && /^(?:(?:can|could) you )?(?:show|give)(?: me)?(?: an)? example(?: of (?:that|it|this))?[. ]*$/.test(q)) {
+    const chat = smallTalk(q);
+    if (chat) return chat;
+    if (memory && /^(?:please )?(?:(?:can|could) you )?(?:show|give)(?: me)?(?: a| an)? (?:short |small )?(?:example|sample)(?: of (?:that|it|this))?[. ]*$/.test(q)) {
       if (!memory.example) {
         return emptyAnswer({
           mode: "answer",
@@ -731,7 +879,8 @@ export function createRetriever(index) {
       searchText = rest;
       followMode = true;
     }
-    if (/\b(play|open|start)\b.*\b(game|games)\b|\bgames\b[. ]*$|what games/.test(q)) {
+    searchText = stickToTopic(searchText);
+    if (/\b(play|open|start)\b.*\b(game|games|puzzles?)\b|\b(games|puzzles)\b[. ]*$|what games|\bpuzzles?\b/.test(q)) {
       const named = gameNamed(q);
       if (named) return intentAnswer("game", named, clip(named.ex), { raw, follow: "Show downloads", followQ: "Show downloads" });
       const games = docBy((doc) => doc.h === "#/games" || (doc.k === "section" && doc.s === "games"));
@@ -745,7 +894,7 @@ export function createRetriever(index) {
     if (namedGame && /\b(play|open|game|start)\b/.test(q)) {
       return intentAnswer("game", namedGame, clip(namedGame.ex), { raw });
     }
-    if (/\b(audio|listen|spoken|hear the|play audio|sound lesson)\b/.test(q)) {
+    if (/\b(audio|listen|spoken|hear the|play audio|sound lesson|out loud)\b/.test(q) || /\bread (a |the )?lesson\b/.test(q)) {
       const media = docs.filter((doc) => doc.k === "media" && doc.act === "audio");
       const text = media.length
         ? `Spoken audio in this lab: ${media.map((doc) => doc.ti).join("; ")}.`
@@ -787,12 +936,12 @@ export function createRetriever(index) {
         followQ: "How do I run code?",
       });
     }
-    if (/\b(where (do|should) i start|how (do|should|can) i (start|begin)|how to (start|begin)|getting started|first lesson|start here|begin here|beginner begin)\b/.test(q)) {
+    if (/\b(where (do|should) i start|how (do|should|can) i (start|begin)|how to (start|begin)|getting started|first lesson|start here|begin here|beginner begin|where should i begin|where can i begin|where do i begin|i m lost|im lost|newcomer|first page)\b/.test(q) || /\bwhere can\b.*\b(start|begin|open)\b/.test(q)) {
       const doc = docBy((item) => item.i === "lesson:start/how-to-use") || docBy((item) => item.h === "#/section/start");
       const text = doc ? `Start with “${doc.ti}”. ${clip(doc.ex, 220)}` : "Start with the Start Here section.";
       return intentAnswer("start", doc, text, { raw, follow: "How do I run code?", followQ: "How do I run code?" });
     }
-    if (/\b(what level am i|whats my level|what is my level|my progress|how far am i|how many lessons have i)\b/.test(q)) {
+    if (/\b(what level am i|whats my level|what is my level|my progress|how far am i|how many lessons have i)\b/.test(q) || (/\bhow far\b/.test(q) && /\b(am i|along)\b/.test(q))) {
       const info = host && typeof host.progress === "function" ? host.progress() : null;
       const done = info && Number.isFinite(info.done) ? info.done : 0;
       const total = info && Number.isFinite(info.total) ? info.total : 0;
@@ -824,7 +973,21 @@ export function createRetriever(index) {
         followQ: "Where do I start?",
       });
     }
-    if (/\b(what can you do|what do you do|what can you help|how can you help|what are you able to do)\b/.test(q)) {
+    if (/\b(levels|worlds)\b/.test(q) && /\b(list|course|lab|which|what|show|many)\b/.test(q)) {
+      const rows = docs.filter((doc) => doc.k === "level");
+      const text = rows.length
+        ? `This lab has ${rows.length} levels, from ${rows[0].ti} through ${rows[rows.length - 1].ti}. They are themed worlds, not an exam syllabus.`
+        : "Levels in this lab are themed worlds. Open the level map to see them.";
+      const page = docBy((doc) => doc.h === "#/worlds") || rows[0];
+      return intentAnswer("levels", page, text, {
+        href: "#/worlds",
+        link: "Open the worlds",
+        raw,
+        follow: "Where do I start?",
+        followQ: "Where do I start?",
+      });
+    }
+    if (/\b(what can you do|what do you do|what can you help|how can you help|what are you able to do|what topics|which topics|topics can you)\b/.test(q)) {
       return emptyAnswer({
         mode: "intent",
         intent: "help",
@@ -835,7 +998,7 @@ export function createRetriever(index) {
         followQ: "Where do I start?",
       });
     }
-    if (/^(help|help me|help please)[. ]*$/.test(q) || /help me use/.test(q) || /how (do i|to|can i) use (this )?(site|lab)/.test(q)) {
+    if (/^(help|help me|help please)[. ]*$/.test(q) || /help me use/.test(q) || /how (do i|to|can i) use (this )?(site|lab)/.test(q) || (/\bhelp\b/.test(q) && /\b(site|lab|using)\b/.test(q))) {
       const doc = docBy((item) => item.i === "lesson:start/how-to-use");
       const text = doc
         ? `Help for this lab starts at “${doc.ti}”. ${clip(doc.ex, 200)}`
@@ -860,9 +1023,10 @@ export function createRetriever(index) {
     const limited = String(raw || "").slice(0, 400);
     const routed = route(limited, host || {});
     if (!routed.searchText) return routed;
+    if (!hasDomainTerm(routed.searchText, domain, syn, pool, freq)) return fallbackAnswer([], routed.followMode, true);
     const seed = matchSeed(routed.searchText);
     if (seed) return fromSeed(seed, limited);
-    const qTerms = queryTokens(routed.searchText, syn, pool, knownSet, seedPool);
+    const qTerms = queryTokens(routed.searchText, syn, pool, knownSet, seedPool, freq);
     const indexed = qTerms.filter((term) => df.has(term));
     const topical = indexed.filter((term) => !/^\d+$/.test(term));
     const unknownTerms = qTerms.filter((term) => !df.has(term));

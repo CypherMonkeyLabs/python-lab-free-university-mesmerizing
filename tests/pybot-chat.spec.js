@@ -148,6 +148,13 @@ test("chat input stays on screen at 390x430", async ({ browser }) => {
   expect(still.overlap, "bot covers the input while answering").toBe(false);
   expect(still.onScreen, "input left the screen while answering").toBe(true);
   expect(still.hit, "input covered while answering").toBe(true);
+  const logBox = await panel.locator(".py-chat-log").evaluate((el) => ({
+    height: el.clientHeight,
+    overflow: getComputedStyle(el).overflowY,
+  }));
+  expect(logBox.height, "answer log is too short to read").toBeGreaterThanOrEqual(48);
+  expect(logBox.overflow === "auto" || logBox.overflow === "scroll", "answer log does not scroll").toBe(true);
+  await expect(panel.getByRole("button", { name: "Clear chat" })).toBeVisible();
   await page.screenshot({ path: path.join(shotDir, "py-chat-390x430.png") });
   await context.close();
   expect(quiet(errors)).toEqual([]);
@@ -204,7 +211,7 @@ test("chat answers from the precached index while offline", async ({ page, conte
   await page.waitForFunction(async () => {
     const ready = await navigator.serviceWorker.ready;
     if (!ready.active) return false;
-    const cache = await caches.open("pythonlab-pwa-v6");
+    const cache = await caches.open("pythonlab-pwa-v7");
     const index = await cache.match("./js/content/pybot-index.json");
     const engine = await cache.match("./shared/pybot-chat/engine.js");
     const chat = await cache.match("./js/botchat.js");

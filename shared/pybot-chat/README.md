@@ -74,17 +74,19 @@ A how-question (`how do I`, `how to`, `how can`) skips `allow` unless `how` is `
 
 ## What the engine decides before it searches
 
-Injection is checked on the raw string, before retrieval and before memory. Patterns include "ignore … instructions", "system prompt", "you are now", "DAN", and "jailbreak". The reply is a fallback with intent `injection` and no link.
+Injection is checked on the raw string, before retrieval and before memory. Patterns include "ignore", "pretend", "roleplay", "system prompt", "instructions", "repeat/print/reveal the text above", and "starting with You are". The reply is a fallback with intent `injection` and no link.
 
-"What can you do" is a help intent. It describes lookup, topics, and errors, and links the lab's how-to page. It does not search.
+A question also needs a programming term before search. The term list is a curated programming vocabulary plus index terms that are not ordinary English. One ambiguous word such as "set" or "time" does not carry a question that is otherwise outside the lab. With no in-domain term, the fallback does not attach closest-page links.
 
-Typos: a word that is not in the index vocabulary is corrected when one candidate wins. Doubled letters collapse first (`lisst` → `list`). Otherwise Damerau-Levenshtein distance is 1 for words shorter than 7 characters and 2 from 7 up. Ties prefer the longer shared prefix. Stop words are not rewritten (`is` stays `is`). A 2–4 letter word can also match a stop word or a seed term (`wat` → `what`).
+Small talk (hi, hey there, thanks, bye, who are you, and short variants) is a fixed friendly reply with no lesson link. "What can you do" and "what topics can you help with" are help intents. They do not search.
+
+Typos: a word that is not in the index vocabulary is corrected when one candidate wins. Doubled letters collapse first (`lisst` → `list`). Otherwise Damerau-Levenshtein distance is 1 for words shorter than 7 characters and 2 from 7 up. Ties prefer the longer shared prefix, then the shorter completion, then the term that appears in more pages. Stop words are not rewritten (`is` stays `is`). A 2–4 letter word can also match a stop word or a seed term (`wat` → `what`).
 
 ## When a hit is shown
 
 BM25 (k1 1.2, b 0.75) ranks docs. A hit is shown only when the top score is at least 2.4, the matched known terms cover at least two thirds of the known query terms, and the margin over the next different page is at least 1.2 (or the score ratio is at least 1.22). A title phrase can pass with lower coverage. If the query has no indexed term, or more unknown terms than indexed terms and at most one indexed term, the engine falls back without showing a link.
 
-Seeds are tried after intents and before BM25. The highest seed score wins.
+Seeds are tried after intents and before BM25. The highest seed score wins. Python Lab's builder also adds one low-rank seed per lesson, from that lesson's title and excerpt, with `how: false` so a loose how-question does not steal it from a curated seed.
 
 ## What an answer is allowed to say
 
@@ -94,7 +96,7 @@ Recorded voices in Python Lab are fixed clips. Read aloud uses the browser voice
 
 ## Short screens
 
-`chat.css` lays the panel out as a column. The lesson scroller shrinks. The text field does not. Under 560px of viewport height the example chips hide so the field stays in view. The host should position the panel with `visualViewport` (width, height, offsetTop) and `dvh`, and listen to `visualViewport` resize and scroll, so a phone keyboard does not cover the field.
+`chat.css` lays the panel out as a column. The lesson scroller shrinks. The text field does not. Under 560px of viewport height the header, quick actions, and suggestion chips collapse, and the answer log keeps a 48px minimum with its own scrollbar so the reply can be read. Clear stays available. The host should position the panel with `visualViewport` (width, height, offsetTop) and `dvh`, and listen to `visualViewport` resize and scroll, so a phone keyboard does not cover the field.
 
 ## Licence
 

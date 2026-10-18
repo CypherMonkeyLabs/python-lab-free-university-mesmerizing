@@ -154,7 +154,7 @@ test("offline home and a lesson", async ({ page, context }) => {
   await page.waitForFunction(async () => {
     const ready = await navigator.serviceWorker.ready;
     if (!ready.active) return false;
-    const cache = await caches.open("pythonlab-pwa-v6");
+    const cache = await caches.open("pythonlab-pwa-v7");
     const shell = await cache.match("./js/app.js");
     const audio = await cache.match("./media/audio-syntax.mp3");
     const lesson = await cache.match("./js/content/start.js");
