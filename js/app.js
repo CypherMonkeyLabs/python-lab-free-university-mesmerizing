@@ -31,9 +31,11 @@ import { initDisplay } from "./display.js";
 import { initTour } from "./tour.js";
 import { initWelcome } from "./welcome.js";
 import { levelView, meView } from "./views2.js";
-import { PLAY } from "./play.js";
+import { PLAY, BONUS_PUZZLES } from "./play.js";
 import { DOWNLOADS, FORMAT_LABEL } from "./content/downloads.js";
 import { initPy } from "./pycustom.js";
+import { initPWA } from "./pwa.js";
+import { zodiacBrandPill } from "./cm-shared.js";
 
 const main = () => document.getElementById("main");
 let viewToken = 0;
@@ -225,29 +227,71 @@ function homeView() {
       <p data-speak>Lucky is a lifelong student and an AI enthusiast. He is moving into AI omni-channel agents, and this lab is the notebook he is willing to share: cited, runnable in the browser, and free of invented salary claims.</p>
       ${roomScene({ title: "Lobby of the lab.", cards: ["Syntax", "Data", "Agents"], screen: "print('hello')" })}
       <section class="clips" id="clips">
-        <h2>Motion, without Flash</h2>
-        <p>These clips were generated for the lab with ffmpeg. They are short on purpose. The canvas beside them is HTML5.</p>
+        <h2>Motion &amp; Visual Explainers, without Flash</h2>
+        <p>These short clips and animated explainers were generated for the lab with Python and ffmpeg (licensed CC BY-NC-SA 4.0 / MIT). Each visualises a core Python concept cited in <a href="#/sources">Sources</a>.</p>
         <div class="clip-grid">
           <figure>
             <video controls playsinline preload="metadata" poster="media/typing-poster.jpg">
               <source src="media/typing.mp4" type="video/mp4">
             </video>
-            <figcaption>MP4. A line of code appearing one letter at a time.</figcaption>
+            <figcaption>MP4 · First program: <code>print('hi')</code> appearing one character at a time (<a href="#/sources/tutorial">Tutorial</a>).</figcaption>
           </figure>
           <figure>
             <video controls playsinline preload="metadata" poster="media/orbit-poster.jpg">
               <source src="media/lab-orbit.webm" type="video/webm">
             </video>
-            <figcaption>WebM. A small orbit in the lab colors.</figcaption>
+            <figcaption>WebM · Orbiting state in the lab palette.</figcaption>
+          </figure>
+          <figure>
+            <video controls playsinline preload="metadata" poster="media/list-comp-poster.jpg">
+              <source src="media/list-comprehension.mp4" type="video/mp4">
+            </video>
+            <figcaption>MP4 · List comprehension filter &amp; map step by step (<a href="#/sources/stdtypes">Built-in types</a>).</figcaption>
+          </figure>
+          <figure>
+            <video controls playsinline preload="metadata" poster="media/dict-poster.jpg">
+              <source src="media/dict-lookup.webm" type="video/webm">
+            </video>
+            <figcaption>WebM · Dictionary hash bucket lookup in CPython (<a href="#/sources/timecomplexity">TimeComplexity</a>).</figcaption>
           </figure>
           <figure>
             <img src="media/indent.gif" alt="Three bars step down and to the right, one level at a time, as a picture of indentation.">
-            <figcaption>GIF. Indentation drawn as a step, not as a screenshot of an editor.</figcaption>
+            <figcaption>GIF · Four-space indentation blocks (<a href="#/sources/lexical">Lexical analysis</a>).</figcaption>
+          </figure>
+          <figure>
+            <img src="media/async-loop.gif" alt="Two tasks interleaving on a single thread while awaiting I/O in asyncio.">
+            <figcaption>GIF · Single-thread cooperative <code>await</code> in <code>asyncio</code> (<a href="#/sources/asyncio-docs">asyncio</a>).</figcaption>
           </figure>
           <figure>
             <canvas id="orbit-canvas" aria-label="HTML5 canvas animation of a satellite circling a core"></canvas>
-            <figcaption>HTML5 canvas. The satellite holds still if your system asks for reduced motion.</figcaption>
+            <figcaption>HTML5 canvas · Holds still if your system asks for reduced motion.</figcaption>
           </figure>
+        </div>
+      </section>
+      <section class="audio-section" id="audio-lessons" aria-labelledby="audio-h">
+        <h2 id="audio-h">Spoken Audio Lessons (Offline MP3)</h2>
+        <p>Listen to short, cited audio briefings offline or while you read. Every lesson page also has a browser <b>Read aloud</b> button.</p>
+        <div class="audio-grid">
+          <article class="audio-card">
+            <h3>1. Names, Types &amp; Indentation</h3>
+            <p>Four-space blocks, name binding vs. copying, and mutable vs. immutable built-in types (<a href="#/sources/lexical">Lexical analysis</a>, <a href="#/sources/datamodel">Data model</a>).</p>
+            <audio controls preload="metadata" src="media/audio-syntax.mp3"></audio>
+          </article>
+          <article class="audio-card">
+            <h3>2. Choosing the Right Data Structure</h3>
+            <p>CPython list amortized append vs. linear front insert, plus average O(1) dict/set hashing (<a href="#/sources/stdtypes">Built-in types</a>, <a href="#/sources/timecomplexity">TimeComplexity</a>).</p>
+            <audio controls preload="metadata" src="media/audio-structures.mp3"></audio>
+          </article>
+          <article class="audio-card">
+            <h3>3. Generators &amp; Async Coroutines</h3>
+            <p>Lazy iteration with <code>yield</code> and single-thread cooperative multitasking with <code>async</code> / <code>await</code> (<a href="#/sources/asyncio-docs">asyncio</a>).</p>
+            <audio controls preload="metadata" src="media/audio-async.mp3"></audio>
+          </article>
+          <article class="audio-card">
+            <h3>4. Interview Problem-Solving Checklist</h3>
+            <p>Clarifying inputs, edge cases, hand tracing, and stating honest CPython time/space costs (<a href="#/sources/timecomplexity">TimeComplexity</a>, <a href="#/sources/functools">functools</a>).</p>
+            <audio controls preload="metadata" src="media/audio-interview.mp3"></audio>
+          </article>
         </div>
       </section>
       <h2>Topics</h2>
@@ -342,10 +386,102 @@ function lessonView(trackId, lessonId) {
   };
 }
 
+const INTERVIEW_CHALLENGES = {
+  twosum: {
+    title: "Two-Sum Indices (Dict Lookup)",
+    summary: "Return (i, j) with i < j such that nums[i] + nums[j] == target in one pass using a dictionary.",
+    source: "timecomplexity",
+    code: `def two_sum(nums, target):
+    seen = {}
+    for i, val in enumerate(nums):
+        need = target - val
+        if need in seen:
+            return (seen[need], i)
+        seen[val] = i
+    return None
+
+assert two_sum([2, 7, 11, 15], 9) == (0, 1)
+assert two_sum([3, 2, 4], 6) == (1, 2)
+assert two_sum([1, 2, 3], 99) is None
+print("Two-Sum passed all checks!")
+`,
+  },
+  brackets: {
+    title: "Balanced Brackets (Stack)",
+    summary: "Use a Python list as a LIFO stack to verify matching (), [], and {} brackets.",
+    source: "stdtypes",
+    code: `def is_balanced(text):
+    pairs = {")": "(", "]": "[", "}": "{"}
+    stack = []
+    for ch in text:
+        if ch in "([{":
+            stack.append(ch)
+        elif ch in pairs:
+            if not stack or stack.pop() != pairs[ch]:
+                return False
+    return len(stack) == 0
+
+assert is_balanced("([{}])") is True
+assert is_balanced("([)]") is False
+assert is_balanced("") is True
+print("Balanced Brackets passed all checks!")
+`,
+  },
+  rle: {
+    title: "Run-Length Encoding (Iteration)",
+    summary: "Compress consecutive identical characters into (char, count) pairs.",
+    source: "itertools",
+    code: `def encode_runs(text):
+    if not text:
+        return []
+    out = []
+    cur, count = text[0], 1
+    for ch in text[1:]:
+        if ch == cur:
+            count += 1
+        else:
+            out.append((cur, count))
+            cur, count = ch, 1
+    out.append((cur, count))
+    return out
+
+assert encode_runs("aaabbc") == [("a", 3), ("b", 2), ("c", 1)]
+assert encode_runs("") == []
+print("Run-Length Encoding passed all checks!")
+`,
+  },
+  window: {
+    title: "Sliding Window Maximum Sum",
+    summary: "Find the largest sum of k adjacent integers without recomputing every slice from scratch.",
+    source: "stdtypes",
+    code: `def max_k_sum(nums, k):
+    if k <= 0 or k > len(nums):
+        return 0
+    window = sum(nums[:k])
+    best = window
+    for i in range(k, len(nums)):
+        window += nums[i] - nums[i - k]
+        if window > best:
+            best = window
+    return best
+
+assert max_k_sum([2, 1, 5, 1, 3, 2], 3) == 9
+assert max_k_sum([4, -1, 2, 1], 2) == 3
+print("Sliding Window passed all checks!")
+`,
+  },
+};
+
 function practiceView() {
   const starter = 'print("Hello from Python Lab")\n';
+  const challengeCards = Object.entries(INTERVIEW_CHALLENGES).map(([k, c]) => `<article class="challenge-card" data-challenge-card="${esc(k)}">
+      <h3>${esc(c.title)}</h3>
+      <p>${esc(c.summary)} (<a href="#/sources/${esc(c.source)}">Source</a>)</p>
+      <div><button type="button" class="text-btn" data-challenge="${esc(k)}">Load challenge into editor</button></div>
+    </article>`).join("");
   return {
     html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/practice", label: "Practice desk" }])}
+      <div class="dc-brand-banner">${zodiacBrandPill({ size: 32, title: "CypherMonkey Labs Practice & Interview Desk", link: true })}</div>
       <h1>Practice desk</h1>
       <p class="lede" data-speak>This is a Python 3.14 interpreter compiled to WebAssembly and stored with the site. Your code stays in the browser. The first run reads the local runtime files, which are several megabytes.</p>
       <p>NumPy 2.4.6 and pandas 3.0.2 are included. There is no install from the public internet. Sockets and TLS are limited here, so treat this as a language desk, not a place to call other servers.</p>
@@ -365,7 +501,29 @@ function practiceView() {
       </div>
       <p class="muted" id="run-status">Runtime files: Pyodide 314.0.7, CPython 3.14.2. Press Run to start them.</p>
       <h2>Output</h2>
-      <div class="output" id="output">Output appears here after you run.</div>`,
+      <div class="output" id="output">Output appears here after you run.</div>
+      <h2>Interview-Style Challenges (Runnable in Browser)</h2>
+      <p>Load any challenge below into the editor, inspect the assertions, and press <b>Run</b> to verify your solution on CPython 3.14. Or open the full <a href="#/track/dsa">Data Structures &amp; Algorithms track</a>.</p>
+      <div class="challenge-grid" id="interview-challenges">${challengeCards}</div>
+      <section class="audio-section" id="audio-lessons">
+        <h2>Audio Briefings While You Practice</h2>
+        <div class="audio-grid">
+          <article class="audio-card"><h3>🔊 Syntax &amp; Types</h3><audio controls preload="metadata" src="media/audio-syntax.mp3"></audio></article>
+          <article class="audio-card"><h3>🔊 Data Structures Cost</h3><audio controls preload="metadata" src="media/audio-structures.mp3"></audio></article>
+          <article class="audio-card"><h3>🔊 Generators &amp; Async</h3><audio controls preload="metadata" src="media/audio-async.mp3"></audio></article>
+          <article class="audio-card"><h3>🔊 Interview Checklist</h3><audio controls preload="metadata" src="media/audio-interview.mp3"></audio></article>
+        </div>
+      </section>
+      <section class="media-strip" id="video-explainers" aria-label="Visual explainers">
+        <h2>Short Video &amp; Animated Explainers</h2>
+        <div class="clip-grid">
+          <figure><video controls playsinline preload="metadata" poster="media/typing-poster.jpg"><source src="media/typing.mp4" type="video/mp4"></video><figcaption>MP4 · First program (<a href="#/sources/tutorial">Tutorial</a>)</figcaption></figure>
+          <figure><video controls playsinline preload="metadata" poster="media/list-comp-poster.jpg"><source src="media/list-comprehension.mp4" type="video/mp4"></video><figcaption>MP4 · List comprehension (<a href="#/sources/stdtypes">Built-in types</a>)</figcaption></figure>
+          <figure><video controls playsinline preload="metadata" poster="media/dict-poster.jpg"><source src="media/dict-lookup.webm" type="video/webm"></video><figcaption>WebM · Dict hash lookup (<a href="#/sources/timecomplexity">TimeComplexity</a>)</figcaption></figure>
+          <figure><img src="media/indent.gif" alt="Four-space indentation blocks"><figcaption>GIF · Indentation (<a href="#/sources/lexical">Lexical analysis</a>)</figcaption></figure>
+          <figure><img src="media/async-loop.gif" alt="Two tasks interleaving on a single thread"><figcaption>GIF · Asyncio event loop (<a href="#/sources/asyncio-docs">asyncio</a>)</figcaption></figure>
+        </div>
+      </section>`,
     after(token) {
       const editor = document.getElementById("editor");
       editor.value = starter;
@@ -377,6 +535,15 @@ function practiceView() {
       document.querySelectorAll("[data-snippet]").forEach((button) => {
         button.addEventListener("click", () => {
           editor.value = snippets[button.dataset.snippet];
+        });
+      });
+      document.querySelectorAll("[data-challenge]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const ch = INTERVIEW_CHALLENGES[button.dataset.challenge];
+          if (ch) {
+            editor.value = ch.code;
+            editor.focus();
+          }
         });
       });
       document.getElementById("run-code").addEventListener("click", () => {
@@ -452,11 +619,15 @@ function gamesView() {
     { href: "#/games/adventure", title: "Import Error", menu: "A text adventure about finding a missing module.", icon: "games" },
     ...PLAY.map((g) => ({ href: `#/games/${g.id}`, title: g.title, menu: `${g.menu} (${g.concept})`, icon: "games" })),
   ];
+  const bonusHtml = BONUS_PUZZLES.map((g) => `<a class="lesson-row puzzle-card" href="#/games/${esc(g.id)}">
+    <span class="row-top">${icon("games")}<span><span class="row-label">${esc(g.title)}</span><span class="row-desc">${esc(g.menu)} (${esc(g.concept)})</span></span></span></a>`).join("");
   return {
     html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/games", label: "Games" }])}
       <h1>Games</h1>
       <p class="lede">Visual games and puzzles that explain Python ideas, plus classics. They run in the browser, start immediately, and earn XP and badges stored only on this device. <a href="#/me">See my XP and badges</a>.</p>
-      <div class="menu-grid">${cards.map(menuCard).join("")}</div>`,
+      <div class="menu-grid">${cards.map(menuCard).join("")}</div>
+      <h2>Interactive Data Structure &amp; Complexity Puzzles</h2>
+      <div class="card-grid">${bonusHtml}</div>`,
   };
 }
 
@@ -465,7 +636,7 @@ function gameView(id) {
     guess: ["Guess the integer", "Find the hidden integer."],
     snake: ["Snake", "Eat the brass square. Do not hit the wall or yourself."],
     adventure: ["Import Error", "A text adventure in the lab building."],
-    ...Object.fromEntries(PLAY.map((g) => [g.id, [g.title, `${g.menu} Concept: ${g.concept}.`]])),
+    ...Object.fromEntries([...PLAY, ...BONUS_PUZZLES].map((g) => [g.id, [g.title, `${g.menu} Concept: ${g.concept}.`]])),
   };
   if (!titles[id]) return missingView();
   return {
@@ -798,6 +969,7 @@ initFx();
 initXP();
 initDisplay();
 initTour();
+initPWA();
 window.addEventListener("hashchange", render);
 document.addEventListener("click", (event) => {
   const themeButton = event.target.closest("[data-theme-set]");

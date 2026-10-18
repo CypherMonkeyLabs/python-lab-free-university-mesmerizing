@@ -136,13 +136,69 @@ export const dsa = {
         {
           heading: "A sentence that holds up",
           html: `<p>Say "list append is amortized constant time in CPython" rather than "lists are O(1)". Say which operation. Lookup in a dict is not the same cost as "the dict". The TimeComplexity wiki is a useful CPython note. It is not the language reference, and a different Python implementation can differ.</p>
-          <p>In an interview, narrate a test: an empty input, a single item, and a case that would break an off-by-one. This lab does not collect employer question banks and does not claim that a pattern guarantees an offer.</p>`,
+          <p>In an interview, narrate a test: an empty input, a single item, and a case that would break an off-by-one. This lab does not collect employer question banks and does not claim that a pattern guarantees an offer.</p>
+          <div class="audio-card"><h3>🔊 Audio lesson: Interview problem-solving checklist</h3><p>Spoken walkthrough of clarifying inputs, edge cases, and CPython complexity claims.</p><audio controls preload="metadata" src="media/audio-interview.mp3"></audio></div>`,
         },
       ],
       exercise: {
         prompt: "Write cost_note() that returns the exact string amortized append. It is a reminder, not a measurement.",
         starter: "def cost_note():\n    return \"\"\n",
         checks: ["assert cost_note() == 'amortized append'"],
+      },
+    },
+    {
+      id: "two-pointers",
+      title: "Two pointers and sliding windows",
+      level: "Interview",
+      minutes: 14,
+      summary: "Walk a sequence with two indices instead of nested loops when the order or window size lets you.",
+      sources: ["stdtypes", "timecomplexity"],
+      sections: [
+        {
+          heading: "When two pointers replace a nested loop",
+          html: `<p>Checking every pair in a sequence of length <code>n</code> with two nested loops visits <code>n * (n - 1) // 2</code> pairs (quadratic growth). When the input list is already sorted, one index at the left (<code>lo = 0</code>) and one at the right (<code>hi = len(nums) - 1</code>) can step inward in linear time: if <code>nums[lo] + nums[hi]</code> is too small, advance <code>lo</code>; if too large, decrease <code>hi</code>.</p>
+          ${codeBlock("def has_pair_sum(nums, target):\n    lo, hi = 0, len(nums) - 1\n    while lo < hi:\n        s = nums[lo] + nums[hi]\n        if s == target:\n            return (lo, hi)\n        if s < target:\n            lo += 1\n        else:\n            hi -= 1\n    return None\n")}`,
+        },
+        {
+          heading: "Fixed-width sliding window",
+          html: `<p>To find the largest sum of <code>k</code> adjacent numbers, compute the first slice sum once, then slide one step at a time by adding the entering number and subtracting the leaving number. Each element is added and removed at most once.</p>
+          ${codeBlock("def max_window_sum(nums, k):\n    if k <= 0 or k > len(nums):\n        return 0\n    window = sum(nums[:k])\n    best = window\n    for i in range(k, len(nums)):\n        window += nums[i] - nums[i - k]\n        if window > best:\n            best = window\n    return best\n")}`,
+        },
+      ],
+      exercise: {
+        prompt: "Write pair_sum_sorted(nums, target) for a sorted list of integers. Return a tuple (lo, hi) of two distinct indices whose values add up to target, or None if no pair exists.",
+        starter: "def pair_sum_sorted(nums, target):\n    lo, hi = 0, len(nums) - 1\n    return None\n",
+        checks: [
+          "assert pair_sum_sorted([1, 3, 4, 6, 9], 9) == (1, 3)",
+          "assert pair_sum_sorted([2, 5, 8], 20) is None",
+          "assert pair_sum_sorted([], 0) is None",
+        ],
+      },
+    },
+    {
+      id: "recursion-memo",
+      title: "Recursion and memoization with functools.cache",
+      level: "Interview",
+      minutes: 14,
+      summary: "Break a problem into smaller subproblems and cache repeated calls with functools.cache.",
+      sources: ["functools", "timecomplexity"],
+      sections: [
+        {
+          heading: "Why plain recursion can repeat work",
+          html: `<p>A recursive function needs a base case that stops and a step that moves toward the base case. When two branches recompute the same subproblem (for example, counting staircase paths <code>ways(n - 1) + ways(n - 2)</code>), the call tree grows exponentially unless you remember past results.</p>
+          <p>Python's standard library provides <code>functools.cache</code> (added in Python 3.9 as an unbounded wrapper around <code>lru_cache(maxsize=None)</code>). Its arguments must be hashable because the cache is backed by a dictionary.</p>
+          ${codeBlock("from functools import cache\n\n@cache\ndef fib(n: int) -> int:\n    if n < 2:\n        return n\n    return fib(n - 1) + fib(n - 2)\n\nassert fib(30) == 832040\n")}`,
+        },
+      ],
+      exercise: {
+        prompt: "Write climb_ways(n) that returns the number of distinct ways to climb n steps when you can take 1 or 2 steps at a time (climb_ways(0) == 1, climb_ways(1) == 1, climb_ways(4) == 5).",
+        starter: "from functools import cache\n\n@cache\ndef climb_ways(n):\n    if n <= 1:\n        return 1\n    return 0\n",
+        checks: [
+          "assert climb_ways(0) == 1",
+          "assert climb_ways(1) == 1",
+          "assert climb_ways(4) == 5",
+          "assert climb_ways(10) == 89",
+        ],
       },
     },
   ],

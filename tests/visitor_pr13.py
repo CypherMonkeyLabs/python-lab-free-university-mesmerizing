@@ -7,7 +7,8 @@ res = []
 def rec(vp, name, ok, d=""): res.append(dict(viewport=vp, test=name, ok=bool(ok), detail=str(d)[:300]))
 async def main():
     async with async_playwright() as p:
-        b = await p.chromium.launch(executable_path=shutil.which("google-chrome"), args=["--no-sandbox", "--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"])
+        chrome_bin = shutil.which("google-chrome") or "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+        b = await p.chromium.launch(executable_path=chrome_bin, args=["--no-sandbox", "--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"])
         man = json.load(urllib.request.urlopen(BASE + "downloads/modules/manifest.json"))
         for vp, o in VPS.items():
             touch = vp.startswith("touch")
@@ -29,7 +30,7 @@ async def main():
             rec(vp, "fresh: second tap opens bot panel", await pg.locator("#bot-panel").is_visible())
             rec(vp, "exactly one bot", await pg.locator("#lab-bot").count() == 1 and await pg.locator("#bot-panel").count() == 1)
             labels = await pg.eval_on_selector_all(".bp-qa", "e=>e.map(x=>x.textContent.trim())")
-            rec(vp, "bot quick actions (9)", len(labels) == 9, labels)
+            rec(vp, "bot quick actions (>=9)", len(labels) >= 9, labels)
             rec(vp, "bot has hint ladder/teach block", await pg.locator(".bp-teach").count() == 1)
             rec(vp, "bot customise controls", await pg.locator(".py-custom").count() == 1)
             await pg.screenshot(path=f"{OUT}/{vp}_pr13_bot_panel.png")

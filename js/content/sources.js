@@ -30,6 +30,7 @@ export const sources = [
   { id: "pathlib", group: "Standard library", title: "pathlib", detail: "Object-oriented filesystem paths.", url: "https://docs.python.org/3/library/pathlib.html" },
   { id: "collections", group: "Standard library", title: "collections", detail: "deque, Counter, defaultdict, and namedtuple.", url: "https://docs.python.org/3/library/collections.html" },
   { id: "itertools", group: "Standard library", title: "itertools", detail: "Iterator building blocks.", url: "https://docs.python.org/3/library/itertools.html" },
+  { id: "functools", group: "Standard library", title: "functools", detail: "Higher-order functions and cache/lru_cache decorators for memoization.", url: "https://docs.python.org/3/library/functools.html" },
   { id: "heapq", group: "Standard library", title: "heapq", detail: "Heap queue operations.", url: "https://docs.python.org/3/library/heapq.html" },
   { id: "bisect-doc", group: "Standard library", title: "bisect", detail: "Binary search helpers for sorted sequences.", url: "https://docs.python.org/3/library/bisect.html" },
   { id: "statistics", group: "Standard library", title: "statistics", detail: "Mean, median, and friends for everyday numbers.", url: "https://docs.python.org/3/library/statistics.html" },

@@ -409,6 +409,107 @@ function mountPong(root) {
   return () => { cancelAnimationFrame(raf); document.removeEventListener("keydown", kd); document.removeEventListener("keyup", ku); };
 }
 
-const MOUNT = { blocks: mountBlocks, turtle: mountTurtle, loops: mountLoops, lists: mountLists, order: mountOrder, pong: mountPong };
+/* ============ 7. Dictionary Hash Lab (bonus puzzle) ============ */
+export const BONUS_PUZZLES = [
+  { id: "dict-puzzle", title: "Dictionary Hash Lab", menu: "Use set, get, and pop on a Python dict to build the target mapping.", concept: "dicts, keys, average O(1) lookup" },
+  { id: "complexity", title: "Big-O Cost Matcher", menu: "Match each CPython operation to its average-case time complexity and reason.", concept: "time complexity in CPython" },
+];
+
+function mountDictPuzzle(root) {
+  const rounds = [
+    { start: { a: 1 }, target: { a: 1, b: 2, c: 3 }, hint: "Set b=2 and c=3" },
+    { start: { x: 10, y: 20, z: 30 }, target: { x: 99, z: 30 }, hint: "Update x=99 and pop('y')" },
+  ];
+  let ri = 0;
+  let stateObj = { ...rounds[0].start };
+  const render = () => {
+    const r = rounds[ri];
+    const entries = Object.entries(stateObj);
+    const tEntries = Object.entries(r.target);
+    root.innerHTML = `<p class="muted">Round ${ri + 1} of ${rounds.length}. Hint: ${esc(r.hint)}. (Source: <a href="#/sources/stdtypes">Built-in types</a> &amp; <a href="#/sources/timecomplexity">TimeComplexity</a>)</p>
+      <div class="ls-row"><b>Now</b><div class="ls-list" aria-label="Current dict">${entries.map(([k, v]) => `<span class="ls-cell"><small>'${esc(k)}'</small>${v}</span>`).join("") || '<span class="muted">{}</span>'}</div></div>
+      <div class="ls-row"><b>Target</b><div class="ls-list target" aria-label="Target dict">${tEntries.map(([k, v]) => `<span class="ls-cell"><small>'${esc(k)}'</small>${v}</span>`).join("")}</div></div>
+      <div class="tt-btns">
+        <label class="muted" for="dp-k">Key</label><select id="dp-k">${["a", "b", "c", "x", "y", "z"].map((k) => `<option value="${k}">'${k}'</option>`).join("")}</select>
+        <label class="muted" for="dp-v">Value</label><select id="dp-v">${[1, 2, 3, 10, 20, 30, 99].map((v) => `<option value="${v}">${v}</option>`).join("")}</select>
+        <button type="button" class="primary" id="dp-set">d[key] = val</button>
+        <button type="button" class="text-btn" id="dp-pop">d.pop(key, None)</button>
+        <button type="button" class="text-btn" id="dp-reset">Reset</button>
+      </div>
+      <p class="play-msg" role="status"></p>`;
+    const same = entries.length === tEntries.length && tEntries.every(([k, v]) => stateObj[k] === v);
+    if (same) {
+      win(`dict-puzzle:${ri}`, 25, "first-game");
+      banner(root, ri < rounds.length - 1 ? "Matched the target dict! Next round..." : "All Dictionary Hash Lab rounds solved! +25 XP");
+      if (ri < rounds.length - 1) setTimeout(() => { ri += 1; stateObj = { ...rounds[ri].start }; render(); }, 1200);
+    }
+  };
+  root.addEventListener("click", (e) => {
+    if (e.target.closest("#dp-set")) {
+      const k = $(root, "#dp-k").value;
+      const v = Number($(root, "#dp-v").value);
+      stateObj[k] = v;
+      sound("pop");
+      render();
+    } else if (e.target.closest("#dp-pop")) {
+      const k = $(root, "#dp-k").value;
+      delete stateObj[k];
+      sound("pop");
+      render();
+    } else if (e.target.closest("#dp-reset")) {
+      stateObj = { ...rounds[ri].start };
+      render();
+    }
+  });
+  render();
+  return () => {};
+}
+
+/* ============ 8. Big-O Cost Matcher (bonus puzzle) ============ */
+function mountComplexity(root) {
+  const items = [
+    { op: "items.append(x) on a CPython list", ans: "Amortized O(1)", opts: ["Amortized O(1)", "O(n)", "O(log n)"], why: "Appending to the end of a CPython list is amortized constant time." },
+    { op: "items.insert(0, x) on a CPython list", ans: "O(n)", opts: ["Amortized O(1)", "O(n)", "O(log n)"], why: "Inserting at index 0 shifts every subsequent element in the array." },
+    { op: "key in my_dict (average case in CPython)", ans: "Average O(1)", opts: ["Average O(1)", "O(n)", "O(n log n)"], why: "Hash table lookup in CPython is constant time on average." },
+    { op: "bisect.bisect_left(sorted_list, target)", ans: "O(log n)", opts: ["O(1)", "O(log n)", "O(n)"], why: "Binary search halves the remaining sorted range at each step." },
+  ];
+  let idx = 0;
+  const render = () => {
+    const cur = items[idx];
+    root.innerHTML = `<p class="muted">Drill ${idx + 1} of ${items.length}. Source: <a href="#/sources/timecomplexity">CPython TimeComplexity wiki</a>.</p>
+      <div class="panel"><h2>Operation: <code>${esc(cur.op)}</code></h2>
+      <p>Pick the honest CPython complexity description:</p>
+      <div class="tt-btns">${cur.opts.map((o) => `<button type="button" class="text-btn" data-copt="${esc(o)}">${esc(o)}</button>`).join(" ")}</div></div>
+      <p class="play-msg" role="status"></p>`;
+  };
+  root.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-copt]");
+    if (!btn) return;
+    const cur = items[idx];
+    if (btn.dataset.copt === cur.ans) {
+      sound("pop");
+      win(`complexity:${idx}`, 20, "first-game");
+      banner(root, `${cur.why} ${idx < items.length - 1 ? "Next drill..." : "All complexity drills complete!"}`);
+      if (idx < items.length - 1) setTimeout(() => { idx += 1; render(); }, 1300);
+    } else {
+      sound("bad");
+      banner(root, "Not quite — think about whether elements shift, hash, or halve.", false);
+    }
+  });
+  render();
+  return () => {};
+}
+
+const MOUNT = {
+  blocks: mountBlocks,
+  turtle: mountTurtle,
+  loops: mountLoops,
+  lists: mountLists,
+  order: mountOrder,
+  pong: mountPong,
+  "dict-puzzle": mountDictPuzzle,
+  complexity: mountComplexity,
+};
 export const isPlay = (id) => id in MOUNT;
 export function mountPlay(id, root) { return MOUNT[id](root); }
+

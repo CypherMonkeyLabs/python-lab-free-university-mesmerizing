@@ -5,15 +5,37 @@ import { sound } from "./fx.js";
 import { reduced } from "./prefs.js";
 
 const KEY = "pythonlab.py.v1";
-export const COLORS = { blue: ["#6bb0e6", "#2f6aa3"], pink: ["#ff8fc3", "#d63384"], green: ["#6ee7b7", "#059669"], purple: ["#c4b5fd", "#7c3aed"], orange: ["#fdba74", "#ea580c"], gold: ["#fde68a", "#d97706"] };
-export const SKINS = { robot: "Robot", cat: "Cat", wizard: "Wizard", astronaut: "Astronaut", royal: "Royal" };
-export const SIZES = { s: ["Small", 0.85], m: ["Medium", 1.1], l: ["Large", 1.4], xl: ["Huge", 1.7] };
+export const COLORS = {
+  blue: ["#6bb0e6", "#2f6aa3"],
+  pink: ["#ff8fc3", "#d63384"],
+  green: ["#6ee7b7", "#059669"],
+  purple: ["#c4b5fd", "#7c3aed"],
+  orange: ["#fdba74", "#ea580c"],
+  gold: ["#fde68a", "#d97706"],
+};
+export const SKINS = {
+  robot: "Robot",
+  monkey: "Zodiac Monkey",
+  cat: "Cat",
+  wizard: "Wizard",
+  astronaut: "Astronaut",
+  royal: "Royal",
+};
+export const SIZES = { s: ["Small", 0.92], m: ["Medium", 1.18], l: ["Large", 1.45], xl: ["Huge", 1.72] };
 const DEF = { color: "blue", skin: "robot", name: "Py", size: "m", voice: false };
-export const py = () => { const p = { ...DEF, ...readStore(KEY, {}) }; if (!COLORS[p.color]) p.color = "blue"; if (!SKINS[p.skin]) p.skin = "robot"; if (!SIZES[p.size]) p.size = "m"; p.name = String(p.name || "Py").slice(0, 14) || "Py"; return p; };
+export const py = () => {
+  const p = { ...DEF, ...readStore(KEY, {}) };
+  if (!COLORS[p.color]) p.color = "blue";
+  if (!SKINS[p.skin]) p.skin = "robot";
+  if (!SIZES[p.size]) p.size = "m";
+  p.name = String(p.name || "Py").slice(0, 14) || "Py";
+  return p;
+};
 const bot = () => document.getElementById("lab-bot");
 
 const SKIN_SVG = {
   robot: "",
+  monkey: '<circle cx="10" cy="34" r="9.5" fill="#8b5a2b" stroke="#f4b942" stroke-width="2"/><circle cx="10" cy="34" r="5.5" fill="#fbd3a7"/><circle cx="78" cy="34" r="9.5" fill="#8b5a2b" stroke="#f4b942" stroke-width="2"/><circle cx="78" cy="34" r="5.5" fill="#fbd3a7"/><polygon points="28,17 33,5 39,13 44,2 49,13 55,5 60,17" fill="#ffd54f" stroke="#b48a00" stroke-width="1.5"/><circle cx="44" cy="2" r="2.6" fill="#22d3ee"/>',
   cat: '<path d="M16 24L19 4L35 18Z" fill="#ff8fc3" stroke="#1e3a5f" stroke-width="2" stroke-linejoin="round"/><path d="M72 24L69 4L53 18Z" fill="#ff8fc3" stroke="#1e3a5f" stroke-width="2" stroke-linejoin="round"/><g stroke="#fff" stroke-width="1.6" stroke-linecap="round"><path d="M20 46l-12-2M20 49l-12 3M68 46l12-2M68 49l12 3"/></g><path d="M41 42l3 3 3-3z" fill="#ff5da2"/>',
   wizard: '<path d="M24 20L46 -16L66 20Z" fill="#6d28d9" stroke="#1e3a5f" stroke-width="2" stroke-linejoin="round"/><rect x="18" y="16" width="52" height="7" rx="3.5" fill="#4c1d95" stroke="#1e3a5f" stroke-width="2"/><path d="M46 -2l2 5 5 .5-4 3.5 1.3 5-4.3-2.8-4.3 2.8 1.3-5-4-3.5 5-.5z" fill="#ffd43b"/>',
   astronaut: '<circle cx="44" cy="37" r="35" fill="rgba(180,230,255,.22)" stroke="#fff" stroke-width="3"/><path d="M20 22q10-12 26-12" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/>',
@@ -85,10 +107,13 @@ export function quickActions(sections) {
 }
 export function runAction(a) {
   if (a === "hint") return hint();
-  if (a === "video") { const go = () => document.querySelector(".clips")?.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" }); if (location.hash === "#/" || location.hash === "") go(); else { location.hash = "#/"; setTimeout(go, 500); } say("Here are the short clips.", "wave"); return; }
+  if (a === "video") { const go = () => document.querySelector(".clips")?.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" }); if (location.hash === "#/" || location.hash === "") go(); else { location.hash = "#/"; setTimeout(go, 500); } say("Here are the short clips and visual explainers.", "wave"); return; }
   if (a === "audio") {
+    const audioSec = document.getElementById("audio-lessons");
     const read = () => { const b = document.querySelector("[data-speech]"); if (b) { b.click(); say("Reading this page aloud. Tap Stop to end.", "wave"); return true; } return false; };
-    if (!read()) { const lesson = document.querySelector('a[href^="#/lesson/"]')?.getAttribute("href") || "#/lesson/start/how-the-lab-works"; location.hash = lesson; setTimeout(() => { if (!read()) say("Open any lesson and press Read aloud.", "think"); }, 700); }
+    if (read()) return;
+    if (audioSec) { audioSec.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "center" }); say("Here are the offline audio lessons.", "wave"); return; }
+    const lesson = document.querySelector('a[href^="#/lesson/"]')?.getAttribute("href") || "#/lesson/start/how-the-lab-works"; location.hash = lesson; setTimeout(() => { if (!read()) say("Open any lesson and press Read aloud.", "think"); }, 700);
   }
 }
 

@@ -46,7 +46,17 @@ html[data-theme="contrast"] .studio { border-color: #fff; box-shadow: none; }
 .dc-card { display: flex; flex-direction: column; border-radius: 18px; overflow: hidden; background: var(--bg-elev); border: 1px solid color-mix(in srgb, var(--acc) 55%, var(--line)); transform: none; transition: transform 140ms, box-shadow 200ms; }
 .dc-card[hidden] { display: none; }
 .dc-card.is-focus, .dc-card:hover { box-shadow: 0 0 26px color-mix(in srgb, var(--acc) 40%, transparent); }
-.dc-cover { aspect-ratio: 16 / 9; background: linear-gradient(135deg, var(--acc), #12142b); } .dc-cover img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.dc-cover { position: relative; aspect-ratio: 16 / 9; background: linear-gradient(135deg, var(--acc), #12142b); } .dc-cover img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.dc-brand-stamp { position: absolute; right: 10px; bottom: 8px; display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 6px; border-radius: 99px; background: rgba(18, 12, 44, 0.86); color: #fde68a; border: 1.5px solid #f4b942; font: 700 0.72rem "IBM Plex Mono", monospace; pointer-events: none; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35); }
+.dc-brand-banner { margin: 8px 0 6px; }
+.cm-brand-pill { display: inline-flex; align-items: center; gap: 10px; padding: 6px 14px 6px 8px; border-radius: 999px; background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 18%, var(--bg-elev)), var(--bg-elev)); border: 1.5px solid var(--accent); color: var(--ink); text-decoration: none; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12); }
+.cm-brand-meta { display: flex; flex-direction: column; line-height: 1.15; }
+.cm-brand-title { font-size: 0.86rem; font-weight: 800; }
+.cm-brand-domain { font-size: 0.74rem; font-weight: 700; color: var(--accent-2); font-family: "IBM Plex Mono", monospace; }
+.pill-brand { border-color: #f4b942; font-weight: 700; }
+.wl-zodiac { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.wl-domain { font-size: 0.62rem; font-weight: 700; color: var(--accent-2); font-family: "IBM Plex Mono", monospace; line-height: 1; }
+.wl-brand-inline { font-size: 0.78rem; font-weight: 700; color: var(--accent-2); }
 .dc-body { padding: 14px 16px 16px; } .dc-body h2 { margin: 6px 0; }
 .dc-files { list-style: none; padding: 0; margin: 10px 0; display: grid; gap: 8px; }
 .dc-file[hidden] { display: none; }
@@ -62,7 +72,7 @@ html[data-theme="contrast"] .studio { border-color: #fff; box-shadow: none; }
 }
 @media (max-width: 899px) {
   /* The bot sits in the lower-right corner. Keep the whole download control to its left so a finger on the right edge still hits the link. */
-  .dc-files { padding-right: 124px; }
+  .dc-files { padding-right: calc(114px * var(--py-s, 1.18) + 22px); }
 }
 @media (prefers-reduced-motion: reduce) { .lvl-card, .dc-card { transform: none !important; transition: none; } }
 /* Py teacher */
@@ -83,6 +93,16 @@ html[data-theme="contrast"] .studio { border-color: #fff; box-shadow: none; }
 @keyframes bot-puzzle { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-9deg); } 70% { transform: rotate(8deg); } }
 @media (prefers-reduced-motion: reduce) { .bot[data-mood] .bot-figure { animation: none !important; transform: none !important; } }
 .quality { margin: 8px 0; display: flex; flex-wrap: wrap; gap: 6px; } .quality-h { flex-basis: 100%; margin: 0; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); } .quality-note { flex-basis: 100%; margin: 2px 0 0; font-size: .74rem; color: var(--muted); }
+/* Audio lessons & challenge cards */
+.audio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 12px 0 20px; }
+.audio-card { padding: 14px 16px; border-radius: 16px; border: 1px solid var(--line); background: linear-gradient(155deg, color-mix(in srgb, var(--accent) 14%, var(--bg-elev)), var(--bg-elev)); display: flex; flex-direction: column; gap: 8px; }
+.audio-card h3 { margin: 0; font-size: 1.05rem; }
+.audio-card p { margin: 0; font-size: 0.9rem; color: var(--muted); }
+.audio-card audio { width: 100%; max-width: 100%; height: 38px; margin-top: 4px; }
+.challenge-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin: 12px 0 20px; }
+.challenge-card { padding: 16px; border-radius: 16px; border: 1px solid color-mix(in srgb, var(--accent) 55%, var(--line)); background: var(--bg-elev); display: flex; flex-direction: column; gap: 8px; }
+.challenge-card h3 { margin: 0; font-size: 1.08rem; }
+.challenge-card pre { margin: 4px 0; padding: 10px; border-radius: 10px; background: var(--code-bg); overflow-x: auto; font-size: 0.82rem; }
 /* howto additions */
 .howto-steps { display: flex; gap: 8px; margin: 0 0 10px; flex-wrap: wrap; } .howto-steps span { padding: 4px 10px; border-radius: 99px; background: color-mix(in srgb, var(--accent) 22%, var(--bg-elev)); font-weight: 700; font-size: .82rem; }
 @media (max-width: 899px) { .top-links a[href="#/worlds"] { display: none; } }

@@ -1,4 +1,5 @@
 import { readStore, writeStore } from "./util.js";
+import { zodiacMonkeySvg, BRAND_DOMAIN } from "./cm-shared.js";
 
 const KEY = "pythonlab.howto.v2"; // v2: the Worlds and Download Center update, shown once more
 const ZIP = "https://github.com/CypherMonkeyLabs/python-lab-free-university-mesmerizing/archive/refs/heads/main.zip";
@@ -10,7 +11,7 @@ const card = (c1, c2, d, title, text) => `<div class="howto-card" style="--c1:${
 
 function content() {
   return `
-  <div class="howto-head"><span class="howto-mascot" aria-hidden="true">py</span><h2 id="howto-title">Welcome. Here is how to use Python Lab.</h2>
+  <div class="howto-head"><span class="howto-mascot howto-zodiac" aria-hidden="true">${zodiacMonkeySvg(42)}</span><div class="howto-title-wrap"><h2 id="howto-title">Welcome. Here is how to use Python Lab.</h2><p class="howto-brand-sub">CypherMonkey Zodiac Lab · <a href="https://cyphermonkeylabs.com" rel="noopener">${BRAND_DOMAIN}</a></p></div>
     <button type="button" class="howto-x" id="howto-x" aria-label="Close the help window">&times;</button></div>
   <div class="howto-body">
     <p class="howto-lede">Everything here is free, needs no account, and runs in your browser. This window opens once on your first visit. You can open it again any time with the <b>Help</b> button in the top bar.</p>
@@ -26,8 +27,8 @@ function content() {
 
     <p class="howto-group">2. Download</p>
     <div class="howto-grid">
-      ${card("#34d399", "#fbbf24", '<path d="M12 4v10M8 10l4 4 4-4M5 19h14"/>', "Downloads", 'One card per Level (PDF guide, Word worksheet, PowerPoint slides, web page, cover image), plus cheat sheets and a notebook. <a href="#/downloads" data-howto-go>Open Downloads</a>.')}
-      ${card("#34d399", "#22d3ee", '<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/>', "Offline copy", `The site is plain files. <a href="${ZIP}" rel="noopener">Download the whole lab as a ZIP</a> from GitHub, then run <code>python3 -m http.server</code> in the folder and open it. The slides as Markdown and a notebook of code samples are on the Downloads page.`)}
+      ${card("#34d399", "#fbbf24", '<path d="M12 4v10M8 10l4 4 4-4M5 19h14"/>', "Downloads & Cheat sheets", 'One card per Level (PDF guide, Word worksheet, PowerPoint slides, web page, cover image), plus Cheat sheets and a notebook. <a href="#/downloads" data-howto-go>Open Downloads</a>.')}
+      ${card("#34d399", "#22d3ee", '<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/>', "Offline copy & App", `Install as an offline-ready Progressive Web App from the top bar <b>App</b> button, or <a href="${ZIP}" rel="noopener">download the whole lab as a ZIP</a> from GitHub and run <code>python3 -m http.server</code>.`)}
       ${card("#f472b6", "#a78bfa", '<path d="M7 8V4h10v4M7 17H5v-7h14v7h-2M7 14h10v6H7z"/>', "Print or save as PDF", "Use your browser's Print command on any lesson or slide deck. The menus step aside for print.")}
     </div>
 
@@ -37,16 +38,16 @@ function content() {
         <span class="howto-themes" role="group" aria-label="Pick a theme"><button type="button" data-howto-theme="ink">Ink</button><button type="button" data-howto-theme="paper">Paper</button><button type="button" data-howto-theme="terminal">Terminal</button><button type="button" data-howto-theme="contrast">Contrast</button></span></span></div>
       ${card("#22d3ee", "#34d399", '<path d="M4 20V10L12 4l8 6v10"/><path d="M10 20v-6h4v6"/>', "3D worlds", 'Eleven themed worlds, one picture per Level. Tap or click the picture and it reacts. <a href="#/worlds" data-howto-go>Open the worlds</a>. Pick Off, Flat, Light or Full in Display. With reduced motion you get the still picture.')}
       ${card("#f472b6", "#fbbf24", '<path d="M4 5h16v11H4zM8 20h8M12 16v4"/>', "Slides", 'Slide decks from fundamentals to advanced. Use the left and right arrow keys, or swipe. <a href="#/slides" data-howto-go>Browse slides</a>.')}
-      ${card("#a78bfa", "#22d3ee", '<rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9l5 3-5 3z"/>', "Videos and diagrams", 'Short clips sit on the home page. Architecture diagrams are under <a href="#/diagrams" data-howto-go>Diagrams</a>.')}
+      ${card("#a78bfa", "#22d3ee", '<rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9l5 3-5 3z"/>', "Videos, audio and diagrams", 'Short clips and offline audio lessons sit on the home and practice pages. Architecture diagrams are under <a href="#/diagrams" data-howto-go>Diagrams</a>.')}
     </div>
 
     <p class="howto-group">4. Help is one tap away</p>
     <div class="howto-grid">
-      ${card("#ff5da2", "#ffd43b", '<rect x="5" y="7" width="14" height="11" rx="4"/><path d="M12 7V4M9 12h.01M15 12h.01"/>', "Py, the lab bot", "The colourful bot near the corner. Tap it to open a helper with the next lesson, quick links, and this guide. Drag it out of the way, or use the arrow keys on it.")}
+      ${card("#ff5da2", "#ffd43b", '<rect x="5" y="7" width="14" height="11" rx="4"/><path d="M12 7V4M9 12h.01M15 12h.01"/>', "Py, the lab bot", "The colourful bot on the right side. Tap it to open a helper with Level 1/2/3, Foundations, audio, video, downloads, and games. Drag it out of the way, or use the arrow keys on it.")}
       ${card("#22d3ee", "#34d399", '<rect x="3" y="6" width="18" height="12" rx="3"/><path d="M7 10h.01M11 10h6M7 14h10"/>', "Keyboard", `<ul class="howto-keys"><li><kbd>/</kbd> search</li><li><kbd>?</kbd> this help</li><li><kbd>Esc</kbd> close</li><li><kbd>&larr;</kbd> <kbd>&rarr;</kbd> slides</li></ul>`)}
     </div>
   </div>
-  <div class="howto-foot"><button type="button" class="primary" id="howto-ok">Got it, let me in</button><button type="button" class="text-btn" data-start-tour>Take the 1 minute tour</button><a class="text-btn" href="#/section/start" data-howto-go>Start Here</a><small>Closing this window is remembered on this device. Nothing leaves your browser.</small></div>`;
+  <div class="howto-foot"><button type="button" class="primary" id="howto-ok">Got it, let me in</button><button type="button" class="text-btn" data-start-tour>Take the 1 minute tour</button><a class="text-btn" href="#/section/start" data-howto-go>Start Here</a><small>Closing this window is remembered on this device. Nothing leaves your browser · ${BRAND_DOMAIN}</small></div>`;
 }
 
 function build() {
