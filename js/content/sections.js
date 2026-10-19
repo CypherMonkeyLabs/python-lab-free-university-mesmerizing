@@ -22,31 +22,31 @@ export const sections = [
     id: "start", title: "Start Here", icon: "start", menu: "How the lab works and what the browser can run.",
     href: "#/section/start",
     intro: "New here? Read these three pages first. They explain how the lab is organized, give you a map of the language, and say plainly what Python can and cannot do inside a browser tab.",
-    links: () => list([L("start", "how-to-use"), L("start", "map"), L("start", "runtime"), X("About Lucky", "#/about", "Who is sharing this notebook and why.", "about")]),
+    links: () => list([L("start", "how-to-use"), L("start", "map"), L("start", "runtime"), X("Curriculum map", "#/path", "Every lesson, grouped from foundations through interview practice.", "start"), X("About Lucky", "#/about", "Who is sharing this notebook and why.", "about")]),
   },
   {
     id: "fundamentals", title: "Fundamentals", icon: "fundamentals", menu: "Syntax, types, names, files, errors, and data structures.",
     href: "#/section/fundamentals",
     intro: "The language itself, in an order that builds. Each lesson has a short read, a runnable exercise with checks, and sources.",
-    links: () => list([L("fundamentals", "syntax"), L("fundamentals", "types"), L("fundamentals", "names"), L("fundamentals", "files"), L("fundamentals", "errors"), L("fundamentals", "testing-packaging"), T("dsa")]),
+    links: () => list([L("fundamentals", "syntax"), L("fundamentals", "types"), L("fundamentals", "names"), L("fundamentals", "strings"), L("fundamentals", "comprehensions"), L("fundamentals", "files"), L("fundamentals", "errors"), L("fundamentals", "testing-packaging"), T("dsa")]),
   },
   {
     id: "flows", title: "Flows", icon: "async", menu: "Control flow and async, step by step.",
     href: "#/section/flows",
     intro: "How a program decides and waits: branches and loops first, then coroutines, tasks, and the event loop, plus the mind map that connects them.",
-    links: () => list([L("fundamentals", "control"), L("async", "why"), L("async", "coroutines"), L("async", "pitfalls"), X("Mind map", "#/ecosystem/map", "A diagram of how the pieces of Python connect.", "ecosystem"), X("All diagrams", "#/diagrams", "Interactive Archify maps of how Python runs, imports, calls, and schedules tasks.", "ecosystem")]),
+    links: () => list([L("fundamentals", "control"), L("async", "why"), L("async", "when-which"), L("async", "coroutines"), L("async", "pitfalls"), X("Mind map", "#/ecosystem/map", "A diagram of how the pieces of Python connect.", "ecosystem"), X("All diagrams", "#/diagrams", "Interactive Archify maps of how Python runs, imports, calls, and schedules tasks.", "ecosystem")]),
   },
   {
     id: "methods", title: "Methods", icon: "dsa", menu: "Functions, classes, methods, and typing.",
     href: "#/section/methods",
     intro: "Functions and methods are how you name a piece of behaviour. This section covers defining them, attaching them to objects, and describing their shapes with annotations.",
-    links: () => list([L("fundamentals", "functions"), L("fundamentals", "classes"), L("typing", "annotations"), L("typing", "shapes"), L("typing", "checkers")]),
+    links: () => list([L("fundamentals", "functions"), L("fundamentals", "lambdas"), L("fundamentals", "iterators"), L("fundamentals", "classes"), L("fundamentals", "inheritance"), L("fundamentals", "decorators"), L("fundamentals", "with-blocks"), L("typing", "annotations"), L("typing", "shapes"), L("typing", "checkers")]),
   },
   {
     id: "modules", title: "Modules", icon: "stdlib", menu: "Modules, packages, and the standard library.",
     href: "#/section/modules",
     intro: "Code lives in files, files live in packages, and CPython ships a large standard library. Learn to import, to read the tour map, and to set up an environment.",
-    links: () => list([L("fundamentals", "modules"), L("stdlib", "map"), L("stdlib", "text-time"), L("stdlib", "processes"), L("stdlib", "quality"), L("tooling", "environments")]),
+    links: () => list([L("fundamentals", "modules"), L("stdlib", "map"), L("stdlib", "text-time"), L("stdlib", "regular-expressions"), L("stdlib", "logging-well"), L("stdlib", "tracebacks"), L("stdlib", "processes"), L("stdlib", "quality"), L("tooling", "environments")]),
   },
   {
     id: "labs", title: "Labs", icon: "practice", menu: "Run real Python in your browser with Pyodide.",
@@ -91,7 +91,7 @@ sections.forEach((sec) => {
 });
 
 const FLOW_LESSONS = ["control"];
-const METHOD_LESSONS = ["functions", "classes"];
+const METHOD_LESSONS = ["functions", "classes", "lambdas", "iterators", "decorators", "with-blocks", "inheritance"];
 
 export function sectionFor(hash) {
   const h = hash || "#/";

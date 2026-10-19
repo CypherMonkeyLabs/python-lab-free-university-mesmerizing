@@ -2,7 +2,9 @@ import { test, expect } from "@playwright/test";
 
 const routes = [
   "/",
+  "/#/path",
   "/#/track/fundamentals",
+  "/#/lesson/fundamentals/strings",
   "/#/lesson/fundamentals/syntax",
   "/#/lesson/fundamentals/control",
   "/#/lesson/async/coroutines",

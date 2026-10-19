@@ -41,13 +41,17 @@ export function initDisplay() {
     a.id = "xp-chip";
     a.className = "xp-chip";
     a.href = "#/me";
-    a.setAttribute("aria-label", "My progress, XP and badges");
-    host.before(a);
+    const pop = host.querySelector(".display-pop");
+    if (pop) pop.prepend(a);
+    else host.before(a);
   }
   const chip = () => {
     const s = state();
     const el = document.getElementById("xp-chip");
-    if (el) el.textContent = `⭐ Lv ${levelFor(s.xp)} · ${s.xp} XP`;
+    if (!el) return;
+    const label = `Lv ${levelFor(s.xp)} · ${s.xp} XP`;
+    el.textContent = label;
+    el.setAttribute("aria-label", `${label}, open my progress`);
   };
   document.addEventListener("lab:xp", chip);
   chip();

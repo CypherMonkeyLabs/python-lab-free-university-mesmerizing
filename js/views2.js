@@ -9,9 +9,9 @@ const crumbs = (parts) => `<nav class="crumbs" aria-label="Breadcrumb">${parts.m
 export function levelCards() {
   return `<div class="level-row" role="list">${LEVELS.map((l) => {
     const w = WORLDS[l.world];
-    return `<a class="level-card" role="listitem" href="#/level/${l.n}" style="--c1:${w.c[0]};--c2:${w.c[1]}"><span class="lc-n" aria-hidden="true">${l.n}</span><b>Level ${l.n}: ${esc(l.label)}</b><span class="lc-t">${esc(w.name)}. ${esc(l.blurb)}</span></a>`;
+    return `<a class="level-card lc-tone-${l.n}" role="listitem" href="#/level/${l.n}"><span class="lc-n" aria-hidden="true">${l.n}</span><b>Level ${l.n}: ${esc(l.label)}</b><span class="lc-t">${esc(w.name)}. ${esc(l.blurb)}</span></a>`;
   }).join("")}
-    <a class="level-card" role="listitem" href="#/track/fundamentals" style="--c1:#fbbf24;--c2:#fb923c"><span class="lc-n" aria-hidden="true">F</span><b>Foundations</b><span class="lc-t">Syntax, types, control flow, functions, files, errors, tests.</span></a></div>`;
+    <a class="level-card lc-tone-f" role="listitem" href="#/track/fundamentals"><span class="lc-n" aria-hidden="true">F</span><b>Foundations</b><span class="lc-t">Syntax, types, control flow, functions, files, errors, tests.</span></a></div>`;
 }
 
 export function levelView(n) {

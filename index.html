@@ -2,6 +2,7 @@
 <html lang="en" data-theme="ink">
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data:; font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Python Lab · cyphermonkeylabs.com</title>
   <meta name="description" content="Python Lab is a free static study studio for Python by CypherMonkey Labs (cyphermonkeylabs.com), from a first program through interview practice.">
@@ -24,21 +25,12 @@
   <link rel="stylesheet" href="css/fx.css">
   <link rel="stylesheet" href="css/play.css">
   <link rel="stylesheet" href="css/studio.css">
-  <script>
-    try {
-      var theme = localStorage.getItem("pythonlab.theme");
-      if (theme === "paper" || theme === "terminal" || theme === "contrast" || theme === "ink") {
-        document.documentElement.setAttribute("data-theme", theme);
-      }
-    } catch (err) {
-      /* Storage can be blocked. The default theme still works. */
-    }
-  </script>
+  <script src="js/theme-boot.js"></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header class="topbar" id="topbar">
-    <button type="button" class="tb-btn" id="menu-toggle" aria-label="Open the menu" aria-controls="sidemenu" aria-expanded="false">
+    <button type="button" class="tb-btn" id="menu-toggle" aria-label="Menu" aria-controls="sidemenu" aria-expanded="false">
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span class="tb-btn-label">Menu</span>
     </button>
     <a class="brand" href="#/">
@@ -70,25 +62,15 @@
       <input id="top-search" type="search" placeholder="Search lessons, labs, games   ( / )" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="search-results" aria-autocomplete="list">
       <div id="search-results" class="search-results" role="listbox" hidden></div>
     </div>
-    <div class="top-progress" role="progressbar" aria-label="Lessons opened" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="tp-track"><i data-progress-fill></i></span><span class="tp-text" data-progress-text></span></div>
-    <nav class="top-links" aria-label="Quick links">
-      <a href="#/practice">Labs</a>
-      <a href="#/worlds">Worlds</a>
-      <a href="#/download-center">Download Center</a>
-      <a href="#/downloads">Resources</a>
-      <a href="https://cyphermonkeylabs.com" rel="noopener">cyphermonkeylabs.com</a>
-    </nav>
     <button type="button" class="tb-btn tb-search" id="search-toggle" aria-label="Search" aria-expanded="false">
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg>
+      <span class="visually-hidden">Search</span>
     </button>
-    <button type="button" class="tb-btn" id="pwa-install-btn" data-install-app aria-haspopup="dialog" aria-label="Install Python Lab app">
-      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M12 7v6m-2.5-2L12 13.5 14.5 11M10 18.5h4"/></svg><span class="tb-btn-label">App</span>
-    </button>
-    <button type="button" class="tb-btn" id="help-btn" data-open-help aria-haspopup="dialog" aria-label="How to use this site">
+    <button type="button" class="tb-btn" id="help-btn" data-open-help aria-haspopup="dialog">
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4M12 16.6h.01"/></svg><span class="tb-btn-label">Help</span>
     </button>
     <details class="display-menu">
-      <summary class="tb-btn" aria-label="Display options">Display</summary>
+      <summary class="tb-btn">Display</summary>
       <div class="display-pop">
         <div class="themes" role="group" aria-label="Color theme">
           <button type="button" class="theme-btn" data-theme-set="ink" aria-pressed="true">Ink</button>
@@ -96,12 +78,13 @@
           <button type="button" class="theme-btn" data-theme-set="terminal">Terminal</button>
           <button type="button" class="theme-btn" data-theme-set="contrast">Contrast</button>
         </div>
-        <button type="button" class="text-btn" data-install-app>Install app &amp; splash screen</button>
+        <button type="button" class="text-btn" id="pwa-install-btn" data-install-app>Install app &amp; splash screen</button>
         <button type="button" class="text-btn" id="bot-reset">Reset bot</button>
       </div>
     </details>
   </header>
   <div class="side-scrim" id="side-scrim" hidden></div>
+  <div class="search-scrim" id="search-scrim" hidden></div>
   <aside class="sidemenu" id="sidemenu" aria-label="Lab menu"></aside>
   <main id="main" class="wrap" tabindex="-1"></main>
   <footer class="site-footer lab-footer" id="site-footer" data-canon-footer>
@@ -160,14 +143,14 @@
       <a class="brand-icon brand-gh" href="https://github.com/CypherMonkeyLabs" aria-label="CypherMonkey Labs on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
       <a class="brand-icon brand-lt" href="https://linktr.ee/cypherMonkey" aria-label="Linktree"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.2 2.5h-2.4v5.1L7 3.9 5.3 5.6l3.9 3.9H3.6v2.4h5.7L5.3 15.9l1.7 1.7 4-4v7.9h2.4v-7.9l4 4 1.7-1.7-4-4h5.7V9.5h-5.6l3.9-3.9L17 3.9l-3.8 3.7z"/></svg></a>
     </nav>
-    <nav class="footer-bar" aria-label="Lab shortcuts"><a class="fb-item" href="#/" style="--c1:#22d3ee;--c2:#a78bfa"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7M6 10v10h12V10"/></svg></span>Home</a><a class="fb-item" href="#/slides" style="--c1:#fbbf24;--c2:#f472b6"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H4zM8 20h8M12 16v4"/></svg></span>Slides</a><a class="fb-item" href="#/diagrams" style="--c1:#34d399;--c2:#22d3ee"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h6v4H4zM14 14h6v4h-6zM10 8h4v8h0M7 10v4h7"/></svg></span>Diagrams</a><a class="fb-item" href="#/practice" style="--c1:#a78bfa;--c2:#f472b6"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6h14v12H5zM8 10h8M8 14h5"/></svg></span>Labs</a><a class="fb-item" href="#/download-center" style="--c1:#fbbf24;--c2:#34d399"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v10M8 10l4 4 4-4M5 19h14"/></svg></span>Downloads</a><a class="fb-item" href="#/sources" style="--c1:#22d3ee;--c2:#fbbf24"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h9l3 3v13H6zM15 4v3h3M8 11h8M8 15h6"/></svg></span>Sources</a><button type="button" class="fb-item" data-open-help style="--c1:#f472b6;--c2:#fbbf24"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4M12 16.5h.01"/></svg></span>Help</button></nav>
+    <nav class="footer-bar" aria-label="Lab shortcuts"><a class="fb-item fb-c-1" href="#/"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7M6 10v10h12V10"/></svg></span>Home</a><a class="fb-item fb-c-2" href="#/slides"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H4zM8 20h8M12 16v4"/></svg></span>Slides</a><a class="fb-item fb-c-3" href="#/diagrams"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h6v4H4zM14 14h6v4h-6zM10 8h4v8h0M7 10v4h7"/></svg></span>Diagrams</a><a class="fb-item fb-c-4" href="#/practice"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6h14v12H5zM8 10h8M8 14h5"/></svg></span>Labs</a><a class="fb-item fb-c-5" href="#/download-center"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v10M8 10l4 4 4-4M5 19h14"/></svg></span>Downloads</a><a class="fb-item fb-c-6" href="#/sources"><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h9l3 3v13H6zM15 4v3h3M8 11h8M8 15h6"/></svg></span>Sources</a><button type="button" class="fb-item fb-c-7" data-open-help><span class="fb-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4M12 16.5h.01"/></svg></span>Help</button></nav>
     <p class="site-copy">© 2026 CypherMonkeyLabs 🐒 · cyphermonkeylabs.com</p>
   </footer>
   <nav class="bottombar" id="bottombar" aria-label="Lesson navigation">
     <button type="button" class="bar-btn bar-menu" id="bar-menu" aria-label="Menu"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span class="bar-text"><span class="bar-label">Menu</span></span></button>
     <a class="bar-btn" id="bar-prev" href="#/" aria-label="Previous"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><span class="bar-text"><span class="bar-label">Prev</span><span class="bar-sub"></span></span></a>
     <div class="bar-progress" role="progressbar" aria-label="Lessons opened" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="bar-where" id="bar-where">Home</span><span class="tp-track"><i data-progress-fill></i></span><span class="bar-count" data-progress-text></span></div>
-    <a class="bar-btn bar-next" id="bar-next" href="#/" aria-label="Next"><span class="bar-text"><span class="bar-label">Next</span><span class="bar-sub"></span></span><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></a>
+    <a class="bar-btn bar-next" id="bar-next" href="#/" aria-label="Next"><span class="bar-ring" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span><span class="bar-text"><span class="bar-label">Next</span><span class="bar-sub"></span></span></a>
     <a class="bar-btn bar-home" href="#/" aria-label="Home"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg><span class="bar-text"><span class="bar-label">Home</span></span></a>
   </nav>
   <section class="bot-panel" id="bot-panel" role="dialog" aria-modal="false" aria-labelledby="bot-panel-title" hidden></section>
@@ -210,13 +193,8 @@
       </div>
     </div>
   </div>
+  <div id="toast-region" role="status" aria-live="polite"></div>
   <script type="module" src="js/app.js"></script>
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(function () {
-        /* A locked browser can refuse the worker. The pages still open. */
-      });
-    }
-  </script>
+  <script src="js/register-sw.js"></script>
 </body>
 </html>

@@ -4,6 +4,8 @@ import { diagrams } from "./content/diagrams.js";
 import { guidesView, guideView } from "./guideviews.js";
 import { slidesView, slidesIndexView } from "./slides.js";
 import { extras, tracks, trackById, lessonRef } from "./content/catalog.js";
+import { studyLabel } from "./content/study.js";
+import { tierGroups } from "./content/pathmap.js";
 import { sources } from "./content/sources.js";
 import { ecosystem } from "./content/ecosystem.js";
 import { icon } from "./icons.js";
@@ -14,7 +16,7 @@ import { drawDiagrams } from "./diagrams.js";
 import { mountGame, stopGame } from "./games.js";
 import { runStudent } from "./runner.js";
 import { sections } from "./content/sections.js";
-import { initShell, bindTilt, bindHeroParallax } from "./shell.js";
+import { initShell, bindTilt, bindHeroParallax, neighbors } from "./shell.js";
 import { initBotPanel } from "./botpanel.js";
 import { initHowTo } from "./howto.js";
 import { initBotFx } from "./botfx.js";
@@ -88,6 +90,7 @@ function parseRoute() {
   if (head === "sources") return { name: "sources", id: a || "" };
   if (head === "downloads") return { name: "downloads", id: a || "" };
   if (head === "studio") return { name: "studio" };
+  if (head === "path") return { name: "path" };
   if (["practice", "about"].includes(head)) return { name: head };
   return { name: "missing" };
 }
@@ -128,7 +131,7 @@ function roomScene({ title, cards, screen }) {
 
 function diagramFig(source, caption) {
   if (!source) return "";
-  return `<figure class="diagram"><pre class="diagram-source" hidden>${esc(source)}</pre><div class="diagram-host" role="img" aria-label="${esc(caption)}"></div><figcaption>${esc(caption)}</figcaption></figure>`;
+  return `<figure class="diagram"><pre class="diagram-source" hidden>${esc(source)}</pre><div class="diagram-host" role="img" tabindex="0" aria-label="${esc(caption)}"></div><figcaption>${esc(caption)}</figcaption></figure>`;
 }
 
 function sourceLinks(ids) {
@@ -235,25 +238,25 @@ function homeView() {
         <p>These short clips and animated explainers were generated for the lab with Python and ffmpeg (licensed CC BY-NC-SA 4.0 / MIT). Each visualises a core Python concept cited in <a href="#/sources">Sources</a>.</p>
         <div class="clip-grid">
           <figure>
-            <video controls playsinline preload="metadata" poster="media/typing-poster.jpg">
+            <video controls playsinline preload="none" poster="media/typing-poster.jpg">
               <source src="media/typing.mp4" type="video/mp4">
             </video>
             <figcaption>MP4 · First program: <code>print('hi')</code> appearing one character at a time (<a href="#/sources/tutorial">Tutorial</a>).</figcaption>
           </figure>
           <figure>
-            <video controls playsinline preload="metadata" poster="media/orbit-poster.jpg">
+            <video controls playsinline preload="none" poster="media/orbit-poster.jpg">
               <source src="media/lab-orbit.webm" type="video/webm">
             </video>
             <figcaption>WebM · Orbiting state in the lab palette.</figcaption>
           </figure>
           <figure>
-            <video controls playsinline preload="metadata" poster="media/list-comp-poster.jpg">
+            <video controls playsinline preload="none" poster="media/list-comp-poster.jpg">
               <source src="media/list-comprehension.mp4" type="video/mp4">
             </video>
             <figcaption>MP4 · List comprehension filter &amp; map step by step (<a href="#/sources/stdtypes">Built-in types</a>).</figcaption>
           </figure>
           <figure>
-            <video controls playsinline preload="metadata" poster="media/dict-poster.jpg">
+            <video controls playsinline preload="none" poster="media/dict-poster.jpg">
               <source src="media/dict-lookup.webm" type="video/webm">
             </video>
             <figcaption>WebM · Dictionary hash bucket lookup in CPython (<a href="#/sources/timecomplexity">TimeComplexity</a>).</figcaption>
@@ -279,22 +282,22 @@ function homeView() {
           <article class="audio-card">
             <h3>1. Names, Types &amp; Indentation</h3>
             <p>Four-space blocks, name binding vs. copying, and mutable vs. immutable built-in types (<a href="#/sources/lexical">Lexical analysis</a>, <a href="#/sources/datamodel">Data model</a>).</p>
-            <audio controls preload="metadata" data-voice-slot="syntax" src="media/audio-syntax.mp3"></audio>
+            <audio controls preload="none" data-voice-slot="syntax" src="media/audio-syntax.mp3"></audio>
           </article>
           <article class="audio-card">
             <h3>2. Choosing the Right Data Structure</h3>
             <p>CPython list amortized append vs. linear front insert, plus average O(1) dict/set hashing (<a href="#/sources/stdtypes">Built-in types</a>, <a href="#/sources/timecomplexity">TimeComplexity</a>).</p>
-            <audio controls preload="metadata" data-voice-slot="structures" src="media/audio-structures.mp3"></audio>
+            <audio controls preload="none" data-voice-slot="structures" src="media/audio-structures.mp3"></audio>
           </article>
           <article class="audio-card">
             <h3>3. Generators &amp; Async Coroutines</h3>
             <p>Lazy iteration with <code>yield</code> and single-thread cooperative multitasking with <code>async</code> / <code>await</code> (<a href="#/sources/asyncio-docs">asyncio</a>).</p>
-            <audio controls preload="metadata" data-voice-slot="async" src="media/audio-async.mp3"></audio>
+            <audio controls preload="none" data-voice-slot="async" src="media/audio-async.mp3"></audio>
           </article>
           <article class="audio-card">
             <h3>4. Interview Problem-Solving Checklist</h3>
             <p>Clarifying inputs, edge cases, hand tracing, and stating honest CPython time/space costs (<a href="#/sources/timecomplexity">TimeComplexity</a>, <a href="#/sources/functools">functools</a>).</p>
-            <audio controls preload="metadata" data-voice-slot="interview" src="media/audio-interview.mp3"></audio>
+            <audio controls preload="none" data-voice-slot="interview" src="media/audio-interview.mp3"></audio>
           </article>
         </div>
       </section>
@@ -334,7 +337,7 @@ function trackView(id) {
         <span class="row-label">${esc(lesson.title)}</span>
         <span class="row-desc">${esc(lesson.summary)}</span>
       </span></span>
-      <span class="kicker"><span class="pill">${esc(lesson.level)}</span><span class="pill">${lesson.minutes} min read</span>${done[`${track.id}/${lesson.id}`] === "passed" ? '<span class="pill">Checks passed</span>' : ""}</span>
+      <span class="kicker"><span class="pill">${esc(lesson.level)}</span><span class="pill num">${lesson.minutes} min read</span>${(lesson.words || 0) < 250 ? '<span class="pill">Starter</span>' : ""}${done[`${track.id}/${lesson.id}`] === "passed" ? '<span class="pill">Checks passed</span>' : ""}</span>
     </a>`).join("");
   return {
     html: `${crumbs([{ href: "#/", label: "Home" }, { href: `#/track/${track.id}`, label: track.title }])}
@@ -347,31 +350,50 @@ function trackView(id) {
   };
 }
 
+function lessonCards(track, prev, next) {
+  const card = (lesson, label) => lesson
+    ? `<a class="pager-card" href="#/lesson/${track.id}/${lesson.id}"><span class="pager-k">${label}</span><span class="pager-t">${esc(lesson.title)}</span></a>`
+    : `<a class="pager-card" href="#/track/${track.id}"><span class="pager-k">${label}</span><span class="pager-t">All ${esc(track.title)}</span></a>`;
+  return `<nav class="pager-cards" aria-label="Lesson">${card(prev, "Prev")}${card(next, "Next")}</nav>`;
+}
+
 function lessonView(trackId, lessonId) {
   const found = lessonRef(trackId, lessonId);
   if (!found) return missingView();
   const { track, lesson, prev, next } = found;
-  const sections = lesson.sections.map((section) => `<section data-speak><h2>${esc(section.heading)}</h2>${section.html}</section>`).join("");
-  const pager = `<nav class="pager" aria-label="Lesson">
-      ${prev ? `<a class="text-btn" href="#/lesson/${track.id}/${prev.id}">Previous: ${esc(prev.title)}</a>` : ""}
-      <a class="text-btn" href="#/track/${track.id}">All ${esc(track.title)}</a>
-      ${next ? `<a class="text-btn" href="#/lesson/${track.id}/${next.id}">Next: ${esc(next.title)}</a>` : ""}
-    </nav>`;
+  const index = track.lessons.findIndex((item) => item.id === lesson.id);
+  const dots = track.lessons.map((item, dot) => {
+    const on = item.id === lesson.id ? " is-on" : "";
+    return `<a class="step-dot${on}" href="#/lesson/${track.id}/${item.id}" aria-label="Lesson ${dot + 1} of ${track.lessons.length} in ${esc(track.title)}: ${esc(item.title)}"${on ? ' aria-current="step"' : ""}></a>`;
+  }).join("");
+  const learn = (lesson.learn || []).slice(0, 3).map((line) => `<li>${esc(line)}</li>`).join("");
+  const sectionsHtml = lesson.sections.map((section) => `<section data-speak><h2>${esc(section.heading)}</h2>${section.html}</section>`).join("");
+  const mistake = lesson.mistake ? `<section class="mistake"><h2>Common mistake</h2><p>${esc(lesson.mistake)}</p></section>` : "";
+  const sample = lesson.sample ? `<section class="sample-block"><h2>Example</h2><p>${esc(lesson.sample.note || "")}</p><pre tabindex="0" aria-label="Example code"><code translate="no" class="language-python">${esc(lesson.sample.code || "")}</code></pre><div class="toolbar"><button type="button" class="primary" id="sample-run">Run</button></div><h3>Output</h3><div class="output" id="sample-output">Output appears here after you run.</div></section>` : "";
+  const checks = (lesson.check || []).map((question) => `<section class="check-q"><h3>${esc(question.prompt)}</h3><ul>${(question.choices || []).map((choice) => `<li>${esc(choice)}</li>`).join("")}</ul><p>${esc(question.why || "")}</p></section>`).join("");
+  const checkBlock = checks ? `<section><h2>Check yourself</h2>${checks}</section>` : "";
+  const starter = (lesson.words || 0) < 250 ? `<span class="pill">Starter</span>` : "";
   return {
     html: `${crumbs([{ href: "#/", label: "Home" }, { href: `#/track/${track.id}`, label: track.title }, { href: `#/lesson/${track.id}/${lesson.id}`, label: lesson.title }])}
-      <p class="kicker"><span class="pill">${esc(lesson.level)}</span><span class="pill">${lesson.minutes} min read</span></p>
+      <div class="lesson-step"><p class="step-label">Lesson ${index + 1} of ${track.lessons.length} in ${esc(track.title)}</p><div class="step-dots">${dots}</div></div>
+      <p class="kicker"><span class="pill">${esc(lesson.level)}</span><span class="pill num">${lesson.minutes} min read</span>${starter}</p>
       <h1>${esc(lesson.title)}</h1>
       <p class="summary" data-speak>${esc(lesson.summary)}</p>
+      ${learn ? `<section><h2>You'll learn</h2><ul class="learn-list">${learn}</ul></section>` : ""}
       <div class="toolbar">
         <button type="button" class="text-btn" data-speech>Read aloud</button>
         <span class="muted" data-speech-note>Read-aloud uses the speech built into your browser. The voice depends on the device.</span>
       </div>
       ${diagramFig(lesson.diagram, lesson.diagramCaption || "Diagram for this lesson")}
-      ${sections}
+      ${sectionsHtml}
+      ${mistake}
+      ${sample}
       ${exerciseBlock(lesson.exercise)}
+      ${checkBlock}
       ${sourceLinks(lesson.sources || track.sources || [])}
-      ${pager}`,
+      ${lessonCards(track, prev, next)}`,
     after(token) {
+      main().querySelectorAll("pre, code").forEach((node) => node.setAttribute("translate", "no"));
       bindSpeech(document.querySelector("[data-speech]"));
       const editor = document.getElementById("editor");
       if (editor && lesson.exercise) editor.value = lesson.exercise.starter;
@@ -385,8 +407,39 @@ function lessonView(trackId, lessonId) {
         packages: lesson.exercise.packages || [],
         lessonKey: `${track.id}/${lesson.id}`,
       }));
+      document.getElementById("sample-run")?.addEventListener("click", () => executeEditor({
+        token,
+        source: () => lesson.sample.code,
+        checks: [],
+        packages: [],
+        lessonKey: "",
+        outputId: "sample-output",
+        buttonId: "sample-run",
+      }));
       drawDiagrams(main());
     },
+  };
+}
+
+function pathView() {
+  const groups = tierGroups();
+  const width = 760;
+  const rowH = 72;
+  const height = groups.length * rowH + 24;
+  const boxes = groups.map((tier, index) => {
+    const y = 12 + index * rowH;
+    return `<g><rect class="path-box" x="16" y="${y}" width="${width - 32}" height="${rowH - 16}" rx="12"></rect><text class="path-label" x="32" y="${y + 28}">${esc(tier.title)}</text><text class="path-count" x="${width - 32}" y="${y + 28}" text-anchor="end">${tier.lessons.length}</text></g>`;
+  }).join("");
+  const mermaid = `flowchart TD\n${groups.map((tier) => `  ${tier.id}["${tier.title} (${tier.lessons.length})"]`).join("\n")}\n${groups.slice(0, -1).map((tier, index) => `  ${tier.id} --> ${groups[index + 1].id}`).join("\n")}`;
+  const blocks = groups.map((tier) => `<section class="path-tier" id="path-${tier.id}"><h2>${esc(tier.title)}</h2><p>${esc(tier.blurb)}</p><p class="num">${tier.lessons.length} lessons</p><ul>${tier.lessons.map((lesson) => `<li><a href="${esc(lesson.href)}">${esc(lesson.title)}</a> <span class="num">${lesson.minutes} min</span></li>`).join("")}</ul></section>`).join("");
+  return {
+    html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/path", label: "Curriculum map" }])}
+      <h1>Curriculum map</h1>
+      <p class="lede" data-speak>The lessons sit in seven groups. Counts come from the pages in the lab. Open any title to read it.</p>
+      <figure class="path-map"><svg viewBox="0 0 ${width} ${height}" aria-hidden="true">${boxes}</svg><figcaption>Seven groups. The number on each row is how many lessons sit there. The lists below are the links.</figcaption></figure>
+      ${diagramFig(mermaid, "The same groups, top to bottom.")}
+      ${blocks}`,
+    after() { drawDiagrams(main()); },
   };
 }
 
@@ -512,18 +565,18 @@ function practiceView() {
       <section class="audio-section" id="audio-lessons">
         <h2>Audio Briefings While You Practice</h2>
         <div class="audio-grid">
-          <article class="audio-card"><h3>🔊 Syntax &amp; Types</h3><audio controls preload="metadata" data-voice-slot="syntax" src="media/audio-syntax.mp3"></audio></article>
-          <article class="audio-card"><h3>🔊 Data Structures Cost</h3><audio controls preload="metadata" data-voice-slot="structures" src="media/audio-structures.mp3"></audio></article>
-          <article class="audio-card"><h3>🔊 Generators &amp; Async</h3><audio controls preload="metadata" data-voice-slot="async" src="media/audio-async.mp3"></audio></article>
-          <article class="audio-card"><h3>🔊 Interview Checklist</h3><audio controls preload="metadata" data-voice-slot="interview" src="media/audio-interview.mp3"></audio></article>
+          <article class="audio-card"><h3>🔊 Syntax &amp; Types</h3><audio controls preload="none" data-voice-slot="syntax" src="media/audio-syntax.mp3"></audio></article>
+          <article class="audio-card"><h3>🔊 Data Structures Cost</h3><audio controls preload="none" data-voice-slot="structures" src="media/audio-structures.mp3"></audio></article>
+          <article class="audio-card"><h3>🔊 Generators &amp; Async</h3><audio controls preload="none" data-voice-slot="async" src="media/audio-async.mp3"></audio></article>
+          <article class="audio-card"><h3>🔊 Interview Checklist</h3><audio controls preload="none" data-voice-slot="interview" src="media/audio-interview.mp3"></audio></article>
         </div>
       </section>
       <section class="media-strip" id="video-explainers" aria-label="Visual explainers">
         <h2>Short Video &amp; Animated Explainers</h2>
         <div class="clip-grid">
-          <figure><video controls playsinline preload="metadata" poster="media/typing-poster.jpg"><source src="media/typing.mp4" type="video/mp4"></video><figcaption>MP4 · First program (<a href="#/sources/tutorial">Tutorial</a>)</figcaption></figure>
-          <figure><video controls playsinline preload="metadata" poster="media/list-comp-poster.jpg"><source src="media/list-comprehension.mp4" type="video/mp4"></video><figcaption>MP4 · List comprehension (<a href="#/sources/stdtypes">Built-in types</a>)</figcaption></figure>
-          <figure><video controls playsinline preload="metadata" poster="media/dict-poster.jpg"><source src="media/dict-lookup.webm" type="video/webm"></video><figcaption>WebM · Dict hash lookup (<a href="#/sources/timecomplexity">TimeComplexity</a>)</figcaption></figure>
+          <figure><video controls playsinline preload="none" poster="media/typing-poster.jpg"><source src="media/typing.mp4" type="video/mp4"></video><figcaption>MP4 · First program (<a href="#/sources/tutorial">Tutorial</a>)</figcaption></figure>
+          <figure><video controls playsinline preload="none" poster="media/list-comp-poster.jpg"><source src="media/list-comprehension.mp4" type="video/mp4"></video><figcaption>MP4 · List comprehension (<a href="#/sources/stdtypes">Built-in types</a>)</figcaption></figure>
+          <figure><video controls playsinline preload="none" poster="media/dict-poster.jpg"><source src="media/dict-lookup.webm" type="video/webm"></video><figcaption>WebM · Dict hash lookup (<a href="#/sources/timecomplexity">TimeComplexity</a>)</figcaption></figure>
           <figure><img src="media/indent.gif" alt="Four-space indentation blocks"><figcaption>GIF · Indentation (<a href="#/sources/lexical">Lexical analysis</a>)</figcaption></figure>
           <figure><img src="media/async-loop.gif" alt="Two tasks interleaving on a single thread"><figcaption>GIF · Asyncio event loop (<a href="#/sources/asyncio-docs">asyncio</a>)</figcaption></figure>
         </div>
@@ -563,11 +616,11 @@ function practiceView() {
   };
 }
 
-async function executeEditor({ token, source, checks, packages, lessonKey }) {
-  const button = document.getElementById("run-code");
+async function executeEditor({ token, source, checks, packages, lessonKey, outputId = "output", buttonId = "run-code" }) {
+  const button = document.getElementById(buttonId);
   const status = document.getElementById("run-status");
-  const output = document.getElementById("output");
-  const checksEl = document.getElementById("checks");
+  const output = document.getElementById(outputId);
+  const checksEl = buttonId === "run-code" ? document.getElementById("checks") : null;
   if (!button || !output) return;
   button.disabled = true;
   const previous = button.textContent;
@@ -887,6 +940,7 @@ function viewFor(route) {
   if (route.name === "section") return sectionView(route.id);
   if (route.name === "track") return trackView(route.id);
   if (route.name === "lesson") return lessonView(route.track, route.lesson);
+  if (route.name === "path") return pathView();
   if (route.name === "practice") return practiceView();
   if (route.name === "level") return levelView(route.n) || missingView();
   if (route.name === "me") return meView();
@@ -929,13 +983,17 @@ function startOrbit() {
     }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = "#12161c";
+    const tone = getComputedStyle(document.documentElement);
+    const canvasBg = tone.getPropertyValue("--bg").trim() || tone.getPropertyValue("--code-bg").trim();
+    const sun = tone.getPropertyValue("--accent").trim();
+    const moon = tone.getPropertyValue("--accent-2").trim();
+    ctx.fillStyle = canvasBg;
     ctx.fillRect(0, 0, width, height);
-    ctx.fillStyle = "#e2a13a";
+    ctx.fillStyle = sun;
     ctx.beginPath();
     ctx.arc(width / 2, height / 2, Math.max(8, width * 0.04), 0, Math.PI * 2);
     ctx.fill();
-    ctx.fillStyle = "#7ec8c3";
+    ctx.fillStyle = moon;
     ctx.beginPath();
     ctx.arc(width / 2 + Math.cos(angle) * width * 0.22, height / 2 + Math.sin(angle) * height * 0.28, Math.max(4, width * 0.02), 0, Math.PI * 2);
     ctx.fill();
@@ -966,9 +1024,53 @@ function render() {
   view.after?.(token);
   applyWorld(location.hash);
   document.dispatchEvent(new CustomEvent("lab:world"));
-  mountStudio(main());
+  mountStudioWhenSeen();
   bindStudioFloor(main());
+  paintStudySpans(main());
   keepBotClear();
+}
+
+function mountStudioWhenSeen() {
+  const root = main();
+  const nodes = [...root.querySelectorAll("[data-studio]")];
+  if (!nodes.length) return;
+  const mount = () => mountStudio(root);
+  if (!("IntersectionObserver" in window)) {
+    mount();
+    return;
+  }
+  const watcher = new IntersectionObserver((entries) => {
+    if (entries.some((entry) => entry.isIntersecting)) {
+      watcher.disconnect();
+      mount();
+    }
+  }, { threshold: 0.15 });
+  nodes.forEach((node) => watcher.observe(node));
+}
+
+function paintStudySpans(root) {
+  const paint = (node, level) => {
+    if (!node || !Number.isInteger(level)) return;
+    const label = studyLabel(level);
+    if (node.textContent !== label) node.textContent = label;
+    node.dataset.study = "1";
+  };
+  root.querySelectorAll(".lvl-card").forEach((card) => {
+    const level = Number(card.querySelector(".lvl-n")?.textContent);
+    const pill = [...card.querySelectorAll(".pill")].find((item) => item.dataset.study === "1" || /\d+\s*h$/.test(item.textContent.trim()));
+    paint(pill, level);
+  });
+  root.querySelectorAll(".dc-card, .kicker").forEach((block) => {
+    const levelPill = [...block.querySelectorAll(".pill")].find((item) => /^Level\s+\d+/.test(item.textContent.trim()));
+    const hourPill = [...block.querySelectorAll(".pill")].find((item) => item.dataset.study === "1" || /h$/.test(item.textContent.trim()));
+    if (!levelPill || !hourPill || hourPill === levelPill) return;
+    paint(hourPill, Number(levelPill.textContent.replace(/\D/g, "")));
+  });
+  const cards = document.getElementById("dc-cards");
+  if (cards && !cards.dataset.studyWatch) {
+    cards.dataset.studyWatch = "1";
+    new MutationObserver(() => paintStudySpans(cards)).observe(cards, { childList: true });
+  }
 }
 
 applyPrefs();
