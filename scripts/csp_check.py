@@ -1,49 +1,55 @@
 #!/usr/bin/env python3
-"""CSP readiness check. Scans index.html, css/ and js/ for network origins and inline code.
+"""CSP check. Fails if a page is missing its meta policy, still has an executable inline
+script, or loads a script, image, stylesheet, import, fetch, or worker from another origin.
 
-Fails (exit 1) if any absolute http(s) URL that is *loaded* (src, href stylesheet, import, fetch,
-url()) points off-origin. Documentation links in lesson text are fine and are not loads.
-Prints what a CSP would need. Does NOT enforce a CSP: index.html still has inline <script>
-blocks, so a strict script-src needs hashes (see docs/CSP.md).
+Documentation links in lesson text are not loads. JSON script blocks (application/json,
+application/ld+json) are data, not scripts, and are allowed.
 """
-import hashlib, base64, pathlib, re, sys
+import pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-html = (ROOT / "index.html").read_text()
 fail = []
 
-# inline scripts and their hashes
-inline = re.findall(r"<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>", html, re.S)
-hashes = ["'sha256-%s'" % base64.b64encode(hashlib.sha256(s.encode()).digest()).decode() for s in inline]
+EXECUTABLE = re.compile(
+    r"<script(?![^>]*\bsrc=)(?![^>]*\btype\s*=\s*[\"'](?:application/(?:ld\+)?json)[\"'])[^>]*>",
+    re.I,
+)
+CSP_META = re.compile(r'<meta\s+http-equiv="Content-Security-Policy"', re.I)
 
 load_patterns = [
     (r'<(?:script|img|iframe|source|video|audio)[^>]+\bsrc="(https?://[^"]+)"', "html src"),
-    (r'<link[^>]+href="(https?://[^"]+)"', "html link"),
+    (r'<link[^>]+rel=["\']stylesheet["\'][^>]+href="(https?://[^"]+)"', "html stylesheet"),
+    (r'<link[^>]+href="(https?://[^"]+)"[^>]+rel=["\']stylesheet["\']', "html stylesheet"),
     (r'url\(\s*["\']?(https?://[^)"\']+)', "css url()"),
     (r'@import\s+["\'](https?://[^"\']+)', "css @import"),
     (r'\bimport\s*(?:\(|[^;]*from\s*)["\'](https?://[^"\']+)', "js import"),
     (r'\bfetch\(\s*["\'`](https?://[^"\'`]+)', "js fetch"),
     (r'new (?:Worker|WebSocket|EventSource)\(\s*["\'`](https?://[^"\'`]+)', "js net"),
 ]
-files = [ROOT / "index.html", ROOT / "404.html"] + sorted((ROOT / "css").glob("*.css")) + sorted((ROOT / "js").rglob("*.js"))
-for f in files:
-    if not f.exists():
-        continue
-    t = f.read_text(errors="replace")
-    for pat, kind in load_patterns:
-        for m in re.finditer(pat, t):
-            fail.append(f"{f.relative_to(ROOT)}: off-origin {kind}: {m.group(1)}")
 
-uses_blob = any("blob:" in f.read_text(errors="replace") for f in files if f.exists() and f.suffix == ".js")
-uses_wasm = (ROOT / "vendor/pyodide/pyodide.asm.wasm").exists()
-print("inline <script> blocks in index.html:", len(inline))
-print("Suggested CSP (for review, not enforced):")
-print("  default-src 'self'; script-src 'self' 'wasm-unsafe-eval' " + " ".join(hashes) +
-      "; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self';"
-      " connect-src 'self'; worker-src 'self'" + (" blob:" if uses_blob else "") + "; frame-src 'self'; object-src 'none'; base-uri 'self'")
-print("  notes: Pyodide needs 'wasm-unsafe-eval'; diagram iframes are same-origin HTML with their own inline script, so they need frame-src 'self' and are not covered by index.html hashes.")
-print("  wasm bundled:", uses_wasm, "| blob: used in js:", uses_blob)
-for x in fail:
-    print("FAIL", x)
-print("csp_check:", len(fail), "off-origin loads")
+html_files = sorted(ROOT.rglob("*.html"))
+for path in html_files:
+    if "node_modules" in path.parts:
+        continue
+    text = path.read_text(errors="replace")
+    rel = path.relative_to(ROOT)
+    if not CSP_META.search(text):
+        fail.append(f"{rel}: missing Content-Security-Policy meta")
+    for match in EXECUTABLE.finditer(text):
+        fail.append(f"{rel}: executable inline script: {match.group(0)[:80]}")
+
+files = []
+for pattern in ("*.html",):
+    files.extend(p for p in ROOT.rglob(pattern) if "node_modules" not in p.parts)
+files.extend(sorted((ROOT / "css").glob("*.css")))
+files.extend(sorted((ROOT / "js").rglob("*.js")))
+for path in files:
+    text = path.read_text(errors="replace")
+    for pat, kind in load_patterns:
+        for match in re.finditer(pat, text):
+            fail.append(f"{path.relative_to(ROOT)}: off-origin {kind}: {match.group(1)}")
+
+for item in fail:
+    print("FAIL", item)
+print("csp_check:", len(fail), "problems")
 sys.exit(1 if fail else 0)

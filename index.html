@@ -2,6 +2,7 @@
 <html lang="en" data-theme="ink">
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data:; font-src 'self' data:; connect-src 'self' blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Python Lab · cyphermonkeylabs.com</title>
   <meta name="description" content="Python Lab is a free static study studio for Python by CypherMonkey Labs (cyphermonkeylabs.com), from a first program through interview practice.">
@@ -24,16 +25,7 @@
   <link rel="stylesheet" href="css/fx.css">
   <link rel="stylesheet" href="css/play.css">
   <link rel="stylesheet" href="css/studio.css">
-  <script>
-    try {
-      var theme = localStorage.getItem("pythonlab.theme");
-      if (theme === "paper" || theme === "terminal" || theme === "contrast" || theme === "ink") {
-        document.documentElement.setAttribute("data-theme", theme);
-      }
-    } catch (err) {
-      /* Storage can be blocked. The default theme still works. */
-    }
-  </script>
+  <script src="js/theme-boot.js"></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -211,12 +203,6 @@
     </div>
   </div>
   <script type="module" src="js/app.js"></script>
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(function () {
-        /* A locked browser can refuse the worker. The pages still open. */
-      });
-    }
-  </script>
+  <script src="js/sw-register.js"></script>
 </body>
 </html>
