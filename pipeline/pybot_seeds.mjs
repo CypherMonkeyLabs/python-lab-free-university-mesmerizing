@@ -522,6 +522,18 @@ export const SEEDS = [
     eg: "d = {'a': 1}\nprint(d.get('c', 0))",
   },
   {
+    i: "seed:tracebacks-lesson",
+    h: "#/lesson/stdlib/tracebacks",
+    ti: "Tracebacks and debugging",
+    k: "lesson",
+    topic: "error",
+    all: ["traceback", "debug"],
+    loose: true,
+    rank: 28,
+    ex: "Read a traceback from the bottom. The last line is the exception type and message, and the frames above it show who called that line.",
+    eg: "",
+  },
+  {
     i: "seed:traceback",
     h: "#/ecosystem/glossary",
     ti: "Traceback",

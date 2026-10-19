@@ -4,6 +4,9 @@ import { dsa } from "./dsa.js";
 import { asyncTrack, typingTrack, stdlib } from "./language.js";
 import { webTrack, dataTrack, aiTrack, automation } from "./applied.js";
 import { tooling, licensing, certifications, career, projects } from "./path.js";
+import { coreByTrack } from "./core.js";
+import { thicken } from "./thicken.js";
+import { stampMinutes } from "./readtime.js";
 
 export const tracks = [
   startTrack,
@@ -23,6 +26,12 @@ export const tracks = [
   projects,
 ];
 
+fundamentals.lessons.push(...coreByTrack.fundamentals);
+stdlib.lessons.push(...coreByTrack.stdlib);
+asyncTrack.lessons.push(...coreByTrack.async);
+thicken(tracks);
+stampMinutes(tracks);
+
 export const extras = [
   { href: "#/studio", title: "Studio", menu: "Clickable stations, a concept explorer, and examples you can run.", icon: "practice" },
   { href: "#/practice", title: "Practice desk", menu: "Run Python in this browser. The code stays on the page.", icon: "practice" },
@@ -37,6 +46,7 @@ export const extras = [
   { href: "#/downloads", title: "Downloads", menu: "Level files (PDF, Word, PowerPoint, HTML, image), cheat sheets, notebook.", icon: "downloads" },
   { href: "#/sources", title: "Sources", menu: "The official pages behind the facts in this lab.", icon: "sources" },
   { href: "#/about", title: "About Lucky", menu: "A lifelong student and AI enthusiast, sharing what he learns.", icon: "about" },
+  { href: "#/path", title: "Curriculum map", menu: "Every lesson, grouped from foundations through interview practice.", icon: "start" },
 ];
 
 export function trackById(id) {

@@ -393,8 +393,8 @@ for (const extra of extras) {
   });
 }
 
-if (lessonCount !== 56) {
-  console.error(`expected 56 lessons, found ${lessonCount}`);
+if (lessonCount !== 67) {
+  console.error(`expected 67 lessons, found ${lessonCount}`);
   process.exit(1);
 }
 

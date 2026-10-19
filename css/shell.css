@@ -354,6 +354,134 @@ body {
   body { padding: 0; }
 }
 
+html { scrollbar-gutter: stable; }
+main.wrap {
+  min-height: 100dvh;
+  padding-bottom: calc(var(--bar-h) + var(--bot-safe-block, 0px) + 16px);
+  padding-inline-end: max(16px, var(--bot-safe-inline, 0px));
+}
+.top-search-wrap { flex: 1 1 320px; min-width: 240px; max-width: 520px; }
+.search-results { min-width: 320px; }
+.sr-kind {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill, 999px);
+  background: color-mix(in srgb, var(--accent) 18%, var(--bg-elev));
+  font-size: 0.75rem;
+}
+.search-scrim { position: fixed; inset: 0; background: color-mix(in srgb, var(--ink) 35%, transparent); z-index: 65; }
+.side-group-label {
+  margin: 14px 16px 4px;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted, var(--muted));
+}
+.side-count { font-family: var(--font-num, "IBM Plex Mono", ui-monospace, monospace); font-size: 0.75rem; color: var(--text-muted, var(--muted)); }
+.side-collapsed .side-group-label, .side-collapsed .side-count { display: none; }
+.side-collapsed .side-item:focus-visible::after {
+  content: attr(data-tip); position: fixed; left: 84px; padding: 6px 10px; border-radius: 8px; white-space: nowrap;
+  background: var(--ink); color: var(--bg); font-size: 0.85rem; pointer-events: none;
+}
+.num, .bar-count, .step-label, .path-count { font-family: var(--font-num, "IBM Plex Mono", ui-monospace, monospace); }
+.crumbs a, .crumbs span { display: inline-block; min-height: 24px; line-height: 24px; }
+.bar-ring {
+  width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; flex: 0 0 auto;
+  background: conic-gradient(var(--accent) calc(var(--pct, 0) * 1%), color-mix(in srgb, var(--ink) 16%, transparent) 0);
+}
+.bar-ring svg { background: var(--bg); border-radius: 50%; }
+.lesson-step {
+  position: sticky; top: calc(var(--top-h) + 6px); z-index: var(--z-sticky, 20);
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  padding: 8px 0; background: var(--surface-1, var(--bg));
+}
+.step-dots { display: flex; flex-wrap: wrap; gap: 6px; }
+.step-dot { width: 24px; height: 24px; border-radius: 50%; background: var(--line); display: inline-block; }
+.step-dot.is-on { background: var(--accent); }
+.pager-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0 8px; }
+.pager-card {
+  display: flex; flex-direction: column; gap: 4px; min-height: 88px; padding: 16px;
+  border: 1px solid var(--line); border-radius: var(--radius-m, 14px); text-decoration: none; color: var(--text, var(--ink));
+  background: var(--surface-2, var(--bg-elev));
+}
+.pager-k { color: var(--text-muted, var(--muted)); font-size: 0.85rem; }
+.pager-t { font-size: 1.15rem; font-weight: 700; }
+.mistake, .sample-block, .check-q {
+  margin: 16px 0; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius-m, 14px);
+  background: var(--surface-2, var(--bg-elev));
+}
+.path-map { margin: 12px 0 20px; }
+.path-map svg { width: 100%; height: auto; }
+.path-box { fill: var(--surface-2, var(--bg-elev)); stroke: var(--line); }
+.path-label, .path-count { fill: var(--text, var(--ink)); font-size: 16px; }
+.path-tier { margin: 18px 0; }
+#toast-region {
+  position: fixed; z-index: var(--z-toast, 80);
+  left: calc(var(--side-now, 0px) + 16px);
+  bottom: calc(var(--bar-h, 64px) + 16px);
+  display: flex; flex-direction: column; gap: 8px;
+  width: min(360px, calc(100vw - 32px));
+  pointer-events: none;
+}
+body:has(#bot-panel:not([hidden])) #toast-region { z-index: 30; }
+#toast-region > * { pointer-events: auto; position: static !important; inset: auto !important; transform: none !important; left: auto !important; top: auto !important; width: auto !important; max-width: 100%; }
+#toast-region .welcome { pointer-events: auto !important; }
+#toast-region.toast-flip { left: auto; right: 16px; }
+.display-menu:not([open]) .display-pop { display: none; }
+.display-pop .xp-chip { display: inline-flex !important; margin: 0 0 8px; }
+#xp-chip {
+  color: var(--text-on-brand, #10233a);
+  background: var(--world-gold, #ffd43b);
+}
+@media (min-width: 1100px) {
+  #menu-toggle { display: none; }
+  .tb-search { display: none; }
+  .top-search-wrap { display: block; position: relative; }
+}
+@media (max-width: 1099px) {
+  body { padding-left: 0; }
+  .sidemenu { width: min(86vw, 330px); transform: translateX(-102%); z-index: 60; top: 0; }
+  .side-open .sidemenu { transform: none; }
+  .side-close { display: grid; }
+  .side-collapse { display: none; }
+  .tb-search { display: inline-flex; }
+  .top-search-wrap { display: none; position: fixed; left: 8px; right: 8px; top: calc(var(--top-h) + 8px); max-width: none; min-width: 0; margin: 0; z-index: 75; }
+  .search-open .top-search-wrap { display: block; }
+  #toast-region {
+    top: calc(var(--top-h, 64px) + 8px);
+    bottom: auto;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    max-height: calc(100dvh - var(--top-h, 64px) - var(--bar-h, 64px) - 190px);
+    overflow: auto;
+  }
+}
+@media (max-width: 899px) {
+  .bottombar .bar-label { position: static !important; width: auto !important; height: auto !important; overflow: visible !important; clip: auto !important; }
+  .bottombar .bar-sub { display: none !important; }
+  .bottombar .bar-progress {
+    display: flex !important; position: static !important; height: auto !important;
+    flex: 1 1 auto; flex-direction: column; align-items: center; justify-content: center; min-width: 0; padding: 0;
+  }
+  .bar-where, .bar-count { display: block !important; text-align: center; }
+  .bar-where { font-weight: 700; font-size: 0.82rem; }
+  .bar-count { font-size: 0.72rem; color: var(--text-muted, var(--muted)); }
+  #help-btn .tb-btn-label, #menu-toggle .tb-btn-label { display: inline !important; position: static; width: auto; height: auto; overflow: visible; clip: auto; }
+}
+@media (max-width: 600px) {
+  /* The bar's blur would trap a fixed menu inside the bar. Drop it so the sheet uses the screen. */
+  .topbar { backdrop-filter: none; animation: none !important; }
+  .display-menu[open] .display-pop {
+    position: fixed; left: 0; right: 0; bottom: 0; top: auto; width: auto; max-height: min(70vh, calc(100vh - 24px)); overflow: auto;
+    border-radius: var(--radius-l, 16px) var(--radius-l, 16px) 0 0; z-index: var(--z-dialog, 90);
+  }
+}
+@media (max-width: 400px) {
+  .brand-sub { display: none !important; }
+  .topbar { gap: 2px; }
+  .brand-name { font-size: 0.92rem; }
+}
 main:focus, main:focus-visible { outline: none; }
 @media (max-width: 899px) {
   .bar-progress { display: block; position: absolute; left: 0; right: 0; top: -1px; height: 4px; padding: 0; }

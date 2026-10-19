@@ -24,6 +24,8 @@ walk(path.join(root, "js/app.js"));
 
 const required = [
   "index.html",
+  "js/theme-boot.js",
+  "js/sw-register.js",
   "manifest.webmanifest",
   "assets/favicon.svg",
   "assets/cyphermonkey-zodiac.svg",
@@ -80,6 +82,6 @@ const body = chosen.map((rel) => `  "./${rel}",`).join("\n");
 const swPath = path.join(root, "sw.js");
 let sw = fs.readFileSync(swPath, "utf8");
 sw = sw.replace(/const SHELL_ASSETS = \[[\s\S]*?\];/, `const SHELL_ASSETS = [\n  "./",\n${body}\n];`);
-sw = sw.replace(/pythonlab-pwa-v\d+/, "pythonlab-pwa-v8");
+sw = sw.replace(/pythonlab-pwa-v\d+/, "pythonlab-pwa-v9");
 fs.writeFileSync(swPath, sw);
 console.log(`precache ${chosen.length + 1} files, ${total} bytes, budget ${budget}`);

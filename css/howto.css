@@ -23,7 +23,16 @@ body.howto-open { overflow: hidden; }
 .howto-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
 .howto-card { display: flex; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); transform: perspective(600px) rotateX(0); transition: transform 160ms, border-color 160ms; }
 .howto-card:hover { transform: perspective(600px) rotateX(3deg) translateY(-2px); border-color: var(--accent); }
-.howto-card .hc-ico { flex: none; width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; color: #10233a; background: linear-gradient(135deg, var(--c1, #22d3ee), var(--c2, #a78bfa)); }
+.howto-card .hc-ico { flex: none; width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; color: var(--btn-ink); background: linear-gradient(135deg, var(--c1, var(--brand-teal, var(--accent-2))), var(--c2, var(--brand-violet, var(--accent)))); }
+.hc-tv { --c1: var(--brand-teal, var(--accent-2)); --c2: var(--brand-violet, var(--accent)); }
+.hc-gp { --c1: var(--brand-gold, var(--accent)); --c2: var(--brand-pink, var(--accent-2)); }
+.hc-st { --c1: var(--success, var(--ok)); --c2: var(--brand-teal, var(--accent-2)); }
+.hc-vp { --c1: var(--brand-violet, var(--accent)); --c2: var(--brand-pink, var(--accent-2)); }
+.hc-sg { --c1: var(--success, var(--ok)); --c2: var(--brand-gold, var(--accent)); }
+.hc-pv { --c1: var(--brand-pink, var(--accent-2)); --c2: var(--brand-violet, var(--accent)); }
+.hc-tg { --c1: var(--brand-teal, var(--accent-2)); --c2: var(--success, var(--ok)); }
+.hc-pg { --c1: var(--brand-pink, var(--accent-2)); --c2: var(--brand-gold, var(--accent)); }
+.hc-vt { --c1: var(--brand-violet, var(--accent)); --c2: var(--brand-teal, var(--accent-2)); }
 .howto-card b { display: block; font-size: 0.98rem; } .howto-card span.hc-t { font-size: 0.88rem; color: var(--muted); display: block; }
 .howto-card a, .howto-card button.linklike { color: var(--accent-2); }
 .howto-card button.linklike { background: none; border: 0; padding: 0; font: inherit; text-decoration: underline; cursor: pointer; min-height: 28px; }

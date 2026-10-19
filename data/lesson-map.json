@@ -1,6 +1,6 @@
 {
  "schema": "lesson-map/1",
- "note": "Draft mapping of the 54 existing lessons onto Levels 0-10 (docs/03_COURSE_MAP in the blueprint). Levels and outcomes are proposals for Lucky to review; last_verified is null until a human re-checks each lesson.",
+ "note": "Mapping of the lessons onto Levels 0-10. Minutes are computed from the words on the page. New lessons were checked on 2026-10-19.",
  "levels": {
   "0": "Hatchling Meadow",
   "1": "Tidepool",
@@ -20,7 +20,7 @@
    "title": "How to use this lab",
    "level": 0,
    "python_min": "3.13",
-   "minutes": 6,
+   "minutes": 2,
    "outcomes": [
     "Navigate the lab and find a lesson's sources",
     "Tell an Official source from a Third-party one"
@@ -37,7 +37,7 @@
    "title": "A map of the language",
    "level": 0,
    "python_min": "3.13",
-   "minutes": 8,
+   "minutes": 4,
    "outcomes": [
     "Name the three layers: language, standard library, third-party packages",
     "Say where to look for the docs for each"
@@ -55,7 +55,7 @@
    "title": "The browser runtime",
    "level": 0,
    "python_min": "3.13",
-   "minutes": 8,
+   "minutes": 4,
    "outcomes": [
     "Run a snippet in the browser runner",
     "State what the browser runtime (Python 3.14) can and cannot do"
@@ -75,7 +75,7 @@
    "title": "Syntax and indentation",
    "level": 1,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 4,
    "outcomes": [
     "Write a block with correct indentation",
     "Explain why tabs mixed with spaces is a syntax error"
@@ -93,7 +93,7 @@
    "title": "Values and types",
    "level": 1,
    "python_min": "3.13",
-   "minutes": 14,
+   "minutes": 4,
    "outcomes": [
     "Name the type of a value with type()",
     "Predict whether a value is true or false in a condition"
@@ -110,7 +110,7 @@
    "title": "Names and mutability",
    "level": 1,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 4,
    "outcomes": [
     "Explain that assignment binds a name to an object",
     "Predict when two names share one mutable list"
@@ -127,7 +127,7 @@
    "title": "Control flow",
    "level": 2,
    "python_min": "3.13",
-   "minutes": 14,
+   "minutes": 4,
    "outcomes": [
     "Write if/elif/else, for and while loops",
     "Use match for a simple case split"
@@ -145,7 +145,7 @@
    "title": "Functions",
    "level": 3,
    "python_min": "3.13",
-   "minutes": 14,
+   "minutes": 4,
    "outcomes": [
     "Define a function with parameters and a return value",
     "Explain why a mutable default argument is shared between calls"
@@ -162,7 +162,7 @@
    "title": "Classes and objects",
    "level": 5,
    "python_min": "3.13",
-   "minutes": 16,
+   "minutes": 4,
    "outcomes": [
     "Define a class with data and methods",
     "Create and use instances"
@@ -180,7 +180,7 @@
    "title": "Modules and packages",
    "level": 5,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 4,
    "outcomes": [
     "Import a module and say what import does the first time",
     "Explain sys.modules"
@@ -196,7 +196,7 @@
    "title": "Files and paths",
    "level": 4,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 4,
    "outcomes": [
     "Read and write a text file with pathlib and with",
     "State the encoding explicitly"
@@ -213,7 +213,7 @@
    "title": "Errors and exceptions",
    "level": 4,
    "python_min": "3.13",
-   "minutes": 14,
+   "minutes": 4,
    "outcomes": [
     "Raise a specific exception",
     "Catch only the exception you can handle"
@@ -230,7 +230,7 @@
    "title": "Tests, venvs, and packaging",
    "level": 5,
    "python_min": "3.13",
-   "minutes": 16,
+   "minutes": 4,
    "outcomes": [
     "Write a test that fails when behaviour changes",
     "Explain why a project uses its own environment"
@@ -247,11 +247,142 @@
    "last_verified": null
   },
   {
+   "key": "fundamentals/strings",
+   "title": "f-strings and string methods",
+   "level": 1,
+   "python_min": "3.13",
+   "minutes": 7,
+   "outcomes": [
+    "Write an f-string that inserts names and numbers",
+    "Use strip, split, upper, and replace without changing the original",
+    "Format a number with a width so columns line up"
+   ],
+   "sources": [
+    "pep-498",
+    "stdtypes",
+    "io"
+   ],
+   "has_exercise": true,
+   "last_verified": "2026-10-19"
+  },
+  {
+   "key": "fundamentals/comprehensions",
+   "title": "Comprehensions",
+   "level": 1,
+   "python_min": "3.13",
+   "minutes": 6,
+   "outcomes": [
+    "Write a list comprehension with a filter",
+    "Build a dict that maps a key to a computed value",
+    "Choose a loop when the comprehension no longer fits on one line"
+   ],
+   "sources": [
+    "comprehensions-doc",
+    "stdtypes"
+   ],
+   "has_exercise": true,
+   "last_verified": "2026-10-19"
+  },
+  {
+   "key": "fundamentals/lambdas",
+   "title": "lambda, sorted, and functools",
+   "level": 2,
+   "python_min": "3.13",
+   "minutes": 6,
+   "outcomes": [
+    "Pass a key function to sorted",
+    "Write a one-line lambda when a def would be noise",
+    "Use functools.partial to fill in the first arguments"
+   ],
+   "sources": [
+    "functions-doc",
+    "sorting-howto",
+    "functools"
+   ],
+   "has_exercise": true,
+   "last_verified": "2026-10-19"
+  },
+  {
+   "key": "fundamentals/iterators",
+   "title": "Iterators and generators",
+   "level": 3,
+   "python_min": "3.13",
+   "minutes": 6,
+   "outcomes": [
+    "Tell an iterable from an iterator",
+    "Write a generator with yield",
+    "Use a generator when you do not want the whole list in memory"
+   ],
+   "sources": [
+    "iterators-doc",
+    "generators-doc",
+    "itertools"
+   ],
+   "has_exercise": true,
+   "last_verified": "2026-10-19"
+  },
+  {
+   "key": "fundamentals/decorators",
+   "title": "Decorators",
+   "level": 5,
+   "python_min": "3.13",
+   "minutes": 6,
+   "outcomes": [
+    "Read @decorator as 'replace this function with decorator(function)'",
+    "Write a wrapper that calls the original function",
+    "Keep the original name with functools.wraps when you care about help text"
+   ],
+   "sources": [
+    "decorators-doc",
+    "functools"
+   ],
+   "has_exercise": true,
+   "last_verified": "2026-10-19"
+  },
+  {
+   "key": "fundamentals/with-blocks",
+   "title": "Context managers and with",
+   "level": 4,
+   "python_min": "3.13",
+   "minutes": 6,
+   "outcomes": [
+    "Open a file with with so it closes",
+    "Read a with block as enter, body, exit",
+    "Write a small context manager with contextlib.contextmanager"
+   ],
+   "sources": [
+    "compound",
+    "contextlib",
+    "io"
+   ],
+   "has_exercise": true,
+   "last_verified": "2026-10-19"
+  },
+  {
+   "key": "fundamentals/inheritance",
+   "title": "Inheritance, super, and dataclasses",
+   "level": 5,
+   "python_min": "3.13",
+   "minutes": 6,
+   "outcomes": [
+    "Override a method and call the parent with super()",
+    "Know that method resolution follows the class list",
+    "Use a dataclass when the class is mostly fields"
+   ],
+   "sources": [
+    "super-doc",
+    "classes",
+    "dataclasses"
+   ],
+   "has_exercise": true,
+   "last_verified": "2026-10-19"
+  },
+  {
    "key": "dsa/sequences",
    "title": "Lists, tuples, and slices",
    "level": 4,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 4,
    "outcomes": [
     "Choose between list and tuple",
     "Use slices"
@@ -268,7 +399,7 @@
    "title": "Dicts, sets, and hashing",
    "level": 4,
    "python_min": "3.13",
-   "minutes": 14,
+   "minutes": 4,
    "outcomes": [
     "Use dicts and sets",
     "Explain what makes a key hashable"
@@ -285,7 +416,7 @@
    "title": "Stacks, queues, and heaps",
    "level": 7,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 3,
    "outcomes": [
     "Use a list as a stack, deque as a queue, heapq as a priority queue",
     "Pick the right one for an access pattern"
@@ -302,7 +433,7 @@
    "title": "Trees and graphs, as data",
    "level": 7,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 4,
    "outcomes": [
     "Model a tree and a graph as plain data",
     "Spot a cycle risk in a graph"
@@ -318,7 +449,7 @@
    "title": "Sorting and searching",
    "level": 4,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 4,
    "outcomes": [
     "Sort with sorted and a key function",
     "Use bisect for binary search"
@@ -335,7 +466,7 @@
    "title": "Talking about cost",
    "level": 7,
    "python_min": "3.13",
-   "minutes": 10,
+   "minutes": 4,
    "outcomes": [
     "Name a structure, an operation and its cost",
     "Separate average from worst case"
@@ -351,7 +482,7 @@
    "title": "Two pointers and sliding windows",
    "level": 7,
    "python_min": "3.13",
-   "minutes": 14,
+   "minutes": 4,
    "outcomes": [
     "Use two indices on a sorted sequence instead of nested loops",
     "Update a fixed-width sliding window sum in constant time per step"
@@ -368,7 +499,7 @@
    "title": "Recursion and memoization with functools.cache",
    "level": 7,
    "python_min": "3.13",
-   "minutes": 14,
+   "minutes": 4,
    "outcomes": [
     "Write a recursive function with a clear base case",
     "Cache repeated hashable calls with functools.cache"
@@ -385,7 +516,7 @@
    "title": "What async is for",
    "level": 8,
    "python_min": "3.13",
-   "minutes": 10,
+   "minutes": 2,
    "outcomes": [
     "Say when async helps (waiting) and when it does not (computing)"
    ],
@@ -400,7 +531,7 @@
    "title": "async, await, and tasks",
    "level": 8,
    "python_min": "3.13",
-   "minutes": 14,
+   "minutes": 4,
    "outcomes": [
     "Write async and await code and schedule a task",
     "Explain that calling an async function returns a coroutine"
@@ -416,7 +547,7 @@
    "title": "Timeouts, cancellation, and mistakes",
    "level": 8,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 2,
    "outcomes": [
     "Handle timeouts and cancellation on purpose",
     "Avoid un-awaited tasks that fail silently"
@@ -428,11 +559,30 @@
    "last_verified": null
   },
   {
+   "key": "async/when-which",
+   "title": "Threads, processes, or asyncio",
+   "level": 6,
+   "python_min": "3.13",
+   "minutes": 6,
+   "outcomes": [
+    "Choose asyncio when the program is waiting on I/O",
+    "Choose a thread for a library that blocks and will not await",
+    "Choose a process when the work needs another CPU core"
+   ],
+   "sources": [
+    "asyncio-docs",
+    "threading",
+    "multiprocessing"
+   ],
+   "has_exercise": true,
+   "last_verified": "2026-10-19"
+  },
+  {
    "key": "typing/annotations",
    "title": "Annotations are not a gate",
    "level": 3,
    "python_min": "3.13",
-   "minutes": 10,
+   "minutes": 4,
    "outcomes": [
     "Add annotations to a function",
     "Explain that the interpreter stores them and a checker reads them"
@@ -449,7 +599,7 @@
    "title": "Common shapes",
    "level": 7,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 2,
    "outcomes": [
     "Write list[int], unions, TypedDict and Protocol hints"
    ],
@@ -464,7 +614,7 @@
    "title": "mypy and Pyright",
    "level": 7,
    "python_min": "3.13",
-   "minutes": 8,
+   "minutes": 2,
    "outcomes": [
     "Run mypy or Pyright on purpose and read the output"
    ],
@@ -480,7 +630,7 @@
    "title": "A tour map",
    "level": 6,
    "python_min": "3.13",
-   "minutes": 8,
+   "minutes": 2,
    "outcomes": [
     "Find the standard-library module for a job"
    ],
@@ -495,7 +645,7 @@
    "title": "Text, JSON, CSV, and time",
    "level": 6,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 4,
    "outcomes": [
     "Read and write JSON and CSV",
     "Work with dates and times"
@@ -514,7 +664,7 @@
    "title": "Paths, processes, and SQLite",
    "level": 6,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 3,
    "outcomes": [
     "Launch a program with subprocess",
     "Keep rows in sqlite3"
@@ -532,7 +682,7 @@
    "title": "Logging and breakpoints",
    "level": 6,
    "python_min": "3.13",
-   "minutes": 8,
+   "minutes": 2,
    "outcomes": [
     "Replace print with logging in a program",
     "Use a breakpoint"
@@ -545,11 +695,66 @@
    "last_verified": null
   },
   {
+   "key": "stdlib/regular-expressions",
+   "title": "Regular expressions, the basics",
+   "level": 4,
+   "python_min": "3.13",
+   "minutes": 6,
+   "outcomes": [
+    "Reach for str methods before re",
+    "Use findall and sub for the common jobs",
+    "Raw strings keep backslashes for the pattern"
+   ],
+   "sources": [
+    "re",
+    "stdtypes"
+   ],
+   "has_exercise": true,
+   "last_verified": "2026-10-19"
+  },
+  {
+   "key": "stdlib/logging-well",
+   "title": "Logging properly",
+   "level": 4,
+   "python_min": "3.13",
+   "minutes": 6,
+   "outcomes": [
+    "Get a logger named for the module",
+    "Pick debug, info, warning, or error on purpose",
+    "Configure the format once at the edge of the program"
+   ],
+   "sources": [
+    "logging",
+    "logging-howto"
+   ],
+   "has_exercise": true,
+   "last_verified": "2026-10-19"
+  },
+  {
+   "key": "stdlib/tracebacks",
+   "title": "Tracebacks and debugging",
+   "level": 4,
+   "python_min": "3.13",
+   "minutes": 6,
+   "outcomes": [
+    "Read the last line of a traceback as the error type and message",
+    "Walk upward to the line in your file",
+    "Know what breakpoint() does, and why this lab does not run it"
+   ],
+   "sources": [
+    "traceback",
+    "pdb",
+    "errors"
+   ],
+   "has_exercise": true,
+   "last_verified": "2026-10-19"
+  },
+  {
    "key": "web/http",
    "title": "HTTP in one page",
    "level": 10,
    "python_min": "3.13",
-   "minutes": 10,
+   "minutes": 4,
    "outcomes": [
     "Read a request (method, path) and a response (status, body)"
    ],
@@ -564,7 +769,7 @@
    "title": "Flask",
    "level": 10,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 4,
    "outcomes": [
     "Map a path to a function in Flask"
    ],
@@ -579,7 +784,7 @@
    "title": "FastAPI",
    "level": 10,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 4,
    "outcomes": [
     "Describe parameters with type hints in FastAPI"
    ],
@@ -595,7 +800,7 @@
    "title": "A table is rows",
    "level": 10,
    "python_min": "3.13",
-   "minutes": 10,
+   "minutes": 5,
    "outcomes": [
     "Treat a list of dicts as a table",
     "Say when a library earns its import"
@@ -611,7 +816,7 @@
    "title": "NumPy",
    "level": 10,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 4,
    "outcomes": [
     "Operate on a whole ndarray at once"
    ],
@@ -626,7 +831,7 @@
    "title": "pandas",
    "level": 10,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 4,
    "outcomes": [
     "Load and filter a DataFrame"
    ],
@@ -641,7 +846,7 @@
    "title": "Words worth keeping straight",
    "level": 10,
    "python_min": "3.13",
-   "minutes": 10,
+   "minutes": 2,
    "outcomes": [
     "Use features, labels, training and evaluation correctly"
    ],
@@ -656,7 +861,7 @@
    "title": "A line you can fit",
    "level": 10,
    "python_min": "3.13",
-   "minutes": 14,
+   "minutes": 4,
    "outcomes": [
     "Fit y = w x + b and judge it with squared error"
    ],
@@ -671,7 +876,7 @@
    "title": "scikit-learn and PyTorch",
    "level": 10,
    "python_min": "3.13",
-   "minutes": 10,
+   "minutes": 2,
    "outcomes": [
     "Say what scikit-learn and PyTorch are each for"
    ],
@@ -687,7 +892,7 @@
    "title": "A tool loop",
    "level": 10,
    "python_min": "3.13",
-   "minutes": 14,
+   "minutes": 4,
    "outcomes": [
     "Run a tool loop inside a step limit and check the result"
    ],
@@ -702,7 +907,7 @@
    "title": "A script has a job",
    "level": 6,
    "python_min": "3.13",
-   "minutes": 8,
+   "minutes": 2,
    "outcomes": [
     "Write a script with one job that can be re-run"
    ],
@@ -717,7 +922,7 @@
    "title": "argparse, paths, and CSV",
    "level": 6,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 3,
    "outcomes": [
     "Use argparse, paths and CSV together"
    ],
@@ -734,7 +939,7 @@
    "title": "Do not automate harm",
    "level": 6,
    "python_min": "3.13",
-   "minutes": 8,
+   "minutes": 2,
    "outcomes": [
     "Show what a deleting, emailing or fetching script will do before it does it"
    ],
@@ -750,7 +955,7 @@
    "title": "venv and installers",
    "level": 5,
    "python_min": "3.13",
-   "minutes": 10,
+   "minutes": 2,
    "outcomes": [
     "Create and use a venv per project"
    ],
@@ -767,7 +972,7 @@
    "title": "pyproject.toml",
    "level": 5,
    "python_min": "3.13",
-   "minutes": 10,
+   "minutes": 4,
    "outcomes": [
     "Read a pyproject.toml"
    ],
@@ -784,7 +989,7 @@
    "title": "Tests, lint, and format",
    "level": 5,
    "python_min": "3.13",
-   "minutes": 10,
+   "minutes": 2,
    "outcomes": [
     "Run tests, a linter and a formatter; commit with Git"
    ],
@@ -802,7 +1007,7 @@
    "title": "Python's own license",
    "level": 9,
    "python_min": "3.13",
-   "minutes": 8,
+   "minutes": 2,
    "outcomes": [
     "Say what the PSF licence allows"
    ],
@@ -817,7 +1022,7 @@
    "title": "Four licenses you will meet",
    "level": 9,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 4,
    "outcomes": [
     "Tell permissive licences from the GPL by the question each answers"
    ],
@@ -837,7 +1042,7 @@
    "title": "How to read an exam page",
    "level": 10,
    "python_min": "3.13",
-   "minutes": 8,
+   "minutes": 2,
    "outcomes": [
     "Read an exam page: code, status, passing score, price"
    ],
@@ -853,7 +1058,7 @@
    "title": "The tracks, as published",
    "level": 10,
    "python_min": "3.13",
-   "minutes": 16,
+   "minutes": 2,
    "outcomes": [
     "List the published exam tracks and what is not final"
    ],
@@ -875,7 +1080,7 @@
    "title": "Stages of study",
    "level": 10,
    "python_min": "3.13",
-   "minutes": 10,
+   "minutes": 2,
    "outcomes": [
     "Describe the path: language, a finished project, a specialty"
    ],
@@ -890,7 +1095,7 @@
    "title": "Interview practice without folklore",
    "level": 10,
    "python_min": "3.13",
-   "minutes": 10,
+   "minutes": 2,
    "outcomes": [
     "Explain a project, a cost and a test aloud"
    ],
@@ -906,7 +1111,7 @@
    "title": "Eight builds",
    "level": 5,
    "python_min": "3.13",
-   "minutes": 12,
+   "minutes": 4,
    "outcomes": [
     "Pick a build and name the skill it practices"
    ],
@@ -925,7 +1130,7 @@
    "title": "The guess rule",
    "level": 2,
    "python_min": "3.13",
-   "minutes": 8,
+   "minutes": 5,
    "outcomes": [
     "Extract a game rule into a function a test can call"
    ],
@@ -940,7 +1145,7 @@
    "title": "A step limit",
    "level": 10,
    "python_min": "3.13",
-   "minutes": 10,
+   "minutes": 5,
    "outcomes": [
     "Add a step limit to a loop"
    ],

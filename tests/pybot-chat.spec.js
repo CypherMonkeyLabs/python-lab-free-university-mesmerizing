@@ -211,15 +211,15 @@ test("chat answers from the precached index while offline", async ({ page, conte
   const errors = watchErrors(page);
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
-  await page.waitForFunction(async () => {
+  await expect.poll(() => page.evaluate(async () => {
     const ready = await navigator.serviceWorker.ready;
     if (!ready.active) return false;
-    const cache = await caches.open("pythonlab-pwa-v8");
+    const cache = await caches.open("pythonlab-pwa-v9");
     const index = await cache.match("./js/content/pybot-index.json");
     const engine = await cache.match("./shared/pybot-chat/engine.js");
     const chat = await cache.match("./js/botchat.js");
     return !!(index && engine && chat);
-  }, null, { timeout: 20000 });
+  }), { timeout: 20000 }).toBe(true);
   await context.setOffline(true);
   await page.reload();
   await openBot(page, false);

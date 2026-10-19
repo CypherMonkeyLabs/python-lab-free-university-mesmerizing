@@ -4,6 +4,7 @@ import { state, levelFor } from "./xp.js";
 import { startTour, isTourOpen } from "./tour.js";
 import { sayBot } from "./botfx.js";
 import { zodiacMonkeySvg, BRAND_DOMAIN } from "./cm-shared.js";
+import { howtoClosedAt, isHowToOpen } from "./howto.js";
 
 const KEY = "pythonlab.visits.v1";
 const HOWTO_KEY = "pythonlab.howto.v2";
@@ -31,39 +32,132 @@ export function buildWelcome(info, xp) {
   return { title, line, first };
 }
 
-function show(w, info) {
+const queue = [];
+let dismissTimer = 0;
+let paused = false;
+
+function region() {
+  return document.getElementById("toast-region");
+}
+
+function placeToasts() {
+  const host = region();
+  if (!host) return;
+  const panel = document.getElementById("bot-panel");
+  const open = !!(panel && !panel.hidden);
+  const side = document.getElementById("lab-bot")?.dataset.side || "right";
+  host.classList.toggle("toast-flip", open && side === "left");
+}
+
+function pump() {
+  const host = region();
+  if (!host || host.firstElementChild || !queue.length) return;
+  const next = queue.shift();
+  host.appendChild(next);
+  paused = false;
+  const arm = () => {
+    clearTimeout(dismissTimer);
+    if (paused || !next.isConnected) return;
+    dismissTimer = window.setTimeout(() => {
+      if (paused || !next.isConnected) return;
+      next.remove();
+      pump();
+    }, 5000);
+  };
+  next.addEventListener("pointerenter", () => { paused = true; clearTimeout(dismissTimer); });
+  next.addEventListener("pointerleave", () => { paused = false; arm(); });
+  next.addEventListener("focusin", () => { paused = true; clearTimeout(dismissTimer); });
+  next.addEventListener("focusout", () => { paused = false; arm(); });
+  arm();
+  placeToasts();
+}
+
+function enqueue(node) {
+  if (!node || node.closest?.("#toast-region")) return;
+  queue.push(node);
+  pump();
+}
+
+function welcomeAllowed() {
+  if (isTourOpen() || isHowToOpen()) return false;
+  if (Date.now() - howtoClosedAt() < 5000) return false;
+  return true;
+}
+
+function show(w) {
+  if (!welcomeAllowed()) return;
   document.getElementById("welcome")?.remove();
   const el = document.createElement("div");
   el.id = "welcome";
   el.className = "welcome";
-  el.setAttribute("role", "status");
   el.innerHTML = `<span class="wl-emoji wl-zodiac" aria-hidden="true">${zodiacMonkeySvg(40)}<small class="wl-domain">${BRAND_DOMAIN}</small></span>
     <div><b>${esc(w.title)} <span class="wl-brand-inline">· ${BRAND_DOMAIN}</span></b><span class="wl-t">${esc(w.line)}</span>
     <div class="wl-actions"><button type="button" class="wl-go" data-tour>${w.first ? "Start the 1 minute tour" : "Take the tour again"}</button>
     <button type="button" class="wl-go" data-welcome-play>Play a game</button></div></div>
     <button type="button" class="wl-x" aria-label="Dismiss the welcome">&times;</button>`;
-  document.body.appendChild(el);
-  let timer = setTimeout(() => el.remove(), w.first ? 14000 : 9000);
-  const stop = () => clearTimeout(timer);
-  el.addEventListener("pointerenter", stop);
-  el.addEventListener("focusin", stop);
   el.addEventListener("click", (e) => {
     if (e.target.closest(".wl-x")) el.remove();
     else if (e.target.closest("[data-tour]")) { el.remove(); startTour(); }
     else if (e.target.closest("[data-welcome-play]")) { el.remove(); location.hash = "#/games"; }
+    pump();
   });
-  window.addEventListener("hashchange", () => el.remove(), { once: true });
-  new MutationObserver(() => { if (/side-open|search-open|howto-open/.test(document.body.className)) el.remove(); }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
-  document.addEventListener("pointerdown", (e) => { if (!el.contains(e.target)) el.remove(); }, { once: true, capture: true });
+  window.addEventListener("hashchange", () => { el.remove(); pump(); }, { once: true });
+  enqueue(el);
   sayBot(w.first ? "Hi! I'm Py. Tap me anytime." : "Welcome back! Tap me for quick actions.");
 }
 
+function adoptToast(node) {
+  if (!(node instanceof HTMLElement)) return;
+  if (node.dataset.adopted === "1" || node.closest("#toast-region")) return;
+  const toast = node.matches(".fx-toast, .welcome, .levelup") ? node : null;
+  if (!toast) return;
+  toast.dataset.adopted = "1";
+  toast.remove();
+  enqueue(toast);
+}
+
+function watchToasts() {
+  const host = region();
+  placeToasts();
+  if (host && !host.dataset.toastBound) {
+    host.dataset.toastBound = "1";
+    host.addEventListener("click", (event) => {
+      const closer = event.target.closest(".toast-x");
+      const toast = closer?.closest(".fx-toast, .toast, .welcome, .levelup");
+      if (!toast) return;
+      toast.remove();
+      pump();
+    });
+  }
+  const observer = new MutationObserver((records) => {
+    records.forEach((record) => {
+      record.addedNodes.forEach((node) => {
+        if (!(node instanceof HTMLElement)) return;
+        if (node.id === "fx-toasts") {
+          [...node.children].forEach(adoptToast);
+          return;
+        }
+        adoptToast(node);
+        node.querySelectorAll?.(".fx-toast, .welcome, .levelup").forEach(adoptToast);
+      });
+    });
+    if (host && !host.firstElementChild) pump();
+    placeToasts();
+  });
+  observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["hidden", "class", "data-side"] });
+  document.body.addEventListener("click", () => placeToasts());
+}
+
 export function initWelcome() {
+  watchToasts();
   const info = visitInfo();
   info.count += 1;
   info.last = new Date().toISOString();
   writeStore(KEY, info);
-  const go = () => !isTourOpen() && show(buildWelcome(info, state()), info);
-  if (readStore(HOWTO_KEY, null)) setTimeout(go, 600);
-  else document.addEventListener("lab:howto-closed", () => setTimeout(go, 300), { once: true });
+  if (!readStore(HOWTO_KEY, null)) return;
+  const go = () => {
+    if (!welcomeAllowed()) return;
+    show(buildWelcome(info, state()));
+  };
+  setTimeout(go, 600);
 }

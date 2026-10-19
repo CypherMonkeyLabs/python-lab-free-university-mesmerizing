@@ -7,7 +7,7 @@ VPS = {"desktop1440": dict(viewport={"width":1440,"height":900}), "touch390": di
 DECKS=["first-hour","data-structures","functions-classes","modules-packages","async-flow","python-314","numpy-pandas","browser-python","lifetime-learning"]
 GUIDES=["control-flow","iterators-generators","async-in-practice","functions-and-calls","classes-and-methods","import-system","packaging-and-environments","data-with-pandas","python-in-the-browser","study-plan","whats-new-314"]
 DIAG=["how-python-runs","function-call","import-system","event-loop","task-lifecycle","pandas-pipeline","pyodide-architecture","study-loop"]
-ROUTES=["#/","#/practice","#/games","#/games/guess","#/games/snake","#/games/adventure","#/quizzes","#/quiz/fundamentals","#/ecosystem/glossary","#/ecosystem/map","#/ecosystem/sisters","#/ecosystem/integrations","#/ecosystem/hooks","#/downloads","#/sources","#/about","#/rooms/lobby","#/rooms/syntax","#/diagrams","#/slides","#/guides"]+[f"#/section/{s}" for s in "start fundamentals flows methods modules labs games integrations lifetime resources".split()]+[f"#/slides/{d}" for d in DECKS]+[f"#/guide/{g}" for g in GUIDES]+[f"#/diagram/{d}" for d in DIAG]+["#/worlds"]+[f"#/worlds/{n}" for n in range(11)]+["#/diagram/level-map","#/diagram/lab-architecture","#/download-center"]
+ROUTES=["#/","#/path","#/practice","#/games","#/games/guess","#/games/snake","#/games/adventure","#/quizzes","#/quiz/fundamentals","#/ecosystem/glossary","#/ecosystem/map","#/ecosystem/sisters","#/ecosystem/integrations","#/ecosystem/hooks","#/downloads","#/sources","#/about","#/rooms/lobby","#/rooms/syntax","#/diagrams","#/slides","#/guides"]+[f"#/section/{s}" for s in "start fundamentals flows methods modules labs games integrations lifetime resources".split()]+[f"#/slides/{d}" for d in DECKS]+[f"#/guide/{g}" for g in GUIDES]+[f"#/diagram/{d}" for d in DIAG]+["#/worlds"]+[f"#/worlds/{n}" for n in range(11)]+["#/diagram/level-map","#/diagram/lab-architecture","#/download-center"]
 SEEN='localStorage.setItem("pythonlab.howto.v2",JSON.stringify({seen:true}))'
 results=[]
 def rec(vp,theme,name,ok,detail=""):
@@ -72,6 +72,9 @@ async def main():
                     rec(vp,theme,"search shows results",await pg.locator(".sr-item").count()>0)
                     await pg.keyboard.press("Enter"); await pg.wait_for_timeout(300)
                     rec(vp,theme,"search Enter navigates",("slides" in pg.url),pg.url)
+                # On a phone, "/" opens the search sheet. A goto of the current
+                # hash does not fire hashchange, so the scrim would stay over the bot.
+                await pg.keyboard.press("Escape")
                 # bot tap + panel
                 await pg.goto(BASE+"#/"); await pg.wait_for_timeout(300)
                 if vp.startswith("touch"): await pg.touchscreen.tap(*(lambda b:(b["x"]+b["width"]/2,b["y"]+b["height"]/2))(await pg.locator("#lab-bot").bounding_box()))

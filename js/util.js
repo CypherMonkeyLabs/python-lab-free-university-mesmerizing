@@ -1,5 +1,5 @@
 export function codeBlock(source) {
-  return `<pre><code>${esc(source)}</code></pre>`;
+  return `<pre tabindex="0" aria-label="Code sample"><code translate="no" class="language-python">${esc(source)}</code></pre>`;
 }
 
 export function esc(value) {

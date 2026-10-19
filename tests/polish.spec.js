@@ -54,11 +54,10 @@ test.describe("desktop", () => {
       }));
     }, keys);
     await page.goto("/");
-    const text = "9 of 56 lessons opened";
-    await expect(page.locator(".tp-text")).toHaveText(text);
+    const text = "9 of 67 lessons opened";
     await expect(page.locator(".side-foot-text")).toHaveText(text);
     await expect(page.locator(".bar-count")).toHaveText(text);
-    const clipped = await page.locator(".tp-text").evaluate((el) => el.scrollWidth > el.clientWidth + 1);
+    const clipped = await page.locator(".bar-count").evaluate((el) => el.scrollWidth > el.clientWidth + 1);
     expect(clipped).toBe(false);
     await page.screenshot({ path: path.join(shotDir, "after-home-1440.png") });
   });
@@ -154,7 +153,7 @@ test("offline home and a lesson", async ({ page, context }) => {
   await page.waitForFunction(async () => {
     const ready = await navigator.serviceWorker.ready;
     if (!ready.active) return false;
-    const cache = await caches.open("pythonlab-pwa-v8");
+    const cache = await caches.open("pythonlab-pwa-v9");
     const shell = await cache.match("./js/app.js");
     const audio = await cache.match("./media/audio-syntax.mp3");
     const lesson = await cache.match("./js/content/start.js");
