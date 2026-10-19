@@ -211,7 +211,7 @@ test("chat answers from the precached index while offline", async ({ page, conte
   await page.waitForFunction(async () => {
     const ready = await navigator.serviceWorker.ready;
     if (!ready.active) return false;
-    const cache = await caches.open("pythonlab-pwa-v7");
+    const cache = await caches.open("pythonlab-pwa-v8");
     const index = await cache.match("./js/content/pybot-index.json");
     const engine = await cache.match("./shared/pybot-chat/engine.js");
     const chat = await cache.match("./js/botchat.js");
