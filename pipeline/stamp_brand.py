@@ -65,6 +65,8 @@ def stamp_html(path: Path) -> bool:
     )
     if "<body>" in text:
         text = text.replace("<body>", "<body>" + block, 1)
+    elif "</style>" in text:
+        text = text.replace("</style>", "</style>" + block, 1)
     else:
         text = block + text
     if DOMAIN not in text.split(MARK, 1)[-1]:
