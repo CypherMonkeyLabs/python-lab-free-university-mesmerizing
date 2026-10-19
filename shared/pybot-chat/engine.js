@@ -790,6 +790,7 @@ export function createRetriever(index) {
     const stuck = followMode && memory
       ? ` I was still on “${memory.title}”, and that follow-up is not in these pages.`
       : "";
+    memory = null;
     return emptyAnswer({
       mode: "fallback",
       intent: "fallback",
@@ -811,7 +812,30 @@ export function createRetriever(index) {
     if (extra.follow) answer.follow = extra.follow;
     if (extra.followQ) answer.followQ = extra.followQ;
     if (doc) remember(doc, extra.raw || name);
+    else memory = null;
     return answer;
+  }
+
+  function whichTopic() {
+    memory = null;
+    return emptyAnswer({
+      mode: "fallback",
+      intent: "clarify",
+      text: "Which topic? For example: lists, dicts, functions.",
+      chips: [
+        { label: "lists", q: "what is a list" },
+        { label: "dicts", q: "what is a dictionary" },
+        { label: "functions", q: "what is a function" },
+      ],
+    });
+  }
+
+  function bareFollow(q) {
+    if (memory) return false;
+    if (/^(?:please )?(?:(?:can|could) you )?(?:show|give)(?: me)?(?: a| an)? (?:short |small )?(?:example|sample)(?: of (?:that|it|this))?[. ]*$/.test(q)) return true;
+    if (/^(tell me more|more about (?:that|it)|and that|what about (?:that|it)|how about that)[. ]*$/.test(q)) return true;
+    if (/^(?:it|that|them|those)[. ]*$/.test(q)) return true;
+    return false;
   }
 
   function listTitles(kind, max = 6) {
@@ -832,8 +856,12 @@ export function createRetriever(index) {
         act: "search",
       });
     }
+    if (bareFollow(q)) return whichTopic();
     const chat = smallTalk(q);
-    if (chat) return chat;
+    if (chat) {
+      memory = null;
+      return chat;
+    }
     if (memory && /^(?:please )?(?:(?:can|could) you )?(?:show|give)(?: me)?(?: a| an)? (?:short |small )?(?:example|sample)(?: of (?:that|it|this))?[. ]*$/.test(q)) {
       if (!memory.example) {
         return emptyAnswer({
@@ -922,6 +950,10 @@ export function createRetriever(index) {
         followQ: "Play audio",
       });
     }
+    if (/\b(install|download)\b/.test(q) && /\bpython\b/.test(q) && !/\b(pip|package|venv|requests)\b/.test(q)) {
+      const runtime = matchSeed(q);
+      if (runtime && runtime.i === "seed:install-python") return fromSeed(runtime, raw);
+    }
     if (/\b(downloads?|downloadable|cheat sheets?|cheatsheets?)\b/.test(q)) {
       const rows = docs.filter((doc) => doc.k === "download");
       const text = rows.length
@@ -950,6 +982,7 @@ export function createRetriever(index) {
       text += total ? `You have opened ${done} of ${total} lessons. ` : "I can't see a lesson count yet. ";
       text += "That is browser storage, not a judgement of your skill.";
       const next = info && info.nextHref ? info : null;
+      memory = null;
       return emptyAnswer({
         mode: "intent",
         intent: "level",
@@ -988,6 +1021,7 @@ export function createRetriever(index) {
       });
     }
     if (/\b(what can you do|what do you do|what can you help|how can you help|what are you able to do|what topics|which topics|topics can you)\b/.test(q)) {
+      memory = null;
       return emptyAnswer({
         mode: "intent",
         intent: "help",

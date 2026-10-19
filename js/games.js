@@ -2,6 +2,45 @@ let stopCurrent = () => {};
 
 import { win } from "./xp.js";
 import { isPlay, mountPlay } from "./play.js";
+import { iconSvg } from "./icons.js";
+
+const GAME_ICONS = {
+  guess: "guess",
+  snake: "snake",
+  adventure: "adventure",
+  blocks: "blocks",
+  turtle: "turtle",
+  loops: "loop",
+  lists: "list",
+  order: "sorter",
+  pong: "pong",
+  "dict-puzzle": "hash-lab",
+  complexity: "big-o",
+};
+
+function paintGameIcons() {
+  if (location.hash !== "#/games") return;
+  document.querySelectorAll('#main a[href^="#/games/"]').forEach((link) => {
+    const id = (link.getAttribute("href") || "").split("/").pop();
+    const name = GAME_ICONS[id];
+    const svg = link.querySelector(".ico svg");
+    if (!name || !svg || svg.dataset.icon === name) return;
+    svg.outerHTML = iconSvg(name, 24);
+  });
+}
+
+function watchGameIcons() {
+  const main = document.getElementById("main");
+  if (!main) return;
+  const paint = () => paintGameIcons();
+  const observer = new MutationObserver(paint);
+  observer.observe(main, { childList: true, subtree: true });
+  window.addEventListener("hashchange", paint);
+  paint();
+}
+
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", watchGameIcons);
+else watchGameIcons();
 
 export function stopGame() {
   stopCurrent();

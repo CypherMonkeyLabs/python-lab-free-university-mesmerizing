@@ -43,7 +43,7 @@ export function slideHTML(s, i, total, deckTitle) {
 export function slidesIndexView() {
   return {
     html: `${crumbs([{ href: "#/", label: "Home" }, { href: "#/slides", label: "Slides" }])}
-      <section class="sec-hero"><span class="sec-hero-ico">${icon("rooms")}</span>
+      <section class="sec-hero"><span class="sec-hero-ico">${icon("slides")}</span>
         <div><h1>Slides</h1><p class="lede" data-speak>${decks.length} decks and ${slideCount} slides, from your first hour to advanced topics. Press the left and right arrow keys, or swipe, to move. Every slide has a diagram, a 3D visual, or runnable-style code, and every deck lists its sources.</p></div></section>
       <div class="deck-grid">${decks.map((d, k) => `<article class="dcard dcard-big" data-tilt style="--i:${k}">
         <span class="dc-top">${icon(d.icon)}<span class="pill">${esc(d.level)}</span></span>

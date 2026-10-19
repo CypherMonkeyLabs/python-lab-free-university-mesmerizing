@@ -29,8 +29,8 @@ node tests/pybot-eval.mjs
 1. Import `createRetriever` from `engine.js` and `fetch` the index (same origin).
 2. Put `chatMarkup()` in the bot panel and call `paintChat` when messages change.
 3. On Send, Enter, a chip, or the mic transcript, call `retriever.ask(text, host)`.
-4. Show `text`. Link `href` only when it is set. The link label is `link` (`Open this lesson` for a lesson). A fallback has no `href`.
-5. One follow-up chip uses `follow` / `followQ`. `ask` remembers a single previous turn, so "and in a dict?" and "show an example" can continue it. If the follow-up does not match, the reply says it is still on the previous topic and does not open a different lesson.
+4. Show `text`. Link `href` only when it is set. The painted label is "Open lesson →" for a lesson and "Open page →" otherwise. A fallback has no `href`.
+5. One follow-up chip uses `follow` / `followQ`. `ask` remembers the previous turn only after a real hit. A fallback, a refusal, or a bare "show an example" with no topic clears that memory and asks which topic. If a real follow-up does not match, the reply says it was still on the previous topic and does not open a different lesson.
 6. If the score is weak, the text starts with "I don't have that yet" and may name the closest lesson titles. Do not replace that with a guessed fact.
 7. Precache `engine.js`, `ui.js`, `chat.css`, and the index in the service worker. Bump the cache name when those files change.
 

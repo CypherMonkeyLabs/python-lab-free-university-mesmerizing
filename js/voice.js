@@ -154,7 +154,7 @@ function previewEl() {
   return audio;
 }
 
-function speakDevice(text) {
+function speakDevice(text, opts = {}) {
   if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
     caption = "This browser has no speech synthesis. Pick a recorded voice.";
     synthOn = false;
@@ -167,7 +167,7 @@ function speakDevice(text) {
   const match = voices.find((voice) => /en(-|_)?(US|GB|AU)/i.test(voice.lang));
   if (match) utter.voice = match;
   synthOn = true;
-  caption = text.slice(0, 80);
+  caption = opts.chat ? "" : text.slice(0, 80);
   syncSpeaking();
   const done = () => {
     synthOn = false;
@@ -226,7 +226,7 @@ function onStop(event) {
 export function speakAnswer(text) {
   const voices = (catalog || FALLBACK).voices;
   const selected = current(voices);
-  speakDevice(String(text || "").slice(0, 500));
+  speakDevice(String(text || "").slice(0, 500), { chat: true });
   return { kind: selected.kind };
 }
 
@@ -246,9 +246,10 @@ export function initVoice() {
   document.addEventListener("lab:speech", (event) => {
     if (event.detail?.state === "start") {
       synthOn = true;
-      caption = String(event.detail.text || "Reading aloud").slice(0, 80);
+      caption = event.detail.chat ? "" : String(event.detail.text || "Reading aloud").slice(0, 80);
     } else {
       synthOn = false;
+      if (event.detail?.chat) caption = "";
     }
     syncSpeaking();
   });

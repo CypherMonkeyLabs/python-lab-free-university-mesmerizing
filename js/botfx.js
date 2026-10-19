@@ -4,8 +4,9 @@ const MESSAGES = [
   "Need help? Tap me.",
   "Press / to search.",
   "Drag me out of the way.",
-  "Tap Help in the top bar for a tour.",
   "Try the Slides page.",
+  "Hi! I'm Py. Tap me anytime.",
+  "Welcome back! Tap me for quick actions.",
 ];
 let timer = 0;
 let idx = 0;
@@ -19,11 +20,18 @@ function side() {
   node.dataset.side = r.left < 170 ? "left" : "right";
 }
 
-export function setIntro(t) { MESSAGES[0] = t; }
+export function setIntro(t) {
+  const next = String(t || "").trim();
+  if (next.length > 0 && next.length <= 40) MESSAGES[0] = next;
+}
 export function sayBot(text) {
   const b = document.getElementById("bot-bubble");
   if (!b) return;
-  b.textContent = text;
+  const value = String(text || "").trim();
+  if (!value || value.length > 40 || !MESSAGES.includes(value)) return;
+  const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (value.includes("/") && !fine) return;
+  b.textContent = value;
   b.style.animation = "none";
   void b.offsetWidth;
   b.style.animation = "";
@@ -56,8 +64,10 @@ export function initBotFx() {
   side();
   const tick = () => {
     if (document.hidden || node.classList.contains("is-open") || node.classList.contains("is-dragging")) return;
-    idx = (idx + 1) % MESSAGES.length;
-    sayBot(MESSAGES[idx]);
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const tips = MESSAGES.filter((tip) => fine || !tip.includes("/"));
+    idx = (idx + 1) % tips.length;
+    sayBot(tips[idx]);
   };
   timer = window.setInterval(tick, 9000);
   document.addEventListener("visibilitychange", side);
