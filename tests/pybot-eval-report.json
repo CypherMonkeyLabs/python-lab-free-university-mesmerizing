@@ -1,26 +1,26 @@
 {
-  "indexDocs": 314,
-  "lessons": 56,
-  "questions": 254,
+  "indexDocs": 326,
+  "lessons": 67,
+  "questions": 276,
   "top1": {
-    "hit": 254,
-    "total": 254,
+    "hit": 276,
+    "total": 276,
     "accuracy": 100
   },
   "top3": {
-    "hit": 254,
-    "total": 254,
+    "hit": 276,
+    "total": 276,
     "accuracy": 100
   },
   "titles": {
     "top1": {
-      "hit": 112,
-      "total": 112,
+      "hit": 134,
+      "total": 134,
       "accuracy": 100
     },
     "top3": {
-      "hit": 112,
-      "total": 112,
+      "hit": 134,
+      "total": 134,
       "accuracy": 100
     }
   },
