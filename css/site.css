@@ -48,6 +48,74 @@ html[data-theme="ink"] {
   --header: rgba(18, 22, 28, 0.92);
   --room-floor: #243140;
   --room-wall: #18222e;
+  /* surfaces */
+  --surface-1: var(--bg-elev);
+  --surface-2: #2a3848;
+  --surface-glass: color-mix(in srgb, var(--bg-elev) 86%, transparent);
+  /* text */
+  --text: var(--ink);
+  --text-muted: var(--muted);
+  --text-on-accent: var(--btn-ink);
+  /* brand + semantic */
+  --brand-gold: #e2a13a;
+  --brand-teal: #7ec8c3;
+  --brand-pink: #f0a0c8;
+  --brand-violet: #c4b4f0;
+  --info: #9ecbff;
+  --success: var(--ok);
+  --warning: #ffd27a;
+  --error: var(--danger);
+  /* focus */
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+  /* type */
+  --font-body: "Atkinson Hyperlegible", system-ui, sans-serif;
+  --font-display: Fraunces, Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-num: "Atkinson Hyperlegible", system-ui, sans-serif;
+  --step--1: .875rem;
+  --step-0: 1rem;
+  --step-1: 1.125rem;
+  --step-2: 1.375rem;
+  --step-3: 1.75rem;
+  --step-4: 2.25rem;
+  --step-5: clamp(2.25rem, 5vw, 3.5rem);
+  --leading-tight: 1.2;
+  --leading-body: 1.6;
+  /* space */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  /* radius */
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --radius-l: 18px;
+  --radius-pill: 999px;
+  /* elevation + glow */
+  --shadow-1: 0 1px 2px rgb(0 0 0 / .25);
+  --shadow-2: 0 8px 24px rgb(0 0 0 / .28);
+  --shadow-3: var(--shadow);
+  --glow-accent: 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent), 0 0 24px color-mix(in srgb, var(--accent) 35%, transparent);
+  --glow-teal: 0 0 0 1px color-mix(in srgb, var(--brand-teal) 45%, transparent), 0 0 24px color-mix(in srgb, var(--brand-teal) 35%, transparent);
+  --glow-pink: 0 0 0 1px color-mix(in srgb, var(--brand-pink) 45%, transparent), 0 0 24px color-mix(in srgb, var(--brand-pink) 35%, transparent);
+  /* motion */
+  --dur-fast: 120ms;
+  --dur-med: 220ms;
+  --dur-slow: 420ms;
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+  /* layers */
+  --z-base: 1;
+  --z-sticky: 40;
+  --z-bot: 60;
+  --z-panel: 65;
+  --z-toast: 80;
+  --z-dialog: 100;
+  /* safe zones (content padding is applied by the shell) */
+  --bot-safe-inline: 0px;
+  --bot-safe-block: 0px;
 }
 
 html[data-theme="paper"] {
@@ -67,6 +135,20 @@ html[data-theme="paper"] {
   --header: rgba(246, 241, 231, 0.94);
   --room-floor: #e7dcc8;
   --room-wall: #f8f3ea;
+  --surface-1: var(--bg-elev);
+  --surface-2: #ffffff;
+  --surface-glass: color-mix(in srgb, var(--bg-elev) 86%, transparent);
+  --text: var(--ink);
+  --text-muted: var(--muted);
+  --text-on-accent: var(--btn-ink);
+  --brand-gold: #8a5a10;
+  --brand-teal: #1f6f78;
+  --brand-pink: #9d2d62;
+  --brand-violet: #5b3d8f;
+  --info: #0b4f8a;
+  --success: var(--ok);
+  --warning: #8a4b00;
+  --error: var(--danger);
 }
 
 html[data-theme="terminal"] {
@@ -86,6 +168,20 @@ html[data-theme="terminal"] {
   --header: rgba(12, 18, 16, 0.94);
   --room-floor: #163028;
   --room-wall: #0e1c16;
+  --surface-1: var(--bg-elev);
+  --surface-2: #1c2b25;
+  --surface-glass: color-mix(in srgb, var(--bg-elev) 86%, transparent);
+  --text: var(--ink);
+  --text-muted: var(--muted);
+  --text-on-accent: var(--btn-ink);
+  --brand-gold: #e7c15a;
+  --brand-teal: #39d98a;
+  --brand-pink: #ff8fb8;
+  --brand-violet: #c4b5fd;
+  --info: #8fd6ff;
+  --success: var(--ok);
+  --warning: #ffe08a;
+  --error: var(--danger);
 }
 
 html[data-theme="contrast"] {
@@ -105,6 +201,34 @@ html[data-theme="contrast"] {
   --header: #000;
   --room-floor: #000;
   --room-wall: #000;
+  --surface-1: var(--bg-elev);
+  --surface-2: #141414;
+  --surface-glass: color-mix(in srgb, var(--bg) 92%, transparent);
+  --text: var(--ink);
+  --text-muted: var(--muted);
+  --text-on-accent: var(--btn-ink);
+  --brand-gold: #ffe14a;
+  --brand-teal: #7dfff0;
+  --brand-pink: #ff9ec8;
+  --brand-violet: #d2b4ff;
+  --info: #fff;
+  --success: var(--ok);
+  --warning: #ffe14a;
+  --error: var(--danger);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-med: 0ms;
+    --dur-slow: 0ms;
+  }
+}
+
+html[data-fx="off"] {
+  --glow-accent: none;
+  --glow-teal: none;
+  --glow-pink: none;
 }
 
 * { box-sizing: border-box; }
