@@ -1,6 +1,6 @@
 /* Wire Py's panel to the offline retriever. No cloud calls. */
 import { createRetriever } from "../shared/pybot-chat/engine.js";
-import { chatMarkup, paintChat, chatInput } from "../shared/pybot-chat/ui.js";
+import { chatMarkup, paintChat, chatInput, syncSend, flagEmpty } from "../shared/pybot-chat/ui.js";
 import { progressInfo, firstUnvisited } from "./shell.js";
 import { state as xpState } from "./xp.js";
 import { py } from "./pycustom.js";
@@ -68,7 +68,28 @@ function push(msg) {
   messages.push(msg);
   if (messages.length > 40) messages.splice(0, messages.length - 40);
   const panel = document.getElementById("bot-panel");
-  if (panel) paintChat(rootOf(panel), messages, false);
+  if (panel) {
+    paintChat(rootOf(panel), messages, false);
+    const quick = panel.querySelector(".py-quick");
+    if (quick) quick.open = messages.length === 0;
+  }
+}
+
+function botMessage(result) {
+  const title = result.hits && result.hits[0] && result.hits[0].title;
+  return {
+    role: "bot",
+    text: result.text,
+    href: result.href,
+    link: result.link,
+    example: result.example,
+    act: result.act,
+    closest: result.closest,
+    follow: result.follow,
+    followQ: result.followQ,
+    chips: result.chips || [],
+    from: title || "this lab",
+  };
 }
 
 function pulse(text, aloud) {
@@ -91,33 +112,28 @@ function reveal(text) {
 
 async function answer(raw) {
   const question = String(raw || "").trim();
-  if (!question) return;
+  const panel = document.getElementById("bot-panel");
+  if (!question) {
+    flagEmpty(rootOf(panel));
+    return;
+  }
   const now = Date.now();
   if (question === lastAsk && now - lastAt < 350) return;
   lastAsk = question;
   lastAt = now;
   push({ role: "user", text: question });
-  const input = chatInput(document.getElementById("bot-panel"));
+  const input = chatInput(panel);
   if (input) input.value = "";
+  syncSend(rootOf(panel));
   const engine = await loadIndex();
   if (!engine) {
     const text = "The lesson index did not load. I will not invent an answer. Use Search.";
-    push({ role: "bot", text, act: "search" });
+    push({ role: "bot", text, act: "search", from: "this lab" });
     reveal(text);
     return;
   }
   const result = engine.ask(question, { progress });
-  push({
-    role: "bot",
-    text: result.text,
-    href: result.href,
-    link: result.link,
-    example: result.example,
-    act: result.act,
-    closest: result.closest,
-    follow: result.follow,
-    followQ: result.followQ,
-  });
+  push(botMessage(result));
   reveal(result.text);
 }
 
@@ -132,7 +148,7 @@ function listen(panel) {
   const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
   const input = chatInput(panel);
   if (!Rec) {
-    push({ role: "bot", text: "This browser has no speech recognition. Type the question instead." });
+    push({ role: "bot", text: "This browser has no speech recognition. Type the question instead.", from: "this lab" });
     input?.focus();
     return;
   }
@@ -144,14 +160,14 @@ function listen(panel) {
     answer(text);
   };
   rec.onerror = () => {
-    push({ role: "bot", text: "I could not hear that. Type the question instead." });
+    push({ role: "bot", text: "I could not hear that. Type the question instead.", from: "this lab" });
     input?.focus();
   };
   try {
     rec.start();
-    push({ role: "bot", text: "Listening. Ask about a lesson in this lab." });
+    push({ role: "bot", text: "Listening. Ask about a lesson in this lab.", from: "this lab" });
   } catch (err) {
-    push({ role: "bot", text: "The mic did not start. Type the question instead." });
+    push({ role: "bot", text: "The mic did not start. Type the question instead.", from: "this lab" });
     input?.focus();
   }
 }
@@ -161,7 +177,8 @@ function clearChat(panel) {
   retriever?.reset();
   messages.push({
     role: "bot",
-    text: "Chat cleared. Ask me about a lesson in this lab. I only use these pages, and I can be wrong.",
+    text: "Chat cleared. Ask me about a lesson in this lab.",
+    from: "this lab",
     follow: "Where do I start?",
     followQ: "Where do I start?",
   });
@@ -173,7 +190,8 @@ export function initBotChat(panel) {
   if (!messages.length) {
     messages.push({
       role: "bot",
-      text: "Ask me about a lesson, a game, or where to start. I only answer from this lab, and I can be wrong.",
+      text: "Ask me about a lesson, a game, or where to start.",
+      from: "this lab",
       follow: "Where do I start?",
       followQ: "Where do I start?",
     });
@@ -193,6 +211,14 @@ export function initBotChat(panel) {
     if (ask) {
       event.preventDefault();
       answer(ask.dataset.pyAsk || ask.textContent);
+      return;
+    }
+    const copy = event.target.closest("[data-py-copy]");
+    if (copy) {
+      event.preventDefault();
+      const msg = messages[Number(copy.dataset.pyCopy)];
+      const text = msg && msg.example ? msg.example : "";
+      if (text && navigator.clipboard) navigator.clipboard.writeText(text).then(() => { copy.textContent = "Copied"; });
       return;
     }
     const read = event.target.closest("[data-py-read]");
@@ -216,6 +242,9 @@ export function initBotChat(panel) {
     }
     const act = event.target.closest("[data-py-act]");
     if (act && (act.dataset.pyAct === "audio" || act.dataset.pyAct === "video")) scrollAct(act.dataset.pyAct);
+  });
+  panel.addEventListener("input", (event) => {
+    if (event.target && event.target.id === "py-chat-input") syncSend(rootOf(panel));
   });
   panel.addEventListener("keydown", (event) => {
     if (event.key !== "Enter" || event.shiftKey) return;

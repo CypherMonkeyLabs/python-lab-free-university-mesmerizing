@@ -1,9 +1,26 @@
 let mermaidPromise = null;
 
+function resolvedToken(name) {
+  const probe = document.getElementById("py-token-probe") || document.body.appendChild(Object.assign(document.createElement("span"), {
+    id: "py-token-probe",
+  }));
+  probe.setAttribute("aria-hidden", "true");
+  probe.style.cssText = "position:absolute;width:0;height:0;overflow:hidden";
+  probe.style.color = `var(${name})`;
+  return getComputedStyle(probe).color;
+}
+
 function mermaidTheme() {
-  const theme = document.documentElement.dataset.theme;
-  if (theme === "paper") return "neutral";
-  return "dark";
+  return {
+    theme: "base",
+    themeVariables: {
+      primaryColor: resolvedToken("--surface-2"),
+      primaryBorderColor: resolvedToken("--accent-2"),
+      primaryTextColor: resolvedToken("--text"),
+      lineColor: resolvedToken("--text-muted"),
+      fontFamily: "Atkinson Hyperlegible, sans-serif",
+    },
+  };
 }
 
 function loadMermaid() {
@@ -26,16 +43,19 @@ function loadMermaid() {
 }
 
 export async function drawDiagrams(root) {
+  drawnRoot = root;
   const hosts = [...root.querySelectorAll(".diagram")];
   if (!hosts.length) return;
   let mermaid;
   try {
     mermaid = await loadMermaid();
+    const theme = mermaidTheme();
     mermaid.initialize({
       startOnLoad: false,
       securityLevel: "strict",
       fontFamily: "Atkinson Hyperlegible, sans-serif",
-      theme: mermaidTheme(),
+      theme: theme.theme,
+      themeVariables: theme.themeVariables,
       flowchart: { htmlLabels: false, useMaxWidth: true },
     });
   } catch (err) {
@@ -55,6 +75,14 @@ export async function drawDiagrams(root) {
       showSource(figure, "This diagram could not be drawn. The source is below.");
     }
   }
+}
+
+let drawnRoot = null;
+const themeWatch = new MutationObserver(() => {
+  if (drawnRoot && document.body.contains(drawnRoot)) drawDiagrams(drawnRoot);
+});
+if (typeof document !== "undefined") {
+  themeWatch.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 }
 
 function showSource(figure, message) {

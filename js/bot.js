@@ -139,9 +139,47 @@ function park(preferred) {
   return null;
 }
 
+function wantsDock(node) {
+  const wide = window.matchMedia("(min-width: 900px)").matches;
+  if (wide || node.classList.contains("is-dragging")) return false;
+  const speaking = node.classList.contains("is-speaking");
+  const open = node.classList.contains("is-open");
+  if (speaking && !open) return false;
+  return true;
+}
+
+function syncBlocked() {
+  const node = bot();
+  if (!node) return;
+  const menuOpen = !!document.querySelector("details.display-menu[open]");
+  const hide = menuOpen
+    || document.body.classList.contains("side-open")
+    || document.body.classList.contains("howto-open");
+  node.classList.toggle("is-blocked", hide);
+}
+
+function applyChrome(node) {
+  const dock = wantsDock(node);
+  node.classList.toggle("is-py-dock", dock);
+  const root = document.documentElement;
+  root.style.setProperty("--bot-safe-inline", dock ? "72px" : "0px");
+  root.style.setProperty("--bot-safe-block", dock ? "72px" : "0px");
+  syncBlocked();
+}
+
 function place(x, y, bounce) {
   const node = bot();
   node.classList.remove("is-docked", "is-mini", "is-parked");
+  applyChrome(node);
+  if (node.classList.contains("is-py-dock")) {
+    node.style.left = "";
+    node.style.top = "";
+    node.style.right = "";
+    node.style.bottom = "";
+    const rect = node.getBoundingClientRect();
+    if (footerHit(rect.left, rect.top) && !node.classList.contains("is-speaking")) node.classList.add("is-parked");
+    return { x: rect.left, y: rect.top };
+  }
   let next = clampBot(x, y);
   if (footerHit(next.x, next.y)) {
     const parked = park(next);
@@ -207,8 +245,28 @@ function defaultPoint() {
   return clampBot(b.maxX - 6, b.maxY - 6);
 }
 
+function labelBot(node) {
+  node.setAttribute("aria-label", "Py, the lab bot: open helper");
+  let help = document.getElementById("bot-drag-help");
+  if (!help) {
+    help = document.createElement("span");
+    help.id = "bot-drag-help";
+    help.className = "visually-hidden";
+    help.textContent = "Drag to move it. Arrow keys nudge it.";
+    node.appendChild(help);
+  }
+  node.setAttribute("aria-describedby", "bot-drag-help");
+  if (!node.querySelector(".bot-name")) {
+    const name = document.createElement("span");
+    name.className = "bot-name";
+    name.textContent = "Py";
+    node.appendChild(name);
+  }
+}
+
 export function initBot() {
   const node = bot();
+  labelBot(node);
   let saved = null;
   try {
     saved = JSON.parse(localStorage.getItem(KEY) || "null");
@@ -303,4 +361,14 @@ export function initBot() {
   }, { passive: true });
 
   document.getElementById("bot-reset")?.addEventListener("click", resetBot);
+  const watch = new MutationObserver(() => syncBlocked());
+  watch.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+  document.addEventListener("toggle", (event) => {
+    if (event.target instanceof Element && event.target.matches("details.display-menu")) syncBlocked();
+  }, true);
+  document.addEventListener("lab:speech", () => {
+    window.setTimeout(() => {
+      if (!drag && restingPoint) place(restingPoint.x, restingPoint.y, false);
+    }, 0);
+  });
 }

@@ -1,15 +1,15 @@
 {
   "indexDocs": 314,
   "lessons": 56,
-  "questions": 250,
+  "questions": 254,
   "top1": {
-    "hit": 250,
-    "total": 250,
+    "hit": 254,
+    "total": 254,
     "accuracy": 100
   },
   "top3": {
-    "hit": 250,
-    "total": 250,
+    "hit": 254,
+    "total": 254,
     "accuracy": 100
   },
   "titles": {
@@ -26,13 +26,13 @@
   },
   "hard": {
     "top1": {
-      "hit": 138,
-      "total": 138,
+      "hit": 142,
+      "total": 142,
       "accuracy": 100
     },
     "top3": {
-      "hit": 138,
-      "total": 138,
+      "hit": 142,
+      "total": 142,
       "accuracy": 100
     }
   },

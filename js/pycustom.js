@@ -50,8 +50,11 @@ function apply() {
   const svg = node.querySelector(".bot-svg"); let g = svg.querySelector(".py-skin");
   if (!g) { g = document.createElementNS("http://www.w3.org/2000/svg", "g"); g.setAttribute("class", "py-skin"); svg.appendChild(g); }
   g.innerHTML = SKIN_SVG[p.skin];
-  setIntro(`Hi, I am ${p.name}, the lab bot. Tap me!`); { const b = document.getElementById("bot-bubble"); if (b && b.textContent.startsWith("Hi, I am")) b.textContent = `Hi, I am ${p.name}, the lab bot. Tap me!`; }
-  node.setAttribute("aria-label", `${p.name}, the lab bot. Tap or press Enter to open the helper. Drag to move it. Arrow keys nudge it.`);
+  const intro = `Hi, I am ${p.name}, the lab bot. Tap me!`;
+  setIntro(intro);
+  sayBot(intro);
+  node.setAttribute("aria-label", "Py, the lab bot: open helper");
+  node.setAttribute("aria-describedby", "bot-drag-help");
   return p;
 }
 export function setPy(patch) {
