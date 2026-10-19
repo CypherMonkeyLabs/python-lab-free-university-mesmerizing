@@ -246,8 +246,10 @@ async function paintedRatio(page, locator) {
     });
   });
   const bg = await page.evaluate(async (data) => {
-    const blob = await (await fetch(`data:image/png;base64,${data}`)).blob();
-    const bmp = await createImageBitmap(blob);
+    const binary = atob(data);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+    const bmp = await createImageBitmap(new Blob([bytes], { type: "image/png" }));
     const canvas = document.createElement("canvas");
     canvas.width = bmp.width;
     canvas.height = bmp.height;

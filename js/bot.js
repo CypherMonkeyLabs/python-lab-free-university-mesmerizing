@@ -167,16 +167,21 @@ function applyChrome(node) {
 
 function reserveSpace(node) {
   const root = document.documentElement;
+  const wide = window.matchMedia("(min-width: 900px)").matches;
+  let inline = "0px";
+  let block = "0px";
   if (node.classList.contains("is-py-dock")) {
-    root.style.setProperty("--bot-safe-inline", "72px");
-    root.style.setProperty("--bot-safe-block", "72px");
-    return;
+    inline = "72px";
+    block = "72px";
+  } else if (wide) {
+    inline = `${Math.ceil((node.offsetWidth || 127) + 36)}px`;
   }
-  root.style.setProperty("--bot-safe-block", "0px");
-  const rect = node.getBoundingClientRect();
-  const onRight = rect.right > window.innerWidth * 0.62;
-  const pad = onRight ? Math.ceil(rect.width + 36) : 0;
-  root.style.setProperty("--bot-safe-inline", `${pad}px`);
+  if (root.style.getPropertyValue("--bot-safe-inline") !== inline) {
+    root.style.setProperty("--bot-safe-inline", inline);
+  }
+  if (root.style.getPropertyValue("--bot-safe-block") !== block) {
+    root.style.setProperty("--bot-safe-block", block);
+  }
 }
 
 function place(x, y, bounce) {

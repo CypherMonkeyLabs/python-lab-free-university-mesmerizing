@@ -30,7 +30,7 @@ html[data-fx="high"]:not([data-theme="contrast"]) main h1 { animation: h1-sheen 
 @keyframes h1-sheen { to { background-position: 100% 0; } }
 html[data-theme="paper"] main h1 { background-image: linear-gradient(100deg, var(--ink) 0%, var(--ink) 40%, var(--w1) 100%); }
 .primary { background-image: linear-gradient(110deg, var(--accent), var(--w2)); box-shadow: 0 6px 18px color-mix(in srgb, var(--w1) 35%, transparent); }
-html[data-fx="high"] .primary:hover { box-shadow: 0 8px 26px color-mix(in srgb, var(--w1) 60%, transparent), 0 0 0 2px color-mix(in srgb, var(--w3) 55%, transparent); transform: translateY(-2px); }
+html[data-fx="high"] .primary:hover { box-shadow: 0 8px 26px color-mix(in srgb, var(--w1) 60%, transparent), 0 0 0 2px color-mix(in srgb, var(--w3) 55%, transparent); }
 .sec-tile, .menu-card, .lesson-row, .level-card, .game-card { transition: box-shadow 220ms, transform 220ms, border-color 220ms; }
 html[data-fx="high"] .sec-tile:hover, html[data-fx="high"] .menu-card:hover, html[data-fx="high"] .lesson-row:hover, html[data-fx="high"] .level-card:hover, html[data-fx="high"] .game-card:hover, html[data-fx="high"] .lvl-card:hover, html[data-fx="high"] .dc-card:hover { box-shadow: 0 10px 32px color-mix(in srgb, var(--w1) 38%, transparent), 0 0 0 1.5px color-mix(in srgb, var(--w3) 70%, transparent); border-color: var(--w3); }
 html[data-fx="high"]:not([data-theme="contrast"]) .lvl-card, html[data-fx="high"]:not([data-theme="contrast"]) .dc-card { box-shadow: 0 0 0 1px color-mix(in srgb, var(--w3) 45%, transparent), 0 8px 22px color-mix(in srgb, var(--w1) 18%, transparent); }
