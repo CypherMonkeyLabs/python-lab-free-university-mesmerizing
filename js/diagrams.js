@@ -42,13 +42,17 @@ function loadMermaid() {
   return mermaidPromise;
 }
 
+let drawSerial = 0;
+
 export async function drawDiagrams(root) {
   drawnRoot = root;
   const hosts = [...root.querySelectorAll(".diagram")];
   if (!hosts.length) return;
+  const serial = ++drawSerial;
   let mermaid;
   try {
     mermaid = await loadMermaid();
+    if (serial !== drawSerial) return;
     const theme = mermaidTheme();
     mermaid.initialize({
       startOnLoad: false,
@@ -63,13 +67,15 @@ export async function drawDiagrams(root) {
     return;
   }
   for (let index = 0; index < hosts.length; index += 1) {
+    if (serial !== drawSerial) return;
     const figure = hosts[index];
     const source = figure.querySelector(".diagram-source")?.textContent?.trim();
     const target = figure.querySelector(".diagram-host");
     if (!source || !target) continue;
     try {
-      const id = `lab-diagram-${Date.now()}-${index}`;
+      const id = `lab-diagram-${serial}-${index}`;
       const rendered = await mermaid.render(id, source);
+      if (serial !== drawSerial) return;
       target.innerHTML = rendered.svg;
     } catch (err) {
       showSource(figure, "This diagram could not be drawn. The source is below.");

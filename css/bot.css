@@ -215,9 +215,3 @@ html[data-fx="low"] .py-aura { animation: none; }
   }
   main.wrap { padding-inline-end: var(--bot-safe-inline); }
 }
-@media (max-width: 600px) {
-  .bot.is-open.is-py-dock {
-    bottom: auto !important;
-    top: calc(var(--top-h) + 8px) !important;
-  }
-}

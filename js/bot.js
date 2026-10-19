@@ -3,6 +3,7 @@ const bot = () => document.getElementById("lab-bot");
 
 let drag = null;
 let restingPoint = null;
+let userPlaced = false;
 let tapHandler = () => {};
 let dragStartHandler = () => {};
 const TAP_SLOP = 8;
@@ -141,7 +142,7 @@ function park(preferred) {
 
 function wantsDock(node) {
   const wide = window.matchMedia("(min-width: 900px)").matches;
-  if (wide || node.classList.contains("is-dragging")) return false;
+  if (wide || userPlaced || node.classList.contains("is-dragging")) return false;
   const speaking = node.classList.contains("is-speaking");
   const open = node.classList.contains("is-open");
   if (speaking && !open) return false;
@@ -225,6 +226,7 @@ function snap(x, y) {
 }
 
 export function resetBot() {
+  userPlaced = false;
   const b = bounds();
   const raw = { x: b.maxX - 6, y: b.maxY - 6 };
   restingPoint = raw;
@@ -274,6 +276,7 @@ export function initBot() {
     saved = null;
   }
   if (saved && Number.isFinite(saved.x) && Number.isFinite(saved.y)) {
+    userPlaced = true;
     restingPoint = { x: saved.x, y: saved.y };
     place(saved.x, saved.y, false);
   } else {
@@ -313,14 +316,15 @@ export function initBot() {
   const finish = (event) => {
     if (!drag || (event.pointerId !== undefined && event.pointerId !== drag.id)) return;
     const wasDrag = drag.moved;
+    const rect = node.getBoundingClientRect();
     drag = null;
+    if (wasDrag) userPlaced = true;
     node.classList.remove("is-dragging");
     if (event.type === "pointercancel") return;
     if (!wasDrag) {
       tapHandler(event);
       return;
     }
-    const rect = node.getBoundingClientRect();
     const next = snap(rect.left, rect.top);
     place(next.x, next.y, true);
     persist(next);
@@ -344,6 +348,7 @@ export function initBot() {
       return;
     } else return;
     event.preventDefault();
+    userPlaced = true;
     const next = place(x, y, false);
     persist(next);
   });

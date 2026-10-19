@@ -2,9 +2,9 @@
 .py-chat {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  margin-top: var(--space-2);
-  padding-top: var(--space-2);
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+  padding-top: var(--space-1);
   border-top: 1px solid var(--line);
   background: var(--surface-1);
   flex: 1 1 auto;
@@ -16,7 +16,20 @@
   flex-direction: column;
   overflow: hidden;
   z-index: var(--z-panel);
+  padding: 8px 10px;
   max-height: calc(100dvh - var(--top-h, 60px) - var(--bar-h, 64px) - 16px);
+}
+#bot-panel.bot-panel[hidden] {
+  display: none !important;
+}
+#bot-panel .bp-head h2 {
+  font-size: var(--step-0);
+  line-height: var(--leading-tight);
+}
+#bot-panel .bp-line {
+  margin: 4px 0;
+  font-size: var(--step--1);
+  line-height: 1.35;
 }
 .py-sheet-handle { display: none; }
 .bp-head,
@@ -24,10 +37,12 @@
 .py-quick,
 .py-chat-beta,
 .py-chat-try,
+.py-chat-suggest,
 .py-chat-examples,
 .py-chat-chips,
 .py-chat-hint,
 .py-chat-status,
+.py-chat-tools,
 .py-chat-form,
 .py-chat > .bp-link { flex: 0 0 auto; }
 .py-chat-log {
@@ -103,15 +118,25 @@
   cursor: pointer;
 }
 .py-chat-try { margin: 0; font-size: var(--step--1); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
+.py-chat-suggest {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--space-2);
+  overflow-x: auto;
+  min-width: 0;
+  padding-bottom: 2px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 12px, black calc(100% - 12px), transparent);
+  mask-image: linear-gradient(90deg, transparent, black 12px, black calc(100% - 12px), transparent);
+}
 .py-chat-examples,
 .py-chat-chips {
   display: flex;
   flex-wrap: nowrap;
   gap: var(--space-2);
-  overflow-x: auto;
-  padding-bottom: 2px;
-  -webkit-mask-image: linear-gradient(90deg, transparent, black 12px, black calc(100% - 12px), transparent);
-  mask-image: linear-gradient(90deg, transparent, black 12px, black calc(100% - 12px), transparent);
+  overflow: visible;
+  width: max-content;
+  padding: 0;
+  mask-image: none;
 }
 .py-chip {
   white-space: nowrap;
@@ -127,7 +152,17 @@
   flex: 0 0 auto;
 }
 .py-chip-accent { background: var(--accent); color: var(--text-on-accent); border-color: var(--accent); }
+.py-chat-tools {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.py-chat-tools .bp-link { white-space: nowrap; }
 .py-chat-hint, .py-chat-status { margin: 0; font-size: var(--step--1); color: var(--text-muted); }
+.py-chat-tools .py-chat-hint { min-width: 0; }
 .py-chat-status:empty { display: none; }
 .py-chat-form {
   display: flex;
@@ -173,13 +208,32 @@
   outline: none;
   box-shadow: var(--focus-ring);
 }
-.py-quick { margin: 0 0 var(--space-2); }
+.py-quick { margin: 0; }
 .py-quick > summary {
   cursor: pointer;
   font-weight: 700;
-  min-height: 40px;
+  min-height: 36px;
   display: flex;
   align-items: center;
+}
+#bot-panel .py-quick[open] {
+  flex: 1 1 auto;
+  min-height: 36px;
+  overflow: auto;
+}
+#bot-panel .py-quick[open] ~ .py-chat {
+  flex: 0 0 auto;
+}
+#bot-panel .py-quick[open] ~ .py-chat .py-chat-log {
+  flex: 0 1 auto;
+  min-height: 96px;
+  max-height: 30vh;
+}
+#bot-panel .bp-link[data-py-clear] {
+  min-height: 36px;
+  margin: 0;
+  padding: 2px 4px;
+  align-self: flex-start;
 }
 @keyframes py-fade-up {
   from { opacity: 0; transform: translateY(6px); }
@@ -198,12 +252,43 @@
     max-height: min(78dvh, 640px, calc(100dvh - var(--top-h, 60px) - var(--bar-h, 64px) - 8px));
     border-radius: var(--radius-l) var(--radius-l) 0 0;
     margin: 0;
+    padding: 6px 8px 8px;
   }
+  #bot-panel .bp-head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    align-items: center;
+  }
+  #bot-panel .bp-head h2 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #bot-panel .bp-line {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0;
+  }
+  #bot-panel .py-quick > summary { min-height: 32px; }
+  #bot-panel .py-chat-try { display: none; }
+  #bot-panel .py-chat-beta,
+  #bot-panel .py-chat-hint {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #bot-panel .py-chat-chips:empty { display: none; }
+  #bot-panel .bp-close { width: 100%; min-height: 44px; height: 44px; padding: 0; }
+  #bot-panel .py-chat-form { margin-inline-end: 72px; }
+  #bot-panel .bp-link[data-py-clear] { min-height: 32px; }
   .py-sheet-handle {
     display: block;
     width: 40px;
     height: 4px;
-    margin: 2px auto var(--space-2);
+    margin: 2px auto 4px;
     border-radius: var(--radius-pill);
     background: var(--line);
     flex: 0 0 auto;
@@ -212,15 +297,16 @@
 }
 @media (max-height: 560px) {
   #bot-panel.bot-panel { padding: 4px 8px; }
-  .bp-head,
-  .bp-bot,
-  .bp-scroll,
-  .py-quick { display: none; }
+  #bot-panel .bp-head,
+  #bot-panel .bp-line,
+  #bot-panel .bp-bot,
+  #bot-panel .bp-scroll,
+  #bot-panel .py-quick { display: none; }
   .py-chat { margin-top: 0; padding-top: 0; border-top: 0; gap: 4px; }
   .py-chat-try,
   .py-chat-examples,
   .py-chat-chips { display: none; }
-  .py-chat-log { min-height: 30dvh; padding: 4px 6px; }
+  .py-chat-log { min-height: 30dvh; max-height: none; padding: 4px 6px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .bot-panel, .py-msg { animation: none; }

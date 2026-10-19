@@ -172,24 +172,24 @@ test("games icons differ and slides hero uses a slides icon", async ({ page }) =
 test("diagram fill follows the surface token", async ({ page }) => {
   await page.addInitScript(seen);
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto("/#/diagram/how-python-runs");
-  await page.waitForSelector(".diagram-host svg", { timeout: 15000 });
+  await page.goto("/#/lesson/fundamentals/syntax");
+  await page.waitForSelector(".diagram-host svg .node rect, .diagram-host svg .node polygon", { timeout: 15000 });
   for (const theme of ["ink", "paper", "terminal", "contrast"]) {
     await page.evaluate((name) => { document.documentElement.dataset.theme = name; }, theme);
-    await page.waitForTimeout(400);
-    const same = await page.evaluate(() => {
-      const node = document.querySelector(".diagram-host svg .node rect, .diagram-host svg rect");
+    await expect.poll(async () => page.evaluate(() => {
+      const node = document.querySelector(".diagram-host svg .node rect, .diagram-host svg .node polygon");
       const probe = document.createElement("span");
       probe.style.background = "var(--surface-2)";
       document.body.appendChild(probe);
       const surface = getComputedStyle(probe).backgroundColor;
       probe.remove();
-      if (!node) return { ok: false, surface, fill: "" };
-      return { ok: getComputedStyle(node).fill === surface, surface, fill: getComputedStyle(node).fill };
-    });
-    expect(same.ok, `${theme} ${same.fill} vs ${same.surface}`).toBe(true);
+      if (!node) return "";
+      return getComputedStyle(node).fill === surface ? "ok" : `${getComputedStyle(node).fill} vs ${surface}`;
+    }), { timeout: 8000 }).toBe("ok");
   }
   await page.screenshot({ path: path.join(shotDir, "diagram-1440.png") });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({ path: path.join(shotDir, "diagram-390.png") });
 });
 
 test("reduced motion leaves no running animations on home or a world", async ({ page }) => {
@@ -240,6 +240,25 @@ test("sampled text clears 4.5:1 on the listed surfaces", async ({ page }) => {
   }
 });
 
+test("the page policy blocks nothing and a Python check still runs", async ({ page }) => {
+  test.setTimeout(90000);
+  const errors = watchErrors(page);
+  await page.addInitScript(() => {
+    window.__csp = [];
+    document.addEventListener("securitypolicyviolation", (event) => {
+      window.__csp.push(`${event.violatedDirective} ${event.blockedURI}`);
+    });
+  });
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/#/lesson/start/map");
+  await page.locator("#editor").fill("def greet():\n    return 'Hello, lab'\n");
+  await page.getByRole("button", { name: "Run checks" }).click();
+  await expect(page.locator("#checks")).toContainText("passed", { timeout: 60000 });
+  const blocked = await page.evaluate(() => window.__csp || []);
+  expect(blocked).toEqual([]);
+  expect(errors).toEqual([]);
+});
+
 test("mobile screenshots of chat, games, and a track", async ({ page }) => {
   await page.addInitScript(seen);
   const errors = watchErrors(page);
@@ -252,6 +271,12 @@ test("mobile screenshots of chat, games, and a track", async ({ page }) => {
   await input.press("Enter");
   await expect(page.locator(".py-msg-bot").last()).toContainText("I don't have that yet");
   await page.screenshot({ path: path.join(shotDir, "chat-fallback-390.png") });
+  for (const q of ["what is a list", "what is a dictionary", "what is a function"]) {
+    await input.fill(q);
+    await input.press("Enter");
+  }
+  await expect(page.locator(".py-msg-user")).toHaveCount(4);
+  await page.screenshot({ path: path.join(shotDir, "chat-answers-390.png") });
   await page.goto("/#/games");
   await page.screenshot({ path: path.join(shotDir, "games-390.png") });
   await page.goto("/#/track/fundamentals");

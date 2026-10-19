@@ -23,9 +23,14 @@ export function chatMarkup(examples) {
     <p class="py-chat-beta"><span class="py-beta-badge">Beta</span> Beta: scripted offline helper, may miss questions</p>
     <div class="py-chat-log" role="log" aria-live="polite" aria-relevant="additions" tabindex="0" aria-label="Chat with Py"></div>
     <p class="py-chat-try">Try asking</p>
-    <div class="py-chat-examples" role="group" aria-label="Suggested questions">${chips}</div>
-    <div class="py-chat-chips" role="group" aria-label="Suggested questions"></div>
-    <p class="py-chat-hint" id="py-chat-hint">Ask about a lesson, a game, or where to start.</p>
+    <div class="py-chat-suggest">
+      <div class="py-chat-examples" role="group" aria-label="Suggested questions">${chips}</div>
+      <div class="py-chat-chips" role="group" aria-label="Suggested questions"></div>
+    </div>
+    <div class="py-chat-tools">
+      <p class="py-chat-hint" id="py-chat-hint">Ask about a lesson, a game, or where to start.</p>
+      <button type="button" class="bp-link" data-py-clear>Clear chat</button>
+    </div>
     <p class="py-chat-status" id="py-chat-status" role="status"></p>
     <form class="py-chat-form">
       <label class="visually-hidden" for="py-chat-input">Ask Py about this lab</label>
@@ -33,7 +38,6 @@ export function chatMarkup(examples) {
       <input id="py-chat-input" type="text" name="q" autocomplete="off" enterkeyhint="send" maxlength="400" placeholder="Ask about a lesson" spellcheck="true" aria-describedby="py-chat-hint">
       <button type="submit" class="py-send" aria-label="Send" disabled>${sendIcon()}</button>
     </form>
-    <button type="button" class="bp-link" data-py-clear>Clear chat</button>
   </div>`;
 }
 
