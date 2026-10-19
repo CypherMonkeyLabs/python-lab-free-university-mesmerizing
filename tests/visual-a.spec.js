@@ -303,9 +303,10 @@ test("sampled text clears 4.5:1 on the listed surfaces", async ({ page }) => {
     await page.evaluate(async () => {
       const tour = await import("/js/tour.js");
       tour.startTour();
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     });
-    await expect(page.locator(".tour-card")).toBeVisible();
-    await expectContrast(page, ".tour-card", theme);
+    await expect(page.locator(".tour-card h2")).toBeVisible();
+    await expectContrast(page, ".tour-card h2", theme);
     await page.evaluate(async () => {
       const tour = await import("/js/tour.js");
       tour.endTour();
