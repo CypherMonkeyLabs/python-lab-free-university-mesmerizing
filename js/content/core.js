@@ -651,7 +651,8 @@ Thread(target=work).start()</code></pre>
           <pre><code translate="no">from multiprocessing import Process
 def work():
     print("in a process")
-Process(target=work).start()</code></pre>
+if __name__ == "__main__":
+    Process(target=work).start()</code></pre>
           <p>On your own computer those snippets start real workers. Here they would be a bad demo, because the page's process model is not a desktop Python. The decision table is the part you can check. If the program is waiting, start with asyncio. If a library blocks and has no async version, a thread is the usual adapter. If the fan of the laptop is the problem, look at processes, or at a faster algorithm, before you look at threads.</p>
           ${codeBlock(`kinds = {\n    "waiting on the network": "asyncio",\n    "a blocking library": "a thread",\n    "heavy CPU work": "a process",\n}\nfor job, tool in kinds.items():\n    print(f"{job}: {tool}")\n`)}`,
         },

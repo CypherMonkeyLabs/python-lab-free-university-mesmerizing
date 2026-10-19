@@ -4,7 +4,7 @@
 import { tier, prefs, reduced } from "./prefs.js";
 import { esc } from "./util.js";
 
-const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim() || "#ffffff";
+const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim() || "white";
 let canvas;
 let ctx;
 let parts = [];
@@ -61,13 +61,13 @@ export async function confetti(power = 1, origin = { x: 0.5, y: 0.35 }) {
   if (t === "off") return false;
   const c = await loadConfetti();
   if (!c) return false;
-  const colors = [css("--w1"), css("--w2"), css("--w3"), "#ffffff"];
-  const n = Math.round((t === "high" ? 120 : 45) * power);
-  c({ particleCount: n, spread: 80, startVelocity: 42, origin, colors, useWorker: false, disableForReducedMotion: true, zIndex: 400 });
-  if (t === "high" && power >= 1) {
-    setTimeout(() => c({ particleCount: 50, angle: 60, spread: 60, origin: { x: 0, y: 0.8 }, colors, useWorker: false, zIndex: 400 }), 180);
-    setTimeout(() => c({ particleCount: 50, angle: 120, spread: 60, origin: { x: 1, y: 0.8 }, colors, useWorker: false, zIndex: 400 }), 300);
-  }
+  const colors = [css("--brand-pink"), css("--brand-gold"), css("--brand-teal")];
+  const footer = document.querySelector("#site-footer");
+  const footerTop = footer ? footer.getBoundingClientRect().top : window.innerHeight;
+  if (footerTop < window.innerHeight * 0.72) return true;
+  const safeOrigin = { x: origin.x, y: Math.min(origin.y, 0.42) };
+  const n = Math.round((t === "high" ? 80 : 36) * power);
+  c({ particleCount: n, spread: 70, startVelocity: 28, origin: safeOrigin, colors, useWorker: false, disableForReducedMotion: true, zIndex: 70 });
   return true;
 }
 
@@ -97,8 +97,9 @@ export function toast(html, ms = 4200) {
     document.body.appendChild(box);
   }
   const t = document.createElement("div");
-  t.className = "fx-toast";
-  t.innerHTML = html;
+  t.className = "fx-toast toast";
+  t.innerHTML = `<span class="toast-ico" aria-hidden="true">★</span><div class="toast-copy">${html}</div><button type="button" class="toast-x" aria-label="Close">×</button>`;
+  t.querySelector(".toast-x")?.addEventListener("click", () => t.remove());
   box.appendChild(t);
   setTimeout(() => t.remove(), ms);
 }
@@ -116,11 +117,18 @@ function resize() {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   seed();
 }
+let onScreen = true;
+function motionOff() {
+  return tier() === "off" || window.matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.dataset.fx === "off";
+}
 function seed() {
   const t = tier();
+  const mobile = window.matchMedia("(max-width: 899px)").matches;
   const base = t === "high" ? 64 : t === "low" ? 22 : 0;
-  const n = Math.round(base * Math.min(1, (W * H) / (1280 * 720)) + (base ? 10 : 0));
-  const cols = [css("--w1"), css("--w2"), css("--w3")];
+  let n = Math.round(base * Math.min(1, (W * H) / (1280 * 720)) + (base ? 10 : 0));
+  if (mobile) n = Math.min(n, 40);
+  if (motionOff()) n = 0;
+  const cols = [css("--brand-pink"), css("--brand-gold"), css("--brand-teal")];
   parts = Array.from({ length: n }, () => ({
     x: Math.random() * W, y: Math.random() * H,
     r: 1.2 + Math.random() * 3.2, vx: (Math.random() - 0.5) * 0.18, vy: -0.08 - Math.random() * 0.3,
@@ -128,8 +136,11 @@ function seed() {
   }));
 }
 function frame(now) {
+  if (document.hidden || motionOff() || !onScreen) {
+    stopParticles();
+    return;
+  }
   raf = requestAnimationFrame(frame);
-  if (document.hidden) return;
   const t = tier();
   if (t === "off") return stopParticles();
   if (t === "low" && now - last < 50) return;
@@ -156,7 +167,7 @@ function stopParticles() {
   ctx && ctx.clearRect(0, 0, W, H);
 }
 function startParticles() {
-  if (raf || tier() === "off") return;
+  if (raf || motionOff() || document.hidden || !onScreen) return;
   resize();
   raf = requestAnimationFrame(frame);
 }
@@ -203,9 +214,18 @@ export function initFx() {
   document.body.prepend(canvas);
   document.body.prepend(bg);
   ctx = canvas.getContext("2d");
+  const seen = new IntersectionObserver((entries) => {
+    onScreen = entries.some((entry) => entry.isIntersecting);
+    if (!onScreen) stopParticles();
+    else if (!raf) startParticles();
+  });
+  seen.observe(canvas);
   startParticles();
   window.addEventListener("resize", () => { if (raf) resize(); });
-  document.addEventListener("visibilitychange", () => { if (!document.hidden && !raf) startParticles(); });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stopParticles();
+    else if (!raf) startParticles();
+  });
   document.addEventListener("lab:prefs", () => { if (tier() === "off") stopParticles(); else if (!raf) startParticles(); else seed(); });
   document.addEventListener("lab:world", () => seed());
   document.addEventListener("pointerdown", ripple, { passive: true });

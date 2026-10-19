@@ -108,22 +108,27 @@ function show(w) {
 
 function adoptToast(node) {
   if (!(node instanceof HTMLElement)) return;
-  if (node.closest("#toast-region")) return;
+  if (node.dataset.adopted === "1" || node.closest("#toast-region")) return;
   const toast = node.matches(".fx-toast, .welcome, .levelup") ? node : null;
   if (!toast) return;
-  const copy = toast.cloneNode(true);
+  toast.dataset.adopted = "1";
   toast.remove();
-  copy.addEventListener("click", (event) => {
-    if (event.target.closest("button, a")) return;
-    copy.remove();
-    pump();
-  });
-  enqueue(copy);
+  enqueue(toast);
 }
 
 function watchToasts() {
   const host = region();
   placeToasts();
+  if (host && !host.dataset.toastBound) {
+    host.dataset.toastBound = "1";
+    host.addEventListener("click", (event) => {
+      const closer = event.target.closest(".toast-x");
+      const toast = closer?.closest(".fx-toast, .toast, .welcome, .levelup");
+      if (!toast) return;
+      toast.remove();
+      pump();
+    });
+  }
   const observer = new MutationObserver((records) => {
     records.forEach((record) => {
       record.addedNodes.forEach((node) => {

@@ -228,7 +228,8 @@ function updateBars() {
       el.removeAttribute("aria-disabled");
       const visible = target.loop ? "Back to start ↺" : label;
       if (name) name.textContent = visible;
-      const accessible = target.loop ? `Back to start ↺: ${target.title}` : `${label}: ${target.title}`;
+      const subText = target.loop ? "" : target.title;
+      const accessible = [visible, subText].filter(Boolean).join(" ");
       el.setAttribute("aria-label", accessible);
       el.title = accessible;
       const sub = $(".bar-sub", el);

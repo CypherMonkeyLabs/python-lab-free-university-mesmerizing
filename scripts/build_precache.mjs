@@ -25,7 +25,7 @@ walk(path.join(root, "js/app.js"));
 const required = [
   "index.html",
   "js/theme-boot.js",
-  "js/register-sw.js",
+  "js/sw-register.js",
   "manifest.webmanifest",
   "assets/favicon.svg",
   "assets/cyphermonkey-zodiac.svg",

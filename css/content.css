@@ -33,7 +33,7 @@
 .fb-c-5 { --c1: var(--brand-gold, var(--accent)); --c2: var(--success, var(--ok)); }
 .fb-c-6 { --c1: var(--brand-teal, var(--accent-2)); --c2: var(--brand-gold, var(--accent)); }
 .fb-c-7 { --c1: var(--brand-pink, var(--accent-2)); --c2: var(--brand-gold, var(--accent)); }
-.py-row input[type="checkbox"], input[type="checkbox"] { width: 24px; height: 24px; min-width: 24px; min-height: 24px; }
+.py-row input[type="checkbox"], main input[type="checkbox"], .voice-picker input[type="radio"] { width: 24px !important; height: 24px !important; min-width: 24px !important; min-height: 24px !important; }
 main a { display: inline-block; min-height: 24px; line-height: 1.6; }
 main a[href^="#/sources/"] { padding-block: 4px; line-height: 1.6; }
 .lc-tone-1 { --c1: var(--brand-gold, var(--accent)); --c2: var(--brand-teal, var(--accent-2)); }

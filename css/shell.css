@@ -429,6 +429,10 @@ body:has(#bot-panel:not([hidden])) #toast-region { z-index: 30; }
 #toast-region.toast-flip { left: auto; right: 16px; }
 .display-menu:not([open]) .display-pop { display: none; }
 .display-pop .xp-chip { display: inline-flex !important; margin: 0 0 8px; }
+#xp-chip {
+  color: var(--text-on-brand, #10233a);
+  background: var(--world-gold, #ffd43b);
+}
 @media (min-width: 1100px) {
   #menu-toggle { display: none; }
   .tb-search { display: none; }
@@ -443,7 +447,15 @@ body:has(#bot-panel:not([hidden])) #toast-region { z-index: 30; }
   .tb-search { display: inline-flex; }
   .top-search-wrap { display: none; position: fixed; left: 8px; right: 8px; top: calc(var(--top-h) + 8px); max-width: none; min-width: 0; margin: 0; z-index: 75; }
   .search-open .top-search-wrap { display: block; }
-  #toast-region { left: 16px; }
+  #toast-region {
+    top: calc(var(--top-h, 64px) + 8px);
+    bottom: auto;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    max-height: calc(100dvh - var(--top-h, 64px) - var(--bar-h, 64px) - 190px);
+    overflow: auto;
+  }
 }
 @media (max-width: 899px) {
   .bottombar .bar-label { position: static !important; width: auto !important; height: auto !important; overflow: visible !important; clip: auto !important; }

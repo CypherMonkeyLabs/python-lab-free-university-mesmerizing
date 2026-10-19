@@ -82,9 +82,11 @@ for (const viewport of [
     await page.goto("/");
     await openBot(page, viewport.touch);
     const panel = page.locator("#bot-panel");
-    await expect(panel).toContainText("Py answers only from this lab's lessons and can be wrong.");
+    await expect(panel).toContainText("scripted offline helper, may miss questions");
+    await expect(panel.locator(".py-chat-beta")).not.toContainText("Beta:");
     await expect(panel).toContainText("Where would you like to go");
     await expect(panel).toContainText("Try asking");
+    await panel.locator("details.py-quick").evaluate((el) => { el.open = true; });
     await expect(panel).toContainText("Character name");
     await expect(panel.locator("#py-name")).toHaveCount(1);
     for (const label of QA) await expect(panel.locator(".bp-qa", { hasText: label })).toHaveCount(1);
@@ -110,7 +112,7 @@ for (const viewport of [
     await expect(bot).toHaveClass(/is-speaking/);
     const answer = panel.locator(".py-msg-bot").last();
     await expect(answer.locator("a.py-msg-link")).toBeVisible();
-    await expect(answer).toContainText(/Open this (lesson|page)/);
+    await expect(answer).toContainText(/Open (lesson|page)/);
     const still = await inputIsUsable(page);
     expect(still.overlap, "bot covers the input while answering").toBe(false);
     expect(still.hit, "input covered while answering").toBe(true);
@@ -173,6 +175,7 @@ test("chat history survives all four themes", async ({ page }) => {
     await page.locator(".display-menu").evaluate((el) => { el.open = true; });
     await page.locator(`[data-theme-set="${theme}"]`).click();
     await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
+    await page.locator(".display-menu").evaluate((el) => { el.open = false; });
     await openBot(page, false);
     await expect(page.locator(".py-msg-user")).toContainText("What is a list?");
     const colors = await page.locator("#py-chat-input").evaluate((el) => {
@@ -208,15 +211,15 @@ test("chat answers from the precached index while offline", async ({ page, conte
   const errors = watchErrors(page);
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
-  await page.waitForFunction(async () => {
+  await expect.poll(() => page.evaluate(async () => {
     const ready = await navigator.serviceWorker.ready;
     if (!ready.active) return false;
-    const cache = await caches.open("pythonlab-pwa-v8");
+    const cache = await caches.open("pythonlab-pwa-v9");
     const index = await cache.match("./js/content/pybot-index.json");
     const engine = await cache.match("./shared/pybot-chat/engine.js");
     const chat = await cache.match("./js/botchat.js");
     return !!(index && engine && chat);
-  }, null, { timeout: 20000 });
+  }), { timeout: 20000 }).toBe(true);
   await context.setOffline(true);
   await page.reload();
   await openBot(page, false);

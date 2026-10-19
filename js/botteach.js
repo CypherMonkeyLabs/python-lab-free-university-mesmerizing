@@ -24,13 +24,29 @@ function ladder(key) {
   return {
     title: found.lesson.title, ex, own: false,
     nudge: "Say the job in one sentence: what goes in, and what must come out?",
-    hint: "Re-read the lesson section above the exercise; the idea is in there. Then open the sources list at the bottom of the page.", link: ["Python tutorial", "https://docs.python.org/3/tutorial/"],
+    hint: "Re-read the lesson section above the exercise; the idea is in there. Then open the sources list at the bottom of the page.", link: ["Sources in this lab", "#/sources"],
     approach: ["Write down one example input and the output you want.", "Edit the starter so that example works.", "Run the checks and read the first failing line."],
     example: null,
   };
 }
 
 const rungs = [["Nudge", "nudge"], ["Hint", "hint"], ["Approach", "approach"], ["A similar problem", "example"]];
+
+function labHref(href) {
+  const value = String(href || "");
+  if (value.startsWith("#/") || value.startsWith("/") || value.startsWith("./")) return value;
+  try {
+    const url = new URL(value);
+    const host = url.hostname.replace(/^www\./, "");
+    const ok = host === "cyphermonkeylabs.com"
+      || (host === "linktr.ee" && url.pathname.replace(/\/$/, "") === "/CypherMonkey")
+      || (host === "github.com" && url.pathname.startsWith("/CypherMonkeyLabs"));
+    if (ok) return value;
+  } catch (err) {
+    return "#/sources";
+  }
+  return "#/sources";
+}
 
 export function teachHtml() {
   const key = lessonKeyFor();
@@ -49,7 +65,7 @@ export function teachHtml() {
     if (k === "approach") v = `<ol>${v.map((x) => `<li>${esc(x)}</li>`).join("")}</ol>`;
     else if (k === "example") v = `<pre class="bp-code"><code>${esc(v)}</code></pre><p class="bp-note">This solves a different problem. Adapt the idea.</p>`;
     else v = `<p>${esc(v)}</p>`;
-    const link = k === "hint" && L.link ? `<p><a href="${esc(L.link[1])}" rel="noopener" target="_blank">Docs: ${esc(L.link[0])}</a></p>` : "";
+    const link = k === "hint" && L.link ? `<p><a href="${esc(labHref(L.link[1]))}">${esc(L.link[0])}</a></p>` : "";
     return `<div class="bp-rung"><b>${name}</b>${v}${link}</div>`;
   }).join("") : "";
   const more = L.ex && saved < 4 ? `<button type="button" class="bp-go bp-primary" id="bp-rung"><b>${saved ? "Next rung" : "Give me a nudge"}</b><span>Rung ${saved + 1} of 4: ${rungs[saved][0]}</span></button>` : "";

@@ -4,12 +4,12 @@
 .bot-stage { position: absolute; inset: 0; perspective: 560px; }
 .bot-bubble {
   position: absolute; z-index: 4; right: 0; top: -4px; max-width: 168px; width: max-content; padding: 5px 11px 6px; border-radius: 16px 16px 4px 16px;
-  background: linear-gradient(135deg, #ffffff, #fff5fb 65%, #fef9c3); color: #0f172a; border: 2.5px solid #ff5da2;
+  background: linear-gradient(135deg, white, white 65%, white); color: black; border: 2.5px solid var(--brand-pink);
   box-shadow: 0 6px 18px rgba(255, 93, 162, 0.5), 0 0 0 3px rgba(255, 212, 59, 0.65), 0 0 18px rgba(34, 211, 238, 0.45);
   font: 700 0.76rem/1.22 "Atkinson Hyperlegible", system-ui, sans-serif; text-align: left; pointer-events: none;
   animation: bubble-pop 360ms cubic-bezier(.3, 1.6, .5, 1);
 }
-.bot-bubble::after { content: ""; position: absolute; right: 18px; bottom: -9px; width: 12px; height: 12px; background: #fef9c3; border-right: 2.5px solid #ff5da2; border-bottom: 2.5px solid #ff5da2; transform: rotate(45deg) skew(8deg, 8deg); border-radius: 0 0 4px 0; }
+.bot-bubble::after { content: ""; position: absolute; right: 18px; bottom: -9px; width: 12px; height: 12px; background: white; border-right: 2.5px solid var(--brand-pink); border-bottom: 2.5px solid var(--brand-pink); transform: rotate(45deg) skew(8deg, 8deg); border-radius: 0 0 4px 0; }
 .bot[data-side="left"] .bot-bubble { right: auto; left: 0; border-radius: 16px 16px 16px 4px; }
 .bot[data-side="left"] .bot-bubble::after { right: auto; left: 18px; }
 .bot.is-open .bot-bubble, .bot.is-dragging .bot-bubble { display: none; }
@@ -17,7 +17,7 @@
 .bot-figure { position: absolute; left: 5px; bottom: 6px; width: 98px; height: 114px; margin: 0; transform-style: preserve-3d; animation: bot-idle 4.2s ease-in-out infinite; filter: drop-shadow(0 8px 12px rgba(15, 23, 42, 0.42)) drop-shadow(0 0 10px rgba(255, 93, 162, 0.35)); }
 @keyframes bot-idle { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-6px) rotate(1.5deg); } }
 .bot-svg { width: 100%; height: 100%; overflow: visible; display: block; }
-.bot.is-open .bot-figure { filter: drop-shadow(0 0 14px #ffd43b) drop-shadow(0 0 24px #22d3ee) drop-shadow(0 0 30px #ff5da2); }
+.bot.is-open .bot-figure { filter: drop-shadow(0 0 14px var(--brand-gold)) drop-shadow(0 0 24px var(--info)) drop-shadow(0 0 30px var(--brand-pink)); }
 .bot-shadow { position: absolute; left: 20px; bottom: 2px; width: 68px; height: 10px; background: radial-gradient(ellipse at center, rgba(255, 93, 162, 0.45), rgba(0, 0, 0, 0.38)); border-radius: 50%; filter: blur(2px); animation: shadow-pulse 4.2s ease-in-out infinite; }
 @keyframes shadow-pulse { 0%, 100% { transform: scaleX(0.92); } 50% { transform: scaleX(1.12); } }
 .bot .bulb { transform-box: fill-box; transform-origin: center; animation: bulb 1.4s ease-in-out infinite; }
@@ -55,19 +55,19 @@
 button.bp-go { font: inherit; text-align: left; width: 100%; cursor: pointer; }
 
 /* ---- Py outshines the screen: aura, sparkles, skins, size, mannerisms ---- */
-#pb-head stop:first-child { stop-color: var(--py-a, #6bb0e6); }
-#pb-head stop:last-child { stop-color: var(--py-b, #2f6aa3); }
+#pb-head stop:first-child { stop-color: var(--py-a, var(--info)); }
+#pb-head stop:last-child { stop-color: var(--py-b, var(--info)); }
 .bot { width: calc(108px * var(--py-s, 1.18)); height: calc(144px * var(--py-s, 1.18)); pointer-events: none; }
 .bot-stage, .bot-svg { pointer-events: auto; cursor: grab; }
 .bot.is-dragging .bot-stage, .bot.is-dragging .bot-svg { cursor: grabbing; }
 .bot-stage { inset: auto; left: 0; bottom: 0; width: 108px; height: 144px; transform: scale(var(--py-s, 1.18)); transform-origin: left bottom; }
 .py-aura { position: absolute; left: -12px; bottom: -6px; width: 132px; height: 132px; border-radius: 50%; z-index: 0; pointer-events: none;
-  background: conic-gradient(from 0deg, #ff5da2, #ffd43b, #34d399, #22d3ee, #a78bfa, #ff8fc3, #ff5da2); filter: blur(15px); opacity: 0.68; animation: py-spin 6s linear infinite; }
+  background: conic-gradient(from 0deg, var(--brand-pink), var(--brand-gold), var(--success), var(--info), var(--info), var(--brand-gold), var(--brand-pink)); filter: blur(15px); opacity: 0.68; animation: py-spin 6s linear infinite; }
 .bot-figure { z-index: 1; }
 @keyframes py-spin { to { transform: rotate(360deg); } }
-.py-sparks b { position: absolute; font-size: 15px; color: #ffd43b; text-shadow: 0 0 8px #ff5da2; pointer-events: none; opacity: 0; animation: py-twinkle 3s ease-in-out infinite; z-index: 2; }
-.py-sparks b:nth-child(1) { left: -2px; top: 28px; } .py-sparks b:nth-child(2) { right: -2px; top: 54px; animation-delay: .75s; color: #7cf3ff; }
-.py-sparks b:nth-child(3) { left: 6px; bottom: 30px; animation-delay: 1.5s; color: #ff8fc3; } .py-sparks b:nth-child(4) { right: 8px; top: 16px; animation-delay: 2.25s; color: #34d399; }
+.py-sparks b { position: absolute; font-size: 15px; color: var(--brand-gold); text-shadow: 0 0 8px var(--brand-pink); pointer-events: none; opacity: 0; animation: py-twinkle 3s ease-in-out infinite; z-index: 2; }
+.py-sparks b:nth-child(1) { left: -2px; top: 28px; } .py-sparks b:nth-child(2) { right: -2px; top: 54px; animation-delay: .75s; color: var(--info); }
+.py-sparks b:nth-child(3) { left: 6px; bottom: 30px; animation-delay: 1.5s; color: var(--brand-gold); } .py-sparks b:nth-child(4) { right: 8px; top: 16px; animation-delay: 2.25s; color: var(--success); }
 @keyframes py-twinkle { 0%, 100% { opacity: 0; transform: scale(.4) rotate(0); } 50% { opacity: 1; transform: scale(1.25) rotate(90deg); } }
 html[data-fx="off"] .py-aura { animation: none; opacity: .35; filter: blur(10px); }
 html[data-fx="off"] .py-sparks { display: none; }
@@ -77,7 +77,7 @@ html[data-fx="low"] .py-aura { animation: none; }
 .bot.py-think .bot-figure { animation: py-think 1.6s ease-in-out; }
 .bot.py-hint .bot-figure { animation: py-hint .45s ease-in-out 3; }
 .bot.py-celebrate .py-aura { opacity: .98; }
-.bot.py-hint .bulb { fill: #ffd43b; filter: drop-shadow(0 0 8px #ffd43b); }
+.bot.py-hint .bulb { fill: var(--brand-gold); filter: drop-shadow(0 0 8px var(--brand-gold)); }
 @keyframes py-wave { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-12deg); } 40% { transform: rotate(10deg); } 60% { transform: rotate(-8deg); } 80% { transform: rotate(5deg); } }
 @keyframes py-jump { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-22px) scale(1.08) rotate(6deg); } }
 @keyframes py-think { 0%, 100% { transform: rotate(0); } 30%, 70% { transform: rotate(-9deg) translateY(-2px); } }
@@ -115,7 +115,7 @@ html[data-fx="low"] .py-aura { animation: none; }
 .bot.is-docked .py-sparks { opacity: 0; }
 .bot.is-speaking { visibility: visible; opacity: 1; }
 .bot.is-speaking .py-aura { opacity: 1; animation: py-spin 1.1s linear infinite; }
-.bot.is-speaking .bot-figure { filter: drop-shadow(0 0 14px #22d3ee) drop-shadow(0 0 20px #ff5da2); }
+.bot.is-speaking .bot-figure { filter: drop-shadow(0 0 14px var(--info)) drop-shadow(0 0 20px var(--brand-pink)); }
 .bot.is-speaking .arm-wave { animation-duration: 0.45s; }
 .bot.is-speaking .mouth {
   transform-box: fill-box;
@@ -135,8 +135,8 @@ html[data-fx="low"] .py-aura { animation: none; }
   max-width: 190px;
   padding: 4px 8px;
   border-radius: 8px;
-  background: #12161c;
-  color: #fff;
+  background: black;
+  color: white;
   font-size: 0.72rem;
   line-height: 1.3;
   pointer-events: none;
@@ -177,5 +177,41 @@ html[data-fx="low"] .py-aura { animation: none; }
   .bot.is-speaking .py-aura,
   .bot.is-speaking .arm-wave,
   .bot.is-speaking .led1 { animation: none !important; }
-  .bot.is-speaking .bot-figure { filter: drop-shadow(0 0 8px #22d3ee); }
+  .bot.is-speaking .bot-figure { filter: drop-shadow(0 0 8px var(--info)); }
 }
+.bot { z-index: var(--z-bot); }
+.bot-name { display: none; }
+.bot.is-blocked { visibility: hidden !important; }
+.bot::after { content: none !important; }
+.bot-bubble { min-width: 160px; }
+@media (max-width: 899px) {
+  .bot.is-py-dock {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: var(--radius-pill);
+    left: auto !important;
+    top: auto !important;
+    right: 12px !important;
+    bottom: calc(var(--bar-h) + 12px) !important;
+    overflow: hidden;
+    pointer-events: auto;
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+    color: var(--text-on-accent);
+    border: 0;
+  }
+  .bot.is-py-dock .bot-stage,
+  .bot.is-py-dock .bot-bubble,
+  .bot.is-py-dock .py-aura,
+  .bot.is-py-dock .py-sparks { display: none !important; }
+  .bot.is-py-dock .bot-name {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    font-weight: 700;
+    font-size: var(--step-0);
+  }
+}
+main.wrap { padding-inline-end: var(--bot-safe-inline); }

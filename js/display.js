@@ -41,9 +41,7 @@ export function initDisplay() {
     a.id = "xp-chip";
     a.className = "xp-chip";
     a.href = "#/me";
-    const pop = host.querySelector(".display-pop");
-    if (pop) pop.prepend(a);
-    else host.before(a);
+    host.before(a);
   }
   const chip = () => {
     const s = state();

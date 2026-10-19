@@ -34,7 +34,7 @@ const SHELL_ASSETS = [
   "./assets/splash.png",
   "./js/app.js",
   "./js/theme-boot.js",
-  "./js/register-sw.js",
+  "./js/sw-register.js",
   "./js/bot.js",
   "./js/botfx.js",
   "./js/botpanel.js",

@@ -39,7 +39,7 @@ function lessonCases() {
 const hand = [
   { id: "p-list", group: "hard", q: "What is a list?", hrefs: ["#/slides/data-structures/2", "#/lesson/dsa/sequences"], titles: ["Lists", "Lists, tuples, and slices"] },
   { id: "p-lists", group: "hard", q: "lists", hrefs: ["#/slides/data-structures/2", "#/lesson/dsa/sequences"], titles: ["Lists", "Lists, tuples, and slices"] },
-  { id: "p-tuple", group: "hard", q: "what is a tuple", hrefs: ["#/slides/data-structures/4", "#/lesson/dsa/sequences"], titles: ["Tuples", "Lists, tuples, and slices"] },
+  { id: "p-tuple", group: "hard", q: "what is a tuple", hrefs: ["#/slides/data-structures/4", "#/lesson/dsa/sequences"], titles: ["Tuples", "Lists, tuples, and slices"], text: /^A tuple is immutable/ },
   { id: "p-dict", group: "hard", q: "what is a dictionary", hrefs: ["#/slides/data-structures/5", "#/lesson/dsa/maps"], titles: ["Dicts", "Dicts, sets, and hashing"] },
   { id: "p-dict-typo", group: "hard", q: "dictionery", hrefs: ["#/slides/data-structures/5", "#/lesson/dsa/maps"], titles: ["Dicts", "Dicts, sets, and hashing"] },
   { id: "p-set", group: "hard", q: "sets", hrefs: ["#/slides/data-structures/6", "#/lesson/dsa/maps"], titles: ["Sets", "Dicts, sets, and hashing"] },
@@ -175,6 +175,10 @@ const hand = [
   { id: "c-list", group: "hard", chain: "follow", q: "what is a list", hrefs: ["#/slides/data-structures/2", "#/lesson/dsa/sequences"], titles: ["Lists", "Lists, tuples, and slices"] },
   { id: "c-dict", group: "hard", chain: "follow", q: "and in a dict?", hrefs: ["#/slides/data-structures/5", "#/lesson/dsa/maps"], titles: ["Dicts", "Dicts, sets, and hashing"] },
   { id: "c-eg", group: "hard", chain: "follow", q: "show an example", intent: "example", text: /example/ },
+  { id: "c-fb", group: "hard", chain: "after-fallback", q: "lambda", fallback: true },
+  { id: "c-fb2", group: "hard", chain: "after-fallback", q: "show an example", intent: "clarify", text: /Which topic\?/ },
+  { id: "p-install", group: "hard", q: "install python", hrefs: ["#/lesson/start/runtime"], titles: ["The browser runtime"], text: /browser/ },
+  { id: "p-download-py", group: "hard", q: "download python", hrefs: ["#/lesson/start/runtime"], titles: ["The browser runtime"], text: /python\.org\/downloads/ },
 ];
 
 function titleOf(answer) {
@@ -312,3 +316,4 @@ if (cases.length < 150) {
   process.exit(1);
 }
 if (injectionFail || report.titles.top1.hit !== report.titles.top1.total) process.exit(1);
+if (misses.length) process.exit(1);

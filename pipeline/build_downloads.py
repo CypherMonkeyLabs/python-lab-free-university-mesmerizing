@@ -28,6 +28,15 @@ table{border-collapse:collapse;width:100%;margin:10px 0}
 th,td{border:1px solid #c9c3e0;padding:6px 8px;text-align:left;vertical-align:top}
 th{background:#efe8ff}
 .small{font-size:9pt;color:#445}"""
+# Meta CSP for generated HTML. GitHub Pages cannot set response headers.
+# These pages have no scripts. The lab shell (index.html) adds wasm-unsafe-eval
+# and unsafe-eval because Pyodide's Emscripten glue evaluates wrappers at startup.
+CSP = (
+    "<meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'self'; script-src 'self'; "
+    "style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data:; "
+    "font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; "
+    "base-uri 'self'; form-action 'self'\">"
+)
 
 def split(path):
     t = path.read_text(encoding="utf-8")
@@ -74,7 +83,7 @@ def to_html(meta, blocks):
     foot = (f"<h2>Sources</h2><ul>{src}</ul><p class='small'>cyphermonkeylabs.com · Cypher Monkey. Code &copy; CypherMonkeyLabs, MIT. Text CC BY-NC-SA 4.0. "
             "Educational material, not accredited coursework; no outcome or income promised. Built "
             f"{datetime.date.today()}.</p>")
-    return (f"<!doctype html><html lang='en'><meta charset='utf-8'><title>{html.escape(meta['title'])}</title>"
+    return (f"<!doctype html><html lang='en'><meta charset='utf-8'>{CSP}<title>{html.escape(meta['title'])}</title>"
             f"<style>{css}</style><body>{head}{''.join(parts)}{foot}</body></html>")
 
 def _hex_rgb(value):
@@ -170,13 +179,13 @@ def center_page(cards, out):
         + "".join(f"<li><a href='{f['name']}' download>{f['format'].upper()}</a> <span>{f['size']}</span></li>" for f in x['files'])
         + f"</ul><details><summary>What's inside</summary><ul>{''.join('<li>'+html.escape(i)+'</li>' for i in x['whats_inside'])}</ul></details>"
         f"<small>About {x['hours']} h &middot; examples run on {html.escape(x['run_on'])} &middot; not accredited</small></article>" for x in cards)
-    page = f"""<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">{CSP}<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Download Center - Python Lab</title><style>body{{font:16px/1.5 system-ui;background:#f6f3ff;color:#1a1d2e;margin:0;padding:24px}}
 h1{{color:#2a1860}}
 .grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}}.card{{background:#fff;border:1px solid #d9d0f0;border-top:8px solid #7f8cff;border-radius:14px;padding:16px}}
 a{{color:#3a2a86;font-weight:700}}li span{{color:#445;margin-left:.5em}}
-@media (prefers-reduced-motion:reduce){{.card{{transition:none}}}}</style>
-<h1>Download Center</h1><p>Every file is built from one Markdown source. Free, no account.</p><div class="grid">{c}</div></html>"""
+@media (prefers-reduced-motion:reduce){{.card{{transition:none}}}}</style></head><body>
+<h1>Download Center</h1><p>Every file is built from one Markdown source. Free, no account.</p><div class="grid">{c}</div></body></html>"""
     out.write_text(page, encoding="utf-8")
 
 def main():
