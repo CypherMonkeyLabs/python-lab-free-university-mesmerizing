@@ -13,6 +13,7 @@ export function chatMarkup(examples) {
     `<button type="button" class="bp-chip" data-py-ask="${escapeAttr(item)}">${escapeText(item)}</button>`
   )).join("");
   return `<div class="py-chat" data-py-chat>
+    <p class="py-chat-beta"><span class="py-beta-badge">Beta</span> Beta: scripted offline helper, may miss questions</p>
     <div class="py-chat-log" role="log" aria-live="polite" aria-relevant="additions" tabindex="0" aria-label="Chat with Py"></div>
     <p class="py-chat-try">Try asking</p>
     <div class="py-chat-examples">${chips}</div>

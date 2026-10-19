@@ -11,6 +11,6 @@ Every ```` ```python run ```` block is executed (isolated interpreter, 10 s limi
 
 Binary outputs (pdf, docx, pptx, png) are stored in git as base64 text under `_b64/`. `--pack-b64` splits each file into parts named `<path>.b64.001`, `.002`, … and rewrites the `downloads/modules/` lines in `SHA256SUMS`. Text outputs (html, json, txt, manifest) are committed as they are.
 
-`node pipeline/build_pybot_index.mjs` writes `js/content/pybot-index.json` for Py's offline chat. It reads the lesson modules, hints, downloads, and glossary already in the repo. Re-run it after changing those sources, then `node tests/pybot-eval.mjs`.
+`node pipeline/build_pybot_index.mjs` writes `js/content/pybot-index.json` for Py's offline chat. It reads the lesson modules, hints, downloads, and glossary already in the repo, copies the curated excerpts in `pipeline/pybot_seeds.mjs` into the index `seeds` array, and adds one low-rank seed per lesson title. Re-run it after changing those sources, then `node tests/pybot-eval.mjs`. Another lab copies `shared/pybot-chat/` and replaces this builder and the seed list; the engine stays the same. See `shared/pybot-chat/README.md`.
 
 `python3 pipeline/restore_binaries.py` decodes every part back into the tree and leaves `_b64` in place. `--check` compares the decoded bytes with `SHA256SUMS` and writes nothing. `.github/workflows/restore-binaries.yml` is the copy that runs on `main`: it decodes, deletes `_b64`, checks the sums, and pushes the binaries. The two decoders use the same part names.

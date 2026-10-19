@@ -1,0 +1,195 @@
+{
+  "questions": 110,
+  "beginner": {
+    "total": 50,
+    "relevant": 43,
+    "relevantPct": 86,
+    "confidentWrong": 1
+  },
+  "typo": {
+    "total": 18,
+    "relevant": 14,
+    "relevantPct": 77.8,
+    "confidentWrong": 1
+  },
+  "offtopic": {
+    "total": 12,
+    "relevant": 12,
+    "relevantPct": 100,
+    "confidentWrong": 0
+  },
+  "nav": {
+    "total": 8,
+    "relevant": 8,
+    "relevantPct": 100,
+    "confidentWrong": 0
+  },
+  "inject": {
+    "total": 10,
+    "relevant": 10,
+    "relevantPct": 100,
+    "confidentWrong": 0
+  },
+  "followTurns": {
+    "total": 12,
+    "relevant": 11,
+    "relevantPct": 91.7,
+    "confidentWrong": 0
+  },
+  "followPairs": {
+    "ok": 5,
+    "total": 6
+  },
+  "target": {
+    "beginnerRelevantPct": 85,
+    "offtopicConfidentWrong": 0,
+    "injectConfidentWrong": 0
+  },
+  "misses": [
+    {
+      "id": "b02",
+      "group": "beginner",
+      "q": "how can I ask the person using my program to type their name",
+      "relevant": false,
+      "confidentWrong": false,
+      "clean": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. Closest pages: mypy and Pyright; Names and mutability. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "b05",
+      "group": "beginner",
+      "q": "when would I pick a dict instead of a list",
+      "relevant": false,
+      "confidentWrong": true,
+      "clean": false,
+      "href": "#/slides/data-structures/1",
+      "mode": "answer",
+      "intent": "seed",
+      "text": "Need order and changes? list. Need lookup by key? dict. A list is an ordered, changeable sequence. A dict maps keys to values and keeps insertion order."
+    },
+    {
+      "id": "b11",
+      "group": "beginner",
+      "q": "I used a name I never assigned and Python complained",
+      "relevant": false,
+      "confidentWrong": false,
+      "clean": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. Closest pages: Names and mutability; except without brackets (PEP 758). I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "b22",
+      "group": "beginner",
+      "q": "how do I compare two values for equality without rebinding a name",
+      "relevant": false,
+      "confidentWrong": false,
+      "clean": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. Closest pages: Name binding; Names and mutability. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "b25",
+      "group": "beginner",
+      "q": "I want to order names by how long they are",
+      "relevant": false,
+      "confidentWrong": false,
+      "clean": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. Closest pages: Common shapes; Names and mutability. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "b27",
+      "group": "beginner",
+      "q": "how do I drop a name into the middle of some text",
+      "relevant": false,
+      "confidentWrong": false,
+      "clean": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. Closest pages: Name binding; Names and mutability. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "b35",
+      "group": "beginner",
+      "q": "I called a method the object does not have",
+      "relevant": false,
+      "confidentWrong": false,
+      "clean": false,
+      "href": "#/lesson/fundamentals/classes",
+      "mode": "answer",
+      "intent": "",
+      "text": "A class bundles data and the functions that operate on it. __init__ sets up a new instance. The first parameter of a method is the instance, conventionally named self. A subclass c"
+    },
+    {
+      "id": "t06",
+      "group": "typo",
+      "q": "coments in pythn start with what",
+      "relevant": false,
+      "confidentWrong": false,
+      "clean": false,
+      "href": "#/lesson/fundamentals/syntax",
+      "mode": "answer",
+      "intent": "",
+      "text": "Python uses indentation to show which lines belong together. A header line ends with a colon. The lines of its block are indented, usually by four spaces. When the indent returns, "
+    },
+    {
+      "id": "t10",
+      "group": "typo",
+      "q": "virtul enviroment for a projct",
+      "relevant": false,
+      "confidentWrong": false,
+      "clean": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "t14",
+      "group": "typo",
+      "q": "dictonary vs lisst",
+      "relevant": false,
+      "confidentWrong": true,
+      "clean": false,
+      "href": "#/slides/data-structures/1",
+      "mode": "answer",
+      "intent": "seed",
+      "text": "Need order and changes? list. Need lookup by key? dict. A list is an ordered, changeable sequence. A dict maps keys to values and keeps insertion order."
+    },
+    {
+      "id": "t18",
+      "group": "typo",
+      "q": "attribte eror on a metod",
+      "relevant": false,
+      "confidentWrong": false,
+      "clean": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. I only answer from this lab's lessons. You can also use Search."
+    },
+    {
+      "id": "f01.2",
+      "group": "follow",
+      "pair": "f01",
+      "q": "what about looking up a missing key",
+      "relevant": false,
+      "confidentWrong": false,
+      "clean": false,
+      "href": "",
+      "mode": "fallback",
+      "intent": "fallback",
+      "text": "I don't have that yet. I was still on “Dicts”, and that follow-up is not in these pages. Closest pages: Where Python looks; Dicts, sets, and hashing. I only answer from this lab's "
+    }
+  ]
+}

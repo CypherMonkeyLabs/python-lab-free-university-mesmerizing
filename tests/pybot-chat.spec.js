@@ -41,11 +41,16 @@ async function inputIsUsable(page) {
     const ir = input.getBoundingClientRect();
     const fr = form.getBoundingClientRect();
     const br = bot.getBoundingClientRect();
+    const view = window.visualViewport;
+    const viewTop = view ? view.offsetTop : 0;
+    const viewLeft = view ? view.offsetLeft : 0;
+    const viewBottom = view ? view.offsetTop + view.height : window.innerHeight;
+    const viewRight = view ? view.offsetLeft + view.width : window.innerWidth;
     const x = ir.left + ir.width / 2;
     const y = ir.top + ir.height / 2;
     const top = document.elementFromPoint(x, y);
     const overlap = fr.left < br.right - 1 && fr.right > br.left + 1 && fr.top < br.bottom - 1 && fr.bottom > br.top + 1;
-    const onScreen = ir.top >= 0 && ir.bottom <= window.innerHeight && ir.left >= 0 && ir.right <= window.innerWidth;
+    const onScreen = ir.top >= viewTop - 1 && ir.bottom <= viewBottom + 1 && ir.left >= viewLeft - 1 && ir.right <= viewRight + 1;
     return {
       overlap,
       onScreen,
@@ -121,6 +126,40 @@ for (const viewport of [
   });
 }
 
+test("chat input stays on screen at 390x430", async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 430 },
+    hasTouch: true,
+    isMobile: true,
+  });
+  await context.addInitScript(seen);
+  const page = await context.newPage();
+  const errors = watchErrors(page);
+  await page.goto("/");
+  await openBot(page, true);
+  const panel = page.locator("#bot-panel");
+  await expect(panel.locator("#py-chat-input")).toBeVisible();
+  const usable = await inputIsUsable(page);
+  expect(usable.overlap, "bot covers the chat input").toBe(false);
+  expect(usable.onScreen, "chat input is off screen").toBe(true);
+  expect(usable.hit, "chat input is not the top element").toBe(true);
+  await ask(page, "What is a list?");
+  const still = await inputIsUsable(page);
+  expect(still.overlap, "bot covers the input while answering").toBe(false);
+  expect(still.onScreen, "input left the screen while answering").toBe(true);
+  expect(still.hit, "input covered while answering").toBe(true);
+  const logBox = await panel.locator(".py-chat-log").evaluate((el) => ({
+    height: el.clientHeight,
+    overflow: getComputedStyle(el).overflowY,
+  }));
+  expect(logBox.height, "answer log is too short to read").toBeGreaterThanOrEqual(48);
+  expect(logBox.overflow === "auto" || logBox.overflow === "scroll", "answer log does not scroll").toBe(true);
+  await expect(panel.getByRole("button", { name: "Clear chat" })).toBeVisible();
+  await page.screenshot({ path: path.join(shotDir, "py-chat-390x430.png") });
+  await context.close();
+  expect(quiet(errors)).toEqual([]);
+});
+
 test("chat history survives all four themes", async ({ page }) => {
   await page.addInitScript(seen);
   const errors = watchErrors(page);
@@ -172,7 +211,7 @@ test("chat answers from the precached index while offline", async ({ page, conte
   await page.waitForFunction(async () => {
     const ready = await navigator.serviceWorker.ready;
     if (!ready.active) return false;
-    const cache = await caches.open("pythonlab-pwa-v5");
+    const cache = await caches.open("pythonlab-pwa-v8");
     const index = await cache.match("./js/content/pybot-index.json");
     const engine = await cache.match("./shared/pybot-chat/engine.js");
     const chat = await cache.match("./js/botchat.js");

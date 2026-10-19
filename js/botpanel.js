@@ -54,35 +54,45 @@ function overlaps(a, b) {
   return a.width > 0 && b.width > 0 && a.left < b.right - 1 && a.right > b.left + 1 && a.top < b.bottom - 1 && a.bottom > b.top + 1;
 }
 
+function viewMetrics() {
+  const vv = window.visualViewport;
+  if (!vv) return { width: window.innerWidth, height: window.innerHeight, top: 0, left: 0 };
+  return { width: vv.width, height: vv.height, top: vv.offsetTop, left: vv.offsetLeft };
+}
+
 function position() {
   const p = panel();
   const r = bot().getBoundingClientRect();
   const cs = getComputedStyle(document.documentElement);
   const topH = parseFloat(cs.getPropertyValue("--top-h")) || 60;
   const barH = parseFloat(cs.getPropertyValue("--bar-h")) || 64;
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const minTop = topH + 8;
-  const maxBottom = vh - barH - 8;
+  const view = viewMetrics();
+  const minTop = view.top + topH + 8;
+  const maxBottom = view.top + view.height - barH - 8;
   const gap = 12;
-  const above = r.top - gap - minTop;
-  const below = maxBottom - (r.bottom + gap);
+  const above = Math.max(0, r.top - gap - minTop);
+  const below = Math.max(0, maxBottom - (r.bottom + gap));
   const placeAbove = above >= below;
-  const maxH = Math.max(180, placeAbove ? above : below);
+  const cap = Math.max(0, view.height - topH - barH - 16);
+  let maxH = Math.min(placeAbove ? above : below, cap);
+  if (maxH < 1) maxH = Math.min(Math.max(above, below), cap);
   p.style.maxHeight = `${maxH}px`;
-  const pw = p.offsetWidth;
-  const left = Math.min(Math.max(8, r.right - pw), vw - pw - 8);
+  p.style.height = "auto";
+  const short = view.height <= 560;
+  if (short || p.scrollHeight > maxH + 1) p.style.height = `${maxH}px`;
+  const pw = p.offsetWidth || Math.min(340, view.width - 16);
+  const left = Math.min(Math.max(view.left + 8, r.right - pw), view.left + view.width - pw - 8);
   const height = Math.min(p.offsetHeight, maxH);
-  let top = placeAbove ? Math.max(minTop, r.top - gap - height) : Math.min(r.bottom + gap, maxBottom - height);
+  let top = placeAbove ? r.top - gap - height : r.bottom + gap;
   top = Math.max(minTop, Math.min(top, maxBottom - height));
   p.style.left = `${left}px`;
   p.style.top = `${top}px`;
   const form = p.querySelector(".py-chat-form");
   if (form && overlaps(form.getBoundingClientRect(), bot().getBoundingClientRect())) {
-    const room = Math.max(180, r.top - gap - minTop);
+    const room = Math.max(0, Math.min(r.top - gap - minTop, cap));
     p.style.maxHeight = `${room}px`;
-    const nextHeight = Math.min(p.offsetHeight, room);
-    p.style.top = `${Math.max(minTop, r.top - gap - nextHeight)}px`;
+    p.style.height = `${room}px`;
+    p.style.top = `${Math.max(minTop, r.top - gap - room)}px`;
   }
 }
 
@@ -138,5 +148,9 @@ export function initBotPanel() {
     if (!panel().hidden && !e.target.closest("#bot-panel") && !e.target.closest("#lab-bot")) closePanel();
   });
   window.addEventListener("resize", () => { if (!panel().hidden) position(); });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", () => { if (!panel().hidden) position(); });
+    window.visualViewport.addEventListener("scroll", () => { if (!panel().hidden) position(); });
+  }
   window.addEventListener("hashchange", () => closePanel());
 }
