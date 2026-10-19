@@ -61,6 +61,17 @@ html[data-theme="ink"] {
   --brand-teal: #7ec8c3;
   --brand-pink: #f0a0c8;
   --brand-violet: #c4b4f0;
+  --text-on-brand: #10233a;
+  --code-chrome: #1b212b;
+  --code-chrome-ink: #9aa7b6;
+  --world-pink: #ff5da2;
+  --world-gold: #ffd43b;
+  --world-cyan: #22d3ee;
+  --chip-cyan: #7cf3ff;
+  --chip-amber: #fbbf24;
+  --chip-mint: #a7f3d0;
+  --chip-blush: #f9a8d4;
+  --chip-lilac: #c4b5fd;
   --info: #9ecbff;
   --success: var(--ok);
   --warning: #ffd27a;

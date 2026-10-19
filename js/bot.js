@@ -162,10 +162,21 @@ function syncBlocked() {
 function applyChrome(node) {
   const dock = wantsDock(node);
   node.classList.toggle("is-py-dock", dock);
-  const root = document.documentElement;
-  root.style.setProperty("--bot-safe-inline", dock ? "72px" : "0px");
-  root.style.setProperty("--bot-safe-block", dock ? "72px" : "0px");
   syncBlocked();
+}
+
+function reserveSpace(node) {
+  const root = document.documentElement;
+  if (node.classList.contains("is-py-dock")) {
+    root.style.setProperty("--bot-safe-inline", "72px");
+    root.style.setProperty("--bot-safe-block", "72px");
+    return;
+  }
+  root.style.setProperty("--bot-safe-block", "0px");
+  const rect = node.getBoundingClientRect();
+  const onRight = rect.right > window.innerWidth * 0.62;
+  const pad = onRight ? Math.ceil(rect.width + 36) : 0;
+  root.style.setProperty("--bot-safe-inline", `${pad}px`);
 }
 
 function place(x, y, bounce) {
@@ -179,6 +190,7 @@ function place(x, y, bounce) {
     node.style.bottom = "";
     const rect = node.getBoundingClientRect();
     if (footerHit(rect.left, rect.top) && !node.classList.contains("is-speaking")) node.classList.add("is-parked");
+    reserveSpace(node);
     return { x: rect.left, y: rect.top };
   }
   let next = clampBot(x, y);
@@ -198,6 +210,7 @@ function place(x, y, bounce) {
     void node.offsetWidth;
     node.classList.add("bounce");
   }
+  reserveSpace(node);
   return next;
 }
 

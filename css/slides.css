@@ -36,12 +36,12 @@ body.deck-full #lab-bot, body.deck-full .site-footer, body.deck-full .footer-bar
 .term3d { width: min(100%, 520px); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: black; color: white; box-shadow: 0 24px 40px -18px rgba(0,0,0,.6); transform: rotateY(-9deg) rotateX(4deg); transition: transform 300ms; }
 .slide-viz:hover .term3d, .g-term:hover { transform: rotateY(0) rotateX(0); }
 .g-term { transform: none; width: 100%; max-width: 760px; }
-.term-bar { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: var(--text-muted); font: 0.78rem "IBM Plex Mono", monospace; color: var(--brand-violet); }
+.term-bar { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: var(--code-chrome); font: 0.78rem "IBM Plex Mono", monospace; color: var(--code-chrome-ink); }
 .term-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--brand-pink); } .term-bar i:nth-child(2) { background: var(--brand-gold); } .term-bar i:nth-child(3) { background: var(--success); }
 .term-bar span { margin-left: auto; }
 .term-code, .term-out { margin: 0; padding: 12px 14px; overflow-x: auto; font: 0.88rem/1.55 "IBM Plex Mono", monospace; white-space: pre; color: white; background: transparent; border: 0; }
 .term-out { border-top: 1px dashed var(--brand-violet); background: black; color: var(--success); }
-.term-out::before { content: "Output"; display: block; font-size: 0.68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--brand-violet); margin-bottom: 4px; }
+.term-out::before { content: "Output"; display: block; font-size: 0.68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--code-chrome-ink); margin-bottom: 4px; }
 .tk-k { color: var(--brand-pink); } .tk-s { color: var(--info); } .tk-c { color: var(--brand-violet); font-style: italic; } .tk-b { color: var(--info); } .tk-n { color: var(--brand-gold); } .tk-d { color: var(--info); }
 .viz-note { margin: 8px 0 0; color: var(--muted); font-size: 0.88rem; }
 

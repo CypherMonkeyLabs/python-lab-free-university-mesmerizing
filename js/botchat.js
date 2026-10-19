@@ -99,7 +99,7 @@ function pulse(text, aloud) {
     speakAnswer(text);
     return;
   }
-  document.dispatchEvent(new CustomEvent("lab:speech", { detail: { state: "start", text: String(text || "").slice(0, 80) } }));
+  document.dispatchEvent(new CustomEvent("lab:speech", { detail: { state: "start", chat: true, text: "" } }));
   window.clearTimeout(mouthTimer);
   mouthTimer = window.setTimeout(() => {
     document.dispatchEvent(new CustomEvent("lab:speech", { detail: { state: "end", text: "" } }));

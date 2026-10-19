@@ -82,7 +82,8 @@ for (const viewport of [
     await page.goto("/");
     await openBot(page, viewport.touch);
     const panel = page.locator("#bot-panel");
-    await expect(panel).toContainText("Beta: scripted offline helper, may miss questions");
+    await expect(panel).toContainText("scripted offline helper, may miss questions");
+    await expect(panel.locator(".py-chat-beta")).not.toContainText("Beta:");
     await expect(panel).toContainText("Where would you like to go");
     await expect(panel).toContainText("Try asking");
     await panel.locator("details.py-quick").evaluate((el) => { el.open = true; });

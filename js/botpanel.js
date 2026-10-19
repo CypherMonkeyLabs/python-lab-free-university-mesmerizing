@@ -33,7 +33,7 @@ function build(keepOpen = false) {
   const quick = sections.map((s) => `<a class="bp-chip" href="${esc(s.href)}">${esc(s.title)}</a>`).join("");
   panel().innerHTML = `<div class="py-sheet-handle" aria-hidden="true"></div>
     <div class="bp-head"><h2 id="bot-panel-title">${esc(greeting())}</h2>
-      <button type="button" class="bp-close" id="bp-close" aria-label="Close the helper">Close</button></div>
+      <button type="button" class="bp-close" id="bp-close" aria-label="Close the helper"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
     <p class="bp-line">You are in <strong>${esc(here)}</strong>. ${done} of ${total} lessons opened so far. Where would you like to go?</p>
     <details class="py-quick">
       <summary>Quick actions</summary>

@@ -83,7 +83,7 @@ html[data-theme="contrast"] .studio { border-color: white; box-shadow: none; }
 .bp-code { margin: 4px 0; padding: 8px; border-radius: 8px; background: var(--code-bg); overflow: auto; font-size: .78rem; }
 .bp-note { font-size: .78rem; color: var(--muted); margin: 4px 0; }
 .bp-socratic { margin: 4px 0; font-style: italic; }
-.bot-mood { position: absolute; left: 50%; top: 2px; transform: translateX(-50%); min-width: 26px; padding: 1px 8px; border-radius: 99px; background: white; color: var(--brand-violet); border: 2px solid var(--brand-pink); font: 800 .8rem "IBM Plex Mono", monospace; text-align: center; pointer-events: none; z-index: 3; }
+.bot-mood { position: absolute; left: 50%; top: 2px; transform: translateX(-50%); min-width: 26px; padding: 1px 8px; border-radius: 99px; background: white; color: var(--text-on-brand); border: 2px solid var(--brand-pink); font: 800 .8rem "IBM Plex Mono", monospace; text-align: center; pointer-events: none; z-index: 3; }
 .bot-mood:empty { display: none; }
 .bot[data-mood="cheer"] .bot-figure { animation: bot-cheer 600ms ease 3; filter: drop-shadow(0 0 14px var(--success)) drop-shadow(0 0 22px var(--brand-gold)); }
 .bot[data-mood="puzzled"] .bot-figure { animation: bot-puzzle 700ms ease 2; }

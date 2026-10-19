@@ -5,16 +5,16 @@
 @media (max-width: 899px) { .bk-layout { grid-template-columns: 1fr; } .bk-pal { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; } .bk-pal small { flex-basis: 100%; } }
 .bk-pal { display: grid; gap: 8px; padding: 10px; border-radius: 14px; border: 1px solid var(--line); background: var(--bg-elev); }
 .bk-chip, .bk { font: 700 0.95rem "IBM Plex Mono", ui-monospace, monospace; border-radius: 12px; }
-.bk-chip { padding: 9px 12px; border: 2px solid transparent; cursor: grab; color: var(--brand-violet); background: linear-gradient(110deg, var(--w2), var(--w1)); text-align: left; }
+.bk-chip { padding: 9px 12px; border: 2px solid transparent; cursor: grab; color: var(--text-on-brand); background: linear-gradient(110deg, var(--w2), var(--w1)); text-align: left; }
 .bk-work { min-height: 160px; padding: 10px; border-radius: 14px; border: 2px dashed var(--line); display: grid; gap: 8px; align-content: start; background: color-mix(in srgb, var(--bg-elev) 80%, transparent); }
-.bk { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 8px 10px; color: var(--brand-violet); box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25); }
-.b-print { background: var(--info); } .b-set { background: var(--brand-gold); } .b-add { background: var(--success); } .b-show { background: var(--brand-gold); } .b-repeat { background: var(--info); display: block; }
+.bk { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 8px 10px; color: var(--text-on-brand); box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25); }
+.b-print { background: var(--chip-cyan); } .b-set { background: var(--chip-amber); } .b-add { background: var(--chip-mint); } .b-show { background: var(--chip-blush); } .b-repeat { background: var(--chip-lilac); display: block; }
 .bk-head { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .bk-body { margin: 8px 0 0 12px; padding: 8px; border-radius: 10px; background: rgba(255, 255, 255, 0.55); display: grid; gap: 6px; min-height: 40px; }
-.bk input, .bk select { width: 4.2em; padding: 4px 6px; border-radius: 8px; border: 1px solid var(--brand-violet); font: inherit; background: white; color: var(--brand-violet); }
+.bk input, .bk select { width: 4.2em; padding: 4px 6px; border-radius: 8px; border: 1px solid var(--text-on-brand); font: inherit; background: white; color: var(--text-on-brand); }
 .bk select { width: auto; }
 .bk-ctl { margin-left: auto; display: inline-flex; gap: 4px; }
-.bk-ctl button, .bk-add button { font: 700 0.8rem system-ui, sans-serif; min-width: 30px; min-height: 30px; border-radius: 8px; border: 1px solid var(--brand-violet); background: white; color: var(--brand-violet); cursor: pointer; }
+.bk-ctl button, .bk-add button { font: 700 0.8rem system-ui, sans-serif; min-width: 30px; min-height: 30px; border-radius: 8px; border: 1px solid var(--text-on-brand); background: white; color: var(--text-on-brand); cursor: pointer; }
 .bk-add { display: flex; gap: 6px; flex-wrap: wrap; }
 .bk-out pre, .lv-code { margin: 4px 0 10px; padding: 10px; border-radius: 10px; background: var(--code-bg); color: var(--ink); font: 0.9rem/1.5 "IBM Plex Mono", monospace; overflow-x: auto; white-space: pre; }
 .tt-layout { display: grid; grid-template-columns: 1fr 440px; gap: 16px; align-items: start; }

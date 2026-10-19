@@ -20,7 +20,7 @@ export function chatMarkup(examples) {
     `<button type="button" class="py-chip" data-py-ask="${escapeAttr(item)}">${escapeText(item)}</button>`
   )).join("");
   return `<div class="py-chat" data-py-chat>
-    <p class="py-chat-beta"><span class="py-beta-badge">Beta</span> Beta: scripted offline helper, may miss questions</p>
+    <p class="py-chat-beta"><span class="py-beta-badge">Beta</span> scripted offline helper, may miss questions</p>
     <div class="py-chat-log" role="log" aria-live="polite" aria-relevant="additions" tabindex="0" aria-label="Chat with Py"></div>
     <p class="py-chat-try">Try asking</p>
     <div class="py-chat-suggest">
@@ -63,6 +63,29 @@ function linkLabel(href) {
   return String(href || "").includes("/lesson/") ? "Open lesson →" : "Open page →";
 }
 
+const DOWNLOADS_URL = "https://www.python.org/downloads/";
+
+function appendAnswer(parent, text) {
+  const p = el("p", "py-msg-text");
+  const value = String(text || "");
+  const at = value.indexOf(DOWNLOADS_URL);
+  if (at < 0) {
+    p.textContent = value;
+    parent.appendChild(p);
+    return;
+  }
+  const link = document.createElement("a");
+  link.className = "py-src-link";
+  link.href = DOWNLOADS_URL;
+  link.textContent = DOWNLOADS_URL;
+  p.append(
+    document.createTextNode(value.slice(0, at)),
+    link,
+    document.createTextNode(value.slice(at + DOWNLOADS_URL.length)),
+  );
+  parent.appendChild(p);
+}
+
 export function paintChat(root, messages, busy) {
   if (!root) return;
   const log = root.querySelector(".py-chat-log");
@@ -75,7 +98,7 @@ export function paintChat(root, messages, busy) {
       const head = el("div", "py-msg-head");
       head.innerHTML = AVATAR;
       const body = el("div", "py-msg-body");
-      body.appendChild(el("p", "py-msg-text", msg.text));
+      appendAnswer(body, msg.text);
       if (msg.example) {
         const wrap = el("div", "py-code");
         const pre = el("pre", "py-msg-code");
@@ -128,10 +151,15 @@ export function paintChat(root, messages, busy) {
     chips.appendChild(btn);
   });
   if (last && last.follow && chips.childElementCount < 4) {
-    const btn = el("button", "py-chip py-chip-accent", last.follow);
-    btn.type = "button";
-    btn.dataset.pyAsk = last.followQ || last.follow;
-    chips.appendChild(btn);
+    const label = last.follow;
+    const already = [...root.querySelectorAll(".py-chat-examples .py-chip, .py-chat-chips .py-chip")]
+      .some((node) => node.textContent.trim() === label);
+    if (!already) {
+      const btn = el("button", "py-chip py-chip-accent", label);
+      btn.type = "button";
+      btn.dataset.pyAsk = last.followQ || label;
+      chips.appendChild(btn);
+    }
   }
 }
 

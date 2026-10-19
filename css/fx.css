@@ -1,5 +1,5 @@
 /* Alive layer: world colours, animated gradient, particles, ripples, glow, level-up, toasts. All additive. */
-:root { --w1: var(--brand-pink); --w2: var(--brand-gold); --w3: var(--brand-teal); --px: 0; --py: 0; --sy: 0; }
+:root { --w1: var(--world-pink); --w2: var(--world-gold); --w3: var(--world-cyan); --px: 0; --py: 0; --sy: 0; }
 
 #fx-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
 #fx-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
@@ -48,22 +48,22 @@ html[data-fx="high"] .hero3d::before { content: ""; position: absolute; inset: -
 .level-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 18px 0 8px; }
 .level-card { position: relative; display: block; padding: 16px 16px 14px; border-radius: 16px; border: 1px solid var(--line); background: linear-gradient(150deg, color-mix(in srgb, var(--c1) 22%, var(--bg-elev)), var(--bg-elev) 70%); color: var(--ink); text-decoration: none; overflow: hidden; }
 .level-card b { display: block; font: 700 1.15rem/1.2 Fraunces, Georgia, serif; }
-.level-card .lc-n { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; margin-bottom: 8px; font: 800 1.1rem "IBM Plex Mono", monospace; color: var(--brand-violet); background: linear-gradient(135deg, var(--c1), var(--c2)); box-shadow: 0 0 18px color-mix(in srgb, var(--c1) 70%, transparent); }
+.level-card .lc-n { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; margin-bottom: 8px; font: 800 1.1rem "IBM Plex Mono", monospace; color: var(--text-on-brand); background: linear-gradient(135deg, var(--c1), var(--c2)); box-shadow: 0 0 18px color-mix(in srgb, var(--c1) 70%, transparent); }
 .level-card span.lc-t { display: block; margin-top: 4px; color: var(--muted); font-size: 0.9rem; }
 @media (max-width: 899px) { .level-row { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 420px) { .level-row { grid-template-columns: 1fr; } }
 .world-tag { display: inline-flex; gap: 8px; align-items: center; padding: 4px 12px; border-radius: 999px; font-weight: 700; font-size: 0.85rem; background: linear-gradient(110deg, color-mix(in srgb, var(--w1) 30%, var(--bg-elev)), color-mix(in srgb, var(--w3) 30%, var(--bg-elev))); border: 1px solid var(--line); }
 
 /* XP chip + toasts + level up */
-.xp-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; font: 700 0.85rem "Atkinson Hyperlegible", system-ui, sans-serif; color: var(--brand-violet); text-decoration: none; background: linear-gradient(110deg, var(--w2), var(--w1)); box-shadow: 0 0 14px color-mix(in srgb, var(--w1) 50%, transparent); white-space: nowrap; }
+.xp-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; font: 700 0.85rem "Atkinson Hyperlegible", system-ui, sans-serif; color: var(--text-on-brand); text-decoration: none; background: linear-gradient(110deg, var(--w2), var(--w1)); box-shadow: 0 0 14px color-mix(in srgb, var(--w1) 50%, transparent); white-space: nowrap; }
 @media (max-width: 899px) { .topbar .xp-chip { display: none; } }
 #fx-toasts { position: fixed; left: 50%; transform: translateX(-50%); top: calc(var(--top-h) + 10px); z-index: 60; display: grid; gap: 8px; width: min(420px, calc(100vw - 24px)); pointer-events: none; }
-.fx-toast { padding: 10px 14px; border-radius: 14px; background: white; color: var(--brand-violet); border: 2px solid var(--w1); box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35), 0 0 0 4px color-mix(in srgb, var(--w2) 55%, transparent); display: grid; gap: 2px; animation: toast-in 380ms cubic-bezier(.3, 1.5, .5, 1); }
+.fx-toast { padding: 10px 14px; border-radius: 14px; background: white; color: var(--text-on-brand); border: 2px solid var(--w1); box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35), 0 0 0 4px color-mix(in srgb, var(--w2) 55%, transparent); display: flex; align-items: center; gap: var(--space-2); animation: toast-in 380ms cubic-bezier(.3, 1.5, .5, 1); pointer-events: auto; }
 .fx-toast span { font-size: 0.88rem; }
 @keyframes toast-in { from { opacity: 0; transform: translateY(-14px) scale(0.9); } }
 .levelup { position: fixed; inset: 0; z-index: 420; display: grid; place-items: center; background: radial-gradient(circle at 50% 45%, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.78)); animation: lu-fade 300ms ease; cursor: pointer; }
 .lu-card { text-align: center; color: white; padding: 24px; }
-.lu-ring { width: 150px; height: 150px; margin: 0 auto 10px; border-radius: 50%; display: grid; place-items: center; font: 800 4rem "IBM Plex Mono", monospace; color: var(--brand-violet); background: conic-gradient(var(--w1), var(--w2), var(--w3), var(--w1)); box-shadow: 0 0 60px var(--w2), 0 0 120px var(--w1); animation: lu-pop 700ms cubic-bezier(.3, 1.6, .5, 1); }
+.lu-ring { width: 150px; height: 150px; margin: 0 auto 10px; border-radius: 50%; display: grid; place-items: center; font: 800 4rem "IBM Plex Mono", monospace; color: var(--text-on-brand); background: conic-gradient(var(--w1), var(--w2), var(--w3), var(--w1)); box-shadow: 0 0 60px var(--w2), 0 0 120px var(--w1); animation: lu-pop 700ms cubic-bezier(.3, 1.6, .5, 1); }
 .lu-ring span { display: grid; place-items: center; width: 118px; height: 118px; border-radius: 50%; background: white; }
 .lu-title { margin: 6px 0 0; font: 800 2.4rem Fraunces, Georgia, serif; background: linear-gradient(90deg, var(--w2), var(--w1), var(--w3)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .lu-sub { margin: 4px 0 0; font-size: 1.1rem; }
@@ -72,15 +72,15 @@ html[data-fx="high"] .hero3d::before { content: ""; position: absolute; inset: -
 html[data-fx="off"] .lu-ring, html[data-fx="off"] .levelup, html[data-fx="off"] .fx-toast { animation: none; }
 
 /* welcome banner */
-.welcome { position: fixed; left: 50%; transform: translateX(-50%); top: calc(var(--top-h) + 10px); z-index: 44; width: min(620px, calc(100vw - 20px)); display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 18px; color: var(--brand-violet); background: linear-gradient(110deg, white, white); border: 2px solid var(--w1); box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35), 0 0 0 5px color-mix(in srgb, var(--w2) 45%, transparent); animation: toast-in 450ms cubic-bezier(.3, 1.5, .5, 1); }
+.welcome { position: fixed; left: 50%; transform: translateX(-50%); top: calc(var(--top-h) + 10px); z-index: 44; width: min(620px, calc(100vw - 20px)); display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 18px; color: var(--text-on-brand); background: linear-gradient(110deg, white, white); border: 2px solid var(--w1); box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35), 0 0 0 5px color-mix(in srgb, var(--w2) 45%, transparent); animation: toast-in 450ms cubic-bezier(.3, 1.5, .5, 1); }
 .welcome { pointer-events: none; }
 .welcome button { pointer-events: auto; }
 .welcome .wl-emoji { font-size: 2rem; line-height: 1; }
 .welcome b { display: block; font: 800 1.05rem/1.25 Fraunces, Georgia, serif; }
 .welcome span.wl-t { display: block; font-size: 0.92rem; margin-top: 2px; }
 .welcome .wl-actions { display: flex; gap: 8px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
-.welcome .wl-go { font: inherit; font-weight: 700; padding: 6px 12px; border-radius: 999px; border: 0; cursor: pointer; color: var(--brand-violet); background: linear-gradient(110deg, var(--w2), var(--w1)); }
-.welcome .wl-x { font-size: 1.5rem; line-height: 1; border: 0; background: transparent; cursor: pointer; color: var(--brand-violet); padding: 4px 8px; align-self: start; }
+.welcome .wl-go { font: inherit; font-weight: 700; padding: 6px 12px; border-radius: 999px; border: 0; cursor: pointer; color: var(--text-on-brand); background: linear-gradient(110deg, var(--w2), var(--w1)); }
+.welcome .wl-x { font-size: 1.5rem; line-height: 1; border: 0; background: transparent; cursor: pointer; color: var(--text-on-brand); padding: 4px 8px; align-self: start; }
 html[data-fx="off"] .welcome { animation: none; }
 @media (max-width: 420px) { .welcome { grid-template-columns: auto 1fr auto; padding: 10px; } .welcome { pointer-events: none; }
 .welcome button { pointer-events: auto; }
@@ -90,13 +90,13 @@ html[data-fx="off"] .welcome { animation: none; }
 .tour-scrim { position: fixed; inset: 0; z-index: 430; }
 .tour-ring { position: fixed; z-index: 431; border-radius: 14px; box-shadow: 0 0 0 9999px rgba(8, 12, 20, 0.72), 0 0 0 3px var(--w2), 0 0 24px 4px var(--w1); pointer-events: none; transition: all 300ms ease; }
 .tour-ring.none { box-shadow: 0 0 0 9999px rgba(8, 12, 20, 0.72); width: 0; height: 0; }
-.tour-card { position: fixed; z-index: 432; width: min(360px, calc(100vw - 24px)); padding: 16px 16px 12px; border-radius: 18px; background: white; color: var(--brand-violet); border: 2px solid var(--w1); box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5); }
-.tour-card h2 { margin: 0 0 4px; font: 800 1.15rem Fraunces, Georgia, serif; color: var(--brand-violet); }
-.tour-card p { margin: 0 0 10px; font-size: 0.95rem; color: var(--brand-violet); }
+.tour-card { position: fixed; z-index: 432; width: min(360px, calc(100vw - 24px)); padding: 16px 16px 12px; border-radius: 18px; background: white; color: var(--text-on-brand); border: 2px solid var(--w1); box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5); }
+.tour-card h2 { margin: 0 0 4px; font: 800 1.15rem Fraunces, Georgia, serif; color: var(--text-on-brand); }
+.tour-card p { margin: 0 0 10px; font-size: 0.95rem; color: var(--text-on-brand); }
 .tour-card .tc-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.tour-card button, .tour-card a.tc-go { font: inherit; font-weight: 700; padding: 7px 14px; border-radius: 999px; border: 2px solid var(--brand-violet); background: white; color: var(--brand-violet); cursor: pointer; text-decoration: none; }
+.tour-card button, .tour-card a.tc-go { font: inherit; font-weight: 700; padding: 7px 14px; border-radius: 999px; border: 2px solid var(--text-on-brand); background: white; color: var(--text-on-brand); cursor: pointer; text-decoration: none; }
 .tour-card button.tc-next { background: linear-gradient(110deg, var(--w2), var(--w1)); border-color: transparent; }
-.tour-card .tc-step { margin-left: auto; font-size: 0.8rem; color: var(--brand-violet); }
+.tour-card .tc-step { margin-left: auto; font-size: 0.8rem; color: var(--text-on-brand); }
 @media (max-width: 899px) { .tour-card { left: 12px !important; right: 12px; bottom: 12px; top: auto !important; width: auto; } }
 
 /* reduced motion: still, never hidden */
@@ -136,4 +136,8 @@ html[data-fx="off"] .welcome { animation: none; }
   min-height: 44px;
   display: inline-grid;
   place-items: center;
+  pointer-events: auto;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
 }
